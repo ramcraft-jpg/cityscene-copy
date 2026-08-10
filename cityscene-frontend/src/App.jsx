@@ -19,7 +19,11 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/services" element={<Services />} />
+        <Route path="/Services" element={<Services />} />
         <Route path="/services/:serviceId" element={<ServiceDetailPlaceholder />} />
+        <Route path="/Services/:serviceId" element={<ServiceDetailPlaceholder />} />
+        <Route path="/Mobile_App_Development" element={<Navigate to="/services/mobile-app-development" replace />} />
+        <Route path="/mobile_app_development" element={<Navigate to="/services/mobile-app-development" replace />} />
         <Route path="/about" element={<About />} />
         <Route path="/career" element={<Career />} />
         <Route path="/career/apply" element={<JobApplication />} />

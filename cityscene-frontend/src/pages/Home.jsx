@@ -5,7 +5,6 @@ import HomeHero from '../components/home/HomeHero';
 import OurServicesSection from '../components/home/OurServicesSection';
 import ClientAdoptionSection from '../components/home/ClientAdoptionSection';
 import CommitmentSection from '../components/home/CommitmentSection';
-import TestimonialHighlight from '../components/home/TestimonialHighlight';
 import SocialImpactSection from '../components/home/SocialImpactSection';
 import AboutUsHomeSection from '../components/home/AboutUsHomeSection';
 import WhatPeopleAreSaying from '../components/home/WhatPeopleAreSaying';
@@ -35,10 +34,7 @@ export default function Home() {
         {/* 5. Our Commitment */}
         <CommitmentSection />
 
-        {/* 6. Testimonial Highlight */}
-        <TestimonialHighlight />
-
-        {/* 7. Social Impact */}
+        {/* 6. Social Impact */}
         <SocialImpactSection />
 
         {/* 8. About Us */}

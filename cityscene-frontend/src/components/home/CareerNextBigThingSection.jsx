@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 export default function CareerNextBigThingSection() {
   return (
-    <section className="w-full bg-black text-white py-20 md:py-28 border-t border-white/10">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+    <section className="w-full bg-black text-white py-10 md:py-14 border-t border-white/10">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
         <span className="text-xs sm:text-sm font-semibold tracking-[0.25em] text-gray-300 uppercase block">
           ARE YOU READY ?
         </span>

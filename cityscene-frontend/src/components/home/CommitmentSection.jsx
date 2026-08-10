@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export default function CommitmentSection() {
   return (
-    <section className="relative w-full min-h-[85vh] h-[750px] sm:h-[850px] lg:h-[950px] bg-black text-white flex items-center overflow-hidden border-b border-white/10">
+    <section className="relative w-full min-h-screen h-[850px] sm:h-[1050px] lg:h-[1200px] bg-black text-white flex items-center overflow-hidden border-b border-white/10 py-20 lg:py-32">
       {/* Background Video / Media with Fallback */}
       <video
         autoPlay
