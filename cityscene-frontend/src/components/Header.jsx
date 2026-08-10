@@ -19,7 +19,6 @@ export default function Header() {
     if (path === '/services') {
       return (
         location.pathname === '/services' ||
-        location.pathname === '/' ||
         location.pathname.startsWith('/services/')
       );
     }
@@ -42,7 +41,7 @@ export default function Header() {
     <header className="w-full bg-white border-b border-gray-100 sticky top-0 z-50 transition-all duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/services" className="flex items-center gap-3 group">
+        <Link to="/" className="flex items-center gap-3 group">
           <div className="relative w-10 h-10 flex items-center justify-center rounded-full bg-gradient-to-tr from-blue-600 via-orange-500 to-amber-500 shadow-sm p-[2px]">
             <div className="w-full h-full bg-white rounded-full flex items-center justify-center overflow-hidden">
               <div className="relative flex items-center justify-center font-bold text-lg text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-blue-600">

@@ -9,7 +9,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
           {/* Column 1: Logo */}
           <div className="flex flex-col items-start space-y-4">
-            <Link to="/services" className="flex items-center gap-3 group">
+            <Link to="/" className="flex items-center gap-3 group">
               <div className="relative w-10 h-10 flex items-center justify-center rounded-full bg-gradient-to-tr from-blue-600 via-orange-500 to-amber-500 shadow-sm p-[2px]">
                 <div className="w-full h-full bg-[#171717] rounded-full flex items-center justify-center overflow-hidden">
                   <span className="text-orange-500 font-extrabold text-xl">S</span>
@@ -31,7 +31,7 @@ export default function Footer() {
             <h3 className="text-lg font-bold text-white mb-4 tracking-tight">Quick Links</h3>
             <ul className="space-y-2.5 text-sm text-gray-300">
               <li>
-                <Link to="/services" className="hover:text-white transition-colors">Home</Link>
+                <Link to="/" className="hover:text-white transition-colors">Home</Link>
               </li>
               <li>
                 <Link to="/about" className="hover:text-white transition-colors">About CityScene</Link>

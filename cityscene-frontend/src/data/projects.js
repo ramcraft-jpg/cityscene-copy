@@ -14,10 +14,21 @@ const projects = [
       "Power Portal supports both Order-to-Cash and Concept-to-Completion workflows, making it ideal for businesses that handle complex sales cycles, customized orders, service delivery, and project-based execution.",
       "Built with scalability and flexibility at its core, the platform can efficiently support organizations processing as few as 10 orders per month to enterprises handling 10,000+ orders monthly—without compromising performance, data integrity, or user experience."
     ],
-    summaryNote: "With automated order validation and instant status confirmation, Power Portal ensures accuracy, speed, and transparency across every operational milestone.",
+    modulesTitle: "Sales & Delivery Modules",
+    summaryNote: "From lead capture to delivery confirmation, Power Portal ensures accuracy, speed, and transparency.",
     capabilities: [
+      { title: "Lead & Sales Management", description: "Multi-channel lead capture, BANT scoring, nurturing, and analytics." },
+      { title: "Quotation & Order Processing", description: "Dynamic pricing, approvals, inventory validation, and payments." },
       { title: "Delivery & Logistics", description: "Partial shipments, courier integrations, GPS tracking, POD." },
       { title: "Customer Communication", description: "Automated emails, order tracking portal, and support tickets." }
+    ],
+    valuePropositions: [
+      { title: "Unified Data Model", description: "Single source of truth across sales, projects, inventory, and finance." },
+      { title: "Automation Excellence", description: "Eliminates repetitive tasks with intelligent workflow automation." },
+      { title: "Real-Time Visibility", description: "Live dashboards for executives, sales managers, and project heads." },
+      { title: "Scalable Architecture", description: "Designed for growth without performance degradation." },
+      { title: "Industry Flexibility", description: "Manufacturing, services, distribution, and engineering workflows." },
+      { title: "Enterprise Security", description: "Role-based access, audit logs, and compliance-ready." }
     ],
     executionFeatures: [
       { title: "Project Automation", description: "Auto project creation, task templates, dependencies, and milestones." },

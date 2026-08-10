@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Home from './pages/Home';
 import Services from './pages/Services';
 import About from './pages/About';
 import Career from './pages/Career';
@@ -16,7 +17,7 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Services />} />
+        <Route path="/" element={<Home />} />
         <Route path="/services" element={<Services />} />
         <Route path="/services/:serviceId" element={<ServiceDetailPlaceholder />} />
         <Route path="/about" element={<About />} />
@@ -39,7 +40,7 @@ export default function App() {
         <Route path="/Portfolio/:slug" element={<ProjectPost />} />
 
         <Route path="/privacy-policy" element={<GenericPlaceholder title="Privacy Policy" />} />
-        <Route path="*" element={<Navigate to="/services" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   );

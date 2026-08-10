@@ -3,24 +3,19 @@ import { useParams } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ProjectDetail from '../components/ProjectDetail';
-import { getProjectBySlug, getRelatedProjects } from '../services/projectService';
+import { getProjectBySlug } from '../services/projectService';
 
 export default function ProjectPost() {
   const { slug } = useParams();
   const [project, setProject] = useState(null);
-  const [relatedProjects, setRelatedProjects] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     setLoading(true);
 
-    Promise.all([
-      getProjectBySlug(slug),
-      getRelatedProjects(slug, 3)
-    ]).then(([projectData, relatedData]) => {
+    getProjectBySlug(slug).then((projectData) => {
       setProject(projectData);
-      setRelatedProjects(relatedData);
       setLoading(false);
     });
   }, [slug]);
@@ -37,7 +32,7 @@ export default function ProjectPost() {
             <p className="text-sm font-medium">Loading case study...</p>
           </div>
         ) : (
-          <ProjectDetail project={project} relatedProjects={relatedProjects} />
+          <ProjectDetail project={project} />
         )}
       </main>
 

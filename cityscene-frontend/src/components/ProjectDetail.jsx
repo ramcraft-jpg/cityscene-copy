@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, CheckCircle2, X } from 'lucide-react';
-import ProjectCard from './ProjectCard';
 
-export default function ProjectDetail({ project, relatedProjects = [] }) {
+export default function ProjectDetail({ project }) {
   const [demoModalOpen, setDemoModalOpen] = useState(false);
   const [demoSubmitted, setDemoSubmitted] = useState(false);
   const [demoForm, setDemoForm] = useState({ name: '', email: '', company: '' });
@@ -104,40 +103,84 @@ export default function ProjectDetail({ project, relatedProjects = [] }) {
         </div>
       </section>
 
-      {/* 3. Capabilities / Workflow Split Section matching Image 5 (Top half) */}
-      {(project.summaryNote || (project.capabilities && project.capabilities.length > 0)) && (
-        <section className="w-full bg-white py-12 md:py-16 border-t border-gray-100">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-start">
-              {/* Left Summary Paragraph */}
-              <div>
-                <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-                  {project.summaryNote || "Built with enterprise precision, ensuring full operational transparency and accuracy across all workflows."}
-                </p>
-              </div>
+      {/* 3. Sales & Delivery Modules Section matching Image 2 */}
+      <section className="w-full bg-white py-16 md:py-24 border-t border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 items-start">
+            {/* Left Column: Title & Overview */}
+            <div className="md:col-span-5 flex flex-col items-start">
+              <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-bold text-gray-900 tracking-tight leading-[1.2] mb-6">
+                {project.modulesTitle || "Sales & Delivery Modules"}
+              </h2>
 
-              {/* Right Vertical Feature List */}
-              {project.capabilities && project.capabilities.length > 0 && (
-                <div className="border-l-2 border-gray-900 pl-6 space-y-8">
-                  {project.capabilities.map((cap, idx) => (
-                    <div key={idx} className="space-y-1">
-                      <h3 className="text-lg font-bold text-gray-900">
-                        {cap.title}
-                      </h3>
-                      <p className="text-sm text-gray-600 leading-relaxed">
-                        {cap.description}
-                      </p>
-                    </div>
-                  ))}
+              {/* Short Underline below category */}
+              <div className="w-16 h-[2px] bg-gray-900 mb-8" />
+
+              <p className="text-base sm:text-lg text-gray-600 leading-relaxed max-w-md">
+                {project.summaryNote || `From lead capture to delivery confirmation, ${project.title || 'Power Portal'} ensures accuracy, speed, and transparency.`}
+              </p>
+            </div>
+
+            {/* Right Column: Vertical Modules List with Left Divider */}
+            <div className="md:col-span-7 border-l-2 border-gray-900 pl-8 lg:pl-12 space-y-8 sm:space-y-10">
+              {(project.capabilities && project.capabilities.length > 0 ? project.capabilities : [
+                { title: "Lead & Sales Management", description: "Multi-channel lead capture, BANT scoring, nurturing, and analytics." },
+                { title: "Quotation & Order Processing", description: "Dynamic pricing, approvals, inventory validation, and payments." },
+                { title: "Delivery & Logistics", description: "Partial shipments, courier integrations, GPS tracking, POD." },
+                { title: "Customer Communication", description: "Automated emails, order tracking portal, and support tickets." }
+              ]).map((cap, idx) => (
+                <div key={idx} className="space-y-2">
+                  <h3 className="text-xl font-bold text-gray-900 tracking-tight">
+                    {cap.title}
+                  </h3>
+                  <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+                    {cap.description}
+                  </p>
                 </div>
-              )}
+              ))}
             </div>
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
-      {/* 4. Project Execution & Analytics Section matching Images 3, 4, 5 (Bottom half) */}
-      <section className="w-full bg-black text-white py-16 md:py-24">
+      {/* 4. Core Value Proposition Section matching Image 1 */}
+      <section className="w-full bg-neutral-950 text-white py-20 md:py-28 relative overflow-hidden">
+        {/* Ambient Dark Overlay */}
+        <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-neutral-900 via-neutral-950 to-black pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-bold text-white tracking-tight text-center mb-16">
+            Core Value <span className="border-b-2 border-white pb-1">Proposition</span>
+          </h2>
+
+          {/* 6 Grid Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            {(project.valuePropositions || [
+              { title: "Unified Data Model", description: "Single source of truth across sales, projects, inventory, and finance." },
+              { title: "Automation Excellence", description: "Eliminates repetitive tasks with intelligent workflow automation." },
+              { title: "Real-Time Visibility", description: "Live dashboards for executives, sales managers, and project heads." },
+              { title: "Scalable Architecture", description: "Designed for growth without performance degradation." },
+              { title: "Industry Flexibility", description: "Manufacturing, services, distribution, and engineering workflows." },
+              { title: "Enterprise Security", description: "Role-based access, audit logs, and compliance-ready." }
+            ]).map((val, idx) => (
+              <div
+                key={idx}
+                className="bg-black/90 border border-white/10 rounded-2xl p-8 flex flex-col justify-start hover:border-white/30 transition-all duration-300 shadow-xl"
+              >
+                <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 tracking-tight">
+                  {val.title}
+                </h3>
+                <p className="text-sm sm:text-base text-gray-400 leading-relaxed">
+                  {val.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 5. Project Execution & Analytics Section */}
+      <section className="w-full bg-black text-white py-16 md:py-24 border-t border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-12 tracking-tight">
             Project Execution & Analytics
@@ -167,21 +210,7 @@ export default function ProjectDetail({ project, relatedProjects = [] }) {
         </div>
       </section>
 
-      {/* Related Projects Section */}
-      {relatedProjects.length > 0 && (
-        <section className="w-full bg-[#181818] py-16 md:py-24 border-t border-white/10 text-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h3 className="text-2xl sm:text-3xl font-bold text-white mb-8">
-              More Featured Projects
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-              {relatedProjects.map((rel) => (
-                <ProjectCard key={rel.id} project={rel} />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+
 
       {/* Request Demo Popup Modal */}
       {demoModalOpen && (
