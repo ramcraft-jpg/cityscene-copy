@@ -38,42 +38,42 @@ export default function Header() {
   };
 
   return (
-    <header className="w-full bg-white border-b border-gray-100 sticky top-0 z-50 transition-all duration-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+    <header className="w-full bg-white border-b border-gray-100 sticky top-0 z-30 transition-all duration-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-3 group">
-          <div className="relative w-10 h-10 flex items-center justify-center rounded-full bg-gradient-to-tr from-blue-600 via-orange-500 to-amber-500 shadow-sm p-[2px]">
+        <Link to="/" className="flex items-center gap-2.5 group">
+          <div className="relative w-8 h-8 flex items-center justify-center rounded-full bg-gradient-to-tr from-blue-600 via-orange-500 to-amber-500 shadow-sm p-[2px]">
             <div className="w-full h-full bg-white rounded-full flex items-center justify-center overflow-hidden">
-              <div className="relative flex items-center justify-center font-bold text-lg text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-blue-600">
-                <span className="text-orange-600 font-extrabold text-xl">S</span>
+              <div className="relative flex items-center justify-center font-bold text-sm text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-blue-600">
+                <span className="text-orange-600 font-extrabold text-base">S</span>
               </div>
             </div>
           </div>
           <div className="flex flex-col">
-            <span className="text-lg font-bold tracking-tight text-gray-900 leading-none">
+            <span className="text-base font-bold tracking-tight text-gray-900 leading-none">
               CityScene
             </span>
-            <span className="text-sm font-semibold text-gray-800 leading-none mt-0.5">
+            <span className="text-xs font-semibold text-gray-800 leading-none mt-0.5">
               Global
             </span>
           </div>
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
+        <nav className="hidden md:flex items-center space-x-6 sm:space-x-8 lg:space-x-12 ml-auto">
           {navItems.map((item) => {
             const active = isActive(item.path);
             return (
               <Link
                 key={item.name}
                 to={item.path}
-                className={`relative py-2 text-sm font-medium transition-colors duration-200 ${
-                  active ? 'text-gray-900 font-bold' : 'text-gray-700 hover:text-gray-900'
+                className={`relative py-1 text-base lg:text-[17px] font-bold tracking-tight transition-colors duration-200 ${
+                  active ? 'text-black' : 'text-gray-500 hover:text-black'
                 }`}
               >
                 {item.name}
                 {active && (
-                  <span className="absolute bottom-0 left-0 w-full h-[3px] bg-gray-900 rounded-full transition-all duration-300" />
+                  <span className="absolute -bottom-1 left-0 w-full h-[2px] bg-black transition-all duration-300" />
                 )}
               </Link>
             );
@@ -102,11 +102,10 @@ export default function Header() {
                 key={item.name}
                 to={item.path}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
-                  active
+                className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${active
                     ? 'bg-gray-100 text-gray-900 font-bold border-l-4 border-gray-900'
                     : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
-                }`}
+                  }`}
               >
                 {item.name}
               </Link>

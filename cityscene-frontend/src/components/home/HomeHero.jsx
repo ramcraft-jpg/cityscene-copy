@@ -4,21 +4,24 @@ import { Link } from 'react-router-dom';
 const heroSlides = [
   {
     id: 1,
-    image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1920&q=80',
+    image: '/assets/home/hero/hero-1.jpg',
+    fallback: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1920&q=80',
     titleLine1: 'Transforming Visions',
     titleLine2: 'into Digital Realities',
     subtitle: 'We empower your business with cutting-edge IT solutions through seamless digital engagement. From virtual consultations to personalized meetings, we deliver tailored solutions to drive your success.'
   },
   {
     id: 2,
-    image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1920&q=80',
+    image: '/assets/home/hero/hero-2.jpg',
+    fallback: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1920&q=80',
     titleLine1: 'Empowering Businesses',
     titleLine2: 'With AI & Automation',
     subtitle: 'Streamline operations, improve efficiency, and unlock new growth opportunities with our custom AI and cloud engineering services.'
   },
   {
     id: 3,
-    image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80',
+    image: '/assets/home/hero/hero-3.jpg',
+    fallback: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80',
     titleLine1: 'Next-Gen Infrastructure',
     titleLine2: '& Smart City Solutions',
     subtitle: 'Building sustainable, secure, and scalable digital ecosystems tailored for modern enterprises and forward-thinking communities.'
@@ -36,7 +39,7 @@ export default function HomeHero() {
   }, []);
 
   return (
-    <section className="relative w-full h-[650px] sm:h-[700px] lg:h-[750px] bg-black text-white overflow-hidden flex items-center">
+    <section className="relative w-full min-h-[calc(100vh-64px)] min-h-[calc(100svh-64px)] bg-black text-white overflow-hidden flex items-center py-12 lg:py-0">
       {/* Slides Background */}
       {heroSlides.map((slide, idx) => (
         <div
@@ -48,6 +51,10 @@ export default function HomeHero() {
           <img
             src={slide.image}
             alt={slide.titleLine1}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = slide.fallback;
+            }}
             className="w-full h-full object-cover object-center transform scale-105 transition-transform duration-[7000ms] ease-out"
           />
           {/* Dark Overlay */}
@@ -100,3 +107,4 @@ export default function HomeHero() {
     </section>
   );
 }
+

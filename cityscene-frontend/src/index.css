@@ -47,3 +47,29 @@
 .animate-marquee:hover {
   animation-play-state: paused;
 }
+
+/* Viewport Section Design Utilities */
+.section-viewport {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.section-viewport-hero {
+  min-height: calc(100vh - 64px);
+  min-height: calc(100svh - 64px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .section-viewport,
+  .section-viewport-hero {
+    min-height: auto;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+}
