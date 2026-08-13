@@ -12,6 +12,7 @@ import applicationRoutes from './routes/applicationRoutes.js';
 import blogRoutes from './routes/blogRoutes.js';
 import projectRoutes from './routes/projectRoutes.js';
 import jobRoutes from './routes/jobRoutes.js';
+import serviceRoutes from './routes/serviceRoutes.js';
 
 dotenv.config();
 
@@ -51,6 +52,8 @@ app.use('/api/applications', applicationRoutes);
 app.use('/api/blogs', blogRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/jobs', jobRoutes);
+app.use('/api/services', serviceRoutes);
+
 app.use('/api/clients', (req, res) => {
   res.redirect(307, '/api/projects/clients');
 });

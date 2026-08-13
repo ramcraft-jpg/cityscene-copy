@@ -8,15 +8,21 @@ import { getBlogs } from '../services/blogService';
 export default function Blog() {
   const [blogsList, setBlogsList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Scroll to top on mount
     window.scrollTo(0, 0);
     
-    getBlogs().then((data) => {
-      setBlogsList(data);
-      setLoading(false);
-    });
+    getBlogs()
+      .then((data) => {
+        setBlogsList(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error('[Blog Page Error]:', err);
+        setError(err.message || 'Failed to fetch blogs from server.');
+        setLoading(false);
+      });
   }, []);
 
   return (
@@ -59,6 +65,11 @@ export default function Blog() {
           <div className="bg-black py-24 text-center text-white">
             <div className="w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
             <p className="text-sm font-medium">Loading insights...</p>
+          </div>
+        ) : error ? (
+          <div className="bg-black py-24 text-center text-red-400">
+            <p className="text-lg font-semibold mb-2">Unable to load blog articles</p>
+            <p className="text-sm text-red-300">{error}</p>
           </div>
         ) : (
           <BlogGrid blogs={blogsList} />
