@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Header from '../components/shared/Header';
+import Footer from '../components/shared/Footer';
 import { jobsData } from '../data/jobs';
 import { submitJobApplication } from '../services/applicationService';
 import { ArrowLeft, CheckCircle2 } from 'lucide-react';

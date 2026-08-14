@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Header from '../components/shared/Header';
+import Footer from '../components/shared/Footer';
 import HomeHero from '../components/home/HomeHero';
-import OurServicesSection from '../components/home/OurServicesSection';
-import ClientAdoptionSection from '../components/home/ClientAdoptionSection';
-import CommitmentSection from '../components/home/CommitmentSection';
-import SocialImpactSection from '../components/home/SocialImpactSection';
-import AboutUsHomeSection from '../components/home/AboutUsHomeSection';
-import WhatPeopleAreSaying from '../components/home/WhatPeopleAreSaying';
-import CareerNextBigThingSection from '../components/home/CareerNextBigThingSection';
-import TransformationCTAHome from '../components/home/TransformationCTAHome';
+import HomeOurServicesSection from '../components/home/HomeOurServicesSection';
+import HomeClientAdoptionSection from '../components/home/HomeClientAdoptionSection';
+import HomeCommitmentSection from '../components/home/HomeCommitmentSection';
+import HomeSocialImpactSection from '../components/home/HomeSocialImpactSection';
+import HomeAboutUsSection from '../components/home/HomeAboutUsSection';
+import HomeWhatPeopleAreSaying from '../components/home/HomeWhatPeopleAreSaying';
+import HomeCareerNextBigThingSection from '../components/home/HomeCareerNextBigThingSection';
+import HomeTransformationCTA from '../components/home/HomeTransformationCTA';
 
 export default function Home() {
   useEffect(() => {
@@ -26,28 +26,28 @@ export default function Home() {
         <HomeHero />
 
         {/* 3. Our Services */}
-        <OurServicesSection />
+        <HomeOurServicesSection />
 
         {/* 4. Client Adoption / How We Serve The Client */}
-        <ClientAdoptionSection />
+        <HomeClientAdoptionSection />
 
         {/* 5. Our Commitment */}
-        <CommitmentSection />
+        <HomeCommitmentSection />
 
         {/* 6. Social Impact */}
-        <SocialImpactSection />
+        <HomeSocialImpactSection />
 
         {/* 8. About Us */}
-        <AboutUsHomeSection />
+        <HomeAboutUsSection />
 
         {/* 9. What People Are Saying */}
-        <WhatPeopleAreSaying />
+        <HomeWhatPeopleAreSaying />
 
         {/* 10. Career / Next Big Thing CTA */}
-        <CareerNextBigThingSection />
+        <HomeCareerNextBigThingSection />
 
         {/* 11. Transformation CTA */}
-        <TransformationCTAHome />
+        <HomeTransformationCTA />
       </main>
 
       {/* 12. Footer */}

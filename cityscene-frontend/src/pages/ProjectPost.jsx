@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import ProjectDetail from '../components/ProjectDetail';
+import Header from '../components/shared/Header';
+import Footer from '../components/shared/Footer';
+import PortfolioProjectDetail from '../components/portfolio/PortfolioProjectDetail';
 import { getProjectBySlug } from '../services/projectService';
 
 export default function ProjectPost() {
@@ -32,7 +32,7 @@ export default function ProjectPost() {
             <p className="text-sm font-medium">Loading case study...</p>
           </div>
         ) : (
-          <ProjectDetail project={project} />
+          <PortfolioProjectDetail project={project} />
         )}
       </main>
 

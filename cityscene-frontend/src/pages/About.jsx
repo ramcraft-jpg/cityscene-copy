@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import Header from '../components/Header';
-import AboutHero from '../components/AboutHero';
-import CompanySection from '../components/CompanySection';
-import OurPeopleSection from '../components/OurPeopleSection';
-import ValuesSection from '../components/ValuesSection';
-import TransformationCTA from '../components/TransformationCTA';
-import Footer from '../components/Footer';
+import Header from '../components/shared/Header';
+import AboutHero from '../components/about/AboutHero';
+import AboutCompanySection from '../components/about/AboutCompanySection';
+import AboutOurPeopleSection from '../components/about/AboutOurPeopleSection';
+import AboutValuesSection from '../components/about/AboutValuesSection';
+import AboutTransformationCTA from '../components/about/AboutTransformationCTA';
+import Footer from '../components/shared/Footer';
 
 export default function About() {
   useEffect(() => {
@@ -17,10 +17,10 @@ export default function About() {
       <Header />
       <main className="flex-grow">
         <AboutHero />
-        <CompanySection />
-        <OurPeopleSection />
-        <ValuesSection />
-        <TransformationCTA />
+        <AboutCompanySection />
+        <AboutOurPeopleSection />
+        <AboutValuesSection />
+        <AboutTransformationCTA />
       </main>
       <Footer />
     </div>

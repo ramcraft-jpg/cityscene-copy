@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import ContactHero from '../components/ContactHero';
-import ContactIntro from '../components/ContactIntro';
-import ContactInfo from '../components/ContactInfo';
-import ContactMap from '../components/ContactMap';
+import Header from '../components/shared/Header';
+import Footer from '../components/shared/Footer';
+import ContactHero from '../components/contact/ContactHero';
+import ContactIntro from '../components/contact/ContactIntro';
+import ContactInfo from '../components/contact/ContactInfo';
+import ContactMap from '../components/contact/ContactMap';
 
 export default function Contact() {
   useEffect(() => {

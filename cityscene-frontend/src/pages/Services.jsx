@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import Header from '../components/Header';
-import HeroSection from '../components/HeroSection';
-import InnovationSection from '../components/InnovationSection';
-import ServicesGrid from '../components/ServicesGrid';
-import Footer from '../components/Footer';
+import Header from '../components/shared/Header';
+import WhatWeDoHero from '../components/whatwedo/WhatWeDoHero';
+import WhatWeDoInnovationSection from '../components/whatwedo/WhatWeDoInnovationSection';
+import WhatWeDoGrid from '../components/whatwedo/WhatWeDoGrid';
+import Footer from '../components/shared/Footer';
 
 export default function Services() {
   useEffect(() => {
@@ -14,9 +14,9 @@ export default function Services() {
     <div className="min-h-screen flex flex-col bg-white text-gray-900 selection:bg-orange-500 selection:text-white">
       <Header />
       <main className="flex-grow">
-        <HeroSection />
-        <InnovationSection />
-        <ServicesGrid />
+        <WhatWeDoHero />
+        <WhatWeDoInnovationSection />
+        <WhatWeDoGrid />
       </main>
       <Footer />
     </div>

@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import Header from '../components/Header';
-import CareerHero from '../components/CareerHero';
-import JobGrid from '../components/JobGrid';
-import CareerContactSection from '../components/CareerContactSection';
-import Footer from '../components/Footer';
+import Header from '../components/shared/Header';
+import CareerHero from '../components/career/CareerHero';
+import CareerJobGrid from '../components/career/CareerJobGrid';
+import CareerContactSection from '../components/career/CareerContactSection';
+import Footer from '../components/shared/Footer';
 
 export default function Career() {
   useEffect(() => {
@@ -15,7 +15,7 @@ export default function Career() {
       <Header />
       <main className="flex-grow">
         <CareerHero />
-        <JobGrid />
+        <CareerJobGrid />
         <CareerContactSection />
       </main>
       <Footer />

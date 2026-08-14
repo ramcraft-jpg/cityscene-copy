@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import BlogDetail from '../components/BlogDetail';
+import Header from '../components/shared/Header';
+import Footer from '../components/shared/Footer';
+import BlogDetail from '../components/blog/BlogDetail';
 import { getBlogBySlug, getRelatedBlogs } from '../services/blogService';
 
 export default function BlogPost() {

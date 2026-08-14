@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import PortfolioHero from '../components/PortfolioHero';
-import TrustedClients from '../components/TrustedClients';
-import ProjectGrid from '../components/ProjectGrid';
+import Header from '../components/shared/Header';
+import Footer from '../components/shared/Footer';
+import PortfolioHero from '../components/portfolio/PortfolioHero';
+import PortfolioTrustedClients from '../components/portfolio/PortfolioTrustedClients';
+import PortfolioProjectGrid from '../components/portfolio/PortfolioProjectGrid';
 import { getProjects } from '../services/projectService';
 
 export default function Portfolio() {
@@ -29,7 +29,7 @@ export default function Portfolio() {
         <PortfolioHero />
 
         {/* Trusted By Startups Section */}
-        <TrustedClients />
+        <PortfolioTrustedClients />
 
         {/* Our Projects Grid Section */}
         {loading ? (
@@ -38,7 +38,7 @@ export default function Portfolio() {
             <p className="text-sm font-medium">Loading portfolio projects...</p>
           </div>
         ) : (
-          <ProjectGrid projects={projectsList} />
+          <PortfolioProjectGrid projects={projectsList} />
         )}
       </main>
 

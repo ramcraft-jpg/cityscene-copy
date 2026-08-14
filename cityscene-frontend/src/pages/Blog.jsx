@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import BlogHero from '../components/BlogHero';
-import BlogGrid from '../components/BlogGrid';
+import Header from '../components/shared/Header';
+import Footer from '../components/shared/Footer';
+import BlogHero from '../components/blog/BlogHero';
+import BlogGrid from '../components/blog/BlogGrid';
 import { getBlogs } from '../services/blogService';
 
 export default function Blog() {
