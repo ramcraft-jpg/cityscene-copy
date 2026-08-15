@@ -3,6 +3,8 @@ import Project from '../models/Project.js';
 import Job from '../models/Job.js';
 import Client from '../models/Client.js';
 import Service from '../models/Service.js';
+import Admin from '../models/Admin.js';
+import bcrypt from 'bcryptjs';
 
 export const initialBlogs = [
   {
@@ -471,6 +473,10 @@ export const initialProjects = [
     id: "powerportal",
     title: "PowerPortal",
     category: "Energy & Utilities",
+    client: "Global Energy Corp",
+    duration: "6 Months",
+    shortDesc: "Centralised platform for monitoring and optimising power operations with real-time insights.",
+    fullDesc: "PowerPortal is a centralized enterprise platform designed to stream real-time operational metrics across renewable and conventional energy grids.",
     description: "Centralised platform for monitoring and optimising power operations with real-time insights.",
     image: "/assets/images/projects/powerportal.jpg",
     slug: "powerportal",
@@ -482,6 +488,10 @@ export const initialProjects = [
     id: "healthconnect",
     title: "HealthConnect",
     category: "Healthcare Tech",
+    client: "MediCare Systems",
+    duration: "8 Months",
+    shortDesc: "A unified digital ecosystem connecting patients, doctors, and healthcare administration.",
+    fullDesc: "HealthConnect streamlines healthcare delivery by bridging the communication gap between clinical administration and patients.",
     description: "A unified digital ecosystem connecting patients, doctors, and healthcare administration.",
     image: "/assets/images/projects/healthconnect.jpg",
     slug: "healthconnect",
@@ -493,6 +503,10 @@ export const initialProjects = [
     id: "fleetpro",
     title: "FleetPro",
     category: "Logistics & Mobility",
+    client: "TransLogistics Inc",
+    duration: "5 Months",
+    shortDesc: "Smart fleet management for tracking vehicles, drivers, and operations.",
+    fullDesc: "FleetPro delivers an intelligent telemetry and fleet management platform for logistics and transport enterprises.",
     description: "Smart fleet management for tracking vehicles, drivers, and operations.",
     image: "/assets/images/projects/fleetpro.jpg",
     slug: "fleetpro",
@@ -504,6 +518,10 @@ export const initialProjects = [
     id: "solarcare",
     title: "SolarCare",
     category: "Enterprise ERP",
+    client: "SunPower Solutions",
+    duration: "7 Months",
+    shortDesc: "Project-centric ERP workflow managing procurement, execution, and delivery.",
+    fullDesc: "SolarCare is a specialized enterprise resource planning system tailored for solar engineering and construction management.",
     description: "Project-centric ERP workflow managing procurement, execution, and delivery.",
     image: "/assets/images/projects/solarcare.jpg",
     slug: "solarcare",
@@ -515,6 +533,10 @@ export const initialProjects = [
     id: "autitrack-pro",
     title: "AutiTrack Pro",
     category: "Medical Tech",
+    client: "CareHealth Foundation",
+    duration: "4 Months",
+    shortDesc: "Structured autism care platform enabling doctors to track therapy and progress.",
+    fullDesc: "AutiTrack Pro is a specialized clinical software solution created for therapists, pediatricians, and families.",
     description: "Structured autism care platform enabling doctors to track therapy and progress.",
     image: "/assets/images/projects/autitrack-pro.jpg",
     slug: "autitrack-pro",
@@ -526,6 +548,10 @@ export const initialProjects = [
     id: "procuraone",
     title: "ProcuraOne",
     category: "Supply Chain",
+    client: "Global Logistics Group",
+    duration: "6 Months",
+    shortDesc: "End-to-end procurement system ensuring transparency and traceability.",
+    fullDesc: "ProcuraOne modernizes corporate supply chain management with an end-to-end procurement portal.",
     description: "End-to-end procurement system ensuring transparency and traceability.",
     image: "/assets/images/projects/procuraone.jpg",
     slug: "procuraone",
@@ -537,6 +563,10 @@ export const initialProjects = [
     id: "solarsync",
     title: "SolarSync",
     category: "Renewable Energy",
+    client: "CleanEnergy Utilities",
+    duration: "9 Months",
+    shortDesc: "Intelligent monitoring of solar assets, energy output, and performance.",
+    fullDesc: "SolarSync is an IoT-connected energy analytics application designed for utility-scale solar farms.",
     description: "Intelligent monitoring of solar assets, energy output, and performance.",
     image: "/assets/images/projects/solarsync.jpg",
     slug: "solarsync",
@@ -574,31 +604,90 @@ export const initialClients = [
 ];
 
 export const seedDatabase = async () => {
+  // Blog
   try {
     await Blog.deleteMany({});
     await Blog.insertMany(initialBlogs);
     console.log('[Seed Service] Seeded initial blog posts into MongoDB.');
+  } catch (err) {
+    console.warn('[Seed Service Warning] Blog seeding skipped:', err.message);
+  }
 
+  // Service
+  try {
     await Service.deleteMany({});
     await Service.insertMany(initialServices);
     console.log('[Seed Service] Seeded initial services into MongoDB.');
+  } catch (err) {
+    console.warn('[Seed Service Warning] Service seeding skipped:', err.message);
+  }
 
+  // Project
+  try {
     await Project.deleteMany({});
-    await Project.insertMany(initialProjects);
+    const formattedProjects = initialProjects.map(p => ({
+      ...p,
+      client: p.client || 'Enterprise Client',
+      duration: p.duration || '3 Months',
+      shortDesc: p.shortDesc || p.description || 'Project short description',
+      fullDesc: p.fullDesc || p.overview || p.description || 'Project full description'
+    }));
+    await Project.insertMany(formattedProjects);
     console.log('[Seed Service] Seeded initial projects.');
+  } catch (err) {
+    console.warn('[Seed Service Warning] Project seeding skipped:', err.message);
+  }
 
+  // Job
+  try {
     const jobCount = await Job.countDocuments();
     if (jobCount === 0) {
       await Job.insertMany(initialJobs);
       console.log('[Seed Service] Seeded initial job positions.');
     }
+  } catch (err) {
+    console.warn('[Seed Service Warning] Job seeding skipped:', err.message);
+  }
 
+  // Client
+  try {
     const clientCount = await Client.countDocuments();
     if (clientCount === 0) {
       await Client.insertMany(initialClients);
       console.log('[Seed Service] Seeded initial client logos.');
     }
   } catch (err) {
-    console.warn('[Seed Service Warning] Automatic seeding skipped:', err.message);
+    console.warn('[Seed Service Warning] Client seeding skipped:', err.message);
+  }
+
+  // Admin
+  try {
+    const email = (process.env.ADMIN_EMAIL || 'admin@cityscene.com').toLowerCase().trim();
+    const rawPassword = process.env.ADMIN_PASSWORD || 'Admin@cityscene2025';
+
+    const existingAdmin = await Admin.findOne({ email });
+    if (!existingAdmin) {
+      const hashedPassword = await bcrypt.hash(rawPassword, 10);
+      await Admin.create({
+        name: 'System Admin',
+        email,
+        password: hashedPassword,
+        role: 'admin',
+        isActive: true
+      });
+      console.log(`[Seed Service] Seeded initial admin account (${email}).`);
+    } else {
+      // Re-hash password if needed to ensure sync with .env
+      const isPasswordMatch = await bcrypt.compare(rawPassword, existingAdmin.password);
+      if (!isPasswordMatch) {
+        existingAdmin.password = await bcrypt.hash(rawPassword, 10);
+        existingAdmin.isActive = true;
+        await existingAdmin.save();
+        console.log(`[Seed Service] Updated existing admin password for (${email}).`);
+      }
+    }
+  } catch (err) {
+    console.warn('[Seed Service Warning] Admin seeding skipped:', err.message);
   }
 };
+

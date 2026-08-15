@@ -12,6 +12,19 @@ import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import Portfolio from './pages/Portfolio';
 import ProjectPost from './pages/ProjectPost';
+import AdminLogin from './pages/admin/AdminLogin';
+import AdminPortal from './pages/admin/AdminPortal';
+import AdminLayout from './components/admin/AdminLayout';
+import ProtectedRoute from './components/admin/ProtectedRoute';
+
+import AdminHomePrep from './pages/admin/sections/AdminHomePrep';
+import AdminServicesPrep from './pages/admin/sections/AdminServicesPrep';
+import AdminAboutPrep from './pages/admin/sections/AdminAboutPrep';
+import AdminCareerPrep from './pages/admin/sections/AdminCareerPrep';
+import AdminBlogsPrep from './pages/admin/sections/AdminBlogsPrep';
+import AdminPortfolioPrep from './pages/admin/sections/AdminPortfolioPrep';
+import AdminTestimonialsPrep from './pages/admin/sections/AdminTestimonialsPrep';
+import AdminContactPrep from './pages/admin/sections/AdminContactPrep';
 
 export default function App() {
   return (
@@ -43,9 +56,32 @@ export default function App() {
         <Route path="/portfolio/:slug" element={<ProjectPost />} />
         <Route path="/Portfolio/:slug" element={<ProjectPost />} />
 
+        {/* Admin Routes */}
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <AdminLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<AdminPortal />} />
+          <Route path="home" element={<AdminHomePrep />} />
+          <Route path="services" element={<AdminServicesPrep />} />
+          <Route path="about" element={<AdminAboutPrep />} />
+          <Route path="career" element={<AdminCareerPrep />} />
+          <Route path="blogs" element={<AdminBlogsPrep />} />
+          <Route path="portfolio" element={<AdminPortfolioPrep />} />
+          <Route path="testimonials" element={<AdminTestimonialsPrep />} />
+          <Route path="contact" element={<AdminContactPrep />} />
+        </Route>
+
         <Route path="/privacy-policy" element={<GenericPlaceholder title="Privacy Policy" />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   );
 }
+
+

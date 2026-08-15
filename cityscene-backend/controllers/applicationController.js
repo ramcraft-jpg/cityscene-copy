@@ -58,3 +58,17 @@ export const createApplication = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getApplications = async (req, res, next) => {
+  try {
+    const applications = await Application.find({}).sort({ createdAt: -1 });
+    return res.status(200).json({
+      success: true,
+      count: applications.length,
+      data: applications
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
