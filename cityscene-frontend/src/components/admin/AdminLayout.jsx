@@ -8,6 +8,41 @@ export default function AdminLayout({ children }) {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Keep Home menu expanded if navigating inside /admin/home
+  const [homeExpanded, setHomeExpanded] = useState(() => {
+    return location.pathname.startsWith('/admin/home');
+  });
+
+  // Keep What We Do menu expanded if navigating inside /admin/services
+  const [servicesExpanded, setServicesExpanded] = useState(() => {
+    return location.pathname.startsWith('/admin/services');
+  });
+
+  // Keep About menu expanded if navigating inside /admin/about
+  const [aboutExpanded, setAboutExpanded] = useState(() => {
+    return location.pathname.startsWith('/admin/about');
+  });
+
+  // Keep Career menu expanded if navigating inside /admin/career
+  const [careerExpanded, setCareerExpanded] = useState(() => {
+    return location.pathname.startsWith('/admin/career');
+  });
+
+  // Keep Portfolio menu expanded if navigating inside /admin/portfolio
+  const [portfolioExpanded, setPortfolioExpanded] = useState(() => {
+    return location.pathname.startsWith('/admin/portfolio');
+  });
+
+  // Keep Blogs menu expanded if navigating inside /admin/blogs
+  const [blogsExpanded, setBlogsExpanded] = useState(() => {
+    return location.pathname.startsWith('/admin/blogs');
+  });
+
+  // Keep Contact menu expanded if navigating inside /admin/contact
+  const [contactExpanded, setContactExpanded] = useState(() => {
+    return location.pathname.startsWith('/admin/contact');
+  });
+
   const handleLogout = () => {
     logoutAdmin();
     navigate('/admin/login', { replace: true });
@@ -26,16 +61,66 @@ export default function AdminLayout({ children }) {
     }
   ];
 
-  const websiteManagementItems = [
-    { label: 'Home', path: '/admin/home', icon: '🏠' },
-    { label: 'Services', path: '/admin/services', icon: '⚡' },
-    { label: 'About', path: '/admin/about', icon: '🏢' },
-    { label: 'Career', path: '/admin/career', icon: '💼' },
-    { label: 'Blogs', path: '/admin/blogs', icon: '📝' },
-    { label: 'Portfolio', path: '/admin/portfolio', icon: '🚀' },
-    { label: 'Testimonials', path: '/admin/testimonials', icon: '⭐' },
-    { label: 'Contact Information', path: '/admin/contact', icon: '📞' }
+  const homeSubItems = [
+    { label: 'HomeHero', path: '/admin/home/hero' },
+    { label: 'HomeServices', path: '/admin/home/services' },
+    { label: 'HomeAbout', path: '/admin/home/about' },
+    { label: 'HomeCareer', path: '/admin/home/career' },
+    { label: 'HomeTestimonials', path: '/admin/home/testimonials' },
+    { label: 'HomeSocialImpact', path: '/admin/home/social-impact' },
+    { label: 'HomeCommitment', path: '/admin/home/commitment' },
+    { label: 'HomeClientAdoption', path: '/admin/home/client-adoption' },
+    { label: 'HomeTransformation', path: '/admin/home/transformation' }
   ];
+
+  const servicesSubItems = [
+    { label: 'WhatWeDoHero', path: '/admin/services/hero' },
+    { label: 'WhatWeDoInnovation', path: '/admin/services/innovation' },
+    { label: 'WhatWeDoServices', path: '/admin/services/grid' }
+  ];
+
+  const aboutSubItems = [
+    { label: 'AboutHero', path: '/admin/about/hero' },
+    { label: 'AboutContent', path: '/admin/about/content' },
+    { label: 'AboutPeople', path: '/admin/about/people' },
+    { label: 'AboutValues', path: '/admin/about/values' },
+    { label: 'AboutTransformation', path: '/admin/about/transformation' }
+  ];
+
+  const careerSubItems = [
+    { label: 'CareerHero', path: '/admin/career/hero' },
+    { label: 'CareerJobs', path: '/admin/career/jobs' },
+    { label: 'CareerApplications', path: '/admin/career/applications' },
+    { label: 'CareerContact', path: '/admin/career/contact' }
+  ];
+
+  const portfolioSubItems = [
+    { label: 'PortfolioHero', path: '/admin/portfolio/hero' },
+    { label: 'PortfolioClients', path: '/admin/portfolio/clients' },
+    { label: 'PortfolioProjects', path: '/admin/portfolio/projects' }
+  ];
+
+  const blogsSubItems = [
+    { label: 'BlogHero', path: '/admin/blogs/hero' },
+    { label: 'BlogContent', path: '/admin/blogs/content' },
+    { label: 'BlogArticles', path: '/admin/blogs/articles' }
+  ];
+
+  const contactSubItems = [
+    { label: 'ContactHero', path: '/admin/contact/hero' },
+    { label: 'ContactIntro', path: '/admin/contact/intro' },
+    { label: 'ContactDetails', path: '/admin/contact/details' },
+    { label: 'ContactMap', path: '/admin/contact/map' },
+    { label: 'ContactInquiries', path: '/admin/contact/inquiries' }
+  ];
+
+  const isHomeActive = location.pathname.startsWith('/admin/home');
+  const isServicesActive = location.pathname.startsWith('/admin/services');
+  const isAboutActive = location.pathname.startsWith('/admin/about');
+  const isCareerActive = location.pathname.startsWith('/admin/career');
+  const isPortfolioActive = location.pathname.startsWith('/admin/portfolio');
+  const isBlogsActive = location.pathname.startsWith('/admin/blogs');
+  const isContactActive = location.pathname.startsWith('/admin/contact');
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans">
@@ -47,67 +132,53 @@ export default function AdminLayout({ children }) {
             <button
               type="button"
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="lg:hidden p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 focus:outline-none"
-              aria-label="Toggle menu"
+              className="lg:hidden p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 focus:outline-none"
+              aria-label="Toggle navigation menu"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                {sidebarOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-                )}
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={sidebarOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16M4 18h16'} />
               </svg>
             </button>
 
-            {/* Brand Logo & Title */}
+            {/* Brand Logo & CMS Title */}
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-orange-500 to-amber-500 flex items-center justify-center text-white font-black text-lg shadow-sm">
-                S
-              </div>
-              <div>
-                <h1 className="text-base font-bold tracking-tight text-white flex items-center gap-2">
-                  CityScene Global
-                  <span className="bg-orange-500/20 text-orange-400 text-xs font-semibold px-2 py-0.5 rounded border border-orange-500/30">
-                    Admin Portal
-                  </span>
-                </h1>
-                <p className="text-xs text-slate-400 hidden sm:block">Central Management System</p>
-              </div>
+              <span className="text-xl sm:text-2xl font-black tracking-tight text-[#f8fafc] flex items-center gap-1.5 font-sans">
+                CityScene<span className="text-orange-500 font-extrabold">CMS</span>
+              </span>
+              <span className="hidden sm:inline-block text-[11px] font-semibold bg-orange-500/20 text-orange-400 px-2.5 py-0.5 rounded-full border border-orange-500/30">
+                Admin Control Center
+              </span>
             </div>
           </div>
 
-          {/* Admin User Info & Logout */}
+          {/* User Profile & Logout */}
           <div className="flex items-center gap-4">
-            <div className="hidden md:flex items-center gap-3 pr-4 border-r border-slate-800">
-              <div className="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 font-semibold text-xs">
-                {(user?.name || user?.email || 'A').charAt(0).toUpperCase()}
-              </div>
-              <div className="text-left">
-                <p className="text-xs font-semibold text-slate-200">{user?.name || 'Administrator'}</p>
-                <p className="text-[11px] text-slate-400">{user?.email || 'admin@cityscene.com'}</p>
-              </div>
+            <div className="hidden md:flex flex-col text-right">
+              <span className="text-xs font-bold text-white leading-tight">
+                {user?.name || 'Admin User'}
+              </span>
+              <span className="text-[10px] text-slate-400 font-medium">
+                {user?.email || 'admin@cityscene.com'}
+              </span>
             </div>
-
             <button
-              id="admin-logout-btn"
+              type="button"
               onClick={handleLogout}
-              className="px-3.5 py-1.5 text-xs font-bold text-slate-300 hover:text-white bg-slate-800 hover:bg-red-600/90 border border-slate-700 hover:border-red-600 rounded-lg transition duration-200 flex items-center gap-1.5 shadow-sm"
+              className="px-3.5 py-1.5 text-xs font-bold text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-lg border border-slate-700 transition"
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-              </svg>
-              Logout
+              Sign Out
             </button>
           </div>
         </div>
       </header>
 
-      <div className="flex-1 flex relative">
+      {/* Main Layout Grid */}
+      <div className="flex-1 flex overflow-hidden">
         {/* Mobile Backdrop */}
         {sidebarOpen && (
           <div
             onClick={() => setSidebarOpen(false)}
-            className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-30 lg:hidden transition-opacity"
+            className="fixed inset-0 bg-slate-950/60 z-30 lg:hidden backdrop-blur-sm"
           />
         )}
 
@@ -152,41 +223,349 @@ export default function AdminLayout({ children }) {
                 <span>Website Management</span>
                 <span className="bg-slate-800 text-slate-400 text-[10px] px-1.5 py-0.5 rounded">CMS</span>
               </div>
+              
               <ul className="space-y-1">
-                {websiteManagementItems.map((item) => {
-                  const isActive = location.pathname.startsWith(item.path);
-                  return (
-                    <li key={item.path}>
-                      <NavLink
-                        to={item.path}
-                        onClick={() => setSidebarOpen(false)}
-                        className={`flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition duration-150 ${
-                          isActive
-                            ? 'bg-slate-800 text-orange-400 border-l-4 border-orange-500 font-semibold'
-                            : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
-                        }`}
-                      >
-                        <span className="text-base leading-none">{item.icon}</span>
-                        <span>{item.label}</span>
-                      </NavLink>
-                    </li>
-                  );
-                })}
+                {/* Expandable Home Menu Item */}
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => setHomeExpanded(!homeExpanded)}
+                    className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition duration-150 ${
+                      isHomeActive
+                        ? 'bg-slate-800 text-orange-400 border-l-4 border-orange-500 font-semibold'
+                        : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <span className="text-xs transition-transform duration-200">
+                        {homeExpanded ? '⌄' : '›'}
+                      </span>
+                      <span>Home</span>
+                    </div>
+                    <span className="text-xs text-slate-500 bg-slate-800/80 px-1.5 py-0.5 rounded text-[10px]">
+                      {homeSubItems.length}
+                    </span>
+                  </button>
+
+                  {/* Home Collapsible Submenu */}
+                  {homeExpanded && (
+                    <ul className="mt-1 ml-4 pl-3 border-l border-slate-800 space-y-1">
+                      {homeSubItems.map((sub) => {
+                        const isSubActive = location.pathname === sub.path;
+                        return (
+                          <li key={sub.path}>
+                            <NavLink
+                              to={sub.path}
+                              onClick={() => setSidebarOpen(false)}
+                              className={`block px-3 py-1.5 rounded-md text-xs font-medium transition duration-150 ${
+                                isSubActive
+                                  ? 'bg-orange-500/20 text-orange-400 font-semibold border-l-2 border-orange-500'
+                                  : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
+                              }`}
+                            >
+                              {sub.label}
+                            </NavLink>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </li>
+
+                {/* Expandable What We Do Menu Item */}
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => setServicesExpanded(!servicesExpanded)}
+                    className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition duration-150 ${
+                      isServicesActive
+                        ? 'bg-slate-800 text-orange-400 border-l-4 border-orange-500 font-semibold'
+                        : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <span className="text-xs transition-transform duration-200">
+                        {servicesExpanded ? '⌄' : '›'}
+                      </span>
+                      <span>What We Do</span>
+                    </div>
+                    <span className="text-xs text-slate-500 bg-slate-800/80 px-1.5 py-0.5 rounded text-[10px]">
+                      {servicesSubItems.length}
+                    </span>
+                  </button>
+
+                  {/* What We Do Collapsible Submenu */}
+                  {servicesExpanded && (
+                    <ul className="mt-1 ml-4 pl-3 border-l border-slate-800 space-y-1">
+                      {servicesSubItems.map((sub) => {
+                        const isSubActive = location.pathname === sub.path;
+                        return (
+                          <li key={sub.path}>
+                            <NavLink
+                              to={sub.path}
+                              onClick={() => setSidebarOpen(false)}
+                              className={`block px-3 py-1.5 rounded-md text-xs font-medium transition duration-150 ${
+                                isSubActive
+                                  ? 'bg-orange-500/20 text-orange-400 font-semibold border-l-2 border-orange-500'
+                                  : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
+                              }`}
+                            >
+                              {sub.label}
+                            </NavLink>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </li>
+
+                {/* Expandable About Menu Item */}
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => setAboutExpanded(!aboutExpanded)}
+                    className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition duration-150 ${
+                      isAboutActive
+                        ? 'bg-slate-800 text-orange-400 border-l-4 border-orange-500 font-semibold'
+                        : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <span className="text-xs transition-transform duration-200">
+                        {aboutExpanded ? '⌄' : '›'}
+                      </span>
+                      <span>About</span>
+                    </div>
+                    <span className="text-xs text-slate-500 bg-slate-800/80 px-1.5 py-0.5 rounded text-[10px]">
+                      {aboutSubItems.length}
+                    </span>
+                  </button>
+
+                  {/* About Collapsible Submenu */}
+                  {aboutExpanded && (
+                    <ul className="mt-1 ml-4 pl-3 border-l border-slate-800 space-y-1">
+                      {aboutSubItems.map((sub) => {
+                        const isSubActive = location.pathname === sub.path;
+                        return (
+                          <li key={sub.path}>
+                            <NavLink
+                              to={sub.path}
+                              onClick={() => setSidebarOpen(false)}
+                              className={`block px-3 py-1.5 rounded-md text-xs font-medium transition duration-150 ${
+                                isSubActive
+                                  ? 'bg-orange-500/20 text-orange-400 font-semibold border-l-2 border-orange-500'
+                                  : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
+                              }`}
+                            >
+                              {sub.label}
+                            </NavLink>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </li>
+
+                {/* Expandable Career Menu Item */}
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => setCareerExpanded(!careerExpanded)}
+                    className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition duration-150 ${
+                      isCareerActive
+                        ? 'bg-slate-800 text-orange-400 border-l-4 border-orange-500 font-semibold'
+                        : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <span className="text-xs transition-transform duration-200">
+                        {careerExpanded ? '⌄' : '›'}
+                      </span>
+                      <span>Career</span>
+                    </div>
+                    <span className="text-xs text-slate-500 bg-slate-800/80 px-1.5 py-0.5 rounded text-[10px]">
+                      {careerSubItems.length}
+                    </span>
+                  </button>
+
+                  {/* Career Collapsible Submenu */}
+                  {careerExpanded && (
+                    <ul className="mt-1 ml-4 pl-3 border-l border-slate-800 space-y-1">
+                      {careerSubItems.map((sub) => {
+                        const isSubActive = location.pathname === sub.path;
+                        return (
+                          <li key={sub.path}>
+                            <NavLink
+                              to={sub.path}
+                              onClick={() => setSidebarOpen(false)}
+                              className={`block px-3 py-1.5 rounded-md text-xs font-medium transition duration-150 ${
+                                isSubActive
+                                  ? 'bg-orange-500/20 text-orange-400 font-semibold border-l-2 border-orange-500'
+                                  : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
+                              }`}
+                            >
+                              {sub.label}
+                            </NavLink>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </li>
+
+                {/* Expandable Portfolio Menu Item */}
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => setPortfolioExpanded(!portfolioExpanded)}
+                    className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition duration-150 ${
+                      isPortfolioActive
+                        ? 'bg-slate-800 text-orange-400 border-l-4 border-orange-500 font-semibold'
+                        : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <span className="text-xs transition-transform duration-200">
+                        {portfolioExpanded ? '⌄' : '›'}
+                      </span>
+                      <span>Portfolio</span>
+                    </div>
+                    <span className="text-xs text-slate-500 bg-slate-800/80 px-1.5 py-0.5 rounded text-[10px]">
+                      {portfolioSubItems.length}
+                    </span>
+                  </button>
+
+                  {/* Portfolio Collapsible Submenu */}
+                  {portfolioExpanded && (
+                    <ul className="mt-1 ml-4 pl-3 border-l border-slate-800 space-y-1">
+                      {portfolioSubItems.map((sub) => {
+                        const isSubActive = location.pathname === sub.path;
+                        return (
+                          <li key={sub.path}>
+                            <NavLink
+                              to={sub.path}
+                              onClick={() => setSidebarOpen(false)}
+                              className={`block px-3 py-1.5 rounded-md text-xs font-medium transition duration-150 ${
+                                isSubActive
+                                  ? 'bg-orange-500/20 text-orange-400 font-semibold border-l-2 border-orange-500'
+                                  : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
+                              }`}
+                            >
+                              {sub.label}
+                            </NavLink>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </li>
+
+                {/* Expandable Blogs Menu Item */}
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => setBlogsExpanded(!blogsExpanded)}
+                    className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition duration-150 ${
+                      isBlogsActive
+                        ? 'bg-slate-800 text-orange-400 border-l-4 border-orange-500 font-semibold'
+                        : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <span className="text-xs transition-transform duration-200">
+                        {blogsExpanded ? '⌄' : '›'}
+                      </span>
+                      <span>Blogs</span>
+                    </div>
+                    <span className="text-xs text-slate-500 bg-slate-800/80 px-1.5 py-0.5 rounded text-[10px]">
+                      {blogsSubItems.length}
+                    </span>
+                  </button>
+
+                  {/* Blogs Collapsible Submenu */}
+                  {blogsExpanded && (
+                    <ul className="mt-1 ml-4 pl-3 border-l border-slate-800 space-y-1">
+                      {blogsSubItems.map((sub) => {
+                        const isSubActive = location.pathname === sub.path;
+                        return (
+                          <li key={sub.path}>
+                            <NavLink
+                              to={sub.path}
+                              onClick={() => setSidebarOpen(false)}
+                              className={`block px-3 py-1.5 rounded-md text-xs font-medium transition duration-150 ${
+                                isSubActive
+                                  ? 'bg-orange-500/20 text-orange-400 font-semibold border-l-2 border-orange-500'
+                                  : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
+                              }`}
+                            >
+                              {sub.label}
+                            </NavLink>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </li>
+
+                {/* Expandable Contact Information Menu Item */}
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => setContactExpanded(!contactExpanded)}
+                    className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition duration-150 ${
+                      isContactActive
+                        ? 'bg-slate-800 text-orange-400 border-l-4 border-orange-500 font-semibold'
+                        : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <span className="text-xs transition-transform duration-200">
+                        {contactExpanded ? '⌄' : '›'}
+                      </span>
+                      <span>Contact Information</span>
+                    </div>
+                    <span className="text-xs text-slate-500 bg-slate-800/80 px-1.5 py-0.5 rounded text-[10px]">
+                      {contactSubItems.length}
+                    </span>
+                  </button>
+
+                  {/* Contact Collapsible Submenu */}
+                  {contactExpanded && (
+                    <ul className="mt-1 ml-4 pl-3 border-l border-slate-800 space-y-1">
+                      {contactSubItems.map((sub) => {
+                        const isSubActive = location.pathname === sub.path;
+                        return (
+                          <li key={sub.path}>
+                            <NavLink
+                              to={sub.path}
+                              onClick={() => setSidebarOpen(false)}
+                              className={`block px-3 py-1.5 rounded-md text-xs font-medium transition duration-150 ${
+                                isSubActive
+                                  ? 'bg-orange-500/20 text-orange-400 font-semibold border-l-2 border-orange-500'
+                                  : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
+                              }`}
+                            >
+                              {sub.label}
+                            </NavLink>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </li>
               </ul>
             </div>
           </div>
 
-          {/* Footer Info inside Sidebar */}
-          <div className="p-4 border-t border-slate-800/80 bg-slate-950/40">
-            <div className="flex items-center gap-2 text-xs text-slate-400">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span>MongoDB & API Connected</span>
-            </div>
+          {/* Footer Metadata */}
+          <div className="p-4 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+            <span>CityScene Global v2.0</span>
+            <span className="w-2 h-2 rounded-full bg-emerald-500" title="Connected to MongoDB" />
           </div>
         </aside>
 
-        {/* Main Content Viewport */}
-        <main className="flex-1 min-w-0 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+        {/* Main Content Area */}
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto max-w-7xl w-full mx-auto">
           {children || <Outlet />}
         </main>
       </div>

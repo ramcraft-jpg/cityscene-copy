@@ -22,8 +22,25 @@ export default function JobApplication() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [statusMessage, setStatusMessage] = useState(null);
 
+  const [availableJobs, setAvailableJobs] = useState(jobsData);
+
   useEffect(() => {
     window.scrollTo(0, 0);
+    fetch('http://localhost:5000/api/jobs')
+      .then((res) => res.json())
+      .then((resData) => {
+        if (resData.success && resData.data && resData.data.length > 0) {
+          setAvailableJobs(resData.data);
+          if (jobId) {
+            const selectedJob = resData.data.find((j) => j.id === jobId);
+            if (selectedJob) {
+              setFormData((prev) => ({ ...prev, position: selectedJob.title }));
+            }
+          }
+        }
+      })
+      .catch((err) => console.error('Error fetching jobs for application form:', err));
+
     if (jobId) {
       const selectedJob = jobsData.find((j) => j.id === jobId);
       if (selectedJob) {
@@ -224,8 +241,8 @@ export default function JobApplication() {
                         className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm bg-white text-gray-700"
                       >
                         <option value="">Select Position</option>
-                        {jobsData.map((job) => (
-                          <option key={job.id} value={job.title}>
+                        {availableJobs.map((job) => (
+                          <option key={job.id || job._id} value={job.title}>
                             {job.title}
                           </option>
                         ))}

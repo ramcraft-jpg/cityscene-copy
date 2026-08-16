@@ -44,6 +44,26 @@ const blogSchema = new mongoose.Schema(
     content: {
       type: String,
       required: true
+    },
+    video: {
+      type: String,
+      default: ''
+    },
+    author: {
+      type: String,
+      default: 'CityScene Tech Team'
+    },
+    authorAvatar: {
+      type: String,
+      default: '/assets/images/author-vishwambhar.png'
+    },
+    order: {
+      type: Number,
+      default: 0
+    },
+    isActive: {
+      type: Boolean,
+      default: true
     }
   },
   {

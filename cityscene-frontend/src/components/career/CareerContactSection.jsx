@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
 import { submitContactForm } from '../../services/contactService';
 
+const defaultHeader = {
+  heading: 'Contact Us',
+  subtitle: 'Have questions? Get in touch with us.'
+};
+
 export default function CareerContactSection() {
+  const [header, setHeader] = useState(defaultHeader);
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -13,6 +19,17 @@ export default function CareerContactSection() {
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState('idle'); // 'idle' | 'loading' | 'success' | 'error'
   const [successMessage, setSuccessMessage] = useState('');
+
+  useEffect(() => {
+    fetch('http://localhost:5000/api/home-content/career-contact')
+      .then((res) => res.json())
+      .then((resData) => {
+        if (resData.success && resData.content && resData.content.heading) {
+          setHeader(resData.content);
+        }
+      })
+      .catch((err) => console.error('Error fetching CareerContactSection API data:', err));
+  }, []);
 
   const validate = () => {
     const newErrors = {};
@@ -71,12 +88,12 @@ export default function CareerContactSection() {
   return (
     <section className="w-full bg-[#27272a] text-white py-20 lg:py-28">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        {/* Section Heading matching Image 1 */}
+        {/* Section Heading */}
         <h2 className="text-4xl sm:text-5xl font-bold text-white tracking-tight mb-3">
-          Contact Us
+          {header.heading || defaultHeader.heading}
         </h2>
         <p className="text-base sm:text-lg text-gray-300 mb-10">
-          Have questions? Get in touch with us.
+          {header.subtitle || defaultHeader.subtitle}
         </p>
 
         {/* Success Banner */}
@@ -100,7 +117,7 @@ export default function CareerContactSection() {
           </div>
         )}
 
-        {/* Form matching Image 1 */}
+        {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-5 text-left" noValidate>
           {/* Full Name */}
           <div>
@@ -170,7 +187,7 @@ export default function CareerContactSection() {
             )}
           </div>
 
-          {/* White Pill Full Width Submit Button matching Image 1 */}
+          {/* White Pill Full Width Submit Button */}
           <div className="pt-2">
             <button
               type="submit"

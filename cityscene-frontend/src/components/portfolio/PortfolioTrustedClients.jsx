@@ -1,17 +1,35 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import clients from '../../data/clients';
 
+const defaultHeader = {
+  heading: 'Trusted by fast growing startups',
+  subtitle: 'Empowering innovative brands, enterprises, and high-growth ventures globally.'
+};
+
 export default function PortfolioTrustedClients() {
+  const [header, setHeader] = useState(defaultHeader);
+
+  useEffect(() => {
+    fetch('http://localhost:5000/api/home-content/portfolio-clients')
+      .then((res) => res.json())
+      .then((resData) => {
+        if (resData.success && resData.content && resData.content.heading) {
+          setHeader(resData.content);
+        }
+      })
+      .catch((err) => console.error('Error fetching PortfolioTrustedClients API data:', err));
+  }, []);
+
   return (
     <section className="w-full bg-[#f8f9fa] py-16 sm:py-20 border-t border-b border-gray-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-12">
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">
-            Trusted by fast growing startups
+            {header.heading || defaultHeader.heading}
           </h2>
           <p className="text-sm sm:text-base text-gray-600 mt-2">
-            Empowering innovative brands, enterprises, and high-growth ventures globally.
+            {header.subtitle || defaultHeader.subtitle}
           </p>
         </div>
 

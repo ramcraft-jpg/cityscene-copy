@@ -1,7 +1,10 @@
+import { getAdminToken } from './adminAuthService';
+
 const API_BASE = 'http://localhost:5000/api';
 
-export const getBlogs = async () => {
-  const res = await fetch(`${API_BASE}/blogs`);
+export const getBlogs = async (includeAll = false) => {
+  const url = includeAll ? `${API_BASE}/blogs?all=true` : `${API_BASE}/blogs`;
+  const res = await fetch(url);
   if (!res.ok) {
     throw new Error(`Failed to fetch blogs from API (Status ${res.status})`);
   }
@@ -37,4 +40,53 @@ export const getRelatedBlogs = async (currentSlug, limit = 3) => {
     console.error('[Blog Service Related Error]:', err.message);
     return [];
   }
+};
+
+export const createBlog = async (blogData) => {
+  const token = getAdminToken();
+  const response = await fetch(`${API_BASE}/blogs`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify(blogData)
+  });
+  const data = await response.json();
+  if (!response.ok || !data.success) {
+    throw new Error(data.message || 'Failed to create blog post.');
+  }
+  return data;
+};
+
+export const updateBlog = async (id, blogData) => {
+  const token = getAdminToken();
+  const response = await fetch(`${API_BASE}/blogs/${encodeURIComponent(id)}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify(blogData)
+  });
+  const data = await response.json();
+  if (!response.ok || !data.success) {
+    throw new Error(data.message || 'Failed to update blog post.');
+  }
+  return data;
+};
+
+export const deleteBlog = async (id) => {
+  const token = getAdminToken();
+  const response = await fetch(`${API_BASE}/blogs/${encodeURIComponent(id)}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
+  const data = await response.json();
+  if (!response.ok || !data.success) {
+    throw new Error(data.message || 'Failed to delete blog post.');
+  }
+  return data;
 };

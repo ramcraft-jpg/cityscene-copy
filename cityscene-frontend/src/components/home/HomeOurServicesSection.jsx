@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-const allServices = [
+const defaultServices = [
   {
     id: 'custom-software-development',
     title: 'Custom Software Development',
@@ -92,6 +92,24 @@ const allServices = [
 export default function HomeOurServicesSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [cardsPerView, setCardsPerView] = useState(3);
+  const [sectionData, setSectionData] = useState({
+    badge: 'What We Deliver',
+    heading: 'Our Services',
+    services: defaultServices
+  });
+
+  useEffect(() => {
+    fetch('http://localhost:5000/api/home-content/services')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && data.content && data.content.services && data.content.services.length > 0) {
+          setSectionData(data.content);
+        }
+      })
+      .catch((err) => console.error('Error fetching HomeServices API data:', err));
+  }, []);
+
+  const allServices = sectionData.services || defaultServices;
 
   useEffect(() => {
     const handleResize = () => {
@@ -132,10 +150,10 @@ export default function HomeOurServicesSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full mb-8 sm:mb-12 flex items-center justify-between">
         <div>
           <span className="text-xs sm:text-sm font-semibold tracking-widest text-orange-500 uppercase block mb-1">
-            What We Deliver
+            {sectionData.badge || 'What We Deliver'}
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-bold text-white tracking-tight">
-            Our Services
+            {sectionData.heading || 'Our Services'}
           </h2>
         </div>
 
@@ -193,7 +211,7 @@ export default function HomeOurServicesSection() {
                   alt={srv.title}
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = srv.fallback;
+                    e.target.src = srv.fallback || defaultServices[0].fallback;
                   }}
                   className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-out"
                 />

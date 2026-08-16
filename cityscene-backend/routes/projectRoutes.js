@@ -1,15 +1,24 @@
 import express from 'express';
-import { getProjects, getProjectBySlug, getClients } from '../controllers/projectController.js';
+import {
+  getProjects,
+  getProjectBySlug,
+  getClients,
+  createProject,
+  updateProject,
+  deleteProject
+} from '../controllers/projectController.js';
+import { protectAdmin } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// GET /api/projects
+// Public routes
 router.get('/', getProjects);
-
-// GET /api/projects/clients
 router.get('/clients', getClients);
-
-// GET /api/projects/:slug
 router.get('/:slug', getProjectBySlug);
+
+// Admin protected routes
+router.post('/', protectAdmin, createProject);
+router.put('/:id', protectAdmin, updateProject);
+router.delete('/:id', protectAdmin, deleteProject);
 
 export default router;

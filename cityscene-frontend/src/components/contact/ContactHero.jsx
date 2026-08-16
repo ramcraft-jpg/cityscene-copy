@@ -1,8 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Send, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 import { submitContactForm } from '../../services/contactService';
 
+const defaultHero = {
+  subheading: "LET'S TALK",
+  title: 'Contact\nUs',
+  description: 'Bridging The Gap Between Ideas & Execution, Contact Us Today.',
+  bgImage: '/assets/images/contact-hero.jpg',
+  bgVideo: ''
+};
+
 export default function ContactHero() {
+  const [heroData, setHeroData] = useState(defaultHero);
+
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -13,6 +23,17 @@ export default function ContactHero() {
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState('idle'); // 'idle' | 'loading' | 'success' | 'error'
   const [successMessage, setSuccessMessage] = useState('');
+
+  useEffect(() => {
+    fetch('http://localhost:5000/api/home-content/contact-hero')
+      .then((res) => res.json())
+      .then((resData) => {
+        if (resData.success && resData.content && resData.content.title) {
+          setHeroData(resData.content);
+        }
+      })
+      .catch((err) => console.error('Error fetching ContactHero API data:', err));
+  }, []);
 
   const validate = () => {
     const newErrors = {};
@@ -68,15 +89,31 @@ export default function ContactHero() {
     }
   };
 
+  const bgImage = heroData.bgImage || defaultHero.bgImage;
+  const bgVideo = heroData.bgVideo;
+
   return (
     <section className="relative w-full bg-[#1c1917] text-white min-h-[620px] lg:min-h-[700px] flex items-center py-12 lg:py-20 overflow-hidden">
       {/* Background Overhead Image with Dark Translucent Vignette */}
       <div className="absolute inset-0 z-0">
-        <img
-          src="/assets/images/contact-hero.jpg"
-          alt="Contact Us Background"
-          className="w-full h-full object-cover object-center"
-        />
+        {bgVideo ? (
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            poster={bgImage}
+            className="w-full h-full object-cover object-center opacity-40 mix-blend-overlay"
+          >
+            <source src={bgVideo} type="video/mp4" />
+          </video>
+        ) : (
+          <img
+            src={bgImage}
+            alt="Contact Us Background"
+            className="w-full h-full object-cover object-center"
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/75 to-black/60" />
       </div>
 
@@ -87,18 +124,17 @@ export default function ContactHero() {
           <div className="lg:col-span-6 space-y-4 text-left">
             <div className="max-w-md">
               <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-white block">
-                LET'S TALK
+                {heroData.subheading || defaultHero.subheading}
               </span>
               <div className="w-full h-[2px] bg-white/90 my-3" />
             </div>
 
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.08]">
-              Contact <br />
-              Us
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.08] whitespace-pre-line">
+              {heroData.title || defaultHero.title}
             </h1>
 
             <p className="text-base sm:text-lg text-gray-200 font-normal leading-relaxed max-w-md pt-2">
-              Bridging The Gap Between Ideas & Execution, Contact Us Today.
+              {heroData.description || defaultHero.description}
             </p>
           </div>
 

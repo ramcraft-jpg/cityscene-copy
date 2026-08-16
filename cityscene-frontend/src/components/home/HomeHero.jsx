@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const heroSlides = [
+const defaultHeroSlides = [
   {
     id: 1,
     image: '/assets/home/hero/hero-1.jpg',
@@ -30,20 +30,41 @@ const heroSlides = [
 
 export default function HomeHero() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [heroData, setHeroData] = useState({
+    slides: defaultHeroSlides,
+    button1Text: 'About Us',
+    button1Link: '/about',
+    button2Text: "Let's Talk",
+    button2Link: '/contact'
+  });
+
+  useEffect(() => {
+    fetch('http://localhost:5000/api/home-content/hero')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && data.content && data.content.slides && data.content.slides.length > 0) {
+          setHeroData(data.content);
+        }
+      })
+      .catch((err) => console.error('Error fetching HomeHero API data:', err));
+  }, []);
+
+  const slides = heroData.slides || defaultHeroSlides;
+  const activeSlide = slides[currentSlide] || slides[0] || defaultHeroSlides[0];
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 6000);
     return () => clearInterval(timer);
-  }, []);
+  }, [slides.length]);
 
   return (
     <section className="relative w-full min-h-[calc(100vh-64px)] min-h-[calc(100svh-64px)] bg-black text-white overflow-hidden flex items-center py-12 lg:py-0">
       {/* Slides Background */}
-      {heroSlides.map((slide, idx) => (
+      {slides.map((slide, idx) => (
         <div
-          key={slide.id}
+          key={slide.id || idx}
           className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
             idx === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
           }`}
@@ -53,7 +74,7 @@ export default function HomeHero() {
             alt={slide.titleLine1}
             onError={(e) => {
               e.target.onerror = null;
-              e.target.src = slide.fallback;
+              e.target.src = slide.fallback || defaultHeroSlides[0].fallback;
             }}
             className="w-full h-full object-cover object-center transform scale-105 transition-transform duration-[7000ms] ease-out"
           />
@@ -66,26 +87,26 @@ export default function HomeHero() {
       <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="max-w-2xl text-left space-y-6 animate-fadeIn">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.15]">
-            {heroSlides[currentSlide].titleLine1} <br />
-            <span className="text-orange-500">{heroSlides[currentSlide].titleLine2}</span>
+            {activeSlide.titleLine1} <br />
+            <span className="text-orange-500">{activeSlide.titleLine2}</span>
           </h1>
 
           <p className="text-base sm:text-lg lg:text-xl text-gray-200 leading-relaxed font-normal">
-            {heroSlides[currentSlide].subtitle}
+            {activeSlide.subtitle}
           </p>
 
           <div className="flex flex-wrap items-center gap-4 pt-4">
             <Link
-              to="/about"
+              to={heroData.button1Link || '/about'}
               className="px-7 py-3.5 bg-white text-gray-900 font-semibold rounded-full hover:bg-gray-100 transition-all duration-300 shadow-md text-sm sm:text-base"
             >
-              About Us
+              {heroData.button1Text || 'About Us'}
             </Link>
             <Link
-              to="/contact"
+              to={heroData.button2Link || '/contact'}
               className="px-7 py-3.5 bg-transparent border-2 border-white text-white font-semibold rounded-full hover:bg-white hover:text-gray-900 transition-all duration-300 text-sm sm:text-base"
             >
-              Let's Talk
+              {heroData.button2Text || "Let's Talk"}
             </Link>
           </div>
         </div>
@@ -93,7 +114,7 @@ export default function HomeHero() {
 
       {/* Slide Indicator Dots */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex items-center space-x-3">
-        {heroSlides.map((_, idx) => (
+        {slides.map((_, idx) => (
           <button
             key={idx}
             onClick={() => setCurrentSlide(idx)}
@@ -107,4 +128,3 @@ export default function HomeHero() {
     </section>
   );
 }
-

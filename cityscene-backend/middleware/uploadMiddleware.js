@@ -19,7 +19,7 @@ const storage = multer.diskStorage({
   }
 });
 
-const fileFilter = (req, file, cb) => {
+const resumeFileFilter = (req, file, cb) => {
   const allowedExtensions = ['.pdf', '.doc', '.docx'];
   const ext = path.extname(file.originalname).toLowerCase();
   
@@ -30,8 +30,29 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
+const mediaFileFilter = (req, file, cb) => {
+  const allowedExtensions = [
+    '.pdf', '.doc', '.docx',
+    '.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg',
+    '.mp4', '.webm', '.mov', '.avi', '.mkv'
+  ];
+  const ext = path.extname(file.originalname).toLowerCase();
+  
+  if (allowedExtensions.includes(ext) || file.mimetype.startsWith('image/') || file.mimetype.startsWith('video/')) {
+    cb(null, true);
+  } else {
+    cb(new Error('Invalid file format. Only document, image, or video files are permitted.'), false);
+  }
+};
+
 export const uploadResume = multer({
   storage,
-  fileFilter,
+  fileFilter: resumeFileFilter,
   limits: { fileSize: 10 * 1024 * 1024 } // 10MB limit
 }).single('resume');
+
+export const uploadMedia = multer({
+  storage,
+  fileFilter: mediaFileFilter,
+  limits: { fileSize: 50 * 1024 * 1024 } // 50MB limit for media/videos
+}).single('file');

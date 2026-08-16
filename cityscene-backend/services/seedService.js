@@ -4,6 +4,8 @@ import Job from '../models/Job.js';
 import Client from '../models/Client.js';
 import Service from '../models/Service.js';
 import Admin from '../models/Admin.js';
+import HomeContent from '../models/HomeContent.js';
+import { defaultHomeContent } from '../controllers/homeContentController.js';
 import bcrypt from 'bcryptjs';
 
 export const initialBlogs = [
@@ -688,6 +690,22 @@ export const seedDatabase = async () => {
     }
   } catch (err) {
     console.warn('[Seed Service Warning] Admin seeding skipped:', err.message);
+  }
+
+  // Home Content Seeding
+  try {
+    for (const [sectionKey, contentData] of Object.entries(defaultHomeContent)) {
+      const existing = await HomeContent.findOne({ section: sectionKey });
+      if (!existing) {
+        await HomeContent.create({
+          section: sectionKey,
+          content: contentData
+        });
+      }
+    }
+    console.log('[Seed Service] Seeded default Home page sections content into MongoDB.');
+  } catch (err) {
+    console.warn('[Seed Service Warning] Home content seeding skipped:', err.message);
   }
 };
 

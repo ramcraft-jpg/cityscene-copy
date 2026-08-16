@@ -52,6 +52,52 @@ const projectSchema = new mongoose.Schema(
     liveLink: {
       type: String,
       default: '#'
+    },
+    video: {
+      type: String,
+      default: ''
+    },
+    heroImage: {
+      type: String
+    },
+    titleSystem: {
+      type: String
+    },
+    systemOverview: [String],
+    modulesTitle: {
+      type: String
+    },
+    summaryNote: {
+      type: String
+    },
+    capabilities: [
+      {
+        title: String,
+        description: String
+      }
+    ],
+    valuePropositions: [
+      {
+        title: String,
+        description: String
+      }
+    ],
+    executionTitle: {
+      type: String
+    },
+    executionFeatures: [
+      {
+        title: String,
+        description: String
+      }
+    ],
+    order: {
+      type: Number,
+      default: 0
+    },
+    isActive: {
+      type: Boolean,
+      default: true
     }
   },
   {

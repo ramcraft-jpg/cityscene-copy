@@ -47,7 +47,7 @@ export default function AdminPortal() {
 
   const statCards = [
     {
-      title: 'Total Services',
+      title: 'What We Do Services',
       count: metrics.counts.services,
       icon: '⚡',
       color: 'from-blue-500 to-indigo-600',
@@ -83,15 +83,6 @@ export default function AdminPortal() {
       link: '/admin/career'
     },
     {
-      title: 'Testimonials',
-      count: metrics.counts.testimonials,
-      icon: '⭐',
-      color: 'from-yellow-500 to-amber-500',
-      textColor: 'text-yellow-600',
-      bgLight: 'bg-yellow-50',
-      link: '/admin/testimonials'
-    },
-    {
       title: 'Contact Inquiries',
       count: metrics.counts.contacts,
       icon: '📞',
@@ -104,11 +95,10 @@ export default function AdminPortal() {
 
   const quickActions = [
     { title: 'Manage Home', desc: 'Hero, services overview, commitment & branding', path: '/admin/home', icon: '🏠', color: 'bg-gradient-to-r from-orange-500 to-amber-500' },
-    { title: 'Manage Services', desc: 'Add, update, or remove digital services', path: '/admin/services', icon: '⚡', color: 'bg-gradient-to-r from-blue-500 to-indigo-600' },
+    { title: 'Manage What We Do', desc: 'Add, update, or remove digital services', path: '/admin/services', icon: '⚡', color: 'bg-gradient-to-r from-blue-500 to-indigo-600' },
     { title: 'Manage Blogs', desc: 'Publish technical articles and company news', path: '/admin/blogs', icon: '📝', color: 'bg-gradient-to-r from-purple-500 to-violet-600' },
     { title: 'Manage Portfolio', desc: 'Showcase enterprise project case studies', path: '/admin/portfolio', icon: '🚀', color: 'bg-gradient-to-r from-emerald-500 to-teal-600' },
     { title: 'Manage Career', desc: 'Post open job roles and view candidate apps', path: '/admin/career', icon: '💼', color: 'bg-gradient-to-r from-amber-500 to-orange-600' },
-    { title: 'Manage Testimonials', desc: 'Manage client reviews and star ratings', path: '/admin/testimonials', icon: '⭐', color: 'bg-gradient-to-r from-yellow-500 to-amber-600' },
     { title: 'Manage Contact Info', desc: 'Update contact info, address & social links', path: '/admin/contact', icon: '📞', color: 'bg-gradient-to-r from-red-500 to-rose-600' }
   ];
 

@@ -1,8 +1,32 @@
-import React from 'react';
-import { jobsData } from '../../data/jobs';
+import React, { useState, useEffect } from 'react';
+import { jobsData as fallbackJobs } from '../../data/jobs';
 import CareerJobCard from './CareerJobCard';
 
+const defaultHeader = {
+  heading: 'Job Opportunities',
+  subtitle: 'Explore open roles and build the future of technology with us.'
+};
+
 export default function CareerJobGrid() {
+  const [header, setHeader] = useState(defaultHeader);
+  const [jobs, setJobs] = useState(fallbackJobs);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    Promise.all([
+      fetch('http://localhost:5000/api/home-content/career-grid-header').then(r => r.json()).catch(() => null),
+      fetch('http://localhost:5000/api/jobs').then(r => r.json()).catch(() => null)
+    ]).then(([headerRes, jobsRes]) => {
+      if (headerRes && headerRes.success && headerRes.content && headerRes.content.heading) {
+        setHeader(headerRes.content);
+      }
+      if (jobsRes && jobsRes.success && jobsRes.data && jobsRes.data.length > 0) {
+        setJobs(jobsRes.data);
+      }
+      setLoading(false);
+    });
+  }, []);
+
   return (
     <section id="jobs-section" className="relative w-full min-h-[85vh] py-28 md:py-40 lg:py-48 overflow-hidden bg-gray-100 flex flex-col justify-center">
       {/* Background Image Overlay */}
@@ -19,17 +43,17 @@ export default function CareerJobGrid() {
         {/* Section Heading */}
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 tracking-tight mb-4">
-            Job Opportunities
+            {header.heading || defaultHeader.heading}
           </h2>
           <p className="text-lg text-gray-600 max-w-xl mx-auto">
-            Explore open roles and build the future of technology with us.
+            {header.subtitle || defaultHeader.subtitle}
           </p>
         </div>
 
         {/* 3 Job Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-          {jobsData.map((job) => (
-            <CareerJobCard key={job.id} job={job} />
+          {jobs.map((job) => (
+            <CareerJobCard key={job.id || job._id} job={job} />
           ))}
         </div>
       </div>

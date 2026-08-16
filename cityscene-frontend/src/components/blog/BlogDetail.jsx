@@ -68,9 +68,9 @@ export default function BlogDetail({ blog, relatedBlogs = [] }) {
   };
 
   const categorySlug = (blog.category || 'it-solutions').toLowerCase().replace(/\s+/g, '-');
-  const authorAvatar = blog.author?.avatar || "/assets/images/author-vishwambhar.png";
-  const authorDisplayName = blog.author?.name || "Vishwambhar Singh";
-  const authorTagline = blog.author?.tagline || "CityScene Global — Jaipur's IT & Digital Innovation Partner";
+  const authorAvatar = (typeof blog.author === 'object' ? blog.author?.avatar : null) || blog.authorAvatar || "/assets/images/author-vishwambhar.png";
+  const authorDisplayName = (typeof blog.author === 'object' ? blog.author?.name : null) || blog.author || "Vishwambhar Singh";
+  const authorTagline = (typeof blog.author === 'object' ? blog.author?.tagline : null) || "CityScene Global — Jaipur's IT & Digital Innovation Partner";
 
   return (
     <article className="min-h-screen bg-[#f8f9fa] text-gray-900 font-sans pb-24">

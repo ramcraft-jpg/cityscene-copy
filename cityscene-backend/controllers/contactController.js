@@ -25,7 +25,7 @@ export const createContact = async (req, res, next) => {
       return res.status(400).json({ success: false, message: 'Message is required.' });
     }
 
-    // Direct MongoDB creation - must succeed
+    // Direct MongoDB creation
     const savedContact = await Contact.create({
       fullName: fullName.trim(),
       email: email.trim().toLowerCase(),
@@ -56,3 +56,15 @@ export const getContacts = async (req, res, next) => {
   }
 };
 
+export const deleteContact = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const contact = await Contact.findByIdAndDelete(id);
+    if (!contact) {
+      return res.status(404).json({ success: false, message: 'Contact inquiry not found.' });
+    }
+    return res.status(200).json({ success: true, message: 'Contact inquiry deleted successfully.' });
+  } catch (error) {
+    next(error);
+  }
+};

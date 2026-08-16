@@ -1,14 +1,16 @@
 import staticProjects from '../data/projects';
 import staticClients from '../data/clients';
+import { getAdminToken } from './adminAuthService';
 
 const API_BASE = 'http://localhost:5000/api';
 
-export const getProjects = async () => {
+export const getProjects = async (includeAll = false) => {
   try {
-    const res = await fetch(`${API_BASE}/projects`);
+    const url = includeAll ? `${API_BASE}/projects?all=true` : `${API_BASE}/projects`;
+    const res = await fetch(url);
     if (res.ok) {
       const json = await res.json();
-      if (json.data && json.data.length >= 7) return json.data;
+      if (json.data && json.data.length > 0) return json.data;
     }
   } catch (error) {
     console.warn('[Project Service] API unreachable, fallback to local dataset:', error.message);
@@ -61,3 +63,51 @@ export const getClients = async () => {
   }
 };
 
+export const createProject = async (projectData) => {
+  const token = getAdminToken();
+  const response = await fetch(`${API_BASE}/projects`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify(projectData)
+  });
+  const data = await response.json();
+  if (!response.ok || !data.success) {
+    throw new Error(data.message || 'Failed to create project.');
+  }
+  return data;
+};
+
+export const updateProject = async (id, projectData) => {
+  const token = getAdminToken();
+  const response = await fetch(`${API_BASE}/projects/${encodeURIComponent(id)}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify(projectData)
+  });
+  const data = await response.json();
+  if (!response.ok || !data.success) {
+    throw new Error(data.message || 'Failed to update project.');
+  }
+  return data;
+};
+
+export const deleteProject = async (id) => {
+  const token = getAdminToken();
+  const response = await fetch(`${API_BASE}/projects/${encodeURIComponent(id)}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
+  const data = await response.json();
+  if (!response.ok || !data.success) {
+    throw new Error(data.message || 'Failed to delete project.');
+  }
+  return data;
+};

@@ -20,6 +20,22 @@ const jobSchema = new mongoose.Schema(
     image: {
       type: String,
       required: true
+    },
+    location: {
+      type: String,
+      default: 'Bengaluru, India'
+    },
+    type: {
+      type: String,
+      default: 'Full Time'
+    },
+    order: {
+      type: Number,
+      default: 0
+    },
+    isActive: {
+      type: Boolean,
+      default: true
     }
   },
   {

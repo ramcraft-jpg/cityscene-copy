@@ -15,6 +15,7 @@ import jobRoutes from './routes/jobRoutes.js';
 import serviceRoutes from './routes/serviceRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import testimonialRoutes from './routes/testimonialRoutes.js';
+import homeContentRoutes from './routes/homeContentRoutes.js';
 
 dotenv.config();
 
@@ -57,6 +58,7 @@ app.use('/api/jobs', jobRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/testimonials', testimonialRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/home-content', homeContentRoutes);
 
 
 app.use('/api/clients', (req, res) => {

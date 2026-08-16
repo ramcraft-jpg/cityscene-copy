@@ -1,13 +1,14 @@
 import express from 'express';
-import { createContact, getContacts } from '../controllers/contactController.js';
+import { createContact, getContacts, deleteContact } from '../controllers/contactController.js';
+import { protectAdmin } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// GET /api/contact
-router.get('/', getContacts);
-
-// POST /api/contact
+// Public route for form submission
 router.post('/', createContact);
 
-export default router;
+// Admin protected routes for reviewing inquiries
+router.get('/', protectAdmin, getContacts);
+router.delete('/:id', protectAdmin, deleteContact);
 
+export default router;

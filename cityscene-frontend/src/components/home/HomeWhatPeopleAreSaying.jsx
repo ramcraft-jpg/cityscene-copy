@@ -1,38 +1,40 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-const testimonials = [
-  {
-    quote: '"A game-changer for my business. Thank you!"',
-    author: 'EsunScope'
-  },
-  {
-    quote: '"Incredible service! The results exceeded my expectations"',
-    author: 'Jai Kisaan Solar'
-  },
-  {
-    quote: '"Great experience, excellent support, and fantastic results!"',
-    author: 'Nazart'
-  },
-  {
-    quote: '"Professional, innovative, and reliable—highly recommended!"',
-    author: 'Kun Arabian'
-  },
-  {
-    quote: '"A seamless experience from start to finish. Thank you!"',
-    author: 'SunScope Capital'
-  }
+const defaultTestimonials = [
+  { quote: '"A game-changer for my business. Thank you!"', author: 'EsunScope' },
+  { quote: '"Incredible service! The results exceeded my expectations"', author: 'Jai Kisaan Solar' },
+  { quote: '"Great experience, excellent support, and fantastic results!"', author: 'Nazart' },
+  { quote: '"Professional, innovative, and reliable—highly recommended!"', author: 'Kun Arabian' },
+  { quote: '"A seamless experience from start to finish. Thank you!"', author: 'SunScope Capital' }
 ];
 
-// Quadrupled list for 100% seamless infinite marquee scrolling
-const marqueeList = [...testimonials, ...testimonials, ...testimonials, ...testimonials];
-
 export default function HomeWhatPeopleAreSaying() {
+  const [data, setData] = useState({
+    heading: 'What People Are Saying?',
+    testimonials: defaultTestimonials
+  });
+
+  useEffect(() => {
+    fetch('http://localhost:5000/api/home-content/testimonials')
+      .then((res) => res.json())
+      .then((resData) => {
+        if (resData.success && resData.content && resData.content.testimonials && resData.content.testimonials.length > 0) {
+          setData(resData.content);
+        }
+      })
+      .catch((err) => console.error('Error fetching HomeTestimonials API data:', err));
+  }, []);
+
+  const rawList = data.testimonials && data.testimonials.length > 0 ? data.testimonials : defaultTestimonials;
+  // Quadrupled list for 100% seamless infinite marquee scrolling
+  const marqueeList = [...rawList, ...rawList, ...rawList, ...rawList];
+
   return (
     <section className="w-full min-h-screen min-h-[100svh] bg-white py-10 md:py-14 flex flex-col justify-center border-b border-gray-100 overflow-hidden relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-center">
         
         <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-bold text-gray-900 tracking-tight mb-12 sm:mb-16">
-          What People Are Saying?
+          {data.heading || 'What People Are Saying?'}
         </h2>
 
         {/* Continuous Marquee Track Wrapper */}

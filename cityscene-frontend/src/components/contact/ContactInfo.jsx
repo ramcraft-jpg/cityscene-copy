@@ -1,56 +1,82 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { MapPin, Phone, Mail } from 'lucide-react';
 
+const defaultDetails = {
+  title: 'Contact Us',
+  address: 'Second Floor, S.p Tower, 150, Sirsi Rd,\nOfficers Campus Colony, Jaipur, Rajasthan, India',
+  phone1: '+91-7689999377',
+  phone2: '+971-528225509',
+  email: 'info@citysceneglobal.com'
+};
+
 export default function ContactInfo() {
+  const [data, setData] = useState(defaultDetails);
+
+  useEffect(() => {
+    fetch('http://localhost:5000/api/home-content/contact-details')
+      .then((res) => res.json())
+      .then((resData) => {
+        if (resData.success && resData.content && resData.content.address) {
+          setData(resData.content);
+        }
+      })
+      .catch((err) => console.error('Error fetching ContactInfo API data:', err));
+  }, []);
+
   return (
     <div className="space-y-6 text-left">
       {/* Section Title matching Screenshot 1 */}
       <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight">
-        Contact Us
+        {data.title || defaultDetails.title}
       </h2>
 
       <div className="space-y-5 text-base sm:text-lg text-gray-800 font-medium pt-2">
         {/* Address */}
         <div className="flex items-start gap-4">
           <MapPin className="w-6 h-6 text-gray-900 flex-shrink-0 mt-1" />
-          <p className="leading-snug text-gray-800">
-            Second Floor, S.p Tower, 150, Sirsi Rd, <br />
-            Officers Campus Colony, Jaipur, Rajasthan, India
+          <p className="leading-snug text-gray-800 whitespace-pre-line">
+            {data.address || defaultDetails.address}
           </p>
         </div>
 
         {/* Phone 1 */}
-        <div className="flex items-center gap-4">
-          <Phone className="w-6 h-6 text-gray-900 flex-shrink-0" />
-          <a
-            href="tel:+917689999377"
-            className="text-gray-900 font-bold hover:text-blue-600 transition-colors"
-          >
-            +91-7689999377
-          </a>
-        </div>
+        {data.phone1 && (
+          <div className="flex items-center gap-4">
+            <Phone className="w-6 h-6 text-gray-900 flex-shrink-0" />
+            <a
+              href={`tel:${data.phone1.replace(/[^0-9+]/g, '')}`}
+              className="text-gray-900 font-bold hover:text-blue-600 transition-colors"
+            >
+              {data.phone1}
+            </a>
+          </div>
+        )}
 
         {/* Phone 2 */}
-        <div className="flex items-center gap-4">
-          <Phone className="w-6 h-6 text-gray-900 flex-shrink-0" />
-          <a
-            href="tel:+971528225509"
-            className="text-gray-900 font-bold hover:text-blue-600 transition-colors"
-          >
-            +971-528225509
-          </a>
-        </div>
+        {data.phone2 && (
+          <div className="flex items-center gap-4">
+            <Phone className="w-6 h-6 text-gray-900 flex-shrink-0" />
+            <a
+              href={`tel:${data.phone2.replace(/[^0-9+]/g, '')}`}
+              className="text-gray-900 font-bold hover:text-blue-600 transition-colors"
+            >
+              {data.phone2}
+            </a>
+          </div>
+        )}
 
         {/* Email */}
-        <div className="flex items-center gap-4">
-          <Mail className="w-6 h-6 text-gray-900 flex-shrink-0" />
-          <a
-            href="mailto:info@citysceneglobal.com"
-            className="text-gray-900 font-bold hover:text-blue-600 transition-colors"
-          >
-            info@citysceneglobal.com
-          </a>
-        </div>
+        {data.email && (
+          <div className="flex items-center gap-4">
+            <Mail className="w-6 h-6 text-gray-900 flex-shrink-0" />
+            <a
+              href={`mailto:${data.email}`}
+              className="text-gray-900 font-bold hover:text-blue-600 transition-colors"
+            >
+              {data.email}
+            </a>
+          </div>
+        )}
       </div>
     </div>
   );

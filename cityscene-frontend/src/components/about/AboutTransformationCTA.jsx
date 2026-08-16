@@ -1,8 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
+const defaultTransformationData = {
+  heading: 'Transformation starts here',
+  subtitle: 'Reimagine your future.',
+  buttonText: 'Connect with us',
+  buttonLink: '/contact',
+  link1Text: 'What we do',
+  link1Url: '/services',
+  link2Text: 'Home',
+  link2Url: '/services'
+};
+
 export default function AboutTransformationCTA() {
+  const [data, setData] = useState(defaultTransformationData);
+
+  useEffect(() => {
+    fetch('http://localhost:5000/api/home-content/about-transformation')
+      .then((res) => res.json())
+      .then((resData) => {
+        if (resData.success && resData.content && resData.content.heading) {
+          setData(resData.content);
+        }
+      })
+      .catch((err) => console.error('Error fetching AboutTransformationCTA API data:', err));
+  }, []);
+
   return (
     <section className="w-full bg-[#171717] text-white py-20 md:py-28 relative overflow-hidden border-t border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -10,19 +34,18 @@ export default function AboutTransformationCTA() {
           
           {/* Left Column: Heading, Subtitle, Connect Button */}
           <div className="md:col-span-6 text-left space-y-6">
-            <h2 className="text-4xl sm:text-5xl font-normal text-white tracking-tight leading-tight">
-              Transformation <br />
-              starts here
+            <h2 className="text-4xl sm:text-5xl font-normal text-white tracking-tight leading-tight whitespace-pre-line">
+              {data.heading || defaultTransformationData.heading}
             </h2>
             <p className="text-xl sm:text-2xl text-gray-300 font-light">
-              Reimagine your future.
+              {data.subtitle || defaultTransformationData.subtitle}
             </p>
             <div className="pt-2">
               <Link
-                to="/contact"
+                to={data.buttonLink || '/contact'}
                 className="inline-flex items-center justify-center px-6 py-2.5 rounded-full border border-white text-white font-medium text-sm sm:text-base hover:bg-white hover:text-gray-900 transition-colors duration-300"
               >
-                Connect with us
+                {data.buttonText || 'Connect with us'}
               </Link>
             </div>
           </div>
@@ -38,21 +61,21 @@ export default function AboutTransformationCTA() {
               Find out more
             </h3>
 
-            {/* What We Do Button */}
+            {/* Link 1 */}
             <Link
-              to="/services"
+              to={data.link1Url || '/services'}
               className="w-full max-w-xs flex items-center justify-between px-6 py-2.5 rounded-full border border-white text-white text-sm sm:text-base font-medium hover:bg-white hover:text-gray-900 transition-colors duration-300 group"
             >
-              <span>What we do</span>
+              <span>{data.link1Text || 'What we do'}</span>
               <ArrowRight size={16} className="transform group-hover:translate-x-1 transition-transform" />
             </Link>
 
-            {/* Home Button */}
+            {/* Link 2 */}
             <Link
-              to="/services"
+              to={data.link2Url || '/services'}
               className="w-full max-w-xs flex items-center justify-between px-6 py-2.5 rounded-full border border-white text-white text-sm sm:text-base font-medium hover:bg-white hover:text-gray-900 transition-colors duration-300 group"
             >
-              <span>Home</span>
+              <span>{data.link2Text || 'Home'}</span>
               <ArrowRight size={16} className="transform group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>

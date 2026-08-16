@@ -5,17 +5,29 @@ import BlogHero from '../components/blog/BlogHero';
 import BlogGrid from '../components/blog/BlogGrid';
 import { getBlogs } from '../services/blogService';
 
+const defaultIntro = {
+  heading: 'Technology is evolving rapidly - are you keeping up?',
+  description: 'Dive into our latest articles covering AI, cloud computing, cybersecurity, data analytics, and emerging technologies to stay informed, enhance your digital strategy, and maintain a competitive edge in the ever-evolving tech landscape.'
+};
+
 export default function Blog() {
   const [blogsList, setBlogsList] = useState([]);
+  const [introData, setIntroData] = useState(defaultIntro);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    
-    getBlogs()
-      .then((data) => {
-        setBlogsList(data);
+
+    Promise.all([
+      getBlogs(),
+      fetch('http://localhost:5000/api/home-content/blog-intro').then(r => r.json()).catch(() => null)
+    ])
+      .then(([data, introRes]) => {
+        if (data) setBlogsList(data);
+        if (introRes && introRes.success && introRes.content && introRes.content.heading) {
+          setIntroData(introRes.content);
+        }
         setLoading(false);
       })
       .catch((err) => {
@@ -40,10 +52,8 @@ export default function Blog() {
             <div className="flex flex-col md:flex-row items-center justify-between gap-8 lg:gap-16">
               {/* Left Main Heading */}
               <div className="flex-1">
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-normal text-gray-900 tracking-tight leading-snug">
-                  Technology is <br />
-                  evolving rapidly - <br />
-                  are you keeping up?
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-normal text-gray-900 tracking-tight leading-snug whitespace-pre-line">
+                  {introData.heading || defaultIntro.heading}
                 </h2>
               </div>
 
@@ -51,10 +61,15 @@ export default function Blog() {
               <div className="hidden md:block w-[2px] h-36 bg-gray-900 flex-shrink-0" />
 
               {/* Right Supporting Paragraph */}
-              <div className="flex-1 max-w-xl">
+              <div className="flex-1 max-w-xl space-y-4">
                 <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-                  Dive into our latest articles covering AI, cloud computing, cybersecurity, data analytics, and emerging technologies to stay informed, enhance your digital strategy, and maintain a competitive edge in the ever-evolving tech landscape.
+                  {introData.description || defaultIntro.description}
                 </p>
+                {introData.image && (
+                  <div className="rounded-2xl overflow-hidden shadow-lg border border-gray-200 aspect-video max-h-56">
+                    <img src={introData.image} alt="Intro Feature" className="w-full h-full object-cover" />
+                  </div>
+                )}
               </div>
             </div>
           </div>

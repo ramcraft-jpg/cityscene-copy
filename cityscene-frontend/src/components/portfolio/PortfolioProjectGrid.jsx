@@ -1,8 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PortfolioProjectCard from './PortfolioProjectCard';
 
+const defaultHeader = {
+  heading: 'Our Projects'
+};
+
 export default function PortfolioProjectGrid({ projects }) {
+  const [header, setHeader] = useState(defaultHeader);
   const [visibleCount, setVisibleCount] = useState(6);
+
+  useEffect(() => {
+    fetch('http://localhost:5000/api/home-content/portfolio-grid-header')
+      .then((res) => res.json())
+      .then((resData) => {
+        if (resData.success && resData.content && resData.content.heading) {
+          setHeader(resData.content);
+        }
+      })
+      .catch((err) => console.error('Error fetching PortfolioProjectGrid API header:', err));
+  }, []);
 
   if (!projects || projects.length === 0) {
     return (
@@ -29,14 +45,14 @@ export default function PortfolioProjectGrid({ projects }) {
         {/* Section Header */}
         <div className="mb-8 md:mb-12">
           <h2 className="text-3xl sm:text-4xl font-normal text-white tracking-tight">
-            Our Projects
+            {header.heading || defaultHeader.heading}
           </h2>
         </div>
 
         {/* Project Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-12">
           {visibleProjects.map((project) => (
-            <PortfolioProjectCard key={project.id} project={project} />
+            <PortfolioProjectCard key={project.id || project.slug || project._id} project={project} />
           ))}
         </div>
 
