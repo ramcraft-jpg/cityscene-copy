@@ -26,33 +26,36 @@ export default function PortfolioHero({ videoSrc: propVideoSrc }) {
       .catch((err) => console.error('Error fetching PortfolioHero API data:', err));
   }, []);
 
-  const videoSrc = propVideoSrc || data.bgVideo;
-  const bgImage = data.bgImage || defaultHeroData.bgImage;
+  const bgImage = data.bgImage || data.backgroundImage || defaultHeroData.bgImage;
+  const bgVideo = propVideoSrc || data.bgVideo || data.backgroundVideo || defaultHeroData.bgVideo;
+  const isVideoMode = data.backgroundMediaType === 'video' || (data.backgroundMediaType !== 'image' && !!bgVideo);
 
   return (
     <section className="relative w-full h-[90vh] min-h-[720px] lg:min-h-[850px] bg-black text-white flex items-center overflow-hidden py-20 lg:py-32">
       {/* Background Image / Video Layer */}
       <div className="absolute inset-0 z-0">
-        {videoSrc ? (
+        {isVideoMode && bgVideo ? (
           <video
             autoPlay
             loop
             muted
             playsInline
             poster={bgImage}
-            className="w-full h-full object-cover object-center opacity-40 mix-blend-overlay"
-          >
-            <source src={videoSrc} type="video/mp4" />
-          </video>
-        ) : (
+            className="w-full h-full object-cover object-center"
+            src={bgVideo}
+            onError={(e) => {
+              e.target.style.display = 'none';
+            }}
+          />
+        ) : null}
+
+        {(!isVideoMode || !bgVideo) && (
           <img
             src={bgImage}
             alt="Portfolio Background"
             className="w-full h-full object-cover object-center"
           />
         )}
-        {/* Dark Vignette Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/70 to-black/50" />
       </div>
 
       {/* Hero Content Container */}

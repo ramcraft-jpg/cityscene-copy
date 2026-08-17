@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getHomeSectionContent, updateHomeSectionContent, uploadHomeMedia } from '../../../services/homeContentService';
 import { getBlogs, createBlog, updateBlog, deleteBlog } from '../../../services/blogService';
+import AdminHeroMediaControl from '../../../components/admin/AdminHeroMediaControl';
 
 export default function AdminBlogArticles() {
   const [gridHeader, setGridHeader] = useState({
@@ -401,57 +402,51 @@ export default function AdminBlogArticles() {
                 />
               </div>
 
-              {/* Cover Image */}
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">Featured Cover Image</label>
-                <div className="flex items-center gap-3 bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-                  <div className="w-16 h-12 rounded-lg overflow-hidden bg-slate-900 shrink-0 border border-slate-300">
-                    <img src={selectedBlog.image} alt="Preview" className="w-full h-full object-cover" />
-                  </div>
-                  <div className="flex-1 space-y-1 w-full">
-                    <input
-                      type="text"
-                      value={selectedBlog.image || ''}
-                      onChange={(e) => setSelectedBlog({ ...selectedBlog, image: e.target.value })}
-                      className="w-full px-2.5 py-1 text-xs border border-slate-300 rounded bg-white"
-                    />
-                    <label className="cursor-pointer px-3 py-1 bg-slate-800 hover:bg-slate-900 text-white text-[11px] font-bold rounded inline-block">
-                      {uploading ? 'Uploading...' : 'Replace Image'}
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => handleMediaUpload(e, (url) => setSelectedBlog({ ...selectedBlog, image: url }))}
-                        disabled={uploading}
-                        className="hidden"
-                      />
-                    </label>
-                  </div>
-                </div>
-              </div>
-
-              {/* Header Video */}
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">Article Header Video (Optional)</label>
-                <div className="bg-slate-50 p-2 rounded-xl border border-slate-200 flex items-center gap-2">
-                  <input
-                    type="text"
-                    value={selectedBlog.video || ''}
-                    onChange={(e) => setSelectedBlog({ ...selectedBlog, video: e.target.value })}
-                    className="w-full px-2.5 py-1 text-xs border border-slate-300 rounded bg-white font-mono"
-                    placeholder="Video URL (optional)"
-                  />
-                  <label className="cursor-pointer px-3 py-1 bg-slate-800 hover:bg-slate-900 text-white text-[11px] font-bold rounded shrink-0">
-                    {uploading ? 'Uploading...' : 'Replace Video'}
-                    <input
-                      type="file"
-                      accept="video/*"
-                      onChange={(e) => handleMediaUpload(e, (url) => setSelectedBlog({ ...selectedBlog, video: url }))}
-                      disabled={uploading}
-                      className="hidden"
-                    />
-                  </label>
-                </div>
-              </div>
+              {/* Background Media Management for Blog Header/Hero */}
+              <AdminHeroMediaControl
+                mediaType={selectedBlog.backgroundMediaType || (selectedBlog.heroVideo || selectedBlog.video ? 'video' : 'image')}
+                imageUrl={selectedBlog.image || selectedBlog.backgroundImage || ''}
+                videoUrl={selectedBlog.video || selectedBlog.heroVideo || selectedBlog.backgroundVideo || ''}
+                onChangeMediaType={(type) => setSelectedBlog({ ...selectedBlog, backgroundMediaType: type })}
+                onChangeImage={(url) => setSelectedBlog({ ...selectedBlog, image: url, backgroundImage: url })}
+                onChangeVideo={(url) => setSelectedBlog({ ...selectedBlog, video: url, heroVideo: url, backgroundVideo: url })}
+                uploading={uploading}
+                onUpload={async (file, type) => {
+                  if (!file) return;
+                  try {
+                    setUploading(true);
+                    const fileUrl = await uploadHomeMedia(file);
+                    if (type === 'video') {
+                      setSelectedBlog((prev) => ({
+                        ...prev,
+                        video: fileUrl,
+                        heroVideo: fileUrl,
+                        backgroundVideo: fileUrl,
+                        backgroundMediaType: 'video'
+                      }));
+                    } else {
+                      setSelectedBlog((prev) => ({
+                        ...prev,
+                        image: fileUrl,
+                        backgroundImage: fileUrl,
+                        backgroundMediaType: 'image'
+                      }));
+                    }
+                    setMessage({ type: 'success', text: 'Media uploaded successfully.' });
+                  } catch (err) {
+                    setMessage({ type: 'error', text: err.message || 'Media upload failed.' });
+                  } finally {
+                    setUploading(false);
+                  }
+                }}
+                onRemoveMedia={(type) => {
+                  if (type === 'video') {
+                    setSelectedBlog({ ...selectedBlog, video: '', heroVideo: '', backgroundVideo: '', backgroundMediaType: 'image' });
+                  } else {
+                    setSelectedBlog({ ...selectedBlog, image: '', backgroundImage: '' });
+                  }
+                }}
+              />
 
               <div className="grid grid-cols-2 gap-4">
                 <div>

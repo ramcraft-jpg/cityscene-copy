@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getHomeSectionContent, updateHomeSectionContent, uploadHomeMedia } from '../../../services/homeContentService';
 import { getProjects, createProject, updateProject, deleteProject } from '../../../services/projectService';
+import AdminHeroMediaControl from '../../../components/admin/AdminHeroMediaControl';
 
 export default function AdminPortfolioProjects() {
   const [gridHeader, setGridHeader] = useState({
@@ -531,6 +532,51 @@ export default function AdminPortfolioProjects() {
                       placeholder="e.g. HealthConnect System"
                     />
                   </div>
+
+                  {/* Background Media Management for Portfolio Detail Hero */}
+                  <AdminHeroMediaControl
+                    mediaType={selectedProject.backgroundMediaType || (selectedProject.heroVideo || selectedProject.video ? 'video' : 'image')}
+                    imageUrl={selectedProject.heroImage || selectedProject.image || selectedProject.backgroundImage || ''}
+                    videoUrl={selectedProject.heroVideo || selectedProject.video || selectedProject.backgroundVideo || ''}
+                    onChangeMediaType={(type) => setSelectedProject({ ...selectedProject, backgroundMediaType: type })}
+                    onChangeImage={(url) => setSelectedProject({ ...selectedProject, heroImage: url, backgroundImage: url })}
+                    onChangeVideo={(url) => setSelectedProject({ ...selectedProject, heroVideo: url, backgroundVideo: url })}
+                    uploading={uploading}
+                    onUpload={async (file, type) => {
+                      if (!file) return;
+                      try {
+                        setUploading(true);
+                        const fileUrl = await uploadHomeMedia(file);
+                        if (type === 'video') {
+                          setSelectedProject((prev) => ({
+                            ...prev,
+                            heroVideo: fileUrl,
+                            backgroundVideo: fileUrl,
+                            backgroundMediaType: 'video'
+                          }));
+                        } else {
+                          setSelectedProject((prev) => ({
+                            ...prev,
+                            heroImage: fileUrl,
+                            backgroundImage: fileUrl,
+                            backgroundMediaType: 'image'
+                          }));
+                        }
+                        setMessage({ type: 'success', text: 'Media uploaded successfully.' });
+                      } catch (err) {
+                        setMessage({ type: 'error', text: err.message || 'Media upload failed.' });
+                      } finally {
+                        setUploading(false);
+                      }
+                    }}
+                    onRemoveMedia={(type) => {
+                      if (type === 'video') {
+                        setSelectedProject({ ...selectedProject, heroVideo: '', video: '', backgroundVideo: '', backgroundMediaType: 'image' });
+                      } else {
+                        setSelectedProject({ ...selectedProject, heroImage: '', backgroundImage: '' });
+                      }
+                    }}
+                  />
 
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">Full Description / System Overview (Paragraphs separated by double line breaks)</label>

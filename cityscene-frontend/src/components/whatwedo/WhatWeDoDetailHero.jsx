@@ -4,19 +4,39 @@ import { Link } from 'react-router-dom';
 export default function WhatWeDoDetailHero({ service }) {
   if (!service) return null;
 
+  const videoSrc = service.heroVideo || service.backgroundVideo || service.video;
+  const imageSrc = service.heroImage || service.backgroundImage || service.image;
+  const isVideoMode = service.backgroundMediaType === 'video' || (service.backgroundMediaType !== 'image' && !!videoSrc);
+
   return (
     <section className="w-full bg-white py-12 md:py-20 border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* Left Column: Visual Image Container */}
+          {/* Left Column: Visual Media Container */}
           <div className="lg:col-span-6 order-2 lg:order-1">
             <div className="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-gray-100 aspect-[4/3]">
-              <img
-                src={service.heroImage || service.image}
-                alt={service.displayTitle}
-                className="w-full h-full object-cover object-center"
-              />
-              <div className="absolute inset-0 bg-gradient-to-tr from-black/20 via-transparent to-transparent pointer-events-none" />
+              {isVideoMode && videoSrc ? (
+                <video
+                  src={videoSrc}
+                  poster={imageSrc}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-cover object-center"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                  }}
+                />
+              ) : null}
+
+              {(!isVideoMode || !videoSrc) && (
+                <img
+                  src={imageSrc}
+                  alt={service.displayTitle}
+                  className="w-full h-full object-cover object-center"
+                />
+              )}
             </div>
           </div>
 

@@ -26,33 +26,36 @@ export default function CareerHero() {
       .catch((err) => console.error('Error fetching CareerHero API data:', err));
   }, []);
 
-  const bgImage = data.bgImage || defaultHeroData.bgImage;
+  const bgImage = data.bgImage || data.backgroundImage || defaultHeroData.bgImage;
+  const bgVideo = data.bgVideo || data.backgroundVideo || defaultHeroData.bgVideo;
+  const isVideoMode = data.backgroundMediaType === 'video' || (data.backgroundMediaType !== 'image' && !!bgVideo);
 
   return (
-    <section className="relative w-full min-h-[720px] lg:min-h-[850px] h-[88vh] bg-gradient-to-r from-[#023136] via-[#044c53] to-[#016870] overflow-hidden flex items-center">
-      {/* Background Technology Workspace Image Overlay */}
+    <section className="relative w-full min-h-[720px] lg:min-h-[850px] h-[88vh] bg-black overflow-hidden flex items-center">
+      {/* Background Technology Workspace Image Layer */}
       <div className="absolute inset-0 z-0">
-        {data.bgVideo ? (
+        {isVideoMode && bgVideo ? (
           <video
             autoPlay
             loop
             muted
             playsInline
             poster={bgImage}
-            className="w-full h-full object-cover opacity-35 mix-blend-overlay"
-          >
-            <source src={data.bgVideo} type="video/mp4" />
-          </video>
-        ) : (
+            className="w-full h-full object-cover"
+            src={bgVideo}
+            onError={(e) => {
+              e.target.style.display = 'none';
+            }}
+          />
+        ) : null}
+
+        {(!isVideoMode || !bgVideo) && (
           <img
             src={bgImage}
             alt="Collaborative engineering workplace"
-            className="w-full h-full object-cover object-center opacity-35 mix-blend-overlay"
+            className="w-full h-full object-cover object-center"
           />
         )}
-        {/* Ambient Teal Lighting Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#032a2f]/95 via-[#033a41]/85 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#022125] via-transparent to-transparent" />
       </div>
 
       {/* Hero Content */}

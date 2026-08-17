@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getHomeSectionContent, updateHomeSectionContent, uploadHomeMedia } from '../../../services/homeContentService';
+import AdminHeroMediaControl from '../../../components/admin/AdminHeroMediaControl';
 
 export default function AdminHomeHero() {
   const [loading, setLoading] = useState(true);
@@ -14,7 +15,9 @@ export default function AdminHomeHero() {
         titleLine1: '',
         titleLine2: '',
         subtitle: '',
-        image: ''
+        backgroundMediaType: 'image',
+        image: '',
+        video: ''
       }
     ],
     button1Text: 'About Us',
@@ -54,6 +57,8 @@ export default function AdminHomeHero() {
       titleLine1: 'New Headline Title',
       titleLine2: 'Highlighted Subtitle',
       subtitle: 'Write short compelling description here.',
+      backgroundMediaType: 'video',
+      video: 'https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-code-42866-large.mp4',
       image: '/assets/home/hero/hero-1.jpg'
     };
     setFormData({ ...formData, slides: [...formData.slides, newSlide] });
@@ -68,20 +73,53 @@ export default function AdminHomeHero() {
     setFormData({ ...formData, slides: updated });
   };
 
-  const handleMediaUpload = async (index, event) => {
-    const file = event.target.files[0];
+  const handleMediaUpload = async (index, file, targetType) => {
     if (!file) return;
 
     try {
       setUploadingIdx(index);
       const fileUrl = await uploadHomeMedia(file);
-      handleSlideChange(index, 'image', fileUrl);
-      setMessage({ type: 'success', text: 'Image uploaded successfully.' });
+      const updatedSlides = [...formData.slides];
+      const isVid = targetType === 'video' || file.type.startsWith('video/');
+
+      if (isVid) {
+        updatedSlides[index] = {
+          ...updatedSlides[index],
+          video: fileUrl,
+          backgroundMediaType: 'video'
+        };
+      } else {
+        updatedSlides[index] = {
+          ...updatedSlides[index],
+          image: fileUrl,
+          backgroundMediaType: 'image'
+        };
+      }
+
+      setFormData({ ...formData, slides: updatedSlides });
+      setMessage({ type: 'success', text: `${isVid ? 'Video' : 'Image'} uploaded successfully.` });
     } catch (err) {
-      setMessage({ type: 'error', text: err.message || 'Image upload failed.' });
+      setMessage({ type: 'error', text: err.message || 'Media upload failed.' });
     } finally {
       setUploadingIdx(null);
     }
+  };
+
+  const handleRemoveMedia = (index, targetType) => {
+    const updatedSlides = [...formData.slides];
+    if (targetType === 'video') {
+      updatedSlides[index] = {
+        ...updatedSlides[index],
+        video: '',
+        backgroundMediaType: 'image'
+      };
+    } else {
+      updatedSlides[index] = {
+        ...updatedSlides[index],
+        image: ''
+      };
+    }
+    setFormData({ ...formData, slides: updatedSlides });
   };
 
   const handleSubmit = async (e) => {
@@ -108,7 +146,7 @@ export default function AdminHomeHero() {
       <div className="border-b border-slate-200 pb-4 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-black text-slate-900 tracking-tight">HOME HERO MANAGEMENT</h1>
-          <p className="text-xs text-slate-500 font-medium">Manage slides, headlines, background media & CTA buttons for HomeHero section.</p>
+          <p className="text-xs text-slate-500 font-medium">Manage slides, headlines, background video & image media & CTA buttons for HomeHero section.</p>
         </div>
       </div>
 
@@ -193,41 +231,18 @@ export default function AdminHomeHero() {
                 />
               </div>
 
-              {/* Media Preview & Replacement */}
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">Background Image</label>
-                <div className="flex flex-col sm:flex-row items-center gap-4 bg-slate-50 p-3 rounded-xl border border-slate-200">
-                  <div className="w-32 h-20 rounded-lg overflow-hidden bg-slate-200 shrink-0 border border-slate-300">
-                    <img
-                      src={slide.image}
-                      alt="Hero slide preview"
-                      className="w-full h-full object-cover"
-                      onError={(e) => { e.target.src = slide.fallback || 'https://via.placeholder.com/300x200'; }}
-                    />
-                  </div>
-                  <div className="flex-1 space-y-2 w-full">
-                    <input
-                      type="text"
-                      value={slide.image || ''}
-                      onChange={(e) => handleSlideChange(idx, 'image', e.target.value)}
-                      className="w-full px-3 py-1.5 text-xs border border-slate-300 rounded-lg bg-white"
-                      placeholder="Image URL or Path"
-                    />
-                    <div className="flex items-center gap-2">
-                      <label className="cursor-pointer px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-lg transition shadow-sm inline-block">
-                        {uploadingIdx === idx ? 'Uploading...' : 'Replace Image'}
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={(e) => handleMediaUpload(idx, e)}
-                          disabled={uploadingIdx === idx}
-                          className="hidden"
-                        />
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {/* Media Preview & Replacement Component */}
+              <AdminHeroMediaControl
+                mediaType={slide.backgroundMediaType || (slide.video ? 'video' : 'image')}
+                imageUrl={slide.image || ''}
+                videoUrl={slide.video || ''}
+                onChangeMediaType={(type) => handleSlideChange(idx, 'backgroundMediaType', type)}
+                onChangeImage={(url) => handleSlideChange(idx, 'image', url)}
+                onChangeVideo={(url) => handleSlideChange(idx, 'video', url)}
+                uploading={uploadingIdx === idx}
+                onUpload={(file, type) => handleMediaUpload(idx, file, type)}
+                onRemoveMedia={(type) => handleRemoveMedia(idx, type)}
+              />
             </div>
           ))}
         </div>

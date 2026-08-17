@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getHomeSectionContent, updateHomeSectionContent, uploadHomeMedia } from '../../../services/homeContentService';
 import { getServices, createService, updateService, deleteService } from '../../../services/serviceService';
+import AdminHeroMediaControl from '../../../components/admin/AdminHeroMediaControl';
 
 export default function AdminWhatWeDoServices() {
   const [servicesList, setServicesList] = useState([]);
@@ -454,16 +455,6 @@ export default function AdminWhatWeDoServices() {
                         placeholder="e.g. Mobile App Development Services"
                       />
                     </div>
-                    <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1">Detail Hero Image</label>
-                      <input
-                        type="text"
-                        value={selectedService.heroImage || ''}
-                        onChange={(e) => setSelectedService({ ...selectedService, heroImage: e.target.value })}
-                        className="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg"
-                        placeholder="Hero Image URL"
-                      />
-                    </div>
                   </div>
 
                   <div>
@@ -476,6 +467,51 @@ export default function AdminWhatWeDoServices() {
                       placeholder="Supporting text for detail hero..."
                     />
                   </div>
+
+                  {/* Detail Hero Background Media Management */}
+                  <AdminHeroMediaControl
+                    mediaType={selectedService.backgroundMediaType || (selectedService.heroVideo || selectedService.backgroundVideo ? 'video' : 'image')}
+                    imageUrl={selectedService.heroImage || selectedService.backgroundImage || ''}
+                    videoUrl={selectedService.heroVideo || selectedService.backgroundVideo || ''}
+                    onChangeMediaType={(type) => setSelectedService({ ...selectedService, backgroundMediaType: type })}
+                    onChangeImage={(url) => setSelectedService({ ...selectedService, heroImage: url, backgroundImage: url })}
+                    onChangeVideo={(url) => setSelectedService({ ...selectedService, heroVideo: url, backgroundVideo: url })}
+                    uploading={uploading}
+                    onUpload={async (file, type) => {
+                      if (!file) return;
+                      try {
+                        setUploading(true);
+                        const fileUrl = await uploadHomeMedia(file);
+                        if (type === 'video') {
+                          setSelectedService((prev) => ({
+                            ...prev,
+                            heroVideo: fileUrl,
+                            backgroundVideo: fileUrl,
+                            backgroundMediaType: 'video'
+                          }));
+                        } else {
+                          setSelectedService((prev) => ({
+                            ...prev,
+                            heroImage: fileUrl,
+                            backgroundImage: fileUrl,
+                            backgroundMediaType: 'image'
+                          }));
+                        }
+                        setMessage({ type: 'success', text: 'Media uploaded successfully.' });
+                      } catch (err) {
+                        setMessage({ type: 'error', text: err.message || 'Media upload failed.' });
+                      } finally {
+                        setUploading(false);
+                      }
+                    }}
+                    onRemoveMedia={(type) => {
+                      if (type === 'video') {
+                        setSelectedService({ ...selectedService, heroVideo: '', backgroundVideo: '', backgroundMediaType: 'image' });
+                      } else {
+                        setSelectedService({ ...selectedService, heroImage: '', backgroundImage: '' });
+                      }
+                    }}
+                  />
 
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">Introduction Paragraph 1</label>

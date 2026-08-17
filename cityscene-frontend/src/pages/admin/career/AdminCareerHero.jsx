@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getHomeSectionContent, updateHomeSectionContent, uploadHomeMedia } from '../../../services/homeContentService';
+import AdminHeroMediaControl from '../../../components/admin/AdminHeroMediaControl';
 
 export default function AdminCareerHero() {
   const [data, setData] = useState({
@@ -151,59 +152,40 @@ export default function AdminCareerHero() {
           </div>
         </div>
 
-        {/* Background Image */}
-        <div>
-          <label className="block text-xs font-bold text-slate-700 mb-1">Background Image</label>
-          <div className="flex flex-col sm:flex-row items-center gap-4 bg-slate-50 p-3 rounded-xl border border-slate-200">
-            <div className="w-36 h-20 rounded-lg overflow-hidden bg-slate-200 shrink-0 border border-slate-300">
-              <img src={data.bgImage} alt="Career Hero BG" className="w-full h-full object-cover" />
-            </div>
-            <div className="flex-1 space-y-2 w-full">
-              <input
-                type="text"
-                value={data.bgImage || ''}
-                onChange={(e) => setData({ ...data, bgImage: e.target.value })}
-                className="w-full px-3 py-1.5 text-xs border border-slate-300 rounded-lg bg-white"
-              />
-              <label className="cursor-pointer px-3.5 py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-lg transition inline-block">
-                {uploading ? 'Uploading...' : 'Replace Image'}
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => handleMediaUpload(e, 'bgImage')}
-                  disabled={uploading}
-                  className="hidden"
-                />
-              </label>
-            </div>
-          </div>
-        </div>
-
-        {/* Background Video */}
-        <div>
-          <label className="block text-xs font-bold text-slate-700 mb-1">Background Video (Optional)</label>
-          <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-2">
-            <div className="flex flex-col sm:flex-row items-center gap-3">
-              <input
-                type="text"
-                value={data.bgVideo || ''}
-                onChange={(e) => setData({ ...data, bgVideo: e.target.value })}
-                className="w-full px-3 py-1.5 text-xs border border-slate-300 rounded-lg bg-white font-mono"
-                placeholder="Video URL (optional)"
-              />
-              <label className="cursor-pointer px-4 py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-lg transition shrink-0">
-                {uploading ? 'Uploading...' : 'Replace Video'}
-                <input
-                  type="file"
-                  accept="video/*"
-                  onChange={(e) => handleMediaUpload(e, 'bgVideo')}
-                  disabled={uploading}
-                  className="hidden"
-                />
-              </label>
-            </div>
-          </div>
-        </div>
+        {/* Background Media Management Component */}
+        <AdminHeroMediaControl
+          mediaType={data.backgroundMediaType || (data.bgVideo ? 'video' : 'image')}
+          imageUrl={data.bgImage || data.backgroundImage || ''}
+          videoUrl={data.bgVideo || data.backgroundVideo || ''}
+          onChangeMediaType={(type) => setData({ ...data, backgroundMediaType: type })}
+          onChangeImage={(url) => setData({ ...data, bgImage: url, backgroundImage: url })}
+          onChangeVideo={(url) => setData({ ...data, bgVideo: url, backgroundVideo: url })}
+          uploading={uploading}
+          onUpload={async (file, type) => {
+            if (!file) return;
+            try {
+              setUploading(true);
+              const fileUrl = await uploadHomeMedia(file);
+              if (type === 'video') {
+                setData((prev) => ({ ...prev, bgVideo: fileUrl, backgroundVideo: fileUrl, backgroundMediaType: 'video' }));
+              } else {
+                setData((prev) => ({ ...prev, bgImage: fileUrl, backgroundImage: fileUrl, backgroundMediaType: 'image' }));
+              }
+              setMessage({ type: 'success', text: 'Media uploaded successfully.' });
+            } catch (err) {
+              setMessage({ type: 'error', text: err.message || 'Media upload failed.' });
+            } finally {
+              setUploading(false);
+            }
+          }}
+          onRemoveMedia={(type) => {
+            if (type === 'video') {
+              setData({ ...data, bgVideo: '', backgroundVideo: '', backgroundMediaType: 'image' });
+            } else {
+              setData({ ...data, bgImage: '', backgroundImage: '' });
+            }
+          }}
+        />
 
         <div className="pt-4 flex justify-end">
           <button

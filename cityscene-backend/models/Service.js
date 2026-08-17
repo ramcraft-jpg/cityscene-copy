@@ -56,6 +56,22 @@ const serviceSchema = new mongoose.Schema(
     heroImage: {
       type: String
     },
+    backgroundMediaType: {
+      type: String,
+      default: 'image'
+    },
+    backgroundImage: {
+      type: String,
+      default: ''
+    },
+    backgroundVideo: {
+      type: String,
+      default: ''
+    },
+    heroVideo: {
+      type: String,
+      default: ''
+    },
     introP1: {
       type: String
     },

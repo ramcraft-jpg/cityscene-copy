@@ -27,34 +27,40 @@ export default function HomeCommitmentSection() {
       .catch((err) => console.error('Error fetching HomeCommitment API data:', err));
   }, []);
 
-  const videoSrc = data.videoSrc || defaultCommitmentData.videoSrc;
-  const videoFallback = data.videoFallback || defaultCommitmentData.videoFallback;
-  const posterSrc = data.posterSrc || defaultCommitmentData.posterSrc;
-  const posterFallback = data.posterFallback || defaultCommitmentData.posterFallback;
+  const videoSrc = data.videoSrc || data.backgroundVideo || defaultCommitmentData.videoFallback;
+  const posterSrc = data.posterSrc || data.backgroundImage || defaultCommitmentData.posterFallback;
+  const isVideoMode = data.backgroundMediaType === 'video' || (data.backgroundMediaType !== 'image' && !!videoSrc);
 
   return (
     <section className="relative w-full min-h-screen min-h-[100svh] bg-black text-white flex items-center overflow-hidden border-b border-white/10 py-16 lg:py-24">
       {/* Background Video / Media with Fallback */}
-      <video
-        key={videoSrc}
-        autoPlay
-        loop
-        muted
-        playsInline
-        poster={posterSrc}
-        onError={(e) => {
-          if (e.target.poster !== posterFallback) {
-            e.target.poster = posterFallback;
-          }
-        }}
-        className="absolute inset-0 w-full h-full object-cover z-0"
-      >
-        <source src={videoSrc} type="video/mp4" />
-        <source src={videoFallback} type="video/mp4" />
-      </video>
+      {isVideoMode && videoSrc ? (
+        <video
+          key={videoSrc}
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster={posterSrc}
+          onError={(e) => {
+            if (e.target.src !== defaultCommitmentData.videoFallback) {
+              e.target.src = defaultCommitmentData.videoFallback;
+            }
+          }}
+          className="absolute inset-0 w-full h-full object-cover z-0"
+        >
+          <source src={videoSrc} type="video/mp4" />
+          <source src={defaultCommitmentData.videoFallback} type="video/mp4" />
+        </video>
+      ) : null}
 
-      {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/75 to-black/50 z-10 pointer-events-none" />
+      {(!isVideoMode || !videoSrc) && (
+        <img
+          src={posterSrc}
+          alt="Commitment background"
+          className="absolute inset-0 w-full h-full object-cover z-0"
+        />
+      )}
 
       {/* Hero-Spaced Content Container */}
       <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">

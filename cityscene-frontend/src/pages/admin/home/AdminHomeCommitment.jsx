@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getHomeSectionContent, updateHomeSectionContent, uploadHomeMedia } from '../../../services/homeContentService';
+import AdminHeroMediaControl from '../../../components/admin/AdminHeroMediaControl';
 
 export default function AdminHomeCommitment() {
   const [loading, setLoading] = useState(true);
@@ -142,70 +143,43 @@ export default function AdminHomeCommitment() {
           />
         </div>
 
-        {/* Video Media Field */}
-        <div>
-          <label className="block text-xs font-bold text-slate-700 mb-1">Background Video</label>
-          <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-3">
-            <div className="flex flex-col sm:flex-row items-center gap-3">
-              <input
-                type="text"
-                value={formData.videoSrc || ''}
-                onChange={(e) => setFormData({ ...formData, videoSrc: e.target.value })}
-                className="w-full px-3 py-1.5 text-xs border border-slate-300 rounded-lg bg-white font-mono"
-                placeholder="Video URL or Path"
-              />
-              <label className="cursor-pointer px-4 py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-lg transition shrink-0 shadow-sm">
-                {uploadingVideo ? 'Uploading Video...' : 'Replace Video'}
-                <input
-                  type="file"
-                  accept="video/*"
-                  onChange={handleVideoUpload}
-                  disabled={uploadingVideo}
-                  className="hidden"
-                />
-              </label>
-            </div>
-            {formData.videoSrc && (
-              <div className="text-[11px] text-slate-500 flex items-center gap-2">
-                <span>Current Video Path:</span>
-                <span className="font-mono text-slate-800 bg-white px-2 py-0.5 rounded border border-slate-200">{formData.videoSrc}</span>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Poster Image Media Field */}
-        <div>
-          <label className="block text-xs font-bold text-slate-700 mb-1">Video Poster Image</label>
-          <div className="flex flex-col sm:flex-row items-center gap-4 bg-slate-50 p-3 rounded-xl border border-slate-200">
-            <div className="w-36 h-20 rounded-lg overflow-hidden bg-slate-200 shrink-0 border border-slate-300">
-              <img
-                src={formData.posterSrc}
-                alt="Poster preview"
-                className="w-full h-full object-cover"
-                onError={(e) => { e.target.src = formData.posterFallback || 'https://via.placeholder.com/300x150'; }}
-              />
-            </div>
-            <div className="flex-1 space-y-2 w-full">
-              <input
-                type="text"
-                value={formData.posterSrc || ''}
-                onChange={(e) => setFormData({ ...formData, posterSrc: e.target.value })}
-                className="w-full px-3 py-1.5 text-xs border border-slate-300 rounded-lg bg-white"
-              />
-              <label className="cursor-pointer px-3.5 py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-lg transition inline-block">
-                {uploadingPoster ? 'Uploading...' : 'Replace Poster'}
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handlePosterUpload}
-                  disabled={uploadingPoster}
-                  className="hidden"
-                />
-              </label>
-            </div>
-          </div>
-        </div>
+        {/* Background Media Management */}
+        <AdminHeroMediaControl
+          mediaType={formData.backgroundMediaType || (formData.videoSrc || formData.backgroundVideo ? 'video' : 'image')}
+          imageUrl={formData.posterSrc || formData.backgroundImage || ''}
+          videoUrl={formData.videoSrc || formData.backgroundVideo || ''}
+          onChangeMediaType={(type) => setFormData({ ...formData, backgroundMediaType: type })}
+          onChangeImage={(url) => setFormData({ ...formData, posterSrc: url, backgroundImage: url })}
+          onChangeVideo={(url) => setFormData({ ...formData, videoSrc: url, backgroundVideo: url })}
+          uploading={uploadingVideo || uploadingPoster}
+          onUpload={async (file, type) => {
+            if (!file) return;
+            try {
+              if (type === 'video') {
+                setUploadingVideo(true);
+                const fileUrl = await uploadHomeMedia(file);
+                setFormData((prev) => ({ ...prev, videoSrc: fileUrl, backgroundVideo: fileUrl, backgroundMediaType: 'video' }));
+              } else {
+                setUploadingPoster(true);
+                const fileUrl = await uploadHomeMedia(file);
+                setFormData((prev) => ({ ...prev, posterSrc: fileUrl, backgroundImage: fileUrl, backgroundMediaType: 'image' }));
+              }
+              setMessage({ type: 'success', text: 'Media uploaded successfully.' });
+            } catch (err) {
+              setMessage({ type: 'error', text: err.message || 'Media upload failed.' });
+            } finally {
+              setUploadingVideo(false);
+              setUploadingPoster(false);
+            }
+          }}
+          onRemoveMedia={(type) => {
+            if (type === 'video') {
+              setFormData({ ...formData, videoSrc: '', backgroundVideo: '', backgroundMediaType: 'image' });
+            } else {
+              setFormData({ ...formData, posterSrc: '', backgroundImage: '' });
+            }
+          }}
+        />
 
         {/* CTA Button */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-slate-100">

@@ -3,17 +3,38 @@ import React from 'react';
 export default function PortfolioDetailHero({ project, categoryCaps, titleSystem, onOpenDemo }) {
   if (!project) return null;
 
+  const videoSrc = project.heroVideo || project.backgroundVideo || project.video;
+  const imageSrc = project.heroImage || project.backgroundImage || project.image;
+  const isVideoMode = project.backgroundMediaType === 'video' || (project.backgroundMediaType !== 'image' && !!videoSrc);
+
   return (
     <section className="w-full bg-white border-b border-gray-100 py-10 lg:py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left Column Image */}
-          <div className="w-full rounded-2xl overflow-hidden shadow-sm border border-gray-100 bg-gray-50">
-            <img
-              src={project.image}
-              alt={project.title}
-              className="w-full max-h-[460px] object-cover"
-            />
+          {/* Left Column Media Container */}
+          <div className="w-full rounded-2xl overflow-hidden shadow-sm border border-gray-100 bg-gray-50 aspect-[4/3] relative">
+            {isVideoMode && videoSrc ? (
+              <video
+                src={videoSrc}
+                poster={imageSrc}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                }}
+              />
+            ) : null}
+
+            {(!isVideoMode || !videoSrc) && (
+              <img
+                src={imageSrc}
+                alt={project.title}
+                className="w-full h-full object-cover"
+              />
+            )}
           </div>
 
           {/* Right Column Details */}

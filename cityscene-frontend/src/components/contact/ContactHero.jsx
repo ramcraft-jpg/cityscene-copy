@@ -89,32 +89,36 @@ export default function ContactHero() {
     }
   };
 
-  const bgImage = heroData.bgImage || defaultHero.bgImage;
-  const bgVideo = heroData.bgVideo;
+  const bgImage = heroData.bgImage || heroData.backgroundImage || defaultHero.bgImage;
+  const bgVideo = heroData.bgVideo || heroData.backgroundVideo;
+  const isVideoMode = heroData.backgroundMediaType === 'video' || (heroData.backgroundMediaType !== 'image' && !!bgVideo);
 
   return (
     <section className="relative w-full bg-[#1c1917] text-white min-h-[620px] lg:min-h-[700px] flex items-center py-12 lg:py-20 overflow-hidden">
-      {/* Background Overhead Image with Dark Translucent Vignette */}
+      {/* Background Overhead Image / Video Layer */}
       <div className="absolute inset-0 z-0">
-        {bgVideo ? (
+        {isVideoMode && bgVideo ? (
           <video
             autoPlay
             loop
             muted
             playsInline
             poster={bgImage}
-            className="w-full h-full object-cover object-center opacity-40 mix-blend-overlay"
-          >
-            <source src={bgVideo} type="video/mp4" />
-          </video>
-        ) : (
+            className="w-full h-full object-cover object-center"
+            src={bgVideo}
+            onError={(e) => {
+              e.target.style.display = 'none';
+            }}
+          />
+        ) : null}
+
+        {(!isVideoMode || !bgVideo) && (
           <img
             src={bgImage}
             alt="Contact Us Background"
             className="w-full h-full object-cover object-center"
           />
         )}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/75 to-black/60" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">

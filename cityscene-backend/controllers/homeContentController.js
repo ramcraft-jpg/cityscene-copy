@@ -5,6 +5,7 @@ export const defaultHomeContent = {
     slides: [
       {
         id: 1,
+        video: 'https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-code-42866-large.mp4',
         image: '/assets/home/hero/hero-1.jpg',
         fallback: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1920&q=80',
         titleLine1: 'Transforming Visions',
@@ -13,6 +14,7 @@ export const defaultHomeContent = {
       },
       {
         id: 2,
+        video: 'https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-screens-31620-large.mp4',
         image: '/assets/home/hero/hero-2.jpg',
         fallback: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1920&q=80',
         titleLine1: 'Empowering Businesses',
@@ -21,6 +23,7 @@ export const defaultHomeContent = {
       },
       {
         id: 3,
+        video: 'https://assets.mixkit.co/videos/preview/mixkit-hands-on-a-laptop-keyboard-41555-large.mp4',
         image: '/assets/home/hero/hero-3.jpg',
         fallback: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80',
         titleLine1: 'Next-Gen Infrastructure',
@@ -95,9 +98,12 @@ export const defaultHomeContent = {
     badge: 'Partnering For Growth',
     heading: 'Our Commitment',
     description: 'Your success is our priority! We go beyond just providing IT solutions – we build partnerships that drive real growth.',
-    videoSrc: '/assets/home/commitment/commitment-video.mp4',
+    backgroundMediaType: 'video',
+    videoSrc: 'https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-code-42866-large.mp4',
+    backgroundVideo: 'https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-code-42866-large.mp4',
     videoFallback: 'https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-code-42866-large.mp4',
     posterSrc: '/assets/home/commitment/commitment-bg.jpg',
+    backgroundImage: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1920&q=80',
     posterFallback: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1920&q=80',
     buttonText: 'Learn More',
     buttonLink: '/about'
@@ -131,8 +137,11 @@ export const defaultHomeContent = {
     description: 'Helping businesses innovate and grow in the digital age.',
     buttonText: "Let's Talk",
     buttonLink: '/contact',
+    backgroundMediaType: 'image',
     bgImage: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=1920&q=80',
-    bgVideo: ''
+    backgroundImage: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=1920&q=80',
+    bgVideo: '',
+    backgroundVideo: ''
   },
   'whatwedo-innovation': {
     heading: 'Empowering Businesses with Innovation',
@@ -145,8 +154,11 @@ export const defaultHomeContent = {
     description: 'We provide top-notch, high-quality services tailored to meet your unique needs. Our expert solutions are designed to enhance your growth, efficiency, and creativity. Let us help you turn your vision into reality and achieve long-term success.',
     buttonText: "Let's Talk",
     buttonLink: '/contact',
+    backgroundMediaType: 'image',
     bgImage: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1920&q=80',
-    bgVideo: ''
+    backgroundImage: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1920&q=80',
+    bgVideo: '',
+    backgroundVideo: ''
   },
   'about-company': {
     paragraph1: 'At CityScene Global Private Limited, we understand the challenges businesses face in navigating today’s fast-paced, technology-driven world. Many companies grapple with outdated infrastructure, slow system performance, and the complexity of managing multiple IT solutions—all while trying to keep up with the latest advancements in Automation, AI, and Blockchain. These obstacles can hinder growth, drain resources, and create inefficiencies that disrupt operations.',
@@ -202,8 +214,11 @@ export const defaultHomeContent = {
     description: 'Find exciting career opportunities with us.',
     buttonText: 'Explore Jobs',
     buttonLink: '/career/apply',
+    backgroundMediaType: 'image',
     bgImage: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1920&q=80',
-    bgVideo: ''
+    backgroundImage: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1920&q=80',
+    bgVideo: '',
+    backgroundVideo: ''
   },
   'career-grid-header': {
     heading: 'Job Opportunities',
@@ -219,8 +234,11 @@ export const defaultHomeContent = {
     description: 'Purpose-driven digital work focused on delivering results that support your business direction.',
     buttonText: "Let's Talk",
     buttonLink: '/contact',
+    backgroundMediaType: 'image',
     bgImage: '/assets/images/portfolio-hero.jpg',
-    bgVideo: ''
+    backgroundImage: '/assets/images/portfolio-hero.jpg',
+    bgVideo: '',
+    backgroundVideo: ''
   },
   'portfolio-clients': {
     heading: 'Trusted by fast growing startups',
@@ -233,8 +251,11 @@ export const defaultHomeContent = {
     subheading: 'BLOG',
     title: 'Pioneering the\nNext Wave of\nTechnology',
     description: 'Innovative, scalable, and AI-driven solutions for a smarter digital world.',
+    backgroundMediaType: 'image',
     bgImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1920&q=80',
-    bgVideo: ''
+    backgroundImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1920&q=80',
+    bgVideo: '',
+    backgroundVideo: ''
   },
   'blog-intro': {
     heading: 'Technology is evolving rapidly - are you keeping up?',
@@ -247,8 +268,11 @@ export const defaultHomeContent = {
     subheading: "LET'S TALK",
     title: 'Contact\nUs',
     description: 'Bridging The Gap Between Ideas & Execution, Contact Us Today.',
+    backgroundMediaType: 'image',
     bgImage: '/assets/images/contact-hero.jpg',
-    bgVideo: ''
+    backgroundImage: '/assets/images/contact-hero.jpg',
+    bgVideo: '',
+    backgroundVideo: ''
   },
   'contact-intro': {
     heading: 'How can we\nassist you today?',

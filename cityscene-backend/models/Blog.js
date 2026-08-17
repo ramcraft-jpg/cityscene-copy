@@ -49,6 +49,22 @@ const blogSchema = new mongoose.Schema(
       type: String,
       default: ''
     },
+    backgroundMediaType: {
+      type: String,
+      default: 'image'
+    },
+    backgroundImage: {
+      type: String,
+      default: ''
+    },
+    backgroundVideo: {
+      type: String,
+      default: ''
+    },
+    heroVideo: {
+      type: String,
+      default: ''
+    },
     author: {
       type: String,
       default: 'CityScene Tech Team'

@@ -1,9 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
+const isVideoUrl = (url) => {
+  if (!url || typeof url !== 'string') return false;
+  const clean = url.split('?')[0].toLowerCase();
+  return (
+    clean.endsWith('.mp4') ||
+    clean.endsWith('.webm') ||
+    clean.endsWith('.mov') ||
+    clean.endsWith('.avi') ||
+    clean.endsWith('.mkv') ||
+    clean.includes('mixkit.co/videos') ||
+    clean.startsWith('data:video/')
+  );
+};
+
 const defaultHeroSlides = [
   {
     id: 1,
+    video: 'https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-code-42866-large.mp4',
     image: '/assets/home/hero/hero-1.jpg',
     fallback: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1920&q=80',
     titleLine1: 'Transforming Visions',
@@ -12,6 +27,7 @@ const defaultHeroSlides = [
   },
   {
     id: 2,
+    video: 'https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-screens-31620-large.mp4',
     image: '/assets/home/hero/hero-2.jpg',
     fallback: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1920&q=80',
     titleLine1: 'Empowering Businesses',
@@ -20,6 +36,7 @@ const defaultHeroSlides = [
   },
   {
     id: 3,
+    video: 'https://assets.mixkit.co/videos/preview/mixkit-hands-on-a-laptop-keyboard-41555-large.mp4',
     image: '/assets/home/hero/hero-3.jpg',
     fallback: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80',
     titleLine1: 'Next-Gen Infrastructure',
@@ -62,26 +79,47 @@ export default function HomeHero() {
   return (
     <section className="relative w-full min-h-[calc(100vh-64px)] min-h-[calc(100svh-64px)] bg-black text-white overflow-hidden flex items-center py-12 lg:py-0">
       {/* Slides Background */}
-      {slides.map((slide, idx) => (
-        <div
-          key={slide.id || idx}
-          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-            idx === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
-          }`}
-        >
-          <img
-            src={slide.image}
-            alt={slide.titleLine1}
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = slide.fallback || defaultHeroSlides[0].fallback;
-            }}
-            className="w-full h-full object-cover object-center transform scale-105 transition-transform duration-[7000ms] ease-out"
-          />
-          {/* Dark Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/70 to-black/40" />
-        </div>
-      ))}
+      {slides.map((slide, idx) => {
+        const videoSrc = slide.video || slide.videoSrc || (isVideoUrl(slide.image) ? slide.image : null);
+        const isVid = slide.backgroundMediaType === 'video' || (slide.backgroundMediaType !== 'image' && (!!videoSrc || isVideoUrl(slide.image)));
+
+        return (
+          <div
+            key={slide.id || idx}
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+              idx === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
+            }`}
+          >
+            {isVid && videoSrc ? (
+              <video
+                src={videoSrc}
+                poster={slide.image || slide.fallback}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover object-center transform scale-105 transition-transform duration-[7000ms] ease-out"
+                onError={(e) => {
+                  // Fallback to image if video fails to play/load
+                  e.target.style.display = 'none';
+                }}
+              />
+            ) : null}
+
+            {(!isVid || !videoSrc) && (
+              <img
+                src={slide.image}
+                alt={slide.titleLine1 || 'Hero slide'}
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = slide.fallback || defaultHeroSlides[0].fallback;
+                }}
+                className="w-full h-full object-cover object-center transform scale-105 transition-transform duration-[7000ms] ease-out"
+              />
+            )}
+          </div>
+        );
+      })}
 
       {/* Content Container */}
       <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
