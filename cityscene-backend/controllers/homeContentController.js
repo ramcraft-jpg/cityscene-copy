@@ -1,4 +1,4 @@
-import HomeContent from '../models/HomeContent.js';
+import { HomeContent } from '../models/HomeContent.js';
 
 export const defaultHomeContent = {
   hero: {
@@ -97,199 +97,61 @@ export const defaultHomeContent = {
   commitment: {
     badge: 'Partnering For Growth',
     heading: 'Our Commitment',
-    description: 'Your success is our priority! We go beyond just providing IT solutions – we build partnerships that drive real growth.',
-    backgroundMediaType: 'video',
-    videoSrc: 'https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-code-42866-large.mp4',
-    backgroundVideo: 'https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-code-42866-large.mp4',
-    videoFallback: 'https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-code-42866-large.mp4',
-    posterSrc: '/assets/home/commitment/commitment-bg.jpg',
-    backgroundImage: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1920&q=80',
-    posterFallback: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1920&q=80',
-    buttonText: 'Learn More',
-    buttonLink: '/about'
-  },
-  'client-adoption': {
-    badge: 'Our Process',
-    heading: 'How do we serve the client',
-    paragraph1: 'Our IT Client Adoption Process starts with the Initial Engagement phase, where we establish communication channels through digital platforms.',
-    paragraph2: 'We begin with an in-depth consultation—either virtual or in-person—to understand your IT requirements, business goals, and operational challenges. During this stage, we gather essential documentation, including current IT infrastructure details, application landscapes, workflows, and user requirements, ensuring a tailored solution that aligns with your strategic objectives.',
-    image: '/assets/home/adoption/adoption-1.jpg',
-    fallbackImage: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80',
-    buttonText: 'View All Topics',
-    buttonLink: '/services'
-  },
-  transformation: {
-    badge: 'Digital Leadership',
-    heading: 'Transformation starts here',
-    subtitle: 'Reimagine your future.',
-    description: 'Be part of an innovative team driving AI, Blockchain, and Smart City solutions. Work on global projects, grow with cutting-edge training, and shape the future of digital transformation.',
-    features: [
-      'Exciting global opportunities',
-      'AI & smart tech innovation',
-      'Career growth & learning.'
-    ],
-    buttonText: 'Connect With Us',
-    buttonLink: '/contact'
-  },
-  'whatwedo-hero': {
-    subheading: 'WHAT WE DO',
-    title: 'Professional Services Tailored for You',
-    description: 'Helping businesses innovate and grow in the digital age.',
-    buttonText: "Let's Talk",
-    buttonLink: '/contact',
-    backgroundMediaType: 'image',
-    bgImage: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=1920&q=80',
-    backgroundImage: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=1920&q=80',
-    bgVideo: '',
-    backgroundVideo: ''
-  },
-  'whatwedo-innovation': {
-    heading: 'Empowering Businesses with Innovation',
-    description: 'At CityScene Global, we help businesses thrive through cutting-edge solutions. Our services empower companies to achieve sustainable growth, enhance customer experiences, and stay ahead in the digital era.',
-    image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1000&q=80'
-  },
-  'about-hero': {
-    subheading: 'WHO WE ARE',
-    title: 'About Us',
-    description: 'We provide top-notch, high-quality services tailored to meet your unique needs. Our expert solutions are designed to enhance your growth, efficiency, and creativity. Let us help you turn your vision into reality and achieve long-term success.',
-    buttonText: "Let's Talk",
-    buttonLink: '/contact',
-    backgroundMediaType: 'image',
-    bgImage: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1920&q=80',
-    backgroundImage: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1920&q=80',
-    bgVideo: '',
-    backgroundVideo: ''
-  },
-  'about-company': {
-    paragraph1: 'At CityScene Global Private Limited, we understand the challenges businesses face in navigating today’s fast-paced, technology-driven world. Many companies grapple with outdated infrastructure, slow system performance, and the complexity of managing multiple IT solutions—all while trying to keep up with the latest advancements in Automation, AI, and Blockchain. These obstacles can hinder growth, drain resources, and create inefficiencies that disrupt operations.',
-    paragraph2: 'We are here to help. At CityScene Global, we specialize in delivering clear, practical, and customized IT solutions, leveraging cutting-edge technologies to empower your business. With more than Ten years of expertise, we have built a reputation as a trusted partner, providing innovative solutions that streamline processes, enhance productivity, and drive business success.',
-    image: ''
-  },
-  'about-people': {
-    subheading: 'Our People',
-    title: 'How do you drive meaningful change? By recruiting, appreciating, and supporting top talent from diverse backgrounds.',
-    buttonText: "Let's Talk",
-    buttonLink: '/contact',
-    bgImage: ''
-  },
-  'about-values': {
-    heading: 'Our Values',
-    values: [
-      {
-        id: 'integrity',
-        title: 'Integrity',
-        description: 'We act with honesty, ethics, and strong accountability.',
-        image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=80',
-        position: 'bottom-left'
-      },
-      {
-        id: 'innovation',
-        title: 'Innovation',
-        description: 'We embrace creativity, technology, and drive progress.',
-        image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80',
-        position: 'top-left'
-      },
-      {
-        id: 'sustainability',
-        title: 'Sustainability',
-        description: 'We grow responsibly with care and positive impact.',
-        image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=800&q=80',
-        position: 'bottom-left'
-      }
+    paragraph: 'We empower organizations through long-term technical partnership, transparent project management, and enterprise-grade SLA reliability.',
+    cards: [
+      { title: 'Innovation Driven', desc: 'Cutting-edge software solutions engineered with scalable modern architecture.' },
+      { title: 'Client Centric', desc: 'Tailored development aligns strictly with your unique business KPIs.' },
+      { title: 'Zero Downtime', desc: 'Cloud infrastructure designed for 99.99% operational availability.' }
     ]
   },
-  'about-transformation': {
-    heading: 'Transformation starts here',
-    subtitle: 'Reimagine your future.',
-    buttonText: 'Connect with us',
-    buttonLink: '/contact',
-    link1Text: 'What we do',
-    link1Url: '/services',
-    link2Text: 'Home',
-    link2Url: '/services'
+  'why-us': {
+    badge: 'Why CityScene',
+    heading: 'Engineering Excellence',
+    cards: [
+      { title: 'End-to-End Delivery', desc: 'From architectural discovery to deployment and post-launch maintenance.' },
+      { title: 'Security First', desc: 'Strict data compliance, role-based access control, and bank-grade encryption.' }
+    ]
   },
-  'career-hero': {
-    subheading: 'CAREER OPPORTUNITIES',
-    title: 'Join Our Team',
-    description: 'Find exciting career opportunities with us.',
-    buttonText: 'Explore Jobs',
-    buttonLink: '/career/apply',
-    backgroundMediaType: 'image',
-    bgImage: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1920&q=80',
-    backgroundImage: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1920&q=80',
-    bgVideo: '',
-    backgroundVideo: ''
+  team: {
+    heading: 'Leadership Team',
+    subtitle: 'Passionate technologists driving enterprise digital transformation.',
+    members: [
+      { name: 'Vishwambhar', role: 'Chief Executive Officer', image: '/assets/team/ceo.jpg' }
+    ]
   },
-  'career-grid-header': {
-    heading: 'Job Opportunities',
-    subtitle: 'Explore open roles and build the future of technology with us.'
+  faqs: {
+    heading: 'Frequently Asked Questions',
+    faqs: [
+      { q: 'How long does a custom software build take?', a: 'Typically 8 to 12 weeks for an MVP depending on complexity.' }
+    ]
   },
-  'career-contact': {
-    heading: 'Contact Us',
-    subtitle: 'Have questions? Get in touch with us.'
-  },
-  'portfolio-hero': {
-    subheading: 'PORTFOLIO',
-    title: 'Focused\nOn achieving client\nGoals',
-    description: 'Purpose-driven digital work focused on delivering results that support your business direction.',
-    buttonText: "Let's Talk",
-    buttonLink: '/contact',
-    backgroundMediaType: 'image',
-    bgImage: '/assets/images/portfolio-hero.jpg',
-    backgroundImage: '/assets/images/portfolio-hero.jpg',
-    bgVideo: '',
-    backgroundVideo: ''
-  },
-  'portfolio-clients': {
-    heading: 'Trusted by fast growing startups',
-    subtitle: 'Empowering innovative brands, enterprises, and high-growth ventures globally.'
-  },
-  'portfolio-grid-header': {
-    heading: 'Our Projects'
-  },
-  'blog-hero': {
-    subheading: 'BLOG',
-    title: 'Pioneering the\nNext Wave of\nTechnology',
-    description: 'Innovative, scalable, and AI-driven solutions for a smarter digital world.',
-    backgroundMediaType: 'image',
-    bgImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1920&q=80',
-    backgroundImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1920&q=80',
-    bgVideo: '',
-    backgroundVideo: ''
-  },
-  'blog-intro': {
-    heading: 'Technology is evolving rapidly - are you keeping up?',
-    description: 'Dive into our latest articles covering AI, cloud computing, cybersecurity, data analytics, and emerging technologies to stay informed, enhance your digital strategy, and maintain a competitive edge in the ever-evolving tech landscape.'
-  },
-  'blog-grid-header': {
-    heading: 'Latest Articles'
-  },
-  'contact-hero': {
-    subheading: "LET'S TALK",
-    title: 'Contact\nUs',
-    description: 'Bridging The Gap Between Ideas & Execution, Contact Us Today.',
-    backgroundMediaType: 'image',
-    bgImage: '/assets/images/contact-hero.jpg',
-    backgroundImage: '/assets/images/contact-hero.jpg',
-    bgVideo: '',
-    backgroundVideo: ''
-  },
-  'contact-intro': {
-    heading: 'How can we\nassist you today?',
-    description: "We're here to assist you! Let us know your requirements, and we'll connect you with the right IT experts to deliver the best solutions.",
-    badgeText: 'REACH US OUT'
-  },
-  'contact-details': {
-    title: 'Contact Us',
-    address: 'Second Floor, S.p Tower, 150, Sirsi Rd,\nOfficers Campus Colony, Jaipur, Rajasthan, India',
-    phone1: '+91-7689999377',
-    phone2: '+971-528225509',
-    email: 'info@citysceneglobal.com'
+  'contact-info': {
+    address: 'S.P Tower, Sirsi Rd, Jaipur, Rajasthan',
+    email: 'info@citysceneglobal.com',
+    phone: '+91 98765 43210'
   },
   'contact-map': {
     mapEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3557.513233887208!2d75.72754637604473!3d26.9189874591522!2m3!1f00!2f00!3f00!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db350106fffff%3A0x8670fa929d91fbd0!2sSirsi%20Rd%2C%20Jaipur%2C%20Rajasthan!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin',
     directMapLink: 'https://maps.google.com/?q=S.P+Tower,+Sirsi+Rd,+Jaipur,+Rajasthan',
     buttonText: 'Open in Maps'
+  }
+};
+
+/**
+ * Ensure default home content sections are seeded in MySQL database
+ */
+const ensureSeedHomeContent = async () => {
+  try {
+    const count = await HomeContent.count();
+    if (count === 0) {
+      const records = Object.entries(defaultHomeContent).map(([section, content]) => ({
+        section,
+        content
+      }));
+      await HomeContent.bulkCreate(records, { ignoreDuplicates: true });
+    }
+  } catch (error) {
+    console.error('[Home Content Seed Error]:', error.message);
   }
 };
 
@@ -300,12 +162,15 @@ export const defaultHomeContent = {
  */
 export const getAllHomeContent = async (req, res) => {
   try {
-    const docs = await HomeContent.find({});
-    const contentMap = { ...defaultHomeContent };
+    await ensureSeedHomeContent();
+    const rows = await HomeContent.findAll();
 
-    docs.forEach((doc) => {
-      contentMap[doc.section] = doc.content;
+    const dbContent = {};
+    rows.forEach(r => {
+      dbContent[r.section] = r.content;
     });
+
+    const contentMap = { ...defaultHomeContent, ...dbContent };
 
     return res.status(200).json({
       success: true,
@@ -328,10 +193,11 @@ export const getAllHomeContent = async (req, res) => {
  */
 export const getHomeSectionContent = async (req, res) => {
   try {
+    await ensureSeedHomeContent();
     const { section } = req.params;
-    const doc = await HomeContent.findOne({ section });
 
-    const content = doc ? doc.content : (defaultHomeContent[section] || {});
+    const record = await HomeContent.findOne({ where: { section } });
+    const content = record ? record.content : (defaultHomeContent[section] || {});
 
     return res.status(200).json({
       success: true,
@@ -355,6 +221,7 @@ export const getHomeSectionContent = async (req, res) => {
  */
 export const updateHomeSectionContent = async (req, res) => {
   try {
+    await ensureSeedHomeContent();
     const { section } = req.params;
     const { content } = req.body;
 
@@ -365,17 +232,20 @@ export const updateHomeSectionContent = async (req, res) => {
       });
     }
 
-    const updatedDoc = await HomeContent.findOneAndUpdate(
-      { section },
-      { section, content },
-      { new: true, upsert: true }
-    );
+    const [record, created] = await HomeContent.findOrCreate({
+      where: { section },
+      defaults: { section, content }
+    });
+
+    if (!created) {
+      await record.update({ content });
+    }
 
     return res.status(200).json({
       success: true,
       message: `Home ${section} updated successfully.`,
-      section: updatedDoc.section,
-      content: updatedDoc.content
+      section,
+      content
     });
   } catch (error) {
     console.error(`[Update Home Section Error - ${req.params.section}]:`, error);

@@ -1,4 +1,20 @@
-import Service from '../models/Service.js';
+import { Op } from 'sequelize';
+import { Service } from '../models/Service.js';
+import { initialServices } from '../services/seedService.js';
+
+/**
+ * Ensure seed services exist in MySQL database
+ */
+const ensureSeedServices = async () => {
+  try {
+    const count = await Service.count();
+    if (count === 0 && initialServices && initialServices.length > 0) {
+      await Service.bulkCreate(initialServices, { ignoreDuplicates: true });
+    }
+  } catch (error) {
+    console.error('[Service Seed Sync Error]:', error.message);
+  }
+};
 
 /**
  * @desc    Get all services (Public / Admin)
@@ -7,8 +23,19 @@ import Service from '../models/Service.js';
  */
 export const getServices = async (req, res, next) => {
   try {
-    const filter = req.query.all === 'true' ? {} : { isActive: { $ne: false } };
-    const services = await Service.find(filter).sort({ order: 1, createdAt: 1 });
+    await ensureSeedServices();
+    const showAll = req.query.all === 'true';
+
+    const whereClause = {};
+    if (!showAll) {
+      whereClause.isActive = true;
+    }
+
+    const services = await Service.findAll({
+      where: whereClause,
+      order: [['order', 'ASC'], ['createdAt', 'DESC']]
+    });
+
     return res.status(200).json({
       success: true,
       count: services.length,
@@ -26,6 +53,7 @@ export const getServices = async (req, res, next) => {
  */
 export const getServiceById = async (req, res, next) => {
   try {
+    await ensureSeedServices();
     const { id } = req.params;
     if (!id) {
       return res.status(400).json({ success: false, message: 'Service ID parameter is required.' });
@@ -33,7 +61,12 @@ export const getServiceById = async (req, res, next) => {
 
     const cleanId = id.trim().toLowerCase();
     const service = await Service.findOne({
-      $or: [{ id: cleanId }, { _id: id.match(/^[0-9a-fA-F]{24}$/) ? id : null }]
+      where: {
+        [Op.or]: [
+          { id: cleanId },
+          { path: `/services/${cleanId}` }
+        ]
+      }
     });
 
     if (!service) {
@@ -56,17 +89,17 @@ export const getServiceById = async (req, res, next) => {
  */
 export const createService = async (req, res, next) => {
   try {
+    await ensureSeedServices();
     const { title, id, displayTitle, shortDesc, image } = req.body;
 
     if (!title) {
       return res.status(400).json({ success: false, message: 'Service title is required.' });
     }
 
-    // Generate slug id if missing
     const serviceId = (id || title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')).trim();
     const servicePath = req.body.path || `/services/${serviceId}`;
 
-    const existingService = await Service.findOne({ id: serviceId });
+    const existingService = await Service.findByPk(serviceId);
     if (existingService) {
       return res.status(400).json({ success: false, message: `A service with ID '${serviceId}' already exists.` });
     }
@@ -78,7 +111,10 @@ export const createService = async (req, res, next) => {
       displayTitle: (displayTitle || `${title} Services`).trim(),
       path: servicePath,
       image: image || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80',
-      shortDesc: (shortDesc || 'Comprehensive service offering by CityScene Global.').trim()
+      shortDesc: (shortDesc || 'Comprehensive service offering by CityScene Global.').trim(),
+      position: req.body.position || 'bottom-left',
+      order: req.body.order || 0,
+      isActive: req.body.isActive !== undefined ? req.body.isActive : true
     });
 
     return res.status(201).json({
@@ -98,25 +134,22 @@ export const createService = async (req, res, next) => {
  */
 export const updateService = async (req, res, next) => {
   try {
+    await ensureSeedServices();
     const { id } = req.params;
     const cleanId = id.trim().toLowerCase();
 
-    const service = await Service.findOne({
-      $or: [{ id: cleanId }, { _id: id.match(/^[0-9a-fA-F]{24}$/) ? id : null }]
-    });
+    const service = await Service.findByPk(cleanId);
 
     if (!service) {
       return res.status(404).json({ success: false, message: `Service with ID '${id}' not found.` });
     }
 
-    // Update service fields
-    Object.assign(service, req.body);
-    const updatedService = await service.save();
+    await service.update(req.body);
 
     return res.status(200).json({
       success: true,
       message: 'Service updated successfully.',
-      data: updatedService
+      data: service
     });
   } catch (error) {
     next(error);
@@ -130,16 +163,17 @@ export const updateService = async (req, res, next) => {
  */
 export const deleteService = async (req, res, next) => {
   try {
+    await ensureSeedServices();
     const { id } = req.params;
     const cleanId = id.trim().toLowerCase();
 
-    const service = await Service.findOneAndDelete({
-      $or: [{ id: cleanId }, { _id: id.match(/^[0-9a-fA-F]{24}$/) ? id : null }]
-    });
+    const service = await Service.findByPk(cleanId);
 
     if (!service) {
       return res.status(404).json({ success: false, message: `Service with ID '${id}' not found.` });
     }
+
+    await service.destroy();
 
     return res.status(200).json({
       success: true,

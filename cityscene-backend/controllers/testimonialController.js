@@ -1,7 +1,8 @@
-import Testimonial from '../models/Testimonial.js';
+import { Testimonial } from '../models/Testimonial.js';
 
 export const initialTestimonials = [
   {
+    id: "testimonial-1",
     author: "Elena Rostova",
     role: "VP of Product",
     company: "FinTech Global",
@@ -10,6 +11,7 @@ export const initialTestimonials = [
     status: "active"
   },
   {
+    id: "testimonial-2",
     author: "David Chen",
     role: "Chief Technology Officer",
     company: "Nexus Logistics",
@@ -18,6 +20,7 @@ export const initialTestimonials = [
     status: "active"
   },
   {
+    id: "testimonial-3",
     author: "Sarah Jenkins",
     role: "Head of Marketing",
     company: "Aura Health",
@@ -27,18 +30,44 @@ export const initialTestimonials = [
   }
 ];
 
+/**
+ * Ensure seed testimonials exist in MySQL database
+ */
+const ensureSeedTestimonials = async () => {
+  try {
+    const count = await Testimonial.count();
+    if (count === 0 && initialTestimonials && initialTestimonials.length > 0) {
+      for (const t of initialTestimonials) {
+        await Testimonial.findOrCreate({
+          where: { author: t.author, company: t.company },
+          defaults: {
+            author: t.author,
+            role: t.role,
+            company: t.company,
+            quote: t.quote,
+            rating: t.rating,
+            status: t.status
+          }
+        });
+      }
+    }
+  } catch (error) {
+    console.error('[Testimonial Seed Sync Error]:', error.message);
+  }
+};
+
+/**
+ * @desc    Get all testimonials
+ * @route   GET /api/testimonials
+ * @access  Public
+ */
 export const getTestimonials = async (req, res, next) => {
   try {
-    let testimonials = [];
-    try {
-      testimonials = await Testimonial.find({}).sort({ createdAt: -1 });
-    } catch (dbErr) {
-      console.warn('[Testimonial Controller] DB fetch warning:', dbErr.message);
-    }
-
-    if (!testimonials || testimonials.length === 0) {
-      testimonials = initialTestimonials;
-    }
+    await ensureSeedTestimonials();
+    const testimonials = await Testimonial.findAll({
+      where: { status: 'active' },
+      order: [['order', 'ASC'], ['createdAt', 'DESC']]
+    });
 
     return res.status(200).json({
       success: true,

@@ -1,11 +1,12 @@
-import Blog from '../models/Blog.js';
-import Project from '../models/Project.js';
-import Job from '../models/Job.js';
-import Client from '../models/Client.js';
-import Service from '../models/Service.js';
-import Admin from '../models/Admin.js';
-import HomeContent from '../models/HomeContent.js';
 import { defaultHomeContent } from '../controllers/homeContentController.js';
+import { initialTestimonials } from '../controllers/testimonialController.js';
+import { Blog } from '../models/Blog.js';
+import { Service } from '../models/Service.js';
+import { Project } from '../models/Project.js';
+import { Job } from '../models/Job.js';
+import { Client } from '../models/Client.js';
+import { Testimonial } from '../models/Testimonial.js';
+import { HomeContent } from '../models/HomeContent.js';
 import bcrypt from 'bcryptjs';
 
 export const initialBlogs = [
@@ -606,106 +607,96 @@ export const initialClients = [
 ];
 
 export const seedDatabase = async () => {
-  // Blog
   try {
-    await Blog.deleteMany({});
-    await Blog.insertMany(initialBlogs);
-    console.log('[Seed Service] Seeded initial blog posts into MongoDB.');
-  } catch (err) {
-    console.warn('[Seed Service Warning] Blog seeding skipped:', err.message);
-  }
+    console.log('🌱 Executing idempotent MySQL database seeding...');
 
-  // Service
-  try {
-    await Service.deleteMany({});
-    await Service.insertMany(initialServices);
-    console.log('[Seed Service] Seeded initial services into MongoDB.');
-  } catch (err) {
-    console.warn('[Seed Service Warning] Service seeding skipped:', err.message);
-  }
-
-  // Project
-  try {
-    await Project.deleteMany({});
-    const formattedProjects = initialProjects.map(p => ({
-      ...p,
-      client: p.client || 'Enterprise Client',
-      duration: p.duration || '3 Months',
-      shortDesc: p.shortDesc || p.description || 'Project short description',
-      fullDesc: p.fullDesc || p.overview || p.description || 'Project full description'
-    }));
-    await Project.insertMany(formattedProjects);
-    console.log('[Seed Service] Seeded initial projects.');
-  } catch (err) {
-    console.warn('[Seed Service Warning] Project seeding skipped:', err.message);
-  }
-
-  // Job
-  try {
-    const jobCount = await Job.countDocuments();
-    if (jobCount === 0) {
-      await Job.insertMany(initialJobs);
-      console.log('[Seed Service] Seeded initial job positions.');
-    }
-  } catch (err) {
-    console.warn('[Seed Service Warning] Job seeding skipped:', err.message);
-  }
-
-  // Client
-  try {
-    const clientCount = await Client.countDocuments();
-    if (clientCount === 0) {
-      await Client.insertMany(initialClients);
-      console.log('[Seed Service] Seeded initial client logos.');
-    }
-  } catch (err) {
-    console.warn('[Seed Service Warning] Client seeding skipped:', err.message);
-  }
-
-  // Admin
-  try {
-    const email = (process.env.ADMIN_EMAIL || 'admin@cityscene.com').toLowerCase().trim();
-    const rawPassword = process.env.ADMIN_PASSWORD || 'Admin@cityscene2025';
-
-    const existingAdmin = await Admin.findOne({ email });
-    if (!existingAdmin) {
-      const hashedPassword = await bcrypt.hash(rawPassword, 10);
-      await Admin.create({
-        name: 'System Admin',
-        email,
-        password: hashedPassword,
-        role: 'admin',
-        isActive: true
+    // 1. Seed Blogs
+    let blogsInserted = 0;
+    for (const blogData of initialBlogs) {
+      const [, created] = await Blog.findOrCreate({
+        where: { id: blogData.id },
+        defaults: blogData
       });
-      console.log(`[Seed Service] Seeded initial admin account (${email}).`);
-    } else {
-      // Re-hash password if needed to ensure sync with .env
-      const isPasswordMatch = await bcrypt.compare(rawPassword, existingAdmin.password);
-      if (!isPasswordMatch) {
-        existingAdmin.password = await bcrypt.hash(rawPassword, 10);
-        existingAdmin.isActive = true;
-        await existingAdmin.save();
-        console.log(`[Seed Service] Updated existing admin password for (${email}).`);
-      }
+      if (created) blogsInserted++;
     }
-  } catch (err) {
-    console.warn('[Seed Service Warning] Admin seeding skipped:', err.message);
-  }
 
-  // Home Content Seeding
-  try {
-    for (const [sectionKey, contentData] of Object.entries(defaultHomeContent)) {
-      const existing = await HomeContent.findOne({ section: sectionKey });
-      if (!existing) {
-        await HomeContent.create({
-          section: sectionKey,
-          content: contentData
-        });
-      }
+    // 2. Seed Services
+    let servicesInserted = 0;
+    for (const serviceData of initialServices) {
+      const [, created] = await Service.findOrCreate({
+        where: { id: serviceData.id },
+        defaults: serviceData
+      });
+      if (created) servicesInserted++;
     }
-    console.log('[Seed Service] Seeded default Home page sections content into MongoDB.');
-  } catch (err) {
-    console.warn('[Seed Service Warning] Home content seeding skipped:', err.message);
+
+    // 3. Seed Clients
+    let clientsInserted = 0;
+    for (const clientData of initialClients) {
+      const [, created] = await Client.findOrCreate({
+        where: { id: clientData.id },
+        defaults: clientData
+      });
+      if (created) clientsInserted++;
+    }
+
+    // 4. Seed Projects
+    let projectsInserted = 0;
+    for (const projectData of initialProjects) {
+      const [, created] = await Project.findOrCreate({
+        where: { id: projectData.id },
+        defaults: projectData
+      });
+      if (created) projectsInserted++;
+    }
+
+    // 5. Seed Jobs
+    let jobsInserted = 0;
+    for (const jobData of initialJobs) {
+      const [, created] = await Job.findOrCreate({
+        where: { id: jobData.id },
+        defaults: jobData
+      });
+      if (created) jobsInserted++;
+    }
+
+    // 6. Seed Testimonials
+    let testimonialsInserted = 0;
+    for (const testData of initialTestimonials) {
+      const [, created] = await Testimonial.findOrCreate({
+        where: { author: testData.author, company: testData.company || '' },
+        defaults: {
+          author: testData.author,
+          role: testData.role || '',
+          company: testData.company || '',
+          quote: testData.quote,
+          rating: testData.rating || 5,
+          status: testData.status || 'active'
+        }
+      });
+      if (created) testimonialsInserted++;
+    }
+
+    // 7. Seed HomeContent
+    let homeSectionsInserted = 0;
+    for (const [section, content] of Object.entries(defaultHomeContent)) {
+      const [, created] = await HomeContent.findOrCreate({
+        where: { section },
+        defaults: { section, content }
+      });
+      if (created) homeSectionsInserted++;
+    }
+
+    console.log('✅ SQL Seeding complete!');
+    console.log(`   - Blogs: ${blogsInserted} new records inserted`);
+    console.log(`   - Services: ${servicesInserted} new records inserted`);
+    console.log(`   - Clients: ${clientsInserted} new records inserted`);
+    console.log(`   - Projects: ${projectsInserted} new records inserted`);
+    console.log(`   - Jobs: ${jobsInserted} new records inserted`);
+    console.log(`   - Testimonials: ${testimonialsInserted} new records inserted`);
+    console.log(`   - HomeContent Sections: ${homeSectionsInserted} new records inserted`);
+  } catch (error) {
+    console.error('❌ Error during SQL database seeding:', error);
   }
 };
 

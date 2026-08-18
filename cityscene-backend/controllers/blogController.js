@@ -1,5 +1,20 @@
-import Blog from '../models/Blog.js';
+import { Op } from 'sequelize';
+import { Blog } from '../models/Blog.js';
 import { initialBlogs } from '../services/seedService.js';
+
+/**
+ * Ensure seed blogs exist in MySQL database
+ */
+const ensureSeedBlogs = async () => {
+  try {
+    const count = await Blog.count();
+    if (count === 0 && initialBlogs && initialBlogs.length > 0) {
+      await Blog.bulkCreate(initialBlogs, { ignoreDuplicates: true });
+    }
+  } catch (error) {
+    console.error('[Blog Seed Sync Error]:', error.message);
+  }
+};
 
 /**
  * @desc    Get all blog articles (Public / Admin)
@@ -8,12 +23,22 @@ import { initialBlogs } from '../services/seedService.js';
  */
 export const getBlogs = async (req, res, next) => {
   try {
-    const filter = req.query.all === 'true' ? {} : { isActive: { $ne: false } };
-    let blogs = await Blog.find(filter).sort({ order: 1, createdAt: -1 });
+    await ensureSeedBlogs();
+    const showAll = req.query.all === 'true';
+    const category = req.query.category;
 
-    if (!blogs || blogs.length === 0) {
-      blogs = initialBlogs;
+    const whereClause = {};
+    if (!showAll) {
+      whereClause.isActive = true;
     }
+    if (category) {
+      whereClause.category = category.trim();
+    }
+
+    const blogs = await Blog.findAll({
+      where: whereClause,
+      order: [['order', 'ASC'], ['createdAt', 'DESC']]
+    });
 
     return res.status(200).json({
       success: true,
@@ -32,25 +57,21 @@ export const getBlogs = async (req, res, next) => {
  */
 export const getBlogBySlug = async (req, res, next) => {
   try {
+    await ensureSeedBlogs();
     const { slug } = req.params;
     if (!slug) {
       return res.status(400).json({ success: false, message: 'Blog slug parameter is required.' });
     }
 
     const cleanSlug = slug.trim().toLowerCase();
-    let blog = await Blog.findOne({
-      $or: [
-        { slug: cleanSlug },
-        { id: slug },
-        { _id: slug.match(/^[0-9a-fA-F]{24}$/) ? slug : null }
-      ]
+    const blog = await Blog.findOne({
+      where: {
+        [Op.or]: [
+          { slug: cleanSlug },
+          { id: slug.trim() }
+        ]
+      }
     });
-
-    if (!blog) {
-      blog = initialBlogs.find(
-        (b) => b.slug.toLowerCase() === cleanSlug || b.id === slug
-      );
-    }
 
     if (!blog) {
       return res.status(404).json({ success: false, message: `Blog post with slug '${slug}' not found.` });
@@ -72,6 +93,7 @@ export const getBlogBySlug = async (req, res, next) => {
  */
 export const createBlog = async (req, res, next) => {
   try {
+    await ensureSeedBlogs();
     const { title, id, slug, category, summary, content, image } = req.body;
 
     if (!title) {
@@ -81,7 +103,15 @@ export const createBlog = async (req, res, next) => {
     const blogId = (id || title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')).trim();
     const blogSlug = (slug || blogId).trim().toLowerCase();
 
-    const existingBlog = await Blog.findOne({ $or: [{ id: blogId }, { slug: blogSlug }] });
+    const existingBlog = await Blog.findOne({
+      where: {
+        [Op.or]: [
+          { id: blogId },
+          { slug: blogSlug }
+        ]
+      }
+    });
+
     if (existingBlog) {
       return res.status(400).json({ success: false, message: `A blog post with ID or Slug '${blogSlug}' already exists.` });
     }
@@ -96,7 +126,9 @@ export const createBlog = async (req, res, next) => {
       readTime: req.body.readTime || '5 min read',
       image: image || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80',
       summary: (summary || 'Insightful analysis by CityScene Global engineering team.').trim(),
-      content: (content || summary || 'Full article content text goes here.').trim()
+      content: (content || summary || 'Full article content text goes here.').trim(),
+      order: req.body.order || 0,
+      isActive: req.body.isActive !== undefined ? req.body.isActive : true
     });
 
     return res.status(201).json({
@@ -116,28 +148,29 @@ export const createBlog = async (req, res, next) => {
  */
 export const updateBlog = async (req, res, next) => {
   try {
+    await ensureSeedBlogs();
     const { id } = req.params;
     const cleanId = id.trim().toLowerCase();
 
     const blog = await Blog.findOne({
-      $or: [
-        { id: cleanId },
-        { slug: cleanId },
-        { _id: id.match(/^[0-9a-fA-F]{24}$/) ? id : null }
-      ]
+      where: {
+        [Op.or]: [
+          { id: cleanId },
+          { slug: cleanId }
+        ]
+      }
     });
 
     if (!blog) {
       return res.status(404).json({ success: false, message: `Blog with ID '${id}' not found.` });
     }
 
-    Object.assign(blog, req.body);
-    const updatedBlog = await blog.save();
+    await blog.update(req.body);
 
     return res.status(200).json({
       success: true,
       message: 'Blog updated successfully.',
-      data: updatedBlog
+      data: blog
     });
   } catch (error) {
     next(error);
@@ -151,20 +184,24 @@ export const updateBlog = async (req, res, next) => {
  */
 export const deleteBlog = async (req, res, next) => {
   try {
+    await ensureSeedBlogs();
     const { id } = req.params;
     const cleanId = id.trim().toLowerCase();
 
-    const blog = await Blog.findOneAndDelete({
-      $or: [
-        { id: cleanId },
-        { slug: cleanId },
-        { _id: id.match(/^[0-9a-fA-F]{24}$/) ? id : null }
-      ]
+    const blog = await Blog.findOne({
+      where: {
+        [Op.or]: [
+          { id: cleanId },
+          { slug: cleanId }
+        ]
+      }
     });
 
     if (!blog) {
       return res.status(404).json({ success: false, message: `Blog with ID '${id}' not found.` });
     }
+
+    await blog.destroy();
 
     return res.status(200).json({
       success: true,

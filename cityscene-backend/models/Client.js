@@ -1,25 +1,23 @@
-import mongoose from 'mongoose';
+import { DataTypes } from 'sequelize';
+import { sequelize } from '../config/db.js';
 
-const clientSchema = new mongoose.Schema(
-  {
-    id: {
-      type: String,
-      required: true,
-      unique: true
-    },
-    name: {
-      type: String,
-      required: true
-    },
-    logo: {
-      type: String,
-      required: true
-    }
+export const Client = sequelize.define('Client', {
+  id: {
+    type: DataTypes.STRING,
+    primaryKey: true,
+    allowNull: false
   },
-  {
-    timestamps: true
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  logo: {
+    type: DataTypes.STRING,
+    allowNull: false
   }
-);
+}, {
+  tableName: 'clients',
+  timestamps: true
+});
 
-export const Client = mongoose.model('Client', clientSchema);
 export default Client;

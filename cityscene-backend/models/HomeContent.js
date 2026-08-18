@@ -1,25 +1,28 @@
-import mongoose from 'mongoose';
+import { DataTypes } from 'sequelize';
+import { sequelize } from '../config/db.js';
 
-const homeContentSchema = new mongoose.Schema(
-  {
-    section: {
-      type: String,
-      required: true,
-      unique: true,
-      index: true,
-      trim: true
-    },
-    content: {
-      type: mongoose.Schema.Types.Mixed,
-      required: true,
-      default: {}
-    }
+export const HomeContent = sequelize.define('HomeContent', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
   },
-  {
-    timestamps: true
+  section: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true
+  },
+  content: {
+    type: DataTypes.JSON,
+    allowNull: false,
+    defaultValue: {}
   }
-);
-
-const HomeContent = mongoose.model('HomeContent', homeContentSchema);
+}, {
+  tableName: 'home_contents',
+  timestamps: true,
+  indexes: [
+    { unique: true, fields: ['section'] }
+  ]
+});
 
 export default HomeContent;

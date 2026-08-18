@@ -1,4 +1,4 @@
-import Contact from '../models/Contact.js';
+import { Contact } from '../models/Contact.js';
 
 export const createContact = async (req, res, next) => {
   try {
@@ -25,7 +25,6 @@ export const createContact = async (req, res, next) => {
       return res.status(400).json({ success: false, message: 'Message is required.' });
     }
 
-    // Direct MongoDB creation
     const savedContact = await Contact.create({
       fullName: fullName.trim(),
       email: email.trim().toLowerCase(),
@@ -45,7 +44,10 @@ export const createContact = async (req, res, next) => {
 
 export const getContacts = async (req, res, next) => {
   try {
-    const contacts = await Contact.find({}).sort({ createdAt: -1 });
+    const contacts = await Contact.findAll({
+      order: [['createdAt', 'DESC']]
+    });
+
     return res.status(200).json({
       success: true,
       count: contacts.length,
@@ -56,14 +58,39 @@ export const getContacts = async (req, res, next) => {
   }
 };
 
-export const deleteContact = async (req, res, next) => {
+export const getContactById = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const contact = await Contact.findByIdAndDelete(id);
+    const contact = await Contact.findByPk(id);
+
     if (!contact) {
       return res.status(404).json({ success: false, message: 'Contact inquiry not found.' });
     }
-    return res.status(200).json({ success: true, message: 'Contact inquiry deleted successfully.' });
+
+    return res.status(200).json({
+      success: true,
+      data: contact
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteContact = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const contact = await Contact.findByPk(id);
+
+    if (!contact) {
+      return res.status(404).json({ success: false, message: 'Contact inquiry not found.' });
+    }
+
+    await contact.destroy();
+
+    return res.status(200).json({
+      success: true,
+      message: 'Contact inquiry deleted successfully.'
+    });
   } catch (error) {
     next(error);
   }

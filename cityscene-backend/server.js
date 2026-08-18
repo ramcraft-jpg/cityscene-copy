@@ -22,7 +22,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Connect to MongoDB & Seed initial data
+// Initialize Database connection & Seed initial datasets
 connectDB().then(() => {
   seedDatabase();
 });

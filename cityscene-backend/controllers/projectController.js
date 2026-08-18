@@ -1,6 +1,21 @@
-import Project from '../models/Project.js';
-import Client from '../models/Client.js';
-import { initialProjects, initialClients } from '../services/seedService.js';
+import { Op } from 'sequelize';
+import { Project } from '../models/Project.js';
+import { initialProjects } from '../services/seedService.js';
+import { getClients as fetchClients } from './clientController.js';
+
+/**
+ * Ensure seed projects exist in MySQL database
+ */
+const ensureSeedProjects = async () => {
+  try {
+    const count = await Project.count();
+    if (count === 0 && initialProjects && initialProjects.length > 0) {
+      await Project.bulkCreate(initialProjects, { ignoreDuplicates: true });
+    }
+  } catch (error) {
+    console.error('[Project Seed Sync Error]:', error.message);
+  }
+};
 
 /**
  * @desc    Get all portfolio projects (Public / Admin)
@@ -9,12 +24,18 @@ import { initialProjects, initialClients } from '../services/seedService.js';
  */
 export const getProjects = async (req, res, next) => {
   try {
-    const filter = req.query.all === 'true' ? {} : { isActive: { $ne: false } };
-    let projects = await Project.find(filter).sort({ order: 1, createdAt: 1 });
+    await ensureSeedProjects();
+    const showAll = req.query.all === 'true';
 
-    if (!projects || projects.length === 0) {
-      projects = initialProjects;
+    const whereClause = {};
+    if (!showAll) {
+      whereClause.isActive = true;
     }
+
+    const projects = await Project.findAll({
+      where: whereClause,
+      order: [['order', 'ASC'], ['createdAt', 'DESC']]
+    });
 
     return res.status(200).json({
       success: true,
@@ -33,25 +54,21 @@ export const getProjects = async (req, res, next) => {
  */
 export const getProjectBySlug = async (req, res, next) => {
   try {
+    await ensureSeedProjects();
     const { slug } = req.params;
     if (!slug) {
       return res.status(400).json({ success: false, message: 'Project slug parameter is required.' });
     }
 
     const cleanSlug = slug.trim().toLowerCase();
-    let project = await Project.findOne({
-      $or: [
-        { slug: cleanSlug },
-        { id: slug },
-        { _id: slug.match(/^[0-9a-fA-F]{24}$/) ? slug : null }
-      ]
+    const project = await Project.findOne({
+      where: {
+        [Op.or]: [
+          { slug: cleanSlug },
+          { id: slug.trim() }
+        ]
+      }
     });
-
-    if (!project) {
-      project = initialProjects.find(
-        (p) => p.slug.toLowerCase() === cleanSlug || p.id === slug
-      );
-    }
 
     if (!project) {
       return res.status(404).json({ success: false, message: 'Project not found.' });
@@ -71,22 +88,7 @@ export const getProjectBySlug = async (req, res, next) => {
  * @route   GET /api/projects/clients
  * @access  Public
  */
-export const getClients = async (req, res, next) => {
-  try {
-    let clients = await Client.find({});
-    if (!clients || clients.length === 0) {
-      clients = initialClients;
-    }
-
-    return res.status(200).json({
-      success: true,
-      count: clients.length,
-      data: clients
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+export const getClients = fetchClients;
 
 /**
  * @desc    Create a new project
@@ -95,6 +97,7 @@ export const getClients = async (req, res, next) => {
  */
 export const createProject = async (req, res, next) => {
   try {
+    await ensureSeedProjects();
     const { title, id, slug, category, client, shortDesc, description, image } = req.body;
 
     if (!title) {
@@ -104,7 +107,15 @@ export const createProject = async (req, res, next) => {
     const projId = (id || title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')).trim();
     const projSlug = (slug || projId).trim().toLowerCase();
 
-    const existingProject = await Project.findOne({ $or: [{ id: projId }, { slug: projSlug }] });
+    const existingProject = await Project.findOne({
+      where: {
+        [Op.or]: [
+          { id: projId },
+          { slug: projSlug }
+        ]
+      }
+    });
+
     if (existingProject) {
       return res.status(400).json({ success: false, message: `A project with ID or Slug '${projSlug}' already exists.` });
     }
@@ -119,7 +130,9 @@ export const createProject = async (req, res, next) => {
       duration: req.body.duration || '6 Months',
       image: image || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80',
       shortDesc: (shortDesc || description || 'Enterprise digital solution delivered by CityScene Global.').trim(),
-      fullDesc: (req.body.fullDesc || shortDesc || description || 'Full case study details.').trim()
+      fullDesc: (req.body.fullDesc || shortDesc || description || 'Full case study details.').trim(),
+      order: req.body.order || 0,
+      isActive: req.body.isActive !== undefined ? req.body.isActive : true
     });
 
     return res.status(201).json({
@@ -139,28 +152,29 @@ export const createProject = async (req, res, next) => {
  */
 export const updateProject = async (req, res, next) => {
   try {
+    await ensureSeedProjects();
     const { id } = req.params;
     const cleanId = id.trim().toLowerCase();
 
     const project = await Project.findOne({
-      $or: [
-        { id: cleanId },
-        { slug: cleanId },
-        { _id: id.match(/^[0-9a-fA-F]{24}$/) ? id : null }
-      ]
+      where: {
+        [Op.or]: [
+          { id: cleanId },
+          { slug: cleanId }
+        ]
+      }
     });
 
     if (!project) {
       return res.status(404).json({ success: false, message: `Project with ID '${id}' not found.` });
     }
 
-    Object.assign(project, req.body);
-    const updatedProject = await project.save();
+    await project.update(req.body);
 
     return res.status(200).json({
       success: true,
       message: 'Project updated successfully.',
-      data: updatedProject
+      data: project
     });
   } catch (error) {
     next(error);
@@ -174,20 +188,24 @@ export const updateProject = async (req, res, next) => {
  */
 export const deleteProject = async (req, res, next) => {
   try {
+    await ensureSeedProjects();
     const { id } = req.params;
     const cleanId = id.trim().toLowerCase();
 
-    const project = await Project.findOneAndDelete({
-      $or: [
-        { id: cleanId },
-        { slug: cleanId },
-        { _id: id.match(/^[0-9a-fA-F]{24}$/) ? id : null }
-      ]
+    const project = await Project.findOne({
+      where: {
+        [Op.or]: [
+          { id: cleanId },
+          { slug: cleanId }
+        ]
+      }
     });
 
     if (!project) {
       return res.status(404).json({ success: false, message: `Project with ID '${id}' not found.` });
     }
+
+    await project.destroy();
 
     return res.status(200).json({
       success: true,

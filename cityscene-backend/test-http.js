@@ -32,7 +32,7 @@ const testEndpoints = async () => {
         fullName: 'Real API Tester',
         email: 'api.tester@cityscene.com',
         phone: '+1 987-654-3210',
-        message: 'Submitting real contact form via HTTP POST to Express & MongoDB.'
+        message: 'Submitting real contact form via HTTP POST to Express & MySQL/Sequelize.'
       })
     });
     const contactData = await contactRes.json();

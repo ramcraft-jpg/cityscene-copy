@@ -1,47 +1,47 @@
-import mongoose from 'mongoose';
+import { DataTypes } from 'sequelize';
+import { sequelize } from '../config/db.js';
 
-const testimonialSchema = new mongoose.Schema(
-  {
-    author: {
-      type: String,
-      required: [true, 'Author name is required'],
-      trim: true
-    },
-    role: {
-      type: String,
-      trim: true
-    },
-    company: {
-      type: String,
-      trim: true
-    },
-    quote: {
-      type: String,
-      required: [true, 'Quote is required'],
-      trim: true
-    },
-    image: {
-      type: String
-    },
-    rating: {
-      type: Number,
-      default: 5
-    },
-    status: {
-      type: String,
-      enum: ['active', 'inactive'],
-      default: 'active'
-    },
-    order: {
-      type: Number,
-      default: 0
-    }
+export const Testimonial = sequelize.define('Testimonial', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
   },
-  {
-    timestamps: true
+  author: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  role: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  company: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  quote: {
+    type: DataTypes.TEXT,
+    allowNull: false
+  },
+  image: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  rating: {
+    type: DataTypes.INTEGER,
+    defaultValue: 5
+  },
+  status: {
+    type: DataTypes.STRING,
+    defaultValue: 'active'
+  },
+  order: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0
   }
-);
-
-const Testimonial = mongoose.models.Testimonial || mongoose.model('Testimonial', testimonialSchema);
+}, {
+  tableName: 'testimonials',
+  timestamps: true
+});
 
 export default Testimonial;

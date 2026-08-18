@@ -1,47 +1,43 @@
-import mongoose from 'mongoose';
+import { DataTypes } from 'sequelize';
+import { sequelize } from '../config/db.js';
 
-const jobSchema = new mongoose.Schema(
-  {
-    id: {
-      type: String,
-      required: true,
-      unique: true,
-      trim: true
-    },
-    title: {
-      type: String,
-      required: true,
-      trim: true
-    },
-    description: {
-      type: String,
-      required: true
-    },
-    image: {
-      type: String,
-      required: true
-    },
-    location: {
-      type: String,
-      default: 'Bengaluru, India'
-    },
-    type: {
-      type: String,
-      default: 'Full Time'
-    },
-    order: {
-      type: Number,
-      default: 0
-    },
-    isActive: {
-      type: Boolean,
-      default: true
-    }
+export const Job = sequelize.define('Job', {
+  id: {
+    type: DataTypes.STRING,
+    primaryKey: true,
+    allowNull: false
   },
-  {
-    timestamps: true
+  title: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  description: {
+    type: DataTypes.TEXT,
+    allowNull: false
+  },
+  image: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  location: {
+    type: DataTypes.STRING,
+    defaultValue: 'Bengaluru, India'
+  },
+  type: {
+    type: DataTypes.STRING,
+    defaultValue: 'Full Time'
+  },
+  order: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0
+  },
+  isActive: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: true
   }
-);
+}, {
+  tableName: 'jobs',
+  timestamps: true
+});
 
-export const Job = mongoose.model('Job', jobSchema);
 export default Job;
