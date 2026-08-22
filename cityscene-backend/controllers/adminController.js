@@ -19,7 +19,7 @@ export const adminLogin = async (req, res) => {
     }
 
     const cleanEmail = email.toLowerCase().trim();
-    const envEmail = (process.env.ADMIN_EMAIL || 'admin@cityscene.com').toLowerCase().trim();
+    const envEmail = (process.env.ADMIN_EMAIL || 'admincityscene@gmail.com').toLowerCase().trim();
     const envPassword = process.env.ADMIN_PASSWORD || 'Admin@cityscene2025';
 
     let targetAdmin = await Admin.findOne({ where: { email: cleanEmail } });

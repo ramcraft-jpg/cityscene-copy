@@ -12,6 +12,14 @@ const defaultHeroData = {
   bgVideo: ''
 };
 
+const getMediaUrl = (url) => {
+  if (!url) return '';
+  if (url.startsWith('/uploads')) {
+    return `http://localhost:5000${url}`;
+  }
+  return url;
+};
+
 export default function AboutHero() {
   const [data, setData] = useState(defaultHeroData);
 
@@ -26,9 +34,12 @@ export default function AboutHero() {
       .catch((err) => console.error('Error fetching AboutHero API data:', err));
   }, []);
 
-  const bgImage = data.bgImage || data.backgroundImage || defaultHeroData.bgImage;
-  const bgVideo = data.bgVideo || data.backgroundVideo || defaultHeroData.bgVideo;
-  const isVideoMode = data.backgroundMediaType === 'video' || (data.backgroundMediaType !== 'image' && !!bgVideo);
+  const rawBgImage = data.bgImage || data.backgroundImage || defaultHeroData.bgImage;
+  const rawBgVideo = data.bgVideo || data.backgroundVideo || defaultHeroData.bgVideo;
+
+  const bgImage = getMediaUrl(rawBgImage);
+  const bgVideo = getMediaUrl(rawBgVideo);
+  const isVideoMode = data.backgroundMediaType === 'video' || (data.backgroundMediaType !== 'image' && !!rawBgVideo) || (!!rawBgVideo && !data.backgroundMediaType);
 
   return (
     <section className="relative w-full min-h-[720px] lg:min-h-[850px] h-[88vh] bg-black overflow-hidden flex items-center">

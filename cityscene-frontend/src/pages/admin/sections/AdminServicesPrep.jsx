@@ -125,7 +125,7 @@ export default function AdminServicesManagement() {
   // Open Modal for Edit
   const handleOpenEdit = (srv) => {
     setIsAddMode(false);
-    setSelectedService({ ...srv });
+    setSelectedService({ ...srv, originalId: srv.id || srv._id });
     setIsModalOpen(true);
   };
 
@@ -142,7 +142,8 @@ export default function AdminServicesManagement() {
         await createService(selectedService);
         setMessage({ type: 'success', text: 'Service created successfully.' });
       } else {
-        await updateService(selectedService.id || selectedService._id, selectedService);
+        const targetId = selectedService.originalId || selectedService.id || selectedService._id;
+        await updateService(targetId, selectedService);
         setMessage({ type: 'success', text: 'Service updated successfully.' });
       }
 
@@ -551,7 +552,6 @@ export default function AdminServicesManagement() {
                     className="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg font-mono"
                     placeholder="e.g. mobile-app-development"
                     required
-                    disabled={!isAddMode}
                   />
                 </div>
               </div>

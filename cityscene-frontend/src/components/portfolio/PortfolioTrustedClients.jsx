@@ -1,61 +1,67 @@
 import React, { useState, useEffect } from 'react';
-import clients from '../../data/clients';
+import { getClients } from '../../services/clientService';
 
-const defaultHeader = {
-  heading: 'Trusted by fast growing startups',
-  subtitle: 'Empowering innovative brands, enterprises, and high-growth ventures globally.'
+const defaultHeading = 'Trusted by fast growing startups';
+
+const getMediaUrl = (url) => {
+  if (!url) return '';
+  if (url.startsWith('/uploads')) {
+    return `http://localhost:5000${url}`;
+  }
+  return url;
 };
 
 export default function PortfolioTrustedClients() {
-  const [header, setHeader] = useState(defaultHeader);
+  const [heading, setHeading] = useState(defaultHeading);
+  const [clientsList, setClientsList] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/home-content/portfolio-clients')
-      .then((res) => res.json())
-      .then((resData) => {
-        if (resData.success && resData.content && resData.content.heading) {
-          setHeader(resData.content);
-        }
-      })
-      .catch((err) => console.error('Error fetching PortfolioTrustedClients API data:', err));
+    Promise.all([
+      fetch('http://localhost:5000/api/home-content/portfolio-clients').then((r) => r.json()).catch(() => null),
+      getClients().catch(() => [])
+    ]).then(([headerRes, clientsData]) => {
+      if (headerRes && headerRes.success && headerRes.content && headerRes.content.heading) {
+        setHeading(headerRes.content.heading);
+      }
+      if (clientsData && clientsData.length > 0) {
+        setClientsList(clientsData);
+      }
+    });
   }, []);
 
   return (
-    <section className="w-full bg-[#f8f9fa] py-16 sm:py-20 border-t border-b border-gray-200/80">
+    <section className="w-full bg-white py-12 sm:py-16 border-t border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">
-            {header.heading || defaultHeader.heading}
+        {/* Title */}
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-black tracking-tight">
+            {heading || defaultHeading}
           </h2>
-          <p className="text-sm sm:text-base text-gray-600 mt-2">
-            {header.subtitle || defaultHeader.subtitle}
-          </p>
         </div>
 
-        {/* Client Logos Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6 items-center justify-center">
-          {clients.map((client) => (
+        {/* All 6 Logos in Single Horizontal Line */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 items-center justify-center justify-items-center gap-3 sm:gap-6 md:gap-8 lg:gap-10 w-full max-w-7xl mx-auto">
+          {clientsList.map((client) => (
             <div
-              key={client.id}
-              className="bg-white rounded-xl p-5 border border-gray-200/70 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-200 flex flex-col items-center justify-center text-center h-28 group"
+              key={client.id || client._id}
+              className="flex items-center justify-center p-2 transition-transform duration-200 hover:scale-105 w-full"
+              title={client.name}
             >
-              {/* Logo Emblem Icon */}
-              <div className="w-8 h-8 rounded-lg bg-gray-100 group-hover:bg-gradient-to-tr group-hover:from-orange-500 group-hover:to-blue-600 flex items-center justify-center mb-2.5 transition-colors">
-                <span className="text-xs font-black text-gray-700 group-hover:text-white transition-colors">
-                  {client.name.charAt(0)}
+              {client.logo ? (
+                <img
+                  src={getMediaUrl(client.logo)}
+                  alt={client.name || 'Client Logo'}
+                  className="h-14 sm:h-16 md:h-20 lg:h-24 w-full max-w-[150px] sm:max-w-[170px] md:max-w-[190px] object-contain transition-all duration-200 drop-shadow-sm mx-auto"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.style.display = 'none';
+                  }}
+                />
+              ) : (
+                <span className="text-sm font-bold text-gray-900 tracking-tight text-center">
+                  {client.name}
                 </span>
-              </div>
-
-              {/* Client Name */}
-              <span className="text-sm font-bold text-gray-900 tracking-tight group-hover:text-orange-600 transition-colors line-clamp-1">
-                {client.name}
-              </span>
-
-              {/* Client Subtitle */}
-              <span className="text-[11px] text-gray-500 mt-0.5 line-clamp-1">
-                {client.subtitle}
-              </span>
+              )}
             </div>
           ))}
         </div>

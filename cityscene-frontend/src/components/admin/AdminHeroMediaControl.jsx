@@ -1,4 +1,17 @@
-import React from 'react';
+const isVideoUrl = (url) => {
+  if (!url || typeof url !== 'string') return false;
+  const clean = url.split('?')[0].toLowerCase();
+  return (
+    clean.endsWith('.mp4') ||
+    clean.endsWith('.webm') ||
+    clean.endsWith('.mov') ||
+    clean.endsWith('.avi') ||
+    clean.endsWith('.mkv') ||
+    clean.includes('.mp4') ||
+    clean.includes('/videos/') ||
+    clean.includes('/video/')
+  );
+};
 
 export default function AdminHeroMediaControl({
   mediaType = 'image',
@@ -11,7 +24,15 @@ export default function AdminHeroMediaControl({
   onUpload,
   onRemoveMedia
 }) {
-  const isVideoMode = mediaType === 'video';
+  const isVideoMode = mediaType === 'video' || isVideoUrl(imageUrl) || isVideoUrl(videoUrl);
+
+  const getMediaUrl = (url) => {
+    if (!url) return '';
+    if (url.startsWith('/uploads')) {
+      return `http://localhost:5000${url}`;
+    }
+    return url;
+  };
 
   return (
     <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-4">
@@ -59,7 +80,7 @@ export default function AdminHeroMediaControl({
               <div className="w-full sm:w-56 h-32 rounded-lg overflow-hidden bg-slate-900 shrink-0 border border-slate-300 relative flex items-center justify-center shadow-inner">
                 {videoUrl ? (
                   <video
-                    src={videoUrl}
+                    src={getMediaUrl(videoUrl)}
                     className="w-full h-full object-cover"
                     autoPlay
                     muted
@@ -128,7 +149,7 @@ export default function AdminHeroMediaControl({
               <div className="w-full sm:w-56 h-32 rounded-lg overflow-hidden bg-slate-200 shrink-0 border border-slate-300 relative flex items-center justify-center shadow-inner">
                 {imageUrl ? (
                   <img
-                    src={imageUrl}
+                    src={getMediaUrl(imageUrl)}
                     alt="Background preview"
                     className="w-full h-full object-cover"
                     onError={(e) => {
@@ -152,9 +173,18 @@ export default function AdminHeroMediaControl({
                   <input
                     type="text"
                     value={imageUrl || ''}
-                    onChange={(e) => onChangeImage && onChangeImage(e.target.value)}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      if (isVideoUrl(val)) {
+                        onChangeVideo && onChangeVideo(val);
+                        onChangeMediaType && onChangeMediaType('video');
+                        onChangeImage && onChangeImage('');
+                      } else {
+                        onChangeImage && onChangeImage(val);
+                      }
+                    }}
                     className="w-full px-3 py-1.5 text-xs border border-slate-300 rounded-lg bg-white focus:ring-2 focus:ring-orange-500 focus:outline-none"
-                    placeholder="e.g. /assets/images/hero.jpg"
+                    placeholder="e.g. /assets/images/hero.jpg or https://.../video.mp4"
                   />
                 </div>
 

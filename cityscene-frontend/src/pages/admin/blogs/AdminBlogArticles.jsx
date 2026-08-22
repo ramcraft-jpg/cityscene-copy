@@ -94,7 +94,7 @@ export default function AdminBlogArticles() {
 
   const handleOpenEdit = (b) => {
     setIsAddMode(false);
-    setSelectedBlog({ ...b });
+    setSelectedBlog({ ...b, originalId: b.id || b.slug || b._id });
     setIsModalOpen(true);
   };
 
@@ -109,7 +109,7 @@ export default function AdminBlogArticles() {
         await createBlog(selectedBlog);
         setMessage({ type: 'success', text: 'Blog article created successfully.' });
       } else {
-        const targetId = selectedBlog.id || selectedBlog.slug || selectedBlog._id;
+        const targetId = selectedBlog.originalId || selectedBlog.id || selectedBlog.slug || selectedBlog._id;
         await updateBlog(targetId, selectedBlog);
         setMessage({ type: 'success', text: 'Blog article updated successfully.' });
       }
@@ -300,7 +300,6 @@ export default function AdminBlogArticles() {
                     className="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg font-mono"
                     placeholder="e.g. pioneering-ai-solutions"
                     required
-                    disabled={!isAddMode}
                   />
                 </div>
               </div>

@@ -601,9 +601,12 @@ export const initialJobs = [
 ];
 
 export const initialClients = [
-  { id: "client-1", name: "GlobalTech Solutions", logo: "https://via.placeholder.com/150x50?text=GlobalTech" },
-  { id: "client-2", name: "Apex Financial", logo: "https://via.placeholder.com/150x50?text=ApexFinancial" },
-  { id: "client-3", name: "Metro Transit", logo: "https://via.placeholder.com/150x50?text=MetroTransit" }
+  { id: "client-1", name: "The Nation First", logo: "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?auto=format&fit=crop&w=200&q=80" },
+  { id: "client-2", name: "Jai Kisaan Solar", logo: "https://images.unsplash.com/photo-1516876437184-593fda40c7ce?auto=format&fit=crop&w=200&q=80" },
+  { id: "client-3", name: "eSunScope", logo: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&w=200&q=80" },
+  { id: "client-4", name: "Sunscope Group", logo: "https://images.unsplash.com/photo-1572021335469-31706a17aaef?auto=format&fit=crop&w=200&q=80" },
+  { id: "client-5", name: "Sunscope Capital", logo: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=200&q=80" },
+  { id: "client-6", name: "B-Sun Africa", logo: "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=200&q=80" }
 ];
 
 export const seedDatabase = async () => {

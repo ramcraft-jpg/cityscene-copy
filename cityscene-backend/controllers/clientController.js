@@ -1,15 +1,20 @@
+import { Op } from 'sequelize';
 import { Client } from '../models/Client.js';
 import { initialClients } from '../services/seedService.js';
 
 /**
  * Ensure initial seed clients exist in MySQL database
  */
+let isSeeded = false;
+
 export const ensureSeedClients = async () => {
+  if (isSeeded) return;
   try {
     const count = await Client.count();
     if (count === 0 && initialClients && initialClients.length > 0) {
       await Client.bulkCreate(initialClients, { ignoreDuplicates: true });
     }
+    isSeeded = true;
   } catch (error) {
     console.error('[Client Seed Sync Error]:', error.message);
   }
@@ -138,13 +143,38 @@ export const deleteClient = async (req, res, next) => {
   try {
     await ensureSeedClients();
     const { id } = req.params;
-    const client = await Client.findByPk(id);
+    const cleanId = decodeURIComponent(id || '').trim();
 
-    if (!client) {
-      return res.status(404).json({ success: false, message: `Client with ID '${id}' not found.` });
+    let client = await Client.findByPk(id);
+    if (!client && cleanId !== id) {
+      client = await Client.findByPk(cleanId);
     }
 
-    await client.destroy();
+    if (!client) {
+      client = await Client.findOne({
+        where: {
+          [Op.or]: [
+            { id: id },
+            { id: cleanId },
+            { logo: id },
+            { logo: cleanId }
+          ]
+        }
+      });
+    }
+
+    if (client) {
+      await client.destroy();
+    } else {
+      await Client.destroy({
+        where: {
+          [Op.or]: [
+            { id: id },
+            { id: cleanId }
+          ]
+        }
+      });
+    }
 
     return res.status(200).json({
       success: true,

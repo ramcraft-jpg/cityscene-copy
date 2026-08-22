@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginAdmin, registerAdmin, isAuthenticated } from '../../services/adminAuthService';
+import { loginAdmin, isAuthenticated } from '../../services/adminAuthService';
 
 export default function AdminLogin() {
-  const [isSignUp, setIsSignUp] = useState(false);
-  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -18,41 +15,16 @@ export default function AdminLogin() {
     }
   }, [navigate]);
 
-  const toggleMode = () => {
-    setIsSignUp(!isSignUp);
-    setError('');
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-
-    if (isSignUp) {
-      if (!name.trim()) {
-        setError('Please enter your full name.');
-        return;
-      }
-      if (password.length < 6) {
-        setError('Password must be at least 6 characters long.');
-        return;
-      }
-      if (password !== confirmPassword) {
-        setError('Passwords do not match.');
-        return;
-      }
-    }
-
     setLoading(true);
 
     try {
-      if (isSignUp) {
-        await registerAdmin(name, email, password);
-      } else {
-        await loginAdmin(email, password);
-      }
+      await loginAdmin(email, password);
       navigate('/admin', { replace: true });
     } catch (err) {
-      setError(err.message || (isSignUp ? 'Registration failed.' : 'Invalid email or password.'));
+      setError(err.message || 'Invalid email or password.');
     } finally {
       setLoading(false);
     }
@@ -73,34 +45,8 @@ export default function AdminLogin() {
             CityScene Global
           </h2>
           <p className="mt-1 text-sm text-gray-500 font-medium">
-            {isSignUp ? 'Create Admin Account' : 'Admin Portal Access'}
+            Admin Portal Access
           </p>
-        </div>
-
-        {/* Navigation Mode Switcher / Tabs */}
-        <div className="flex border-b border-gray-200 mb-4">
-          <button
-            type="button"
-            onClick={() => { setIsSignUp(false); setError(''); }}
-            className={`flex-1 py-2 text-sm font-semibold border-b-2 text-center transition-colors ${
-              !isSignUp
-                ? 'border-orange-500 text-orange-600'
-                : 'border-transparent text-gray-500 hover:text-gray-700'
-            }`}
-          >
-            Log In
-          </button>
-          <button
-            type="button"
-            onClick={() => { setIsSignUp(true); setError(''); }}
-            className={`flex-1 py-2 text-sm font-semibold border-b-2 text-center transition-colors ${
-              isSignUp
-                ? 'border-orange-500 text-orange-600'
-                : 'border-transparent text-gray-500 hover:text-gray-700'
-            }`}
-          >
-            Sign Up
-          </button>
         </div>
 
         {/* Error Alert */}
@@ -117,24 +63,6 @@ export default function AdminLogin() {
         {/* Authentication Form */}
         <form className="mt-6 space-y-5" onSubmit={handleSubmit}>
           <div className="space-y-4">
-            {isSignUp && (
-              <div>
-                <label htmlFor="admin-name" className="block text-sm font-semibold text-gray-700 mb-1">
-                  Full Name
-                </label>
-                <input
-                  id="admin-name"
-                  name="name"
-                  type="text"
-                  required={isSignUp}
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Enter your full name"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition duration-200 text-sm"
-                />
-              </div>
-            )}
-
             <div>
               <label htmlFor="email-address" className="block text-sm font-semibold text-gray-700 mb-1">
                 Email
@@ -160,33 +88,14 @@ export default function AdminLogin() {
                 id="password"
                 name="password"
                 type="password"
-                autoComplete={isSignUp ? 'new-password' : 'current-password'}
+                autoComplete="current-password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder={isSignUp ? 'Create a password (min. 6 chars)' : 'Enter your password'}
+                placeholder="Enter your password"
                 className="w-full px-4 py-3 rounded-lg border border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition duration-200 text-sm"
               />
             </div>
-
-            {isSignUp && (
-              <div>
-                <label htmlFor="confirm-password" className="block text-sm font-semibold text-gray-700 mb-1">
-                  Confirm Password
-                </label>
-                <input
-                  id="confirm-password"
-                  name="confirmPassword"
-                  type="password"
-                  autoComplete="new-password"
-                  required={isSignUp}
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  placeholder="Re-enter your password"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition duration-200 text-sm"
-                />
-              </div>
-            )}
           </div>
 
           <div>
@@ -202,28 +111,14 @@ export default function AdminLogin() {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  {isSignUp ? 'Creating Account...' : 'Authenticating...'}
+                  Authenticating...
                 </span>
               ) : (
-                isSignUp ? 'Sign Up' : 'Login'
+                'Login'
               )}
             </button>
           </div>
         </form>
-
-        {/* Toggle Mode Link */}
-        <div className="text-center pt-2">
-          <p className="text-xs text-gray-600">
-            {isSignUp ? 'Already have an admin account? ' : "Don't have an admin account? "}
-            <button
-              type="button"
-              onClick={toggleMode}
-              className="font-bold text-orange-600 hover:text-orange-700 hover:underline transition duration-150"
-            >
-              {isSignUp ? 'Log in' : 'Sign up'}
-            </button>
-          </p>
-        </div>
 
         <div className="text-center pt-1 border-t border-gray-100">
           <a
@@ -237,4 +132,5 @@ export default function AdminLogin() {
     </div>
   );
 }
+
 

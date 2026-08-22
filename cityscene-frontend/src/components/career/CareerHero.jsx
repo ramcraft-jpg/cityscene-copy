@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import CareerJobGrid from './CareerJobGrid';
 
 const defaultHeroData = {
   subheading: 'CAREER OPPORTUNITIES',
@@ -12,8 +13,17 @@ const defaultHeroData = {
   bgVideo: ''
 };
 
+const getMediaUrl = (url) => {
+  if (!url) return '';
+  if (url.startsWith('/uploads')) {
+    return `http://localhost:5000${url}`;
+  }
+  return url;
+};
+
 export default function CareerHero() {
   const [data, setData] = useState(defaultHeroData);
+  const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
     fetch('http://localhost:5000/api/home-content/career-hero')
@@ -24,16 +34,29 @@ export default function CareerHero() {
         }
       })
       .catch((err) => console.error('Error fetching CareerHero API data:', err));
+
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const bgImage = data.bgImage || data.backgroundImage || defaultHeroData.bgImage;
-  const bgVideo = data.bgVideo || data.backgroundVideo || defaultHeroData.bgVideo;
-  const isVideoMode = data.backgroundMediaType === 'video' || (data.backgroundMediaType !== 'image' && !!bgVideo);
+  const rawBgImage = data.bgImage || data.backgroundImage || defaultHeroData.bgImage;
+  const rawBgVideo = data.bgVideo || data.backgroundVideo || defaultHeroData.bgVideo;
+
+  const bgImage = getMediaUrl(rawBgImage);
+  const bgVideo = getMediaUrl(rawBgVideo);
+  const isVideoMode = data.backgroundMediaType === 'video' || (data.backgroundMediaType !== 'image' && !!rawBgVideo) || (!!rawBgVideo && !data.backgroundMediaType);
 
   return (
-    <section className="relative w-full min-h-[720px] lg:min-h-[850px] h-[88vh] bg-black overflow-hidden flex items-center">
-      {/* Background Technology Workspace Image Layer */}
-      <div className="absolute inset-0 z-0">
+    <section className="relative w-full min-h-screen bg-black overflow-hidden flex flex-col justify-between">
+      {/* THE SINGLE UNIFIED BACKGROUND VIDEO WITH PARALLAX SCROLL */}
+      <div
+        className="absolute inset-0 z-0 transition-transform duration-75 ease-out"
+        style={{ transform: `translateY(${scrollY * 0.15}px)` }}
+      >
         {isVideoMode && bgVideo ? (
           <video
             autoPlay
@@ -41,7 +64,7 @@ export default function CareerHero() {
             muted
             playsInline
             poster={bgImage}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover hero-video"
             src={bgVideo}
             onError={(e) => {
               e.target.style.display = 'none';
@@ -53,13 +76,14 @@ export default function CareerHero() {
           <img
             src={bgImage}
             alt="Collaborative engineering workplace"
-            className="w-full h-full object-cover object-center"
+            className="w-full h-full object-cover object-center hero-video"
           />
         )}
+        <div className="absolute inset-0 bg-black/15" />
       </div>
 
       {/* Hero Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 w-full">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 sm:pt-32 pb-8 w-full">
         <div className="max-w-2xl text-left">
           {/* Subheading Label */}
           <div className="text-white font-semibold text-sm sm:text-base tracking-widest uppercase mb-3">
@@ -91,6 +115,10 @@ export default function CareerHero() {
           </Link>
         </div>
       </div>
+
+      {/* Floating Job Cards directly on top of the SAME single video */}
+      <CareerJobGrid />
     </section>
   );
 }
+

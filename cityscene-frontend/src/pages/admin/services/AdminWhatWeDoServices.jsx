@@ -97,6 +97,7 @@ export default function AdminWhatWeDoServices() {
     setModalTab('card');
     setSelectedService({
       ...srv,
+      originalId: srv.id || srv._id,
       whyChooseCards: srv.whyChooseCards || [],
       expertiseItems: srv.expertiseItems || [],
       processSteps: srv.processSteps || [],
@@ -143,7 +144,8 @@ export default function AdminWhatWeDoServices() {
         await createService(payload);
         setMessage({ type: 'success', text: 'Service card & detail content created successfully.' });
       } else {
-        await updateService(selectedService.id || selectedService._id, payload);
+        const targetId = selectedService.originalId || selectedService.id || selectedService._id;
+        await updateService(targetId, payload);
         setMessage({ type: 'success', text: 'Service card & detail content updated successfully.' });
       }
 
@@ -371,7 +373,6 @@ export default function AdminWhatWeDoServices() {
                         className="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg font-mono"
                         placeholder="e.g. mobile-app-development"
                         required
-                        disabled={!isAddMode}
                       />
                     </div>
                   </div>

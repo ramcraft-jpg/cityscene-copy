@@ -12,6 +12,14 @@ const defaultHeroData = {
   bgVideo: ''
 };
 
+const getMediaUrl = (url) => {
+  if (!url) return '';
+  if (url.startsWith('/uploads')) {
+    return `http://localhost:5000${url}`;
+  }
+  return url;
+};
+
 export default function PortfolioHero({ videoSrc: propVideoSrc }) {
   const [data, setData] = useState(defaultHeroData);
 
@@ -26,9 +34,12 @@ export default function PortfolioHero({ videoSrc: propVideoSrc }) {
       .catch((err) => console.error('Error fetching PortfolioHero API data:', err));
   }, []);
 
-  const bgImage = data.bgImage || data.backgroundImage || defaultHeroData.bgImage;
-  const bgVideo = propVideoSrc || data.bgVideo || data.backgroundVideo || defaultHeroData.bgVideo;
-  const isVideoMode = data.backgroundMediaType === 'video' || (data.backgroundMediaType !== 'image' && !!bgVideo);
+  const rawBgImage = data.bgImage || data.backgroundImage || defaultHeroData.bgImage;
+  const rawBgVideo = propVideoSrc || data.bgVideo || data.backgroundVideo || defaultHeroData.bgVideo;
+
+  const bgImage = getMediaUrl(rawBgImage);
+  const bgVideo = getMediaUrl(rawBgVideo);
+  const isVideoMode = data.backgroundMediaType === 'video' || (data.backgroundMediaType !== 'image' && !!rawBgVideo) || (!!rawBgVideo && !data.backgroundMediaType);
 
   return (
     <section className="relative w-full h-[90vh] min-h-[720px] lg:min-h-[850px] bg-black text-white flex items-center overflow-hidden py-20 lg:py-32">

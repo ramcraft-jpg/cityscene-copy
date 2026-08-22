@@ -88,7 +88,7 @@ export default function AdminCareerJobs() {
 
   const handleOpenEdit = (job) => {
     setIsAddMode(false);
-    setSelectedJob({ ...job });
+    setSelectedJob({ ...job, originalId: job.id || job._id });
     setIsModalOpen(true);
   };
 
@@ -97,7 +97,7 @@ export default function AdminCareerJobs() {
     if (!selectedJob.title) return;
 
     const token = getAdminToken();
-    const targetId = selectedJob.id || selectedJob._id;
+    const targetId = selectedJob.originalId || selectedJob.id || selectedJob._id;
     const url = isAddMode ? 'http://localhost:5000/api/jobs' : `http://localhost:5000/api/jobs/${encodeURIComponent(targetId)}`;
     const method = isAddMode ? 'POST' : 'PUT';
 
@@ -331,7 +331,6 @@ export default function AdminCareerJobs() {
                     className="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg font-mono"
                     placeholder="e.g. frontend-engineer"
                     required
-                    disabled={!isAddMode}
                   />
                 </div>
               </div>

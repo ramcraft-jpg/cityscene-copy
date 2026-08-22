@@ -118,6 +118,7 @@ export default function AdminPortfolioProjects() {
     setModalTab('card');
     setSelectedProject({
       ...proj,
+      originalId: proj.id || proj.slug || proj._id,
       shortDesc: proj.shortDesc || proj.description || '',
       systemOverviewText: Array.isArray(proj.systemOverview) ? proj.systemOverview.join('\n\n') : proj.systemOverview || '',
       technologiesText: Array.isArray(proj.technologies) ? proj.technologies.join(', ') : proj.technologies || '',
@@ -172,7 +173,7 @@ export default function AdminPortfolioProjects() {
         await createProject(payload);
         setMessage({ type: 'success', text: 'Project created successfully.' });
       } else {
-        const targetId = selectedProject.id || selectedProject.slug || selectedProject._id;
+        const targetId = selectedProject.originalId || selectedProject.id || selectedProject.slug || selectedProject._id;
         await updateProject(targetId, payload);
         setMessage({ type: 'success', text: 'Project updated successfully.' });
       }
@@ -415,7 +416,6 @@ export default function AdminPortfolioProjects() {
                         className="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg font-mono"
                         placeholder="e.g. healthconnect-system"
                         required
-                        disabled={!isAddMode}
                       />
                     </div>
                   </div>

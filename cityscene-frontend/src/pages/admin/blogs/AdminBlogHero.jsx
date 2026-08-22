@@ -2,6 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { getHomeSectionContent, updateHomeSectionContent, uploadHomeMedia } from '../../../services/homeContentService';
 import AdminHeroMediaControl from '../../../components/admin/AdminHeroMediaControl';
 
+const isVideoUrl = (url) => {
+  if (!url || typeof url !== 'string') return false;
+  const clean = url.split('?')[0].toLowerCase();
+  return (
+    clean.endsWith('.mp4') ||
+    clean.endsWith('.webm') ||
+    clean.endsWith('.mov') ||
+    clean.endsWith('.avi') ||
+    clean.endsWith('.mkv') ||
+    clean.includes('.mp4') ||
+    clean.includes('/videos/') ||
+    clean.includes('/video/')
+  );
+};
+
 export default function AdminBlogHero() {
   const [data, setData] = useState({
     subheading: 'BLOG',
@@ -25,6 +40,14 @@ export default function AdminBlogHero() {
       setLoading(true);
       const res = await getHomeSectionContent('blog-hero');
       if (res && res.title) {
+        if (isVideoUrl(res.bgImage) || isVideoUrl(res.backgroundImage)) {
+          const vid = res.bgImage || res.backgroundImage;
+          res.bgVideo = res.bgVideo || vid;
+          res.backgroundVideo = res.backgroundVideo || vid;
+          res.backgroundMediaType = 'video';
+          res.bgImage = '';
+          res.backgroundImage = '';
+        }
         setData(res);
       }
     } catch (err) {
@@ -132,8 +155,8 @@ export default function AdminBlogHero() {
           imageUrl={data.bgImage || data.backgroundImage || ''}
           videoUrl={data.bgVideo || data.backgroundVideo || ''}
           onChangeMediaType={(type) => setData({ ...data, backgroundMediaType: type })}
-          onChangeImage={(url) => setData({ ...data, bgImage: url, backgroundImage: url })}
-          onChangeVideo={(url) => setData({ ...data, bgVideo: url, backgroundVideo: url })}
+          onChangeImage={(url) => setData({ ...data, bgImage: url, backgroundImage: url, backgroundMediaType: 'image' })}
+          onChangeVideo={(url) => setData({ ...data, bgVideo: url, backgroundVideo: url, backgroundMediaType: url ? 'video' : 'image' })}
           uploading={uploading}
           onUpload={async (file, type) => {
             if (!file) return;

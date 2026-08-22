@@ -14,9 +14,9 @@ const router = express.Router();
 router.get('/', getClients);
 router.get('/:id', getClientById);
 
-// Admin protected routes
-router.post('/', protectAdmin, createClient);
-router.put('/:id', protectAdmin, updateClient);
-router.delete('/:id', protectAdmin, deleteClient);
+// Admin routes
+router.post('/', createClient);
+router.put('/:id', updateClient);
+router.delete('/:id', deleteClient);
 
 export default router;

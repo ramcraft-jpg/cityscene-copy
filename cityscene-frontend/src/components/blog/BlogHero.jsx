@@ -8,6 +8,31 @@ const defaultHeroData = {
   bgVideo: ''
 };
 
+const isVideoUrl = (url) => {
+  if (!url || typeof url !== 'string') return false;
+  const clean = url.split('?')[0].toLowerCase();
+  return (
+    clean.endsWith('.mp4') ||
+    clean.endsWith('.webm') ||
+    clean.endsWith('.mov') ||
+    clean.endsWith('.avi') ||
+    clean.endsWith('.mkv') ||
+    clean.includes('.mp4') ||
+    clean.includes('/videos/') ||
+    clean.includes('/video/') ||
+    clean.includes('mixkit.co/videos') ||
+    clean.startsWith('data:video/')
+  );
+};
+
+const getMediaUrl = (url) => {
+  if (!url) return '';
+  if (url.startsWith('/uploads')) {
+    return `http://localhost:5000${url}`;
+  }
+  return url;
+};
+
 export default function BlogHero({ videoSrc: propVideoSrc }) {
   const [data, setData] = useState(defaultHeroData);
 
@@ -22,9 +47,22 @@ export default function BlogHero({ videoSrc: propVideoSrc }) {
       .catch((err) => console.error('Error fetching BlogHero API data:', err));
   }, []);
 
-  const bgImage = data.bgImage || data.backgroundImage || defaultHeroData.bgImage;
-  const bgVideo = propVideoSrc || data.bgVideo || data.backgroundVideo || defaultHeroData.bgVideo;
-  const isVideoMode = data.backgroundMediaType === 'video' || (data.backgroundMediaType !== 'image' && !!bgVideo);
+  const rawBgImage = data.bgImage || data.backgroundImage || defaultHeroData.bgImage;
+  let rawBgVideo = propVideoSrc || data.bgVideo || data.backgroundVideo || defaultHeroData.bgVideo;
+
+  if (!rawBgVideo && isVideoUrl(rawBgImage)) {
+    rawBgVideo = rawBgImage;
+  }
+
+  const bgImage = isVideoUrl(rawBgImage) ? '' : getMediaUrl(rawBgImage);
+  const bgVideo = getMediaUrl(rawBgVideo);
+
+  const isVideoMode =
+    data.backgroundMediaType === 'video' ||
+    (data.backgroundMediaType !== 'image' && !!rawBgVideo) ||
+    (!!rawBgVideo && !data.backgroundMediaType) ||
+    isVideoUrl(rawBgImage) ||
+    isVideoUrl(rawBgVideo);
 
   return (
     <section className="relative w-full min-h-[720px] lg:min-h-[850px] h-[88vh] bg-black text-white flex items-center overflow-hidden py-20 md:py-32">
@@ -40,7 +78,7 @@ export default function BlogHero({ videoSrc: propVideoSrc }) {
             className="w-full h-full object-cover object-center"
             src={bgVideo}
             onError={(e) => {
-              e.target.style.display = 'none';
+              console.error('Video load error:', bgVideo);
             }}
           />
         ) : null}
