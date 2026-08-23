@@ -364,21 +364,21 @@ export default function AdminPortfolioProjects() {
               </button>
               <button
                 type="button"
-                onClick={() => setModalTab('modules')}
-                className={`px-3 py-2 font-bold rounded-t-lg transition border-b-2 ${
-                  modalTab === 'modules' ? 'border-orange-500 text-orange-600 bg-slate-50' : 'border-transparent text-slate-500 hover:text-slate-900'
-                }`}
-              >
-                3. System Modules ({selectedProject.capabilities?.length || 0})
-              </button>
-              <button
-                type="button"
                 onClick={() => setModalTab('valueProps')}
                 className={`px-3 py-2 font-bold rounded-t-lg transition border-b-2 ${
                   modalTab === 'valueProps' ? 'border-orange-500 text-orange-600 bg-slate-50' : 'border-transparent text-slate-500 hover:text-slate-900'
                 }`}
               >
-                4. Value Propositions ({selectedProject.valuePropositions?.length || 0})
+                3. Value Propositions ({selectedProject.valuePropositions?.length || 0})
+              </button>
+              <button
+                type="button"
+                onClick={() => setModalTab('modules')}
+                className={`px-3 py-2 font-bold rounded-t-lg transition border-b-2 ${
+                  modalTab === 'modules' ? 'border-orange-500 text-orange-600 bg-slate-50' : 'border-transparent text-slate-500 hover:text-slate-900'
+                }`}
+              >
+                4. System Modules ({selectedProject.capabilities?.length || 0})
               </button>
               <button
                 type="button"

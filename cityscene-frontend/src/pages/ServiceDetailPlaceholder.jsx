@@ -6,7 +6,8 @@ import WhatWeDoServiceDetail from '../components/whatwedo/WhatWeDoServiceDetail'
 import { getServiceById } from '../services/serviceService';
 
 export default function ServiceDetailPlaceholder() {
-  const { serviceId } = useParams();
+  const { serviceId, slug } = useParams();
+  const targetId = serviceId || slug;
   const [service, setService] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -16,9 +17,13 @@ export default function ServiceDetailPlaceholder() {
     setLoading(true);
     setError(null);
 
-    getServiceById(serviceId)
+    getServiceById(targetId)
       .then((data) => {
-        setService(data);
+        if (!data) {
+          setError(`Service '${targetId}' not found.`);
+        } else {
+          setService(data);
+        }
         setLoading(false);
       })
       .catch((err) => {
@@ -26,7 +31,7 @@ export default function ServiceDetailPlaceholder() {
         setError(err.message || 'Failed to load service details.');
         setLoading(false);
       });
-  }, [serviceId]);
+  }, [targetId]);
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-gray-900 font-sans selection:bg-orange-500 selection:text-white">

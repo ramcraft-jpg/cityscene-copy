@@ -3,14 +3,11 @@ import React from 'react';
 export default function PortfolioDetailModules({ project }) {
   if (!project) return null;
 
-  const modulesTitle = project.modulesTitle || "Sales & Delivery Modules";
-  const summaryNote = project.summaryNote || `From lead capture to delivery confirmation, ${project.title || 'Power Portal'} ensures accuracy, speed, and transparency.`;
-  const capabilities = (project.capabilities && project.capabilities.length > 0) ? project.capabilities : [
-    { title: "Lead & Sales Management", description: "Multi-channel lead capture, BANT scoring, nurturing, and analytics." },
-    { title: "Quotation & Order Processing", description: "Dynamic pricing, approvals, inventory validation, and payments." },
-    { title: "Delivery & Logistics", description: "Partial shipments, courier integrations, GPS tracking, POD." },
-    { title: "Customer Communication", description: "Automated emails, order tracking portal, and support tickets." }
-  ];
+  const modulesTitle = project.modulesTitle || "System Modules";
+  const summaryNote = project.summaryNote || (project.description ? `Key capabilities and operational modules for ${project.title}.` : '');
+  const capabilities = project.capabilities || project.modules || [];
+
+  if (!capabilities || capabilities.length === 0) return null;
 
   return (
     <section className="w-full bg-white py-16 md:py-24 border-t border-gray-100">

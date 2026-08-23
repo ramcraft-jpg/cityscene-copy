@@ -41,9 +41,16 @@ export default function PortfolioProjectDetail({ project }) {
 
   const categoryCaps = project.categoryCaps || (project.category ? project.category.toUpperCase() : 'ENTERPRISE SOLUTION');
   const titleSystem = project.titleSystem || `${project.title} System`;
-  const overviewParas = project.systemOverview || [
-    project.overview || project.description
-  ];
+  let overviewParas = [];
+  if (Array.isArray(project.systemOverview) && project.systemOverview.length > 0) {
+    overviewParas = project.systemOverview;
+  } else if (typeof project.systemOverview === 'string' && project.systemOverview.trim().length > 0) {
+    overviewParas = project.systemOverview.split('\n\n').filter(Boolean);
+  } else if (typeof project.fullDesc === 'string' && project.fullDesc.trim().length > 0) {
+    overviewParas = project.fullDesc.split('\n\n').filter(Boolean);
+  } else if (project.shortDesc || project.description) {
+    overviewParas = [project.shortDesc || project.description];
+  }
 
   return (
     <article className="min-h-screen bg-white text-gray-900 font-sans">
@@ -56,9 +63,9 @@ export default function PortfolioProjectDetail({ project }) {
 
       <PortfolioDetailOverview overviewParas={overviewParas} />
 
-      <PortfolioDetailModules project={project} />
-
       <PortfolioDetailValueProp project={project} />
+
+      <PortfolioDetailModules project={project} />
 
       <PortfolioDetailExecution project={project} />
 

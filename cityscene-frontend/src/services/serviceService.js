@@ -1,25 +1,47 @@
 import { getAdminToken } from './adminAuthService';
+import staticServices from '../data/services';
 
 const API_BASE = 'http://localhost:5000/api';
 
 export const getServices = async (includeAll = false) => {
-  const url = includeAll ? `${API_BASE}/services?all=true` : `${API_BASE}/services`;
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`Services API error: ${response.statusText}`);
+  try {
+    const url = includeAll ? `${API_BASE}/services?all=true` : `${API_BASE}/services`;
+    const response = await fetch(url);
+    if (response.ok) {
+      const json = await response.json();
+      if (json.data && json.data.length > 0) {
+        return json.data;
+      }
+    }
+  } catch (err) {
+    console.warn('[Service API Warning]: Failed to fetch from backend API, using static fallback dataset:', err.message);
   }
-  const json = await response.json();
-  return json.data || [];
+  return staticServices;
 };
 
 export const getServiceById = async (id) => {
   if (!id) return null;
-  const response = await fetch(`${API_BASE}/services/${encodeURIComponent(id)}`);
-  if (!response.ok) {
-    throw new Error(`Service detail API error: ${response.statusText}`);
+  const cleanId = id.trim().toLowerCase();
+
+  try {
+    const response = await fetch(`${API_BASE}/services/${encodeURIComponent(cleanId)}`);
+    if (response.ok) {
+      const json = await response.json();
+      if (json.data) return json.data;
+    }
+  } catch (err) {
+    console.warn(`[Service API Warning]: Failed to fetch service '${cleanId}', searching fallback dataset:`, err.message);
   }
-  const json = await response.json();
-  return json.data || null;
+
+  // Fallback to static services array
+  const found = staticServices.find(
+    (s) =>
+      s.id.toLowerCase() === cleanId ||
+      s.path.toLowerCase() === `/services/${cleanId}` ||
+      (s.slug && s.slug.toLowerCase() === cleanId)
+  );
+
+  return found || null;
 };
 
 export const createService = async (serviceData) => {

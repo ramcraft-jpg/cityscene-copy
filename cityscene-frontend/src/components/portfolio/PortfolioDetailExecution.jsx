@@ -3,12 +3,10 @@ import React from 'react';
 export default function PortfolioDetailExecution({ project }) {
   if (!project) return null;
 
-  const executionFeatures = (project.executionFeatures && project.executionFeatures.length > 0) ? project.executionFeatures : [
-    { title: "Project Automation", description: "Auto project creation, task templates, dependencies, and milestones." },
-    { title: "Task & Resource Management", description: "Kanban boards, Gantt charts, skill-based allocation." },
-    { title: "Time & Cost Control", description: "Timesheets, earned value management, profitability tracking." },
-    { title: "Dashboards & Reports", description: "Sales funnels, project health, executive KPIs." }
-  ];
+  const executionTitle = project.executionTitle || "Project Execution & Analytics";
+  const executionFeatures = project.executionFeatures || project.features || [];
+
+  if (!executionFeatures || executionFeatures.length === 0) return null;
 
   return (
     <section className="w-full bg-black text-white py-16 md:py-24 border-t border-white/10">
