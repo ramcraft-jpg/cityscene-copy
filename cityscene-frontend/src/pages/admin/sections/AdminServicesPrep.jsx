@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getHomeSectionContent, updateHomeSectionContent, uploadHomeMedia } from '../../../services/homeContentService';
 import { getServices, createService, updateService, deleteService } from '../../../services/serviceService';
+import { getMediaUrl } from '../../../utils/imageUrl';
 
 export default function AdminServicesManagement() {
   const [activeTab, setActiveTab] = useState('cards'); // 'cards' | 'hero' | 'empowering'
@@ -274,7 +275,7 @@ export default function AdminServicesManagement() {
                   <tr key={srv.id || srv._id} className="hover:bg-slate-50 transition">
                     <td className="p-3.5">
                       <div className="w-14 h-10 rounded-lg overflow-hidden bg-slate-200 border border-slate-300">
-                        <img src={srv.image} alt={srv.title} className="w-full h-full object-cover" />
+                        <img src={getMediaUrl(srv.image)} alt={srv.title} className="w-full h-full object-cover" />
                       </div>
                     </td>
                     <td className="p-3.5">
@@ -390,7 +391,7 @@ export default function AdminServicesManagement() {
             <label className="block text-xs font-bold text-slate-700 mb-1">Background Image</label>
             <div className="flex flex-col sm:flex-row items-center gap-4 bg-slate-50 p-3 rounded-xl border border-slate-200">
               <div className="w-36 h-20 rounded-lg overflow-hidden bg-slate-200 shrink-0 border border-slate-300">
-                <img src={heroData.bgImage} alt="Hero BG Preview" className="w-full h-full object-cover" />
+                <img src={getMediaUrl(heroData.bgImage)} alt="Hero BG Preview" className="w-full h-full object-cover" />
               </div>
               <div className="flex-1 space-y-2 w-full">
                 <input
@@ -482,7 +483,7 @@ export default function AdminServicesManagement() {
             <label className="block text-xs font-bold text-slate-700 mb-1">Section Image</label>
             <div className="flex flex-col sm:flex-row items-center gap-4 bg-slate-50 p-3 rounded-xl border border-slate-200">
               <div className="w-40 h-24 rounded-lg overflow-hidden bg-slate-200 shrink-0 border border-slate-300">
-                <img src={empoweringData.image} alt="Empowering Section Preview" className="w-full h-full object-cover" />
+                <img src={getMediaUrl(empoweringData.image)} alt="Empowering Section Preview" className="w-full h-full object-cover" />
               </div>
               <div className="flex-1 space-y-2 w-full">
                 <input
@@ -598,7 +599,7 @@ export default function AdminServicesManagement() {
                 <label className="block text-xs font-bold text-slate-700 mb-1">Service Card Image</label>
                 <div className="flex flex-col sm:flex-row items-center gap-3 bg-slate-50 p-3 rounded-xl border border-slate-200">
                   <div className="w-20 h-16 rounded-lg overflow-hidden bg-slate-200 shrink-0 border border-slate-300">
-                    <img src={selectedService.image} alt="Service preview" className="w-full h-full object-cover" />
+                    <img src={getMediaUrl(selectedService.image)} alt="Service preview" className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1 space-y-1 w-full">
                     <input

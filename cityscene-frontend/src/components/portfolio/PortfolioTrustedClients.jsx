@@ -1,15 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { getClients } from '../../services/clientService';
+import { getMediaUrl } from '../../utils/imageUrl';
 
 const defaultHeading = 'Trusted by fast growing startups';
-
-const getMediaUrl = (url) => {
-  if (!url) return '';
-  if (url.startsWith('/uploads')) {
-    return `http://localhost:5000${url}`;
-  }
-  return url;
-};
 
 export default function PortfolioTrustedClients() {
   const [heading, setHeading] = useState(defaultHeading);
@@ -23,7 +16,7 @@ export default function PortfolioTrustedClients() {
       if (headerRes && headerRes.success && headerRes.content && headerRes.content.heading) {
         setHeading(headerRes.content.heading);
       }
-      if (clientsData && clientsData.length > 0) {
+      if (Array.isArray(clientsData)) {
         setClientsList(clientsData);
       }
     });

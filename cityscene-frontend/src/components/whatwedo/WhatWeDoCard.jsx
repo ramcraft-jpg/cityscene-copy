@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { getMediaUrl } from '../../utils/imageUrl';
 
 export default function WhatWeDoCard({ service }) {
   const getPositionClasses = (position) => {
@@ -21,7 +22,7 @@ export default function WhatWeDoCard({ service }) {
     >
       {/* Service Background Image */}
       <img
-        src={service.image}
+        src={getMediaUrl(service.image)}
         alt={service.displayTitle}
         className="w-full h-full object-cover object-center transform transition-transform duration-700 ease-out group-hover:scale-110"
       />

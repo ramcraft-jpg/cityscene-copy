@@ -29,7 +29,7 @@ export default function JobApplication() {
     fetch('http://localhost:5000/api/jobs')
       .then((res) => res.json())
       .then((resData) => {
-        if (resData.success && resData.data && resData.data.length > 0) {
+        if (resData.success && resData.data) {
           setAvailableJobs(resData.data);
           if (jobId) {
             const selectedJob = resData.data.find((j) => j.id === jobId);

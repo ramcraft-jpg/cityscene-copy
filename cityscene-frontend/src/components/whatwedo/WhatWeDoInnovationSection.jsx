@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { getMediaUrl } from '../../utils/imageUrl';
 
 const defaultEmpoweringData = {
   heading: 'Empowering Businesses with Innovation',
@@ -20,7 +21,7 @@ export default function WhatWeDoInnovationSection() {
       .catch((err) => console.error('Error fetching WhatWeDoInnovationSection API data:', err));
   }, []);
 
-  const imageSrc = data.image || defaultEmpoweringData.image;
+  const imageSrc = getMediaUrl(data.image || defaultEmpoweringData.image);
 
   return (
     <section className="w-full bg-white py-16 md:py-24">

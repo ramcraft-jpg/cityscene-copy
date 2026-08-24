@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { getMediaUrl } from '../../utils/imageUrl';
 
 const defaultHeroSlides = [
   {
@@ -27,14 +28,6 @@ const defaultHeroSlides = [
     subtitle: 'Building sustainable, secure, and scalable digital ecosystems tailored for modern enterprises and forward-thinking communities.'
   }
 ];
-
-const getMediaUrl = (url) => {
-  if (!url) return '';
-  if (url.startsWith('/uploads')) {
-    return `http://localhost:5000${url}`;
-  }
-  return url;
-};
 
 export default function HomeHero() {
   const [currentSlide, setCurrentSlide] = useState(0);

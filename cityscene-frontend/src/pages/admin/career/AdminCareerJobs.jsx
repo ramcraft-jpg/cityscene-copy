@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getHomeSectionContent, updateHomeSectionContent, uploadHomeMedia } from '../../../services/homeContentService';
+import { getMediaUrl } from '../../../utils/imageUrl';
 import { getAdminToken } from '../../../services/adminAuthService';
 
 export default function AdminCareerJobs() {
@@ -253,7 +254,7 @@ export default function AdminCareerJobs() {
               <tr key={job.id || job._id} className="hover:bg-slate-50 transition">
                 <td className="p-3.5">
                   <div className="w-14 h-10 rounded-lg overflow-hidden bg-slate-200 border border-slate-300">
-                    <img src={job.image} alt={job.title} className="w-full h-full object-cover" />
+                    <img src={getMediaUrl(job.image)} alt={job.title} className="w-full h-full object-cover" />
                   </div>
                 </td>
                 <td className="p-3.5">
@@ -375,7 +376,7 @@ export default function AdminCareerJobs() {
                 <label className="block text-xs font-bold text-slate-700 mb-1">Job Card Image</label>
                 <div className="flex items-center gap-3 bg-slate-50 p-2.5 rounded-xl border border-slate-200">
                   <div className="w-16 h-12 rounded-lg overflow-hidden bg-slate-200 shrink-0 border border-slate-300">
-                    <img src={selectedJob.image} alt="Preview" className="w-full h-full object-cover" />
+                    <img src={getMediaUrl(selectedJob.image)} alt="Preview" className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1 space-y-1 w-full">
                     <input

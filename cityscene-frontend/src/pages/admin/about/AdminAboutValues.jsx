@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getHomeSectionContent, updateHomeSectionContent, uploadHomeMedia } from '../../../services/homeContentService';
+import { getMediaUrl } from '../../../utils/imageUrl';
 
 export default function AdminAboutValues() {
   const [data, setData] = useState({
@@ -181,7 +182,7 @@ export default function AdminAboutValues() {
             <div key={val.id || idx} className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3 relative group">
               <div className="flex items-center gap-3">
                 <div className="w-14 h-14 rounded-lg overflow-hidden bg-slate-200 shrink-0 border border-slate-300">
-                  <img src={val.image} alt={val.title} className="w-full h-full object-cover" />
+                  <img src={getMediaUrl(val.image)} alt={val.title} className="w-full h-full object-cover" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <h3 className="text-sm font-bold text-slate-900 truncate">{val.title}</h3>
@@ -276,7 +277,7 @@ export default function AdminAboutValues() {
                 <label className="block text-xs font-bold text-slate-700 mb-1">Background Image</label>
                 <div className="flex items-center gap-3 bg-slate-50 p-2.5 rounded-xl border border-slate-200">
                   <div className="w-16 h-12 rounded-lg overflow-hidden bg-slate-200 shrink-0 border border-slate-300">
-                    <img src={editingValue.image} alt="Preview" className="w-full h-full object-cover" />
+                    <img src={getMediaUrl(editingValue.image)} alt="Preview" className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1 space-y-1 w-full">
                     <input

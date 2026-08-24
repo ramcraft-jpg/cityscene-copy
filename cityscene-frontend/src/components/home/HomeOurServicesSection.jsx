@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { getMediaUrl } from '../../utils/imageUrl';
+import ScrollReveal from '../shared/ScrollReveal';
 
 const defaultServices = [
   {
@@ -126,7 +128,6 @@ export default function HomeOurServicesSection() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Maximum index for visible cards based on screen size
   const maxIndex = Math.max(0, allServices.length - cardsPerView);
 
   const handleNext = () => {
@@ -148,17 +149,19 @@ export default function HomeOurServicesSection() {
     <section className="w-full min-h-screen min-h-[100svh] bg-[#181818] text-white py-10 md:py-14 flex flex-col justify-center overflow-hidden relative">
       {/* Header Container */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full mb-8 sm:mb-12 flex items-center justify-between">
-        <div>
-          <span className="text-xs sm:text-sm font-semibold tracking-widest text-orange-500 uppercase block mb-1">
-            {sectionData.badge || 'What We Deliver'}
-          </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-bold text-white tracking-tight">
-            {sectionData.heading || 'Our Services'}
-          </h2>
-        </div>
+        <ScrollReveal animation="up" delay={100}>
+          <div>
+            <span className="text-xs sm:text-sm font-semibold tracking-widest text-orange-500 uppercase block mb-1">
+              {sectionData.badge || 'What We Deliver'}
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-bold text-white tracking-tight">
+              {sectionData.heading || 'Our Services'}
+            </h2>
+          </div>
+        </ScrollReveal>
 
         {/* Navigation Buttons & Counter */}
-        <div className="flex items-center space-x-4">
+        <ScrollReveal animation="fade" delay={200} className="flex items-center space-x-4">
           <span className="text-sm font-medium text-gray-400 font-mono hidden sm:inline-block">
             {String(currentIndex + 1).padStart(2, '0')} / {String(allServices.length).padStart(2, '0')}
           </span>
@@ -178,14 +181,11 @@ export default function HomeOurServicesSection() {
               <ChevronRight size={20} />
             </button>
           </div>
-        </div>
+        </ScrollReveal>
       </div>
 
-      {/* 3-Card Display Viewport Container with Hard Edge Clipping */}
-      <div
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative overflow-hidden"
-        style={{ clipPath: 'inset(0 0 0 0)' }}
-      >
+      {/* 3-Card Display Viewport Container */}
+      <ScrollReveal animation="scale" delay={300} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative overflow-hidden" style={{ clipPath: 'inset(0 0 0 0)' }}>
         <div
           style={{
             transform: `translateX(calc(-${currentIndex} * (100% + 24px) / ${cardsPerView}))`,
@@ -207,7 +207,7 @@ export default function HomeOurServicesSection() {
               >
                 {/* Background Image */}
                 <img
-                  src={srv.image}
+                  src={getMediaUrl(srv.image)}
                   alt={srv.title}
                   onError={(e) => {
                     e.target.onerror = null;
@@ -247,7 +247,7 @@ export default function HomeOurServicesSection() {
             />
           ))}
         </div>
-      </div>
+      </ScrollReveal>
     </section>
   );
 }

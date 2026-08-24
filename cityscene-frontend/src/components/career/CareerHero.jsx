@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import CareerJobGrid from './CareerJobGrid';
+import { getMediaUrl } from '../../utils/imageUrl';
+import { useVideoIntersectionObserver } from '../../utils/useVideoIntersectionObserver';
 
 const defaultHeroData = {
   subheading: 'CAREER OPPORTUNITIES',
@@ -13,17 +15,10 @@ const defaultHeroData = {
   bgVideo: ''
 };
 
-const getMediaUrl = (url) => {
-  if (!url) return '';
-  if (url.startsWith('/uploads')) {
-    return `http://localhost:5000${url}`;
-  }
-  return url;
-};
-
 export default function CareerHero() {
   const [data, setData] = useState(defaultHeroData);
   const [scrollY, setScrollY] = useState(0);
+  const videoRef = useVideoIntersectionObserver({ threshold: 0.15 });
 
   useEffect(() => {
     fetch('http://localhost:5000/api/home-content/career-hero')
@@ -51,20 +46,21 @@ export default function CareerHero() {
   const isVideoMode = data.backgroundMediaType === 'video' || (data.backgroundMediaType !== 'image' && !!rawBgVideo) || (!!rawBgVideo && !data.backgroundMediaType);
 
   return (
-    <section className="relative w-full min-h-screen bg-black overflow-hidden flex flex-col justify-between">
-      {/* THE SINGLE UNIFIED BACKGROUND VIDEO WITH PARALLAX SCROLL */}
+    <section className="group relative w-full min-h-screen bg-black overflow-hidden flex flex-col justify-between">
+      {/* THE SINGLE UNIFIED BACKGROUND VIDEO WITH PARALLAX SCROLL & HOVER ZOOM */}
       <div
-        className="absolute inset-0 z-0 transition-transform duration-75 ease-out"
+        className="absolute inset-0 z-0 transition-transform duration-75 ease-out overflow-hidden"
         style={{ transform: `translateY(${scrollY * 0.15}px)` }}
       >
         {isVideoMode && bgVideo ? (
           <video
+            ref={videoRef}
             autoPlay
             loop
             muted
             playsInline
             poster={bgImage}
-            className="w-full h-full object-cover hero-video"
+            className="w-full h-full object-cover hero-video transform scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
             src={bgVideo}
             onError={(e) => {
               e.target.style.display = 'none';
@@ -76,10 +72,10 @@ export default function CareerHero() {
           <img
             src={bgImage}
             alt="Collaborative engineering workplace"
-            className="w-full h-full object-cover object-center hero-video"
+            className="w-full h-full object-cover object-center hero-video transform scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
           />
         )}
-        <div className="absolute inset-0 bg-black/15" />
+        <div className="absolute inset-0 bg-black/25 group-hover:bg-black/15 transition-colors duration-700" />
       </div>
 
       {/* Hero Content */}
@@ -106,10 +102,10 @@ export default function CareerHero() {
           {/* Explore Jobs CTA Button */}
           <Link
             to={data.buttonLink || '/career/apply'}
-            className="inline-flex items-center gap-3 group text-white font-medium text-lg hover:text-white/90 transition-all duration-200"
+            className="inline-flex items-center gap-3 group/btn text-white font-medium text-lg hover:text-white/90 transition-all duration-200"
           >
             <span>{data.buttonText || 'Explore Jobs'}</span>
-            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-gray-900 group-hover:bg-gray-100 group-hover:scale-105 transition-all shadow-lg">
+            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-gray-900 group-hover/btn:bg-gray-100 group-hover/btn:scale-105 transition-all shadow-lg">
               <ArrowRight size={20} className="stroke-[2.5]" />
             </div>
           </Link>
@@ -121,4 +117,3 @@ export default function CareerHero() {
     </section>
   );
 }
-

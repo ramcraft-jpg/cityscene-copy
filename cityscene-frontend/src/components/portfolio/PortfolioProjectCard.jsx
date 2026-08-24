@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { getMediaUrl } from '../../utils/imageUrl';
 
 export default function PortfolioProjectCard({ project }) {
   return (
@@ -9,7 +10,7 @@ export default function PortfolioProjectCard({ project }) {
     >
       {/* Full Cover Image */}
       <img
-        src={project.image}
+        src={getMediaUrl(project.image)}
         alt={project.title}
         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
         loading="lazy"

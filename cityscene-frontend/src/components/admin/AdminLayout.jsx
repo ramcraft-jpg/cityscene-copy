@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate, Outlet, useLocation } from 'react-router-dom';
 import { logoutAdmin, getAdminUser } from '../../services/adminAuthService';
+import { getServices } from '../../services/serviceService';
 
 export default function AdminLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -43,6 +44,16 @@ export default function AdminLayout({ children }) {
     return location.pathname.startsWith('/admin/contact');
   });
 
+  const [dynamicServicesList, setDynamicServicesList] = useState([]);
+
+  useEffect(() => {
+    getServices(true)
+      .then((data) => {
+        if (data) setDynamicServicesList(data);
+      })
+      .catch((err) => console.error(err));
+  }, []);
+
   const handleLogout = () => {
     logoutAdmin();
     navigate('/admin/login', { replace: true });
@@ -74,9 +85,10 @@ export default function AdminLayout({ children }) {
   ];
 
   const servicesSubItems = [
-    { label: 'WhatWeDoHero', path: '/admin/services/hero' },
-    { label: 'WhatWeDoInnovation', path: '/admin/services/innovation' },
-    { label: 'WhatWeDoServices', path: '/admin/services/grid' }
+    { label: 'Services Cards Management', path: '/admin/services/grid' },
+    { label: 'Service Detail Pages', path: '/admin/services/pages' },
+    { label: 'Services Hero Banner', path: '/admin/services/hero' },
+    { label: 'Innovation Section', path: '/admin/services/innovation' }
   ];
 
   const aboutSubItems = [
@@ -95,9 +107,9 @@ export default function AdminLayout({ children }) {
   ];
 
   const portfolioSubItems = [
-    { label: 'PortfolioHero', path: '/admin/portfolio/hero' },
-    { label: 'PortfolioClients', path: '/admin/portfolio/clients' },
-    { label: 'PortfolioProjects', path: '/admin/portfolio/projects' }
+    { label: 'Projects Cards Management', path: '/admin/projects' },
+    { label: 'Portfolio Hero Banner', path: '/admin/portfolio/hero' },
+    { label: 'Trusted Clients', path: '/admin/portfolio/clients' }
   ];
 
   const blogsSubItems = [
@@ -118,7 +130,7 @@ export default function AdminLayout({ children }) {
   const isServicesActive = location.pathname.startsWith('/admin/services');
   const isAboutActive = location.pathname.startsWith('/admin/about');
   const isCareerActive = location.pathname.startsWith('/admin/career');
-  const isPortfolioActive = location.pathname.startsWith('/admin/portfolio');
+  const isPortfolioActive = location.pathname.startsWith('/admin/portfolio') || location.pathname.startsWith('/admin/projects');
   const isBlogsActive = location.pathname.startsWith('/admin/blogs');
   const isContactActive = location.pathname.startsWith('/admin/contact');
 
@@ -299,8 +311,9 @@ export default function AdminLayout({ children }) {
                     <ul className="mt-1 ml-4 pl-3 border-l border-slate-800 space-y-1">
                       {servicesSubItems.map((sub) => {
                         const isSubActive = location.pathname === sub.path;
+                        const isPageDetailMenu = sub.path === '/admin/services/pages';
                         return (
-                          <li key={sub.path}>
+                          <li key={sub.path} className="space-y-1">
                             <NavLink
                               to={sub.path}
                               onClick={() => setSidebarOpen(false)}
@@ -312,6 +325,33 @@ export default function AdminLayout({ children }) {
                             >
                               {sub.label}
                             </NavLink>
+
+                            {/* Nested list of individual service detail pages */}
+                            {isPageDetailMenu && dynamicServicesList.length > 0 && (
+                              <ul className="ml-3 pl-2 border-l border-slate-800/80 space-y-1 my-1">
+                                {dynamicServicesList.map((srv) => {
+                                  const srvId = srv.id || srv._id;
+                                  const srvPath = `/admin/services/pages/${srvId}`;
+                                  const isSrvActive = location.pathname === srvPath || location.pathname === `/admin/services/${srvId}`;
+                                  return (
+                                    <li key={srvId}>
+                                      <NavLink
+                                        to={srvPath}
+                                        onClick={() => setSidebarOpen(false)}
+                                        className={`block px-2 py-1 rounded text-[11px] truncate font-medium transition duration-150 ${
+                                          isSrvActive
+                                            ? 'text-orange-400 font-bold bg-slate-800/80'
+                                            : 'text-slate-400 hover:text-slate-200'
+                                        }`}
+                                        title={srv.title}
+                                      >
+                                        • {srv.title}
+                                      </NavLink>
+                                    </li>
+                                  );
+                                })}
+                              </ul>
+                            )}
                           </li>
                         );
                       })}

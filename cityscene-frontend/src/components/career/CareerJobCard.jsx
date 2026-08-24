@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { getMediaUrl } from '../../utils/imageUrl';
 
 export default function CareerJobCard({ job }) {
   const jobId = job.id || job._id;
@@ -9,7 +10,7 @@ export default function CareerJobCard({ job }) {
       {/* Top Job Image */}
       <div className="w-full h-36 sm:h-40 md:h-[155px] rounded-lg overflow-hidden mb-3 border border-white/20 shrink-0">
         <img
-          src={job.image}
+          src={getMediaUrl(job.image)}
           alt={job.title}
           className="w-full h-full object-cover object-center transform transition-transform duration-500 group-hover:scale-105"
         />

@@ -10,7 +10,7 @@ export default function CareerJobGrid({ jobs: customJobs }) {
       fetch('http://localhost:5000/api/jobs')
         .then((r) => r.json())
         .then((jobsRes) => {
-          if (jobsRes && jobsRes.success && jobsRes.data && jobsRes.data.length > 0) {
+          if (jobsRes && jobsRes.success && jobsRes.data) {
             setJobs(jobsRes.data);
           }
         })

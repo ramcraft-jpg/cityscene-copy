@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { getMediaUrl } from '../../utils/imageUrl';
+import { useVideoIntersectionObserver } from '../../utils/useVideoIntersectionObserver';
 
 const defaultCommitmentData = {
   badge: 'Partnering For Growth',
@@ -15,6 +17,7 @@ const defaultCommitmentData = {
 
 export default function HomeCommitmentSection() {
   const [data, setData] = useState(defaultCommitmentData);
+  const videoRef = useVideoIntersectionObserver({ threshold: 0.15 });
 
   useEffect(() => {
     fetch('http://localhost:5000/api/home-content/commitment')
@@ -27,40 +30,44 @@ export default function HomeCommitmentSection() {
       .catch((err) => console.error('Error fetching HomeCommitment API data:', err));
   }, []);
 
-  const videoSrc = data.videoSrc || data.backgroundVideo || defaultCommitmentData.videoFallback;
-  const posterSrc = data.posterSrc || data.backgroundImage || defaultCommitmentData.posterFallback;
+  const videoSrc = getMediaUrl(data.videoSrc || data.backgroundVideo || defaultCommitmentData.videoFallback);
+  const posterSrc = getMediaUrl(data.posterSrc || data.backgroundImage || defaultCommitmentData.posterFallback);
   const isVideoMode = data.backgroundMediaType === 'video' || (data.backgroundMediaType !== 'image' && !!videoSrc);
 
   return (
-    <section className="relative w-full min-h-screen min-h-[100svh] bg-black text-white flex items-center overflow-hidden border-b border-white/10 py-16 lg:py-24">
+    <section className="group relative w-full min-h-screen min-h-[100svh] bg-black text-white flex items-center overflow-hidden border-b border-white/10 py-16 lg:py-24">
       {/* Background Video / Media with Fallback */}
-      {isVideoMode && videoSrc ? (
-        <video
-          key={videoSrc}
-          autoPlay
-          loop
-          muted
-          playsInline
-          poster={posterSrc}
-          onError={(e) => {
-            if (e.target.src !== defaultCommitmentData.videoFallback) {
-              e.target.src = defaultCommitmentData.videoFallback;
-            }
-          }}
-          className="absolute inset-0 w-full h-full object-cover z-0"
-        >
-          <source src={videoSrc} type="video/mp4" />
-          <source src={defaultCommitmentData.videoFallback} type="video/mp4" />
-        </video>
-      ) : null}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        {isVideoMode && videoSrc ? (
+          <video
+            ref={videoRef}
+            key={videoSrc}
+            autoPlay
+            loop
+            muted
+            playsInline
+            poster={posterSrc}
+            onError={(e) => {
+              if (e.target.src !== defaultCommitmentData.videoFallback) {
+                e.target.src = defaultCommitmentData.videoFallback;
+              }
+            }}
+            className="w-full h-full object-cover object-center transform scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
+          >
+            <source src={videoSrc} type="video/mp4" />
+            <source src={defaultCommitmentData.videoFallback} type="video/mp4" />
+          </video>
+        ) : null}
 
-      {(!isVideoMode || !videoSrc) && (
-        <img
-          src={posterSrc}
-          alt="Commitment background"
-          className="absolute inset-0 w-full h-full object-cover z-0"
-        />
-      )}
+        {(!isVideoMode || !videoSrc) && (
+          <img
+            src={posterSrc}
+            alt="Commitment background"
+            className="w-full h-full object-cover object-center transform scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
+          />
+        )}
+        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/25 transition-colors duration-700 pointer-events-none" />
+      </div>
 
       {/* Hero-Spaced Content Container */}
       <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">

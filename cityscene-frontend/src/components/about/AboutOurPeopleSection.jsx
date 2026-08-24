@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import { getMediaUrl } from '../../utils/imageUrl';
 
 const defaultPeopleData = {
   subheading: 'Our People',
@@ -28,7 +29,7 @@ export default function AboutOurPeopleSection() {
     <section className="w-full bg-[#171717] text-white py-24 md:py-32 relative overflow-hidden">
       {data.bgImage && (
         <div className="absolute inset-0 z-0">
-          <img src={data.bgImage} alt="Our People Background" className="w-full h-full object-cover opacity-20" />
+          <img src={getMediaUrl(data.bgImage)} alt="Our People Background" className="w-full h-full object-cover opacity-20" />
         </div>
       )}
       <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-12 lg:px-24">

@@ -9,7 +9,7 @@ export const getServices = async (includeAll = false) => {
     const response = await fetch(url);
     if (response.ok) {
       const json = await response.json();
-      if (json.data && json.data.length > 0) {
+      if (json.data) {
         return json.data;
       }
     }

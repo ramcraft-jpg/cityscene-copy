@@ -1,11 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { getMediaUrl } from '../../utils/imageUrl';
+import { useVideoIntersectionObserver } from '../../utils/useVideoIntersectionObserver';
 
 export default function WhatWeDoDetailHero({ service }) {
+  const videoRef = useVideoIntersectionObserver({ threshold: 0.15 });
+
   if (!service) return null;
 
-  const videoSrc = service.heroVideo || service.backgroundVideo || service.video;
-  const imageSrc = service.heroImage || service.backgroundImage || service.image;
+  const videoSrc = getMediaUrl(service.heroVideo || service.backgroundVideo || service.video);
+  const imageSrc = getMediaUrl(service.heroImage || service.backgroundImage || service.image);
   const isVideoMode = service.backgroundMediaType === 'video' || (service.backgroundMediaType !== 'image' && !!videoSrc);
 
   return (
@@ -14,16 +18,17 @@ export default function WhatWeDoDetailHero({ service }) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Left Column: Visual Media Container */}
           <div className="lg:col-span-6 order-2 lg:order-1">
-            <div className="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-gray-100 aspect-[4/3]">
+            <div className="group relative rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-gray-100 aspect-[4/3] bg-slate-900">
               {isVideoMode && videoSrc ? (
                 <video
+                  ref={videoRef}
                   src={videoSrc}
                   poster={imageSrc}
                   autoPlay
                   loop
                   muted
                   playsInline
-                  className="w-full h-full object-cover object-center"
+                  className="w-full h-full object-cover object-center transform scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
                   onError={(e) => {
                     e.target.style.display = 'none';
                   }}
@@ -34,9 +39,10 @@ export default function WhatWeDoDetailHero({ service }) {
                 <img
                   src={imageSrc}
                   alt={service.displayTitle}
-                  className="w-full h-full object-cover object-center"
+                  className="w-full h-full object-cover object-center transform scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
               )}
+              <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500 pointer-events-none" />
             </div>
           </div>
 

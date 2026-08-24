@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getHomeSectionContent, updateHomeSectionContent, uploadHomeMedia } from '../../../services/homeContentService';
+import { getMediaUrl } from '../../../utils/imageUrl';
 
 export default function AdminAboutPeople() {
   const [data, setData] = useState({
@@ -142,7 +143,7 @@ export default function AdminAboutPeople() {
           <div className="flex flex-col sm:flex-row items-center gap-4 bg-slate-50 p-3 rounded-xl border border-slate-200">
             {data.bgImage ? (
               <div className="w-36 h-20 rounded-lg overflow-hidden bg-slate-200 shrink-0 border border-slate-300">
-                <img src={data.bgImage} alt="Our People Preview" className="w-full h-full object-cover" />
+                <img src={getMediaUrl(data.bgImage)} alt="Our People Preview" className="w-full h-full object-cover" />
               </div>
             ) : (
               <div className="w-36 h-20 rounded-lg bg-slate-200 flex items-center justify-center text-xs text-slate-400 font-semibold shrink-0">

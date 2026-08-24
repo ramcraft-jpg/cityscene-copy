@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { valuesData as staticValues } from '../../data/aboutData';
+import { getMediaUrl } from '../../utils/imageUrl';
 
 const defaultValuesData = {
   heading: 'Our Values',
@@ -53,7 +54,7 @@ export default function AboutValuesSection() {
             >
               {/* Background Image */}
               <img
-                src={val.image}
+                src={getMediaUrl(val.image)}
                 alt={val.title}
                 className="w-full h-full object-cover object-center transform transition-transform duration-700 ease-out group-hover:scale-110"
               />

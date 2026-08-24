@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Heart, MessageSquare, Share2, ArrowRight, Clock, Calendar } from 'lucide-react';
+import { getMediaUrl } from '../../utils/imageUrl';
 
 export default function BlogCard({ blog }) {
   const [liked, setLiked] = useState(false);
@@ -41,7 +42,7 @@ export default function BlogCard({ blog }) {
       <div className="p-3 pb-0">
         <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl bg-gray-100">
           <img
-            src={blog.image}
+            src={getMediaUrl(blog.image)}
             alt={blog.title}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
             loading="lazy"

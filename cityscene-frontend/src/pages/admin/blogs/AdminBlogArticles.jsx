@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getHomeSectionContent, updateHomeSectionContent, uploadHomeMedia } from '../../../services/homeContentService';
 import { getBlogs, createBlog, updateBlog, deleteBlog } from '../../../services/blogService';
+import { getMediaUrl } from '../../../utils/imageUrl';
 import AdminHeroMediaControl from '../../../components/admin/AdminHeroMediaControl';
 
 export default function AdminBlogArticles() {
@@ -219,7 +220,7 @@ export default function AdminBlogArticles() {
               <tr key={b.id || b.slug || b._id} className="hover:bg-slate-50 transition">
                 <td className="p-3.5">
                   <div className="w-14 h-12 rounded-lg overflow-hidden bg-slate-900 border border-slate-300">
-                    <img src={b.image} alt={b.title} className="w-full h-full object-cover" />
+                    <img src={getMediaUrl(b.image)} alt={b.title} className="w-full h-full object-cover" />
                   </div>
                 </td>
                 <td className="p-3.5 max-w-xs">
@@ -353,7 +354,7 @@ export default function AdminBlogArticles() {
                 <label className="block text-xs font-bold text-slate-700 mb-1">Author Avatar Image</label>
                 <div className="flex items-center gap-3 bg-slate-50 p-2.5 rounded-xl border border-slate-200">
                   <div className="w-10 h-10 rounded-full overflow-hidden bg-slate-900 shrink-0 border border-slate-300">
-                    <img src={selectedBlog.authorAvatar || '/assets/images/author-vishwambhar.png'} alt="Author Avatar" className="w-full h-full object-cover" />
+                    <img src={getMediaUrl(selectedBlog.authorAvatar || '/assets/images/author-vishwambhar.png')} alt="Author Avatar" className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1 space-y-1 w-full">
                     <input

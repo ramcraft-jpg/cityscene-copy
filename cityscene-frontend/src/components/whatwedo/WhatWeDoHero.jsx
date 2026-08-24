@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import { getMediaUrl } from '../../utils/imageUrl';
+import { useVideoIntersectionObserver } from '../../utils/useVideoIntersectionObserver';
 
 const defaultHeroData = {
   subheading: 'WHAT WE DO',
@@ -12,16 +14,9 @@ const defaultHeroData = {
   bgVideo: ''
 };
 
-const getMediaUrl = (url) => {
-  if (!url) return '';
-  if (url.startsWith('/uploads')) {
-    return `http://localhost:5000${url}`;
-  }
-  return url;
-};
-
 export default function WhatWeDoHero() {
   const [data, setData] = useState(defaultHeroData);
+  const videoRef = useVideoIntersectionObserver({ threshold: 0.15 });
 
   useEffect(() => {
     fetch('http://localhost:5000/api/home-content/whatwedo-hero')
@@ -42,17 +37,18 @@ export default function WhatWeDoHero() {
   const isVideoMode = data.backgroundMediaType === 'video' || (data.backgroundMediaType !== 'image' && !!rawBgVideo) || (!!rawBgVideo && !data.backgroundMediaType);
 
   return (
-    <section className="relative w-full min-h-[720px] lg:min-h-[850px] h-[88vh] bg-black overflow-hidden flex items-center">
+    <section className="group relative w-full min-h-[720px] lg:min-h-[850px] h-[88vh] bg-black overflow-hidden flex items-center">
       {/* Background Image / Video Layer */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 overflow-hidden">
         {isVideoMode && bgVideo ? (
           <video
+            ref={videoRef}
             autoPlay
             loop
             muted
             playsInline
             poster={bgImage}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
             src={bgVideo}
             onError={(e) => {
               e.target.style.display = 'none';
@@ -64,9 +60,10 @@ export default function WhatWeDoHero() {
           <img
             src={bgImage}
             alt="Developer Workstation"
-            className="w-full h-full object-cover object-center"
+            className="w-full h-full object-cover object-center transform scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
           />
         )}
+        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/25 transition-colors duration-700 pointer-events-none" />
       </div>
 
       {/* Hero Content */}
@@ -77,7 +74,7 @@ export default function WhatWeDoHero() {
             {data.subheading || defaultHeroData.subheading}
           </div>
 
-          {/* Thin Horizontal Line Divider spanning across hero width */}
+          {/* Thin Horizontal Line Divider */}
           <div className="w-full max-w-4xl lg:max-w-5xl h-[1px] bg-white/40 mb-8" />
 
           {/* Main Heading */}
@@ -93,10 +90,10 @@ export default function WhatWeDoHero() {
           {/* CTA Button */}
           <Link
             to={data.buttonLink || '/contact'}
-            className="inline-flex items-center gap-3 group text-white font-medium text-lg hover:text-white/90 transition-all duration-200"
+            className="inline-flex items-center gap-3 group/btn text-white font-medium text-lg hover:text-white/90 transition-all duration-200"
           >
             <span>{data.buttonText || "Let's Talk"}</span>
-            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-gray-900 group-hover:bg-gray-100 group-hover:scale-105 transition-all shadow-lg">
+            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-gray-900 group-hover/btn:bg-gray-100 group-hover/btn:scale-105 transition-all shadow-lg">
               <ArrowRight size={20} className="stroke-[2.5]" />
             </div>
           </Link>

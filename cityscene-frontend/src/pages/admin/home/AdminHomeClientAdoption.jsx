@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getHomeSectionContent, updateHomeSectionContent, uploadHomeMedia } from '../../../services/homeContentService';
+import { getMediaUrl } from '../../../utils/imageUrl';
 
 export default function AdminHomeClientAdoption() {
   const [loading, setLoading] = useState(true);
@@ -142,7 +143,7 @@ export default function AdminHomeClientAdoption() {
           <div className="flex flex-col sm:flex-row items-center gap-4 bg-slate-50 p-3 rounded-xl border border-slate-200">
             <div className="w-36 h-28 rounded-lg overflow-hidden bg-slate-200 shrink-0 border border-slate-300">
               <img
-                src={formData.image}
+                src={getMediaUrl(formData.image)}
                 alt="Client Adoption Preview"
                 className="w-full h-full object-cover"
                 onError={(e) => { e.target.src = formData.fallbackImage || 'https://via.placeholder.com/300x200'; }}

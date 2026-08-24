@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import { getMediaUrl } from '../../utils/imageUrl';
+import { useVideoIntersectionObserver } from '../../utils/useVideoIntersectionObserver';
 
 const defaultHeroData = {
   subheading: 'PORTFOLIO',
@@ -12,16 +14,9 @@ const defaultHeroData = {
   bgVideo: ''
 };
 
-const getMediaUrl = (url) => {
-  if (!url) return '';
-  if (url.startsWith('/uploads')) {
-    return `http://localhost:5000${url}`;
-  }
-  return url;
-};
-
 export default function PortfolioHero({ videoSrc: propVideoSrc }) {
   const [data, setData] = useState(defaultHeroData);
+  const videoRef = useVideoIntersectionObserver({ threshold: 0.15 });
 
   useEffect(() => {
     fetch('http://localhost:5000/api/home-content/portfolio-hero')
@@ -42,17 +37,18 @@ export default function PortfolioHero({ videoSrc: propVideoSrc }) {
   const isVideoMode = data.backgroundMediaType === 'video' || (data.backgroundMediaType !== 'image' && !!rawBgVideo) || (!!rawBgVideo && !data.backgroundMediaType);
 
   return (
-    <section className="relative w-full h-[90vh] min-h-[720px] lg:min-h-[850px] bg-black text-white flex items-center overflow-hidden py-20 lg:py-32">
+    <section className="group relative w-full h-[90vh] min-h-[720px] lg:min-h-[850px] bg-black text-white flex items-center overflow-hidden py-20 lg:py-32">
       {/* Background Image / Video Layer */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 overflow-hidden">
         {isVideoMode && bgVideo ? (
           <video
+            ref={videoRef}
             autoPlay
             loop
             muted
             playsInline
             poster={bgImage}
-            className="w-full h-full object-cover object-center"
+            className="w-full h-full object-cover object-center transform scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
             src={bgVideo}
             onError={(e) => {
               e.target.style.display = 'none';
@@ -64,9 +60,10 @@ export default function PortfolioHero({ videoSrc: propVideoSrc }) {
           <img
             src={bgImage}
             alt="Portfolio Background"
-            className="w-full h-full object-cover object-center"
+            className="w-full h-full object-cover object-center transform scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
           />
         )}
+        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/25 transition-colors duration-700 pointer-events-none" />
       </div>
 
       {/* Hero Content Container */}
@@ -94,10 +91,10 @@ export default function PortfolioHero({ videoSrc: propVideoSrc }) {
           <div>
             <Link
               to={data.buttonLink || '/contact'}
-              className="inline-flex items-center gap-3 text-white text-base sm:text-lg font-extrabold group hover:opacity-90 transition-opacity"
+              className="inline-flex items-center gap-3 text-white text-base sm:text-lg font-extrabold group/btn hover:opacity-90 transition-opacity"
             >
               <span>{data.buttonText || "Let's Talk"}</span>
-              <div className="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+              <div className="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center shadow-md group-hover/btn:scale-110 transition-transform">
                 <ArrowRight className="w-4 h-4 text-black stroke-[3]" />
               </div>
             </Link>

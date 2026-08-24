@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getHomeSectionContent, updateHomeSectionContent, uploadHomeMedia } from '../../../services/homeContentService';
+import { getMediaUrl } from '../../../utils/imageUrl';
 
 export default function AdminHomeServices() {
   const [loading, setLoading] = useState(true);
@@ -211,7 +212,7 @@ export default function AdminHomeServices() {
                   <div className="flex items-center gap-3 bg-slate-50 p-2.5 rounded-xl border border-slate-200">
                     <div className="w-16 h-16 rounded-lg overflow-hidden bg-slate-200 shrink-0 border border-slate-300">
                       <img
-                        src={srv.image}
+                        src={getMediaUrl(srv.image)}
                         alt={srv.title}
                         className="w-full h-full object-cover"
                         onError={(e) => { e.target.src = srv.fallback || 'https://via.placeholder.com/150'; }}

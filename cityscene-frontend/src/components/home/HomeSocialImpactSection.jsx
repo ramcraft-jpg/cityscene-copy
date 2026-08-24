@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { getMediaUrl } from '../../utils/imageUrl';
 
 const defaultSocialImpactData = {
   badge: 'Social Impact',
@@ -26,8 +27,8 @@ export default function HomeSocialImpactSection() {
       .catch((err) => console.error('Error fetching HomeSocialImpact API data:', err));
   }, []);
 
-  const imageSrc = data.image || defaultSocialImpactData.image;
-  const fallbackSrc = data.fallbackImage || defaultSocialImpactData.fallbackImage;
+  const imageSrc = getMediaUrl(data.image || defaultSocialImpactData.image);
+  const fallbackSrc = getMediaUrl(data.fallbackImage || defaultSocialImpactData.fallbackImage);
 
   return (
     <section className="w-full min-h-screen min-h-[100svh] bg-white py-10 md:py-14 flex flex-col justify-center border-b border-gray-100">

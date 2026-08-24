@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Send, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 import { submitContactForm } from '../../services/contactService';
+import { getMediaUrl } from '../../utils/imageUrl';
+import { useVideoIntersectionObserver } from '../../utils/useVideoIntersectionObserver';
 
 const defaultHero = {
   subheading: "LET'S TALK",
@@ -12,6 +14,7 @@ const defaultHero = {
 
 export default function ContactHero() {
   const [heroData, setHeroData] = useState(defaultHero);
+  const videoRef = useVideoIntersectionObserver({ threshold: 0.15 });
 
   const [formData, setFormData] = useState({
     fullName: '',
@@ -89,22 +92,23 @@ export default function ContactHero() {
     }
   };
 
-  const bgImage = heroData.bgImage || heroData.backgroundImage || defaultHero.bgImage;
-  const bgVideo = heroData.bgVideo || heroData.backgroundVideo;
+  const bgImage = getMediaUrl(heroData.bgImage || heroData.backgroundImage || defaultHero.bgImage);
+  const bgVideo = getMediaUrl(heroData.bgVideo || heroData.backgroundVideo);
   const isVideoMode = heroData.backgroundMediaType === 'video' || (heroData.backgroundMediaType !== 'image' && !!bgVideo);
 
   return (
-    <section className="relative w-full bg-[#1c1917] text-white min-h-[620px] lg:min-h-[700px] flex items-center py-12 lg:py-20 overflow-hidden">
+    <section className="group relative w-full bg-[#1c1917] text-white min-h-[620px] lg:min-h-[700px] flex items-center py-12 lg:py-20 overflow-hidden">
       {/* Background Overhead Image / Video Layer */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 overflow-hidden">
         {isVideoMode && bgVideo ? (
           <video
+            ref={videoRef}
             autoPlay
             loop
             muted
             playsInline
             poster={bgImage}
-            className="w-full h-full object-cover object-center"
+            className="w-full h-full object-cover object-center transform scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
             src={bgVideo}
             onError={(e) => {
               e.target.style.display = 'none';
@@ -116,15 +120,16 @@ export default function ContactHero() {
           <img
             src={bgImage}
             alt="Contact Us Background"
-            className="w-full h-full object-cover object-center"
+            className="w-full h-full object-cover object-center transform scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
           />
         )}
+        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/25 transition-colors duration-700 pointer-events-none" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
-          {/* Left Column: Heading and Messaging matching Screenshot 3 */}
+          {/* Left Column: Heading and Messaging */}
           <div className="lg:col-span-6 space-y-4 text-left">
             <div className="max-w-md">
               <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-white block">
@@ -142,7 +147,7 @@ export default function ContactHero() {
             </p>
           </div>
 
-          {/* Right Column: Dark Floating Form Card matching Screenshot 3 */}
+          {/* Right Column: Dark Floating Form Card */}
           <div className="lg:col-span-6 flex justify-center lg:justify-end">
             <div className="w-full max-w-md bg-[#2b2b2b]/95 backdrop-blur-md rounded-2xl p-6 sm:p-8 shadow-2xl border border-white/10 text-white">
               
@@ -270,7 +275,7 @@ export default function ContactHero() {
                   )}
                 </div>
 
-                {/* Cyan/Teal Submit Button Right Aligned matching Screenshot 3 */}
+                {/* Cyan/Teal Submit Button */}
                 <div className="pt-2 flex justify-end">
                   <button
                     type="submit"

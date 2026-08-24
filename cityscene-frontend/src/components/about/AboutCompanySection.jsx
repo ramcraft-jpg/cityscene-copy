@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { getMediaUrl } from '../../utils/imageUrl';
 
 const defaultCompanyData = {
   paragraph1: 'At CityScene Global Private Limited, we understand the challenges businesses face in navigating today’s fast-paced, technology-driven world. Many companies grapple with outdated infrastructure, slow system performance, and the complexity of managing multiple IT solutions—all while trying to keep up with the latest advancements in Automation, AI, and Blockchain. These obstacles can hinder growth, drain resources, and create inefficiencies that disrupt operations.',
@@ -32,7 +33,7 @@ export default function AboutCompanySection() {
         </p>
         {data.image && (
           <div className="mt-8 flex justify-center">
-            <img src={data.image} alt="Company section visual" className="rounded-2xl max-h-[400px] object-cover shadow-md" />
+            <img src={getMediaUrl(data.image)} alt="Company section visual" className="rounded-2xl max-h-[400px] object-cover shadow-md" />
           </div>
         )}
       </div>

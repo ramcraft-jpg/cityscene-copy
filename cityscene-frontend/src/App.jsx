@@ -63,6 +63,9 @@ import AdminContactInquiries from './pages/admin/contact/AdminContactInquiries';
 import AdminWhatWeDoHero from './pages/admin/services/AdminWhatWeDoHero';
 import AdminWhatWeDoInnovation from './pages/admin/services/AdminWhatWeDoInnovation';
 import AdminWhatWeDoServices from './pages/admin/services/AdminWhatWeDoServices';
+import AdminServicePagesList from './pages/admin/services/AdminServicePagesList';
+import AdminServicePageDetailEdit from './pages/admin/services/AdminServicePageDetailEdit';
+import AdminProjectDetailEdit from './pages/admin/portfolio/AdminProjectDetailEdit';
 
 export default function App() {
   return (
@@ -116,10 +119,17 @@ export default function App() {
           <Route path="home/client-adoption" element={<AdminHomeClientAdoption />} />
           <Route path="home/transformation" element={<AdminHomeTransformation />} />
 
-          <Route path="services" element={<Navigate to="/admin/services/hero" replace />} />
+          <Route path="services" element={<Navigate to="/admin/services/grid" replace />} />
           <Route path="services/hero" element={<AdminWhatWeDoHero />} />
           <Route path="services/innovation" element={<AdminWhatWeDoInnovation />} />
           <Route path="services/grid" element={<AdminWhatWeDoServices />} />
+          <Route path="services/pages" element={<AdminServicePagesList />} />
+          <Route path="services/pages/:id" element={<AdminServicePageDetailEdit />} />
+          <Route path="services/:id" element={<AdminServicePageDetailEdit />} />
+
+          <Route path="projects" element={<AdminPortfolioProjects />} />
+          <Route path="projects/:id" element={<AdminProjectDetailEdit />} />
+
           <Route path="about" element={<Navigate to="/admin/about/hero" replace />} />
           <Route path="about/hero" element={<AdminAboutHero />} />
           <Route path="about/content" element={<AdminAboutContent />} />
@@ -135,10 +145,11 @@ export default function App() {
           <Route path="blogs/hero" element={<AdminBlogHero />} />
           <Route path="blogs/content" element={<AdminBlogContent />} />
           <Route path="blogs/articles" element={<AdminBlogArticles />} />
-          <Route path="portfolio" element={<Navigate to="/admin/portfolio/hero" replace />} />
+          <Route path="portfolio" element={<Navigate to="/admin/portfolio/projects" replace />} />
           <Route path="portfolio/hero" element={<AdminPortfolioHero />} />
           <Route path="portfolio/clients" element={<AdminPortfolioClients />} />
           <Route path="portfolio/projects" element={<AdminPortfolioProjects />} />
+          <Route path="portfolio/projects/:id" element={<AdminProjectDetailEdit />} />
           <Route path="testimonials" element={<Navigate to="/admin/home/testimonials" replace />} />
           <Route path="contact" element={<Navigate to="/admin/contact/hero" replace />} />
           <Route path="contact/hero" element={<AdminContactHero />} />

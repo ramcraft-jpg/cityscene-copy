@@ -1,11 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { getMediaUrl } from '../../utils/imageUrl';
+import { useVideoIntersectionObserver } from '../../utils/useVideoIntersectionObserver';
 
 export default function BlogDetailHeader({ blog, categorySlug }) {
+  const videoRef = useVideoIntersectionObserver({ threshold: 0.15 });
+
   if (!blog) return null;
 
-  const videoSrc = blog.heroVideo || blog.backgroundVideo || blog.video;
-  const imageSrc = blog.backgroundImage || blog.heroImage || blog.image;
+  const videoSrc = getMediaUrl(blog.heroVideo || blog.backgroundVideo || blog.video);
+  const imageSrc = getMediaUrl(blog.backgroundImage || blog.heroImage || blog.image);
   const isVideoMode = blog.backgroundMediaType === 'video' || (blog.backgroundMediaType !== 'image' && !!videoSrc);
 
   return (
@@ -39,16 +43,17 @@ export default function BlogDetailHeader({ blog, categorySlug }) {
       </div>
 
       {/* Hero / Featured Background Media Banner */}
-      <div className="relative w-full h-[320px] sm:h-[420px] rounded-2xl overflow-hidden shadow-lg border border-gray-200 mb-6 bg-slate-900">
+      <div className="group relative w-full h-[320px] sm:h-[420px] rounded-2xl overflow-hidden shadow-lg border border-gray-200 mb-6 bg-slate-900">
         {isVideoMode && videoSrc ? (
           <video
+            ref={videoRef}
             src={videoSrc}
             poster={imageSrc}
             autoPlay
             loop
             muted
             playsInline
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
             onError={(e) => {
               e.target.style.display = 'none';
             }}
@@ -59,9 +64,10 @@ export default function BlogDetailHeader({ blog, categorySlug }) {
           <img
             src={imageSrc}
             alt={blog.title}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
           />
         )}
+        <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500 pointer-events-none" />
       </div>
 
       {/* Top Horizontal Separator */}

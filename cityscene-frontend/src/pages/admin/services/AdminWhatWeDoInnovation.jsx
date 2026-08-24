@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getHomeSectionContent, updateHomeSectionContent, uploadHomeMedia } from '../../../services/homeContentService';
+import { getMediaUrl } from '../../../utils/imageUrl';
 
 export default function AdminWhatWeDoInnovation() {
   const [data, setData] = useState({
@@ -116,7 +117,7 @@ export default function AdminWhatWeDoInnovation() {
           <label className="block text-xs font-bold text-slate-700 mb-1">Feature Image</label>
           <div className="flex flex-col sm:flex-row items-center gap-4 bg-slate-50 p-3 rounded-xl border border-slate-200">
             <div className="w-40 h-24 rounded-lg overflow-hidden bg-slate-900 shrink-0 border border-slate-300">
-              <img src={data.image} alt="Feature Preview" className="w-full h-full object-cover" />
+              <img src={getMediaUrl(data.image)} alt="Feature Preview" className="w-full h-full object-cover" />
             </div>
             <div className="flex-1 space-y-2 w-full">
               <input

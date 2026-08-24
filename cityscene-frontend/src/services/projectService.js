@@ -10,7 +10,7 @@ export const getProjects = async (includeAll = false) => {
     const res = await fetch(url);
     if (res.ok) {
       const json = await res.json();
-      if (json.data && json.data.length > 0) return json.data;
+      if (json.data) return json.data;
     }
   } catch (error) {
     console.warn('[Project Service] API unreachable, fallback to local dataset:', error.message);
