@@ -19,7 +19,7 @@ export default function CareerJobGrid({ jobs: customJobs }) {
   }, [customJobs]);
 
   return (
-    <div id="jobs-section" className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-6 pb-20 md:pb-28">
+    <div id="jobs-section" className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-0 pb-0">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6 items-stretch">
         {jobs.map((job) => (
           <CareerJobCard key={job.id || job._id} job={job} />

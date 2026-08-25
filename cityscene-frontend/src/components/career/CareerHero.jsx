@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
 import CareerJobGrid from './CareerJobGrid';
 import { getMediaUrl } from '../../utils/imageUrl';
 import { useVideoIntersectionObserver } from '../../utils/useVideoIntersectionObserver';
 
 const defaultHeroData = {
-
+  title: 'Join Our Team',
+  description: 'Find exciting career opportunities with us.',
+  buttonText: 'Explore Jobs',
+  buttonLink: '#jobs',
   bgImage: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1920&q=80',
   bgVideo: ''
 };
@@ -20,8 +22,11 @@ export default function CareerHero() {
     fetch('http://localhost:5000/api/home-content/career-hero')
       .then((res) => res.json())
       .then((resData) => {
-        if (resData.success && resData.content && resData.content.title) {
-          setData(resData.content);
+        if (resData.success && resData.content) {
+          setData({
+            ...defaultHeroData,
+            ...resData.content
+          });
         }
       })
       .catch((err) => console.error('Error fetching CareerHero API data:', err));
@@ -41,73 +46,130 @@ export default function CareerHero() {
   const bgVideo = getMediaUrl(rawBgVideo);
   const isVideoMode = data.backgroundMediaType === 'video' || (data.backgroundMediaType !== 'image' && !!rawBgVideo) || (!!rawBgVideo && !data.backgroundMediaType);
 
+  const getEmbedVideoUrl = (url) => {
+    if (!url || typeof url !== 'string') return '';
+    const trimmed = url.trim();
+    if (trimmed.includes('youtube.com/watch')) {
+      try {
+        const urlObj = new URL(trimmed);
+        const videoId = urlObj.searchParams.get('v');
+        if (videoId) return `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0`;
+      } catch (e) {}
+    }
+    if (trimmed.includes('youtu.be/')) {
+      const videoId = trimmed.split('youtu.be/')[1]?.split('?')[0];
+      if (videoId) return `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0`;
+    }
+    if (trimmed.includes('vimeo.com/')) {
+      const videoId = trimmed.split('vimeo.com/')[1]?.split('?')[0];
+      if (videoId) return `https://player.vimeo.com/video/${videoId}?background=1&autoplay=1&loop=1&byline=0&title=0`;
+    }
+    return trimmed;
+  };
+
+  const embedVideoSrc = getEmbedVideoUrl(bgVideo);
+  const isYoutubeOrVimeo = embedVideoSrc.includes('youtube.com') || embedVideoSrc.includes('vimeo.com');
+
+  const buttonLink = data.buttonLink || '#jobs';
+  const isExternalOrAnchor = buttonLink.startsWith('#') || buttonLink.startsWith('http');
+
+  const handleScrollToTarget = (e) => {
+    if (buttonLink.startsWith('#')) {
+      e.preventDefault();
+      const targetId = buttonLink.replace('#', '');
+      const targetEl = document.getElementById(targetId) || document.getElementById('jobs-section') || document.getElementById('jobs');
+      if (targetEl) {
+        targetEl.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
   return (
-    <section className="group relative w-full min-h-[720px] lg:min-h-[850px] h-[88vh] bg-black overflow-hidden flex flex-col justify-between">
-      {/* THE SINGLE UNIFIED BACKGROUND VIDEO WITH PARALLAX SCROLL & HOVER ZOOM */}
+    <div className="relative w-full bg-black overflow-hidden flex flex-col justify-between">
+      {/* Unified Background Image / Video Container spanning ENTIRE Hero & Job Cards area */}
       <div
         className="absolute inset-0 z-0 transition-transform duration-75 ease-out overflow-hidden"
         style={{ transform: `translateY(${scrollY * 0.15}px)` }}
       >
         {isVideoMode && bgVideo ? (
-          <video
-            ref={videoRef}
-            autoPlay
-            loop
-            muted
-            playsInline
-            poster={bgImage}
-            className="w-full h-full object-cover hero-video transform scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
-            src={bgVideo}
-            onError={(e) => {
-              e.target.style.display = 'none';
-            }}
-          />
+          isYoutubeOrVimeo ? (
+            <iframe
+              src={embedVideoSrc}
+              title="Career Hero Video"
+              className="w-full h-full object-cover pointer-events-none"
+              allow="autoplay; fullscreen"
+            />
+          ) : (
+            <video
+              ref={videoRef}
+              autoPlay
+              loop
+              muted
+              playsInline
+              poster={bgImage}
+              className="w-full h-full object-cover hero-video"
+              src={bgVideo}
+              onError={(e) => {
+                e.target.style.display = 'none';
+              }}
+            />
+          )
         ) : null}
 
         {(!isVideoMode || !bgVideo) && (
           <img
             src={bgImage}
-            alt="Collaborative engineering workplace"
-            className="w-full h-full object-cover object-center hero-video transform scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
+            alt="Career Hero Background"
+            className="w-full h-full object-cover object-center hero-video"
           />
         )}
-        <div className="absolute inset-0 bg-black/25 group-hover:bg-black/15 transition-colors duration-700" />
       </div>
 
-      {/* Hero Content Overlay */}
-      <div className="absolute top-[40%] left-[5%] -translate-y-1/2 z-10 max-w-[85%] md:max-w-[50vw] text-left text-white">
-        {/* Small Text Label with 80vw Horizontal Line */}
-        <div className="relative text-[0.8rem] font-medium uppercase tracking-[1px] text-white pt-2 mb-5 pb-1">
-          <span>{data.subheading || defaultHeroData.subheading}</span>
-          <div className="absolute left-0 -bottom-1 w-[80vw] h-[1.5px] bg-white" />
-        </div>
+      {/* Relative Page Content Container overlaying the background */}
+      <div className="relative z-10 w-full flex flex-col justify-between pt-20 sm:pt-28 pb-0">
+        {/* 1. Hero Content Box */}
+        <section className="max-w-lg mx-auto px-4 w-full py-8 text-center">
+          <div
+            className="rounded-2xl p-6 sm:p-8 space-y-4 text-center mx-auto"
+            style={{ backgroundColor: 'rgba(0, 0, 0, 0.55)' }}
+          >
+            {/* Main Heading */}
+            <h1 className="text-3xl sm:text-4xl md:text-[2.75rem] font-bold text-white leading-tight tracking-tight">
+              {data.title || 'Join Our Team'}
+            </h1>
 
-        {/* Main Heading */}
-        <h1 className="text-3xl sm:text-5xl font-normal leading-[1.3] text-white max-w-[90%] my-3 whitespace-pre-line">
-          {data.title || defaultHeroData.title}
-        </h1>
+            {/* Supporting Text / Description */}
+            <p className="text-sm sm:text-base md:text-lg text-white font-normal leading-snug max-w-xs sm:max-w-sm mx-auto">
+              {data.description || 'Find exciting career opportunities with us.'}
+            </p>
 
-        {/* Supporting Paragraph */}
-        <p className="text-base text-gray-300 my-4 leading-relaxed font-light max-w-[80%]">
-          {data.description || defaultHeroData.description}
-        </p>
-
-        {/* Explore Jobs CTA Button with Circular Arrow Icon */}
-        <Link
-          to={data.buttonLink || '/career/apply'}
-          className="inline-flex items-center gap-2 text-[1.2rem] font-medium text-white hover:opacity-90 transition-opacity mt-2 group"
-        >
-          <span>{data.buttonText || 'Explore Jobs'}</span>
-          <div className="w-[35px] h-[35px] bg-white text-black rounded-full flex items-center justify-center font-bold text-lg group-hover:translate-x-1 transition-transform">
-            ➜
+            {/* CTA Button */}
+            <div className="pt-2">
+              {isExternalOrAnchor ? (
+                <a
+                  href={buttonLink}
+                  onClick={handleScrollToTarget}
+                  className="inline-block px-7 py-3 text-sm sm:text-base font-bold text-black bg-white rounded-full hover:bg-gray-100 transition-all duration-200 shadow-md cursor-pointer"
+                >
+                  {data.buttonText || 'Explore Jobs'}
+                </a>
+              ) : (
+                <Link
+                  to={buttonLink}
+                  className="inline-block px-7 py-3 text-sm sm:text-base font-bold text-black bg-white rounded-full hover:bg-gray-100 transition-all duration-200 shadow-md"
+                >
+                  {data.buttonText || 'Explore Jobs'}
+                </Link>
+              )}
+            </div>
           </div>
-        </Link>
-      </div>
+        </section>
 
-      {/* Floating Job Cards directly on top of the SAME single video */}
-      <div className="relative z-10 w-full mt-auto pb-12">
-        <CareerJobGrid />
+        {/* 2. Job Cards Row (Anchored to bottom edge with 0 bottom padding) */}
+        <section id="jobs" className="w-full mt-auto pt-8 pb-0 mb-0">
+          <CareerJobGrid />
+        </section>
       </div>
-    </section>
+    </div>
   );
 }

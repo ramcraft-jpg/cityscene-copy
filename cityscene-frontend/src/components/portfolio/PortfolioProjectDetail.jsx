@@ -58,6 +58,7 @@ export default function PortfolioProjectDetail({ project }) {
         project={project}
         categoryCaps={categoryCaps}
         titleSystem={titleSystem}
+        overviewParas={overviewParas}
         onOpenDemo={() => setDemoModalOpen(true)}
       />
 

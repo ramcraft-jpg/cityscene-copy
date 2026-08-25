@@ -42,14 +42,14 @@ export default function Header() {
   const isAdminActive = location.pathname.startsWith('/admin');
 
   return (
-    <header className="w-full bg-white border-b border-gray-100 sticky top-0 z-30 transition-all duration-200">
-      <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between">
+    <header className="w-full bg-white border-b border-gray-100 sticky top-0 z-25 transition-all duration-200">
+      <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 h-11 sm:h-13 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center shrink-0">
           <img
             src={logo}
             alt="CityScene Global Logo"
-            className="h-8 sm:h-9 md:h-10 w-auto object-contain"
+            className="h-6 sm:h-7 md:h-8 w-auto object-contain"
             style={{ objectFit: 'contain' }}
           />
         </Link>

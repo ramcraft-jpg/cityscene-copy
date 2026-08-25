@@ -111,179 +111,162 @@ export default function JobApplication() {
     <div className="min-h-screen flex flex-col bg-white">
       <Header />
       <main className="flex-grow relative">
-        {/* Full-width Background Image Overlay matching Screenshot 3 */}
-        <div className="relative w-full min-h-[700px] lg:min-h-[800px] bg-gray-900 overflow-hidden py-12 md:py-20 flex items-center">
+        {/* Full-width Background Image (Clean without black shadow overlay) */}
+        <div className="relative w-full min-h-[700px] lg:min-h-[800px] bg-gray-100 overflow-hidden py-12 md:py-20 flex items-center">
           <div className="absolute inset-0 z-0">
             <img
               src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1920&q=80"
               alt="Office collaboration backdrop"
-              className="w-full h-full object-cover opacity-45"
+              className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
           </div>
 
-          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-            <div className="mb-6">
-              <Link
-                to="/career"
-                className="inline-flex items-center gap-2 text-sm text-white/90 hover:text-white bg-black/40 px-4 py-2 rounded-full backdrop-blur-md transition-colors"
-              >
-                <ArrowLeft size={16} /> Back to Career
-              </Link>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-              
-              {/* Left Column: Heading Overlay matching Screenshot 3 */}
-              <div className="lg:col-span-6 text-left text-white space-y-4">
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-tight">
-                  A Simple Way to <br />
-                  Finance Your Business
-                </h1>
-                <p className="text-lg sm:text-xl text-gray-200 font-light">
-                  Apply now for a decision in 60 seconds
-                </p>
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 w-full flex justify-start">
+            <div className="w-full max-w-md space-y-6">
+              <div className="text-left">
+                <Link
+                  to="/career"
+                  className="inline-flex items-center gap-2 text-sm text-gray-800 hover:text-black bg-white/95 hover:bg-white px-5 py-2.5 rounded-full shadow-lg transition-all duration-200 font-medium"
+                >
+                  <ArrowLeft size={16} /> Back to Career
+                </Link>
               </div>
 
-              {/* Right Column: Apply Online White Card matching Screenshot 3 */}
-              <div className="lg:col-span-6 flex justify-center lg:justify-end">
-                <div className="w-full max-w-md bg-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-gray-100 text-gray-900">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-6 text-left">
-                    Apply Online
-                  </h2>
+              {/* Apply Online White Form Card (Side Aligned) */}
+              <div className="w-full max-w-md bg-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-gray-100 text-gray-900">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6 text-left">
+                  Apply Online
+                </h2>
 
-                  {statusMessage && (
-                    <div
-                      className={`p-4 rounded-xl text-sm font-medium mb-6 flex items-start gap-2 ${
-                        statusMessage.type === 'success'
-                          ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
-                          : 'bg-red-50 text-red-800 border border-red-200'
-                      }`}
+                {statusMessage && (
+                  <div
+                    className={`p-4 rounded-xl text-sm font-medium mb-6 flex items-start gap-2 ${
+                      statusMessage.type === 'success'
+                        ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                        : 'bg-red-50 text-red-800 border border-red-200'
+                    }`}
+                  >
+                    <CheckCircle2 size={18} className="shrink-0 mt-0.5" />
+                    <span>{statusMessage.text}</span>
+                  </div>
+                )}
+
+                <form onSubmit={handleSubmit} className="space-y-4 text-left" noValidate>
+                  {/* Full Name */}
+                  <div>
+                    <input
+                      type="text"
+                      name="fullName"
+                      value={formData.fullName}
+                      onChange={handleChange}
+                      placeholder="Full Name"
+                      className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm"
+                    />
+                    {errors.fullName && (
+                      <p className="text-xs text-red-500 mt-1">{errors.fullName}</p>
+                    )}
+                  </div>
+
+                  {/* Email */}
+                  <div>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="Email"
+                      className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm"
+                    />
+                    {errors.email && (
+                      <p className="text-xs text-red-500 mt-1">{errors.email}</p>
+                    )}
+                  </div>
+
+                  {/* Phone Number */}
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-600 mb-1">
+                      Phone Number:
+                    </label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      placeholder="Phone Number"
+                      className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm"
+                    />
+                    {errors.phone && (
+                      <p className="text-xs text-red-500 mt-1">{errors.phone}</p>
+                    )}
+                  </div>
+
+                  {/* Your Message */}
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-600 mb-1">
+                      Your Message:
+                    </label>
+                    <textarea
+                      name="message"
+                      rows={3}
+                      value={formData.message}
+                      onChange={handleChange}
+                      placeholder="Your Message"
+                      className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm resize-none"
+                    />
+                  </div>
+
+                  {/* Position Dropdown */}
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-600 mb-1">
+                      Position:
+                    </label>
+                    <select
+                      name="position"
+                      value={formData.position}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm bg-white text-gray-700"
                     >
-                      <CheckCircle2 size={18} className="shrink-0 mt-0.5" />
-                      <span>{statusMessage.text}</span>
-                    </div>
-                  )}
+                      <option value="">Select Position</option>
+                      {availableJobs.map((job) => (
+                        <option key={job.id || job._id} value={job.title}>
+                          {job.title}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.position && (
+                      <p className="text-xs text-red-500 mt-1">{errors.position}</p>
+                    )}
+                  </div>
 
-                  <form onSubmit={handleSubmit} className="space-y-4 text-left" noValidate>
-                    {/* Full Name */}
-                    <div>
-                      <input
-                        type="text"
-                        name="fullName"
-                        value={formData.fullName}
-                        onChange={handleChange}
-                        placeholder="Full Name"
-                        className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm"
-                      />
-                      {errors.fullName && (
-                        <p className="text-xs text-red-500 mt-1">{errors.fullName}</p>
-                      )}
-                    </div>
+                  {/* Upload Resume */}
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-600 mb-1">
+                      Upload Resume:
+                    </label>
+                    <input
+                      type="file"
+                      name="resume"
+                      accept=".pdf,.doc,.docx"
+                      onChange={handleChange}
+                      className="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 border border-gray-200 rounded-lg p-1"
+                    />
+                    {errors.resume && (
+                      <p className="text-xs text-red-500 mt-1">{errors.resume}</p>
+                    )}
+                  </div>
 
-                    {/* Email */}
-                    <div>
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        placeholder="Email"
-                        className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm"
-                      />
-                      {errors.email && (
-                        <p className="text-xs text-red-500 mt-1">{errors.email}</p>
-                      )}
-                    </div>
-
-                    {/* Phone Number */}
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">
-                        Phone Number:
-                      </label>
-                      <input
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        placeholder="Phone Number"
-                        className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm"
-                      />
-                      {errors.phone && (
-                        <p className="text-xs text-red-500 mt-1">{errors.phone}</p>
-                      )}
-                    </div>
-
-                    {/* Your Message */}
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">
-                        Your Message:
-                      </label>
-                      <textarea
-                        name="message"
-                        rows={3}
-                        value={formData.message}
-                        onChange={handleChange}
-                        placeholder="Your Message"
-                        className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm resize-none"
-                      />
-                    </div>
-
-                    {/* Position Dropdown */}
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">
-                        Position:
-                      </label>
-                      <select
-                        name="position"
-                        value={formData.position}
-                        onChange={handleChange}
-                        className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm bg-white text-gray-700"
-                      >
-                        <option value="">Select Position</option>
-                        {availableJobs.map((job) => (
-                          <option key={job.id || job._id} value={job.title}>
-                            {job.title}
-                          </option>
-                        ))}
-                      </select>
-                      {errors.position && (
-                        <p className="text-xs text-red-500 mt-1">{errors.position}</p>
-                      )}
-                    </div>
-
-                    {/* Upload Resume */}
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">
-                        Upload Resume:
-                      </label>
-                      <input
-                        type="file"
-                        name="resume"
-                        accept=".pdf,.doc,.docx"
-                        onChange={handleChange}
-                        className="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 border border-gray-200 rounded-lg p-1"
-                      />
-                      {errors.resume && (
-                        <p className="text-xs text-red-500 mt-1">{errors.resume}</p>
-                      )}
-                    </div>
-
-                    {/* Submit & Continue Button */}
-                    <div className="pt-4 text-center">
-                      <button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="w-full py-3 px-6 rounded-full bg-gray-900 hover:bg-gray-800 text-white font-semibold text-sm transition-all shadow-md focus:outline-none focus:ring-2 focus:ring-gray-900 disabled:opacity-50"
-                      >
-                        {isSubmitting ? 'Submitting...' : 'Submit & Continue'}
-                      </button>
-                    </div>
-                  </form>
-
-                </div>
+                  {/* Submit & Continue Button */}
+                  <div className="pt-4 text-center">
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full py-3 px-6 rounded-full bg-gray-900 hover:bg-gray-800 text-white font-semibold text-sm transition-all shadow-md focus:outline-none focus:ring-2 focus:ring-gray-900 disabled:opacity-50"
+                    >
+                      {isSubmitting ? 'Submitting...' : 'Submit & Continue'}
+                    </button>
+                  </div>
+                </form>
               </div>
-
             </div>
           </div>
         </div>

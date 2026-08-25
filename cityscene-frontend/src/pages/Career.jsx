@@ -15,7 +15,10 @@ export default function Career() {
       <SEO pageKey="career" />
       <Header />
       <main className="flex-grow">
+        {/* Single Unified Career Hero + Job Cards Section */}
         <CareerHero />
+
+        {/* Contact Section */}
         <CareerContactSection />
       </main>
       <Footer />
