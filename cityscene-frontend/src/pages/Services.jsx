@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import Header from '../components/shared/Header';
+import SEO from '../components/common/SEO';
 import WhatWeDoHero from '../components/whatwedo/WhatWeDoHero';
 import WhatWeDoInnovationSection from '../components/whatwedo/WhatWeDoInnovationSection';
 import WhatWeDoGrid from '../components/whatwedo/WhatWeDoGrid';
@@ -12,6 +13,7 @@ export default function Services() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-gray-900 selection:bg-orange-500 selection:text-white">
+      <SEO pageKey="services" />
       <Header />
       <main className="flex-grow">
         <WhatWeDoHero />

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import Header from '../components/shared/Header';
+import SEO from '../components/common/SEO';
 import CareerHero from '../components/career/CareerHero';
 import CareerContactSection from '../components/career/CareerContactSection';
 import Footer from '../components/shared/Footer';
@@ -11,6 +12,7 @@ export default function Career() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-gray-900 selection:bg-orange-500 selection:text-white">
+      <SEO pageKey="career" />
       <Header />
       <main className="flex-grow">
         <CareerHero />

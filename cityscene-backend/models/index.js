@@ -9,6 +9,7 @@ import Job from './Job.js';
 import Project from './Project.js';
 import Service from './Service.js';
 import Testimonial from './Testimonial.js';
+import SeoMeta from './SeoMeta.js';
 
 // --- Associations ---
 
@@ -31,7 +32,8 @@ export {
   Job,
   Project,
   Service,
-  Testimonial
+  Testimonial,
+  SeoMeta
 };
 
 export default {
@@ -45,5 +47,6 @@ export default {
   Job,
   Project,
   Service,
-  Testimonial
+  Testimonial,
+  SeoMeta
 };

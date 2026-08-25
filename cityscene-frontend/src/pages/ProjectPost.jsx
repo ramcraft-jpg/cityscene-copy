@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../components/shared/Header';
 import Footer from '../components/shared/Footer';
+import SEO from '../components/common/SEO';
 import PortfolioProjectDetail from '../components/portfolio/PortfolioProjectDetail';
 import { getProjectBySlug } from '../services/projectService';
 
@@ -22,6 +23,14 @@ export default function ProjectPost() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col selection:bg-orange-500 selection:text-white">
+      <SEO
+        pageKey={`portfolio:${slug}`}
+        fallback={{
+          title: project ? `${project.titleSystem || project.title} | CityScene Portfolio` : 'Portfolio Project | CityScene Global',
+          description: project?.shortDesc || project?.description || 'Discover our portfolio case study at CityScene Global.',
+          ogImage: project?.image || ''
+        }}
+      />
       {/* Shared Header */}
       <Header />
 

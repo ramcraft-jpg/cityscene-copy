@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Header from '../components/shared/Header';
 import Footer from '../components/shared/Footer';
+import SEO from '../components/common/SEO';
 import WhatWeDoServiceDetail from '../components/whatwedo/WhatWeDoServiceDetail';
 import { getServiceById } from '../services/serviceService';
 
@@ -35,6 +36,14 @@ export default function ServiceDetailPlaceholder() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-gray-900 font-sans selection:bg-orange-500 selection:text-white">
+      <SEO
+        pageKey={`services:${targetId}`}
+        fallback={{
+          title: service ? `${service.displayTitle || service.title} Services | CityScene Global` : 'Service Details | CityScene Global',
+          description: service?.shortDesc || service?.heroDesc || 'Tailored enterprise technology solutions by CityScene Global.',
+          ogImage: service?.heroImage || service?.image || ''
+        }}
+      />
       {/* 1. Header Navigation */}
       <Header />
 

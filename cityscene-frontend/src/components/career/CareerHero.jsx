@@ -6,11 +6,7 @@ import { getMediaUrl } from '../../utils/imageUrl';
 import { useVideoIntersectionObserver } from '../../utils/useVideoIntersectionObserver';
 
 const defaultHeroData = {
-  subheading: 'CAREER OPPORTUNITIES',
-  title: 'Join Our Team',
-  description: 'Find exciting career opportunities with us.',
-  buttonText: 'Explore Jobs',
-  buttonLink: '/career/apply',
+
   bgImage: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1920&q=80',
   bgVideo: ''
 };

@@ -17,6 +17,7 @@ import adminRoutes from './routes/adminRoutes.js';
 import testimonialRoutes from './routes/testimonialRoutes.js';
 import clientRoutes from './routes/clientRoutes.js';
 import homeContentRoutes from './routes/homeContentRoutes.js';
+import seoMetaRoutes from './routes/seoMetaRoutes.js';
 
 dotenv.config();
 
@@ -56,6 +57,7 @@ app.use('/api/testimonials', testimonialRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/home-content', homeContentRoutes);
 app.use('/api/clients', clientRoutes);
+app.use('/api/seo', seoMetaRoutes);
 
 // Error handling middleware
 app.use(notFoundHandler);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../components/shared/Header';
 import Footer from '../components/shared/Footer';
+import SEO from '../components/common/SEO';
 import BlogHero from '../components/blog/BlogHero';
 import BlogGrid from '../components/blog/BlogGrid';
 import { getBlogs } from '../services/blogService';
@@ -39,6 +40,7 @@ export default function Blog() {
 
   return (
     <div className="min-h-screen bg-black flex flex-col selection:bg-orange-500 selection:text-white">
+      <SEO pageKey="blog" />
       {/* Shared Header */}
       <Header />
 

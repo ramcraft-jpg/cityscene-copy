@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../components/shared/Header';
 import Footer from '../components/shared/Footer';
+import SEO from '../components/common/SEO';
 import PortfolioHero from '../components/portfolio/PortfolioHero';
 import PortfolioTrustedClients from '../components/portfolio/PortfolioTrustedClients';
 import PortfolioProjectGrid from '../components/portfolio/PortfolioProjectGrid';
@@ -21,6 +22,7 @@ export default function Portfolio() {
 
   return (
     <div className="min-h-screen bg-black flex flex-col selection:bg-orange-500 selection:text-white">
+      <SEO pageKey="portfolio" />
       {/* Shared Header */}
       <Header />
 

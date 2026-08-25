@@ -7,7 +7,102 @@ import { Job } from '../models/Job.js';
 import { Client } from '../models/Client.js';
 import { Testimonial } from '../models/Testimonial.js';
 import { HomeContent } from '../models/HomeContent.js';
+import { SeoMeta } from '../models/SeoMeta.js';
 import bcrypt from 'bcryptjs';
+
+export const initialSeoMetas = [
+  {
+    pageKey: "home",
+    pageName: "Home Page",
+    pageGroup: "main",
+    title: "CityScene Global - Enterprise Software & AI Solutions",
+    description: "Leading AI-driven digital transformation, custom software development, Web3 engineering, and cloud applications for global enterprises.",
+    keywords: "AI, Custom Software, Web Development, Mobile Apps, Digital Transformation, CityScene Global",
+    canonicalUrl: "https://citysceneglobal.com/",
+    ogTitle: "CityScene Global - Engineering Tomorrow's Digital Experience",
+    ogDescription: "Empower your business with bespoke AI, web, mobile, and enterprise software architectures.",
+    ogImage: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80",
+    robots: "index, follow"
+  },
+  {
+    pageKey: "about",
+    pageName: "About CityScene",
+    pageGroup: "main",
+    title: "About Us - CityScene Global",
+    description: "Learn about CityScene Global, our mission, leadership, core enterprise values, and technology innovation journey.",
+    keywords: "About CityScene, Digital Agency, Leadership, Enterprise Tech, Software Engineering Team",
+    canonicalUrl: "https://citysceneglobal.com/about",
+    ogTitle: "About CityScene Global - Innovators in Technology",
+    ogDescription: "Bridging the gap between ambitious ideas and technical execution.",
+    ogImage: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80",
+    robots: "index, follow"
+  },
+  {
+    pageKey: "services",
+    pageName: "What We Do / Services",
+    pageGroup: "main",
+    title: "Enterprise Technology Services - CityScene Global",
+    description: "Explore our range of engineering services: Custom Software, Mobile Apps, Web Development, UI/UX, AI/ML, Blockchain, and Robotics Automation.",
+    keywords: "Services, Software Engineering, Mobile App Dev, Web Dev, UI UX Design, AI ML, Blockchain",
+    canonicalUrl: "https://citysceneglobal.com/services",
+    ogTitle: "Our Services - CityScene Global Technology Solutions",
+    ogDescription: "Tailored technology services designed to scale modern enterprises.",
+    ogImage: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&w=1200&q=80",
+    robots: "index, follow"
+  },
+  {
+    pageKey: "career",
+    pageName: "Careers",
+    pageGroup: "main",
+    title: "Careers & Opportunities - CityScene Global",
+    description: "Join our global team of engineers, designers, and AI specialists. Explore open job positions and grow your career with CityScene.",
+    keywords: "Careers, Job Openings, Engineering Jobs, Tech Careers, CityScene Jobs, Software Engineer Hiring",
+    canonicalUrl: "https://citysceneglobal.com/career",
+    ogTitle: "Join the CityScene Global Team",
+    ogDescription: "Work on state-of-the-art enterprise software and AI projects.",
+    ogImage: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80",
+    robots: "index, follow"
+  },
+  {
+    pageKey: "blog",
+    pageName: "Blogs & Articles",
+    pageGroup: "main",
+    title: "Tech Insights & Blog - CityScene Global",
+    description: "Stay informed with the latest articles on AI innovation, voice search SEO, modern web application trends, and digital strategy.",
+    keywords: "Tech Blog, AI Articles, Web Development Trends, SEO Voice Search, CityScene Blog",
+    canonicalUrl: "https://citysceneglobal.com/blog",
+    ogTitle: "CityScene Tech Insights & Industry Blog",
+    ogDescription: "Expert commentary and deep dives into modern technology trends.",
+    ogImage: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80",
+    robots: "index, follow"
+  },
+  {
+    pageKey: "portfolio",
+    pageName: "Portfolio & Projects",
+    pageGroup: "main",
+    title: "Client Case Studies & Portfolio - CityScene Global",
+    description: "Discover how CityScene Global delivers transformative software solutions for industry leaders across fintech, healthcare, IoT, and supply chain.",
+    keywords: "Portfolio, Case Studies, Software Projects, Client Success Stories, Enterprise Apps",
+    canonicalUrl: "https://citysceneglobal.com/portfolio",
+    ogTitle: "Our Work & Portfolio - CityScene Global",
+    ogDescription: "Showcasing high-impact enterprise applications built for global clients.",
+    ogImage: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80",
+    robots: "index, follow"
+  },
+  {
+    pageKey: "contact",
+    pageName: "Contact Us",
+    pageGroup: "main",
+    title: "Contact Us - CityScene Global",
+    description: "Get in touch with CityScene Global to discuss your next custom software, mobile app, or AI digital transformation initiative.",
+    keywords: "Contact CityScene, Software Consultation, Hire Tech Team, Inquire Project",
+    canonicalUrl: "https://citysceneglobal.com/contact",
+    ogTitle: "Contact CityScene Global",
+    ogDescription: "Bridging the gap between ideas and technical execution.",
+    ogImage: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
+    robots: "index, follow"
+  }
+];
 
 export const initialBlogs = [
   {
@@ -1037,6 +1132,18 @@ export const seedDatabase = async () => {
       }
     }
 
+    // 8. Seed SeoMetas
+    let seoMetasInserted = 0;
+    if ((await SeoMeta.count()) === 0) {
+      for (const seoData of initialSeoMetas) {
+        const [, created] = await SeoMeta.findOrCreate({
+          where: { pageKey: seoData.pageKey },
+          defaults: seoData
+        });
+        if (created) seoMetasInserted++;
+      }
+    }
+
     console.log('✅ SQL Seeding complete!');
     console.log(`   - Blogs: ${blogsInserted} new records inserted`);
     console.log(`   - Services: ${servicesInserted} new records inserted`);
@@ -1045,6 +1152,7 @@ export const seedDatabase = async () => {
     console.log(`   - Jobs: ${jobsInserted} new records inserted`);
     console.log(`   - Testimonials: ${testimonialsInserted} new records inserted`);
     console.log(`   - HomeContent Sections: ${homeSectionsInserted} new records inserted`);
+    console.log(`   - SEO Metas: ${seoMetasInserted} new records inserted`);
   } catch (error) {
     console.error('❌ Error during SQL database seeding:', error);
   }

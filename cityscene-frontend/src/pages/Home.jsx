@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import Header from '../components/shared/Header';
 import Footer from '../components/shared/Footer';
+import SEO from '../components/common/SEO';
 import HomeHero from '../components/home/HomeHero';
 import HomeOurServicesSection from '../components/home/HomeOurServicesSection';
 import HomeClientAdoptionSection from '../components/home/HomeClientAdoptionSection';
@@ -18,6 +19,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white flex flex-col selection:bg-orange-500 selection:text-white">
+      <SEO pageKey="home" />
       {/* 1. Header / Navbar */}
       <Header />
 

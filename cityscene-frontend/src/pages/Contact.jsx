@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import Header from '../components/shared/Header';
 import Footer from '../components/shared/Footer';
+import SEO from '../components/common/SEO';
 import ContactHero from '../components/contact/ContactHero';
 import ContactIntro from '../components/contact/ContactIntro';
 import ContactInfo from '../components/contact/ContactInfo';
@@ -13,6 +14,7 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen bg-white flex flex-col selection:bg-orange-500 selection:text-white">
+      <SEO pageKey="contact" />
       {/* 1. Header Navbar */}
       <Header />
 

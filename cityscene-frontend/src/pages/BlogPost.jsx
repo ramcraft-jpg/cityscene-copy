@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Header from '../components/shared/Header';
 import Footer from '../components/shared/Footer';
+import SEO from '../components/common/SEO';
 import BlogDetail from '../components/blog/BlogDetail';
 import { getBlogBySlug, getRelatedBlogs } from '../services/blogService';
 
@@ -35,6 +36,14 @@ export default function BlogPost() {
 
   return (
     <div className="min-h-screen bg-[#f8f9fa] flex flex-col selection:bg-orange-500 selection:text-white">
+      <SEO
+        pageKey={`blog:${slug}`}
+        fallback={{
+          title: blog ? `${blog.title} | CityScene Blog` : 'Blog Article | CityScene Global',
+          description: blog?.summary || 'Read our latest tech insights and articles at CityScene Global.',
+          ogImage: blog?.image || ''
+        }}
+      />
       {/* Shared Header */}
       <Header />
 

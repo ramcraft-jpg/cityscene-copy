@@ -66,6 +66,7 @@ import AdminWhatWeDoServices from './pages/admin/services/AdminWhatWeDoServices'
 import AdminServicePagesList from './pages/admin/services/AdminServicePagesList';
 import AdminServicePageDetailEdit from './pages/admin/services/AdminServicePageDetailEdit';
 import AdminProjectDetailEdit from './pages/admin/portfolio/AdminProjectDetailEdit';
+import AdminSeoManagement from './pages/admin/seo/AdminSeoManagement';
 
 export default function App() {
   return (
@@ -108,6 +109,7 @@ export default function App() {
           }
         >
           <Route index element={<AdminPortal />} />
+          <Route path="seo" element={<AdminSeoManagement />} />
           <Route path="home" element={<Navigate to="/admin/home/hero" replace />} />
           <Route path="home/hero" element={<AdminHomeHero />} />
           <Route path="home/services" element={<AdminHomeServices />} />
