@@ -4,7 +4,6 @@ import { getMediaUrl } from '../../utils/imageUrl';
 import { useVideoIntersectionObserver } from '../../utils/useVideoIntersectionObserver';
 
 const defaultCommitmentData = {
-  badge: 'Partnering For Growth',
   heading: 'Our Commitment',
   description: 'Your success is our priority! We go beyond just providing IT solutions – we build partnerships that drive real growth.',
   videoSrc: '/assets/home/commitment/commitment-video.mp4',
@@ -71,10 +70,6 @@ export default function HomeCommitmentSection() {
 
       {/* Center Content Container */}
       <div className="relative z-10 max-w-[700px] mx-auto px-5 w-full text-center flex flex-col items-center justify-center space-y-4">
-        <span className="text-xs sm:text-sm font-medium tracking-widest text-orange-500 uppercase block">
-          {data.badge || defaultCommitmentData.badge}
-        </span>
-
         <h2 className="text-3xl sm:text-5xl font-medium text-white leading-tight">
           {data.heading || defaultCommitmentData.heading}
         </h2>
@@ -86,7 +81,7 @@ export default function HomeCommitmentSection() {
         <div className="pt-3">
           <Link
             to={data.buttonLink || '/about'}
-            className="inline-block px-7 py-3.5 bg-[#ff6600] hover:bg-[#e65c00] text-white font-medium text-lg sm:text-xl rounded-[8px] transition-all duration-300 shadow-md"
+            className="inline-block px-7 py-3.5 bg-[#FFFFFF]  text-black hover:bg-black hover:text-white font-medium text-lg sm:text-xl rounded-[15px] transition-all duration-300 shadow-md"
           >
             {data.buttonText || 'Learn More'}
           </Link>

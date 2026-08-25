@@ -4,10 +4,12 @@ import logo from '../../assets/Untitled design (47).png';
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-[#171717] text-white">
+    <footer className="w-full bg-[#171717] text-white font-montserrat" style={{ fontFamily: "'Montserrat', sans-serif" }}>
+
       {/* Upper Main Footer */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 font-montserrat" style={{ fontFamily: "'Montserrat', sans-serif" }}>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
+
           {/* Column 1: Logo */}
           <div className="flex flex-col items-start space-y-4">
             <Link to="/" className="flex items-center gap-3 group">
@@ -19,6 +21,7 @@ export default function Footer() {
                   style={{ objectPosition: 'left center' }}
                 />
               </div>
+
               <div className="flex flex-col text-left">
                 <span className="text-lg font-bold tracking-tight text-white leading-none">
                   CityScene
@@ -32,71 +35,80 @@ export default function Footer() {
 
           {/* Column 2: Quick Links */}
           <div>
-            <h3 className="text-lg font-medium text-white mb-4 tracking-tight">Quick Links</h3>
-            <ul className="space-y-2.5 text-sm text-gray-300">
-              <li>
-                <Link to="/" className="hover:text-white transition-colors">Home</Link>
-              </li>
-              <li>
-                <Link to="/about" className="hover:text-white transition-colors">About CityScene</Link>
-              </li>
-              <li>
-                <Link to="/services" className="hover:text-white transition-colors">What we do</Link>
-              </li>
-              <li>
-                <Link to="/career" className="hover:text-white transition-colors">Career</Link>
-              </li>
-              <li>
-                <Link to="/blog" className="hover:text-white transition-colors">Blogs</Link>
-              </li>
-              <li>
-                <Link to="/portfolio" className="hover:text-white transition-colors">Portfolio</Link>
-              </li>
-              <li>
-                <Link to="/contact" className="hover:text-white transition-colors">Contact Us</Link>
-              </li>
+            <h3 className="text-xl font-bold text-white mb-5 tracking-tight">
+              Quick Links
+            </h3>
+
+            <ul className="space-y-3 text-[15px] font-medium text-gray-200">
+              <li><Link to="/" className="hover:text-white transition-colors">Home</Link></li>
+              <li><Link to="/about" className="hover:text-white transition-colors">About CityScene</Link></li>
+              <li><Link to="/services" className="hover:text-white transition-colors">What we do</Link></li>
+              <li><Link to="/career" className="hover:text-white transition-colors">Career</Link></li>
+              <li><Link to="/blog" className="hover:text-white transition-colors">Blogs</Link></li>
+              <li><Link to="/portfolio" className="hover:text-white transition-colors">Portfolio</Link></li>
+              <li><Link to="/contact" className="hover:text-white transition-colors">Contact Us</Link></li>
             </ul>
           </div>
 
           {/* Column 3: Services */}
           <div>
-            <h3 className="text-lg font-medium text-white mb-4 tracking-tight">Services</h3>
-            <ul className="space-y-2.5 text-sm text-gray-300">
+            <h3 className="text-xl font-bold text-white mb-5 tracking-tight">
+              Services
+            </h3>
+
+            <ul className="space-y-3 text-[15px] font-medium text-gray-200">
               <li>
-                <Link to="/services/custom-software-development" className="hover:text-white transition-colors">Software Development</Link>
+                <Link to="/services/custom-software-development" className="hover:text-white transition-colors">
+                  Software Development
+                </Link>
               </li>
               <li>
-                <Link to="/services/mobile-app-development" className="hover:text-white transition-colors">App Development</Link>
+                <Link to="/services/mobile-app-development" className="hover:text-white transition-colors">
+                  App Development
+                </Link>
               </li>
               <li>
-                <Link to="/services/web-development" className="hover:text-white transition-colors">Web Development</Link>
+                <Link to="/services/web-development" className="hover:text-white transition-colors">
+                  Web Development
+                </Link>
               </li>
               <li>
-                <Link to="/services/ai-machine-learning" className="hover:text-white transition-colors">AI & Machine Learning</Link>
+                <Link to="/services/ai-machine-learning" className="hover:text-white transition-colors">
+                  AI & Machine Learning
+                </Link>
               </li>
               <li>
-                <Link to="/services/digital-marketing" className="hover:text-white transition-colors">Digital Marketing</Link>
+                <Link to="/services/digital-marketing" className="hover:text-white transition-colors">
+                  Digital Marketing
+                </Link>
               </li>
             </ul>
           </div>
 
           {/* Column 4: Contact */}
           <div>
-            <h3 className="text-lg font-medium text-white mb-4 tracking-tight">Contact</h3>
-            <div className="space-y-3 text-sm text-gray-300">
+            <h3 className="text-xl font-bold text-white mb-5 tracking-tight">
+              Contact
+            </h3>
+
+            <div className="space-y-3 text-[15px] font-medium text-gray-200">
               <p className="leading-relaxed">
                 S.P Tower, 150, Sirsi Rd,<br />
                 Jaipur, Rajasthan, India
               </p>
+
               <p className="pt-1">+91 7689999377</p>
               <p>+971 528225509</p>
+
               <p>
-                <a href="mailto:info@citysceneglobal.com" className="hover:text-white transition-colors">
+                <a
+                  href="mailto:info@citysceneglobal.com"
+                  className="hover:text-white transition-colors"
+                >
                   info@citysceneglobal.com
                 </a>
               </p>
 
-              {/* Social SVG Icons matching reference screenshot 3 */}
               <div className="flex items-center space-x-5 pt-4 text-white">
                 <a
                   href="https://linkedin.com"
@@ -134,18 +146,26 @@ export default function Footer() {
               </div>
             </div>
           </div>
+
         </div>
       </div>
 
       {/* Bottom Copyright Strip */}
-      <div className="w-full bg-[#303030] py-6 px-4 text-center text-xs sm:text-sm text-gray-300">
-        <p className="mb-1">© 2025 CityScene Global Pvt. Ltd. All Rights Reserved.</p>
+      <div className="w-full bg-[#303030] py-5 px-4 text-center text-[14px] font-medium text-gray-200 font-montserrat" style={{ fontFamily: "'Montserrat', sans-serif" }}>
+        <p className="mb-1">
+          © 2025 CityScene Global Pvt. Ltd. All Rights Reserved.
+        </p>
+
         <p>
-          <Link to="/privacy-policy" className="hover:underline hover:text-white transition-colors">
+          <Link
+            to="/privacy-policy"
+            className="hover:underline hover:text-white transition-colors"
+          >
             Privacy Policy
           </Link>
         </p>
       </div>
+
     </footer>
   );
 }

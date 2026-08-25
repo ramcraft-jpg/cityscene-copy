@@ -9,12 +9,12 @@ let isSeeded = false;
 
 export const ensureSeedClients = async () => {
   if (isSeeded) return;
+  isSeeded = true;
   try {
     const count = await Client.count();
     if (count === 0 && initialClients && initialClients.length > 0) {
       await Client.bulkCreate(initialClients, { ignoreDuplicates: true });
     }
-    isSeeded = true;
   } catch (error) {
     console.error('[Client Seed Sync Error]:', error.message);
   }

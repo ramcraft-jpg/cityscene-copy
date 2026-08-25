@@ -948,79 +948,93 @@ export const seedDatabase = async () => {
 
     // 1. Seed Blogs
     let blogsInserted = 0;
-    for (const blogData of initialBlogs) {
-      const [, created] = await Blog.findOrCreate({
-        where: { id: blogData.id },
-        defaults: blogData
-      });
-      if (created) blogsInserted++;
+    if ((await Blog.count()) === 0) {
+      for (const blogData of initialBlogs) {
+        const [, created] = await Blog.findOrCreate({
+          where: { id: blogData.id },
+          defaults: blogData
+        });
+        if (created) blogsInserted++;
+      }
     }
 
     // 2. Seed Services
     let servicesInserted = 0;
-    for (const serviceData of initialServices) {
-      const [, created] = await Service.findOrCreate({
-        where: { id: serviceData.id },
-        defaults: serviceData
-      });
-      if (created) servicesInserted++;
+    if ((await Service.count()) === 0) {
+      for (const serviceData of initialServices) {
+        const [, created] = await Service.findOrCreate({
+          where: { id: serviceData.id },
+          defaults: serviceData
+        });
+        if (created) servicesInserted++;
+      }
     }
 
     // 3. Seed Clients
     let clientsInserted = 0;
-    for (const clientData of initialClients) {
-      const [, created] = await Client.findOrCreate({
-        where: { id: clientData.id },
-        defaults: clientData
-      });
-      if (created) clientsInserted++;
+    if ((await Client.count()) === 0) {
+      for (const clientData of initialClients) {
+        const [, created] = await Client.findOrCreate({
+          where: { id: clientData.id },
+          defaults: clientData
+        });
+        if (created) clientsInserted++;
+      }
     }
 
     // 4. Seed Projects
     let projectsInserted = 0;
-    for (const projectData of initialProjects) {
-      const [, created] = await Project.findOrCreate({
-        where: { id: projectData.id },
-        defaults: projectData
-      });
-      if (created) projectsInserted++;
+    if ((await Project.count()) === 0) {
+      for (const projectData of initialProjects) {
+        const [, created] = await Project.findOrCreate({
+          where: { id: projectData.id },
+          defaults: projectData
+        });
+        if (created) projectsInserted++;
+      }
     }
 
     // 5. Seed Jobs
     let jobsInserted = 0;
-    for (const jobData of initialJobs) {
-      const [, created] = await Job.findOrCreate({
-        where: { id: jobData.id },
-        defaults: jobData
-      });
-      if (created) jobsInserted++;
+    if ((await Job.count()) === 0) {
+      for (const jobData of initialJobs) {
+        const [, created] = await Job.findOrCreate({
+          where: { id: jobData.id },
+          defaults: jobData
+        });
+        if (created) jobsInserted++;
+      }
     }
 
     // 6. Seed Testimonials
     let testimonialsInserted = 0;
-    for (const testData of initialTestimonials) {
-      const [, created] = await Testimonial.findOrCreate({
-        where: { author: testData.author, company: testData.company || '' },
-        defaults: {
-          author: testData.author,
-          role: testData.role || '',
-          company: testData.company || '',
-          quote: testData.quote,
-          rating: testData.rating || 5,
-          status: testData.status || 'active'
-        }
-      });
-      if (created) testimonialsInserted++;
+    if ((await Testimonial.count()) === 0) {
+      for (const testData of initialTestimonials) {
+        const [, created] = await Testimonial.findOrCreate({
+          where: { author: testData.author, company: testData.company || '' },
+          defaults: {
+            author: testData.author,
+            role: testData.role || '',
+            company: testData.company || '',
+            quote: testData.quote,
+            rating: testData.rating || 5,
+            status: testData.status || 'active'
+          }
+        });
+        if (created) testimonialsInserted++;
+      }
     }
 
     // 7. Seed HomeContent
     let homeSectionsInserted = 0;
-    for (const [section, content] of Object.entries(defaultHomeContent)) {
-      const [, created] = await HomeContent.findOrCreate({
-        where: { section },
-        defaults: { section, content }
-      });
-      if (created) homeSectionsInserted++;
+    if ((await HomeContent.count()) === 0) {
+      for (const [section, content] of Object.entries(defaultHomeContent)) {
+        const [, created] = await HomeContent.findOrCreate({
+          where: { section },
+          defaults: { section, content }
+        });
+        if (created) homeSectionsInserted++;
+      }
     }
 
     console.log('✅ SQL Seeding complete!');

@@ -27,7 +27,7 @@ export default function WhatWeDoCard({ service, index = 0 }) {
           isOdd ? 'self-end' : 'self-start'
         }`}
       >
-        <h3 className="text-[35px] font-medium text-white capitalize leading-[1.1] group-hover:text-orange-400 transition-colors">
+        <h3 className="text-[35px] font-medium text-white capitalize leading-[1.1]">
           {service.title}
         </h3>
       </div>

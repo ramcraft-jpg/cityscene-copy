@@ -33,7 +33,7 @@ export default function HomeSocialImpactSection() {
   return (
     <section className="w-full bg-white py-14 flex items-center justify-center border-b border-gray-100">
       <div className="w-[90%] max-w-[1100px] mx-auto flex flex-col lg:flex-row items-center justify-center gap-10">
-        
+
         {/* Left Column: Heading & Text */}
         <div className="w-full lg:w-1/2 text-left space-y-4">
           <span className="text-base font-medium text-gray-800 block">
@@ -58,7 +58,7 @@ export default function HomeSocialImpactSection() {
           <div className="pt-2">
             <Link
               to={data.buttonLink || '/about'}
-              className="inline-block px-5 py-2.5 bg-[#FFA500] hover:bg-black text-white font-medium text-base rounded-[20px] transition-all duration-300 shadow-sm"
+              className="inline-block px-5 py-2.5 bg-none border border-black text-black font-medium text-base rounded-[20px] hover:bg-black hover:text-white transition-all duration-300"
             >
               {data.buttonText || 'View All Impact'}
             </Link>

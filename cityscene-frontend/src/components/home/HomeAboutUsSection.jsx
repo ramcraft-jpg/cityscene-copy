@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { getMediaUrl } from '../../utils/imageUrl';
 
 const defaultAboutData = {
-  badge: 'Who We Are',
   heading: 'About Us',
   paragraph1: 'At CityScene Global Private Limited, we are committed to transforming urban landscapes with cutting-edge technology and sustainable solutions. In an era where businesses face challenges such as outdated infrastructure, slow system performance, and complex IT management, we provide future-ready solutions that drive efficiency, security, and innovation.',
   paragraph2: 'We specialize in Automation, Artificial Intelligence (AI), Blockchain, Smart City Solutions, and Digital Infrastructure, enabling businesses and governments to navigate the fast-paced digital world seamlessly. Our expertise ensures the integration of intelligent, scalable, and efficient systems tailored to your needs.',
@@ -27,21 +26,14 @@ export default function HomeAboutUsSection() {
       .catch((err) => console.error('Error fetching HomeAbout API data:', err));
   }, []);
 
-  const imageSrc = getMediaUrl(data.image || defaultAboutData.image);
-  const fallbackSrc = getMediaUrl(data.fallbackImage || defaultAboutData.fallbackImage);
-
   return (
     <section className="w-full bg-[#222222] text-white py-16 flex items-center justify-center border-b border-white/10">
       <div className="w-full max-w-[800px] mx-auto px-6 relative text-justify">
-        
+
         {/* Vertical Left Line Divider */}
         <div className="absolute left-0 top-[60px] h-[80%] w-[4px] bg-[#ccc]" />
 
         <div className="pl-6 space-y-4">
-          <span className="text-xs sm:text-sm font-medium tracking-widest text-orange-500 uppercase block text-left">
-            {data.badge || defaultAboutData.badge}
-          </span>
-
           <h2 className="text-3xl sm:text-[32px] font-medium text-white text-left mb-4">
             {data.heading || defaultAboutData.heading}
           </h2>

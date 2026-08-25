@@ -138,7 +138,10 @@ export default function ContactHero() {
             {/* Horizontal Line under Subheading matching reference width */}
             <div className="w-full max-w-[340px] sm:max-w-[380px] h-[1.5px] bg-white/90 mb-5" />
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.1] mb-4 whitespace-pre-line">
+            <h1
+              className="text-5xl sm:text-6xl lg:text-[72px] font-extrabold text-white tracking-tight leading-[1.05] mb-4 whitespace-pre-line"
+              style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 800 }}
+            >
               {heroData.title || defaultHero.title}
             </h1>
 

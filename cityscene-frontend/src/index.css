@@ -1,11 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap');
 @import "tailwindcss";
-
-*,
-*::before,
-*::after {
-  font-family: 'Montserrat', sans-serif;
-}
 
 html,
 body,
@@ -13,47 +6,69 @@ button,
 input,
 textarea,
 select {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
 }
 
 @layer base {
   html {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
     scroll-behavior: smooth;
   }
 
   body {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
     background-color: #ffffff;
     color: #171717;
     overflow-x: hidden;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-weight: 400;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: inherit;
   }
 }
 
+/* Force Montserrat font family for Footer */
+
+footer,
+footer *,
+footer *::before,
+footer *::after,
+.font-montserrat,
+.font-montserrat * {
+  font-family: 'Montserrat', sans-serif !important;
+}
+
 /* Custom scrollbar */
+
 ::-webkit-scrollbar {
   width: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: #171717;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #333333;
   border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: #555555;
 }
 
 /* Continuous Marquee Animation */
+
 @keyframes marquee {
   0% {
     transform: translateX(0%);
   }
+
   100% {
     transform: translateX(-50%);
   }
@@ -69,28 +84,53 @@ select {
   animation-play-state: paused;
 }
 
-/* Viewport Section Design Utilities */
+/* ============================= */
+/* Viewport Section Design */
+/* ============================= */
+
 .section-viewport {
   min-height: 100vh;
   min-height: 100svh;
+
   display: flex;
   flex-direction: column;
-  justify-content: center;
+
+  /* Content starts from top */
+  justify-content: flex-start;
+
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
+
+/* HERO SECTIONS */
 
 .section-viewport-hero {
   min-height: calc(100vh - 64px);
   min-height: calc(100svh - 64px);
+
   display: flex;
   flex-direction: column;
-  justify-content: center;
+
+  /* IMPORTANT: removes vertical centering */
+  justify-content: flex-start;
+
+  /* Move hero content towards top */
+  padding-top: 1.5rem;
+  padding-bottom: 2rem;
 }
 
+/* Mobile */
+
 @media (max-width: 768px) {
+
   .section-viewport,
   .section-viewport-hero {
     min-height: auto;
-    padding-top: 4rem;
-    padding-bottom: 4rem;
+
+    justify-content: flex-start;
+
+    padding-top: 2rem;
+    padding-bottom: 3rem;
   }
+
 }

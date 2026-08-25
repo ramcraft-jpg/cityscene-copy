@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { CheckCircle2 } from 'lucide-react';
 
 const defaultTransformationData = {
-  badge: 'Digital Leadership',
   heading: 'Transformation starts here',
   subtitle: 'Reimagine your future.',
   description: 'Be part of an innovative team driving AI, Blockchain, and Smart City solutions. Work on global projects, grow with cutting-edge training, and shape the future of digital transformation.',
@@ -31,50 +29,60 @@ export default function HomeTransformationCTA() {
   }, []);
 
   const features = data.features && data.features.length > 0 ? data.features : defaultTransformationData.features;
+  const headingText = data.heading || defaultTransformationData.heading;
+  const isDefaultHeading = headingText.toLowerCase().includes('transformation starts here');
 
   return (
-    <section className="w-full bg-white text-black py-16 px-4 md:px-[10%] flex flex-col md:flex-row items-center justify-center relative min-h-[60vh]">
-      {/* Left Content */}
-      <div className="w-full md:w-1/2 text-left md:ml-[40px] lg:ml-[80px] space-y-4">
-        <span className="text-xs sm:text-sm font-medium tracking-widest text-orange-600 uppercase block">
-          {data.badge || defaultTransformationData.badge}
-        </span>
+    <section className="w-full bg-white text-black py-16 sm:py-20 flex items-center justify-center border-b border-gray-100 min-h-[480px]">
+      <div className="w-full max-w-[1100px] mx-auto px-6 sm:px-10 flex flex-col md:flex-row items-center justify-center">
+        
+        {/* Left Side */}
+        <div className="w-full md:w-[42%] max-w-[360px] text-left space-y-3 shrink-0">
+          <h2 className="text-3xl sm:text-[2.8rem] font-bold text-black leading-[1.1] tracking-tight">
+            {isDefaultHeading ? (
+              <>
+                Transformation <br />
+                <span>starts here</span>
+              </>
+            ) : (
+              headingText
+            )}
+          </h2>
 
-        <h2 className="text-3xl md:text-[2.8rem] font-medium text-black leading-tight">
-          {data.heading || defaultTransformationData.heading}
-        </h2>
+          <p className="text-lg sm:text-[1.2rem] text-black font-light pt-1 pb-1">
+            {data.subtitle || defaultTransformationData.subtitle}
+          </p>
 
-        <p className="text-lg md:text-[1.2rem] text-black my-2 font-light">
-          {data.subtitle || defaultTransformationData.subtitle}
-        </p>
-
-        <div className="pt-2">
-          <Link
-            to={data.buttonLink || '/contact'}
-            className="inline-block px-5 py-2.5 bg-none border border-black text-black font-medium text-base rounded-[20px] hover:bg-black hover:text-white transition-all duration-300"
-          >
-            {data.buttonText || 'Connect With Us'}
-          </Link>
+          <div className="pt-2">
+            <Link
+              to={data.buttonLink || '/contact'}
+              className="inline-block px-5 py-2.5 text-[14px] font-bold text-black bg-white border-2 border-black rounded-[30px] hover:bg-black hover:text-white transition-all duration-300"
+            >
+              {data.buttonText || 'Connect With Us'}
+            </Link>
+          </div>
         </div>
-      </div>
 
-      {/* Vertical Divider Line */}
-      <div className="hidden md:block w-[2px] h-[70%] bg-black mx-4 relative left-[-30px] lg:left-[-60px] shrink-0" />
+        {/* Center Vertical Divider Line */}
+        <div className="hidden md:block w-[2px] h-[220px] sm:h-[240px] bg-black mx-10 lg:mx-16 shrink-0" />
 
-      {/* Right Content */}
-      <div className="w-full md:w-1/2 text-left text-black text-base relative left-0 md:left-[-15px] lg:left-[-30px] max-w-[400px] mt-8 md:mt-0 space-y-4">
-        <p className="text-base text-black mb-4 leading-relaxed">
-          {data.description || defaultTransformationData.description}
-        </p>
+        {/* Right Side */}
+        <div className="w-full md:w-[48%] max-w-[440px] text-left text-black mt-8 md:mt-0 space-y-4">
+          <p className="text-[15px] sm:text-[16px] text-black leading-[1.6]">
+            {data.description || defaultTransformationData.description}
+          </p>
 
-        <ul className="space-y-2 font-medium text-black">
-          {features.map((feat, idx) => (
-            <li key={idx} className="text-base font-semibold text-black">
-              {feat}
-            </li>
-          ))}
-        </ul>
+          <div className="space-y-1.5 text-[15px] sm:text-[16px] font-normal text-black leading-snug">
+            {features.map((feat, idx) => (
+              <p key={idx}>
+                {feat}
+              </p>
+            ))}
+          </div>
+        </div>
+
       </div>
     </section>
   );
 }
+

@@ -30,12 +30,12 @@ export default function HomeWhatPeopleAreSaying() {
   const marqueeList = [...rawList, ...rawList, ...rawList, ...rawList];
 
   return (
-    <section 
+    <section
       className="w-full bg-white text-black py-16 px-5 text-center overflow-hidden relative"
       style={{ clipPath: 'polygon(0% 0%, 100% 0%, 100% 85%, 50% 100%, 0% 85%)' }}
     >
       <div className="max-w-[800px] mx-auto w-full text-center pb-12">
-        
+
         <h2 className="text-2xl font-medium text-black mb-8">
           {data.heading || 'What People Are Saying?'}
         </h2>
@@ -46,7 +46,7 @@ export default function HomeWhatPeopleAreSaying() {
             {marqueeList.map((item, idx) => (
               <div
                 key={idx}
-                className="w-[260px] sm:w-[280px] min-h-[120px] flex-shrink-0 bg-[#1a1a1a] text-white rounded-[10px] p-5 flex flex-col justify-center items-center text-center shadow-md transition-transform duration-300 hover:scale-[1.03]"
+                className="w-[260px] sm:w-[280px] min-h-[180px] flex-shrink-0 bg-[#1a1a1a] text-white rounded-[10px] p-5 flex flex-col justify-center items-center text-center shadow-md transition-transform duration-300 hover:scale-[1.03]"
               >
                 <p className="text-sm text-gray-200 leading-relaxed font-light mb-3">
                   {item.quote}

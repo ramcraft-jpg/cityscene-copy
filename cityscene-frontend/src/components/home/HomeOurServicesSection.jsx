@@ -1,104 +1,91 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { getMediaUrl } from '../../utils/imageUrl';
-import ScrollReveal from '../shared/ScrollReveal';
 
 const defaultServices = [
   {
     id: 'custom-software-development',
     title: 'Custom Software Development',
-    textPosition: 'bottom',
-    image: '/assets/home/services/service-1.jpg',
+    image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80',
     fallback: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80'
   },
   {
     id: 'mobile-app-development',
     title: 'Mobile App Development',
-    textPosition: 'top',
-    image: '/assets/home/services/service-2.jpg',
+    image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800&q=80',
     fallback: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800&q=80'
   },
   {
     id: 'web-development',
     title: 'Web Development',
-    textPosition: 'bottom',
-    image: '/assets/home/services/service-3.jpg',
+    image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80',
     fallback: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80'
   },
   {
     id: 'ui-ux-design',
     title: 'UI/UX Design',
-    textPosition: 'top',
-    image: '/assets/home/services/service-4.jpg',
+    image: 'https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?auto=format&fit=crop&w=800&q=80',
     fallback: 'https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?auto=format&fit=crop&w=800&q=80'
   },
   {
     id: 'blockchain-development',
     title: 'Blockchain Development',
-    textPosition: 'bottom',
-    image: '/assets/home/services/service-5.jpg',
+    image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=800&q=80',
     fallback: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=800&q=80'
   },
   {
     id: 'ai-machine-learning',
     title: 'AI & Machine Learning',
-    textPosition: 'top',
-    image: '/assets/home/services/service-6.jpg',
+    image: 'https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&w=800&q=80',
     fallback: 'https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&w=800&q=80'
   },
   {
     id: 'ai-tools-agents',
     title: 'Development of AI Tools & Agents',
-    textPosition: 'bottom',
-    image: '/assets/home/services/service-7.jpg',
+    image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80',
     fallback: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80'
   },
   {
     id: 'ai-scope-feasibility',
     title: 'AI Scope & Feasibility Analysis',
-    textPosition: 'top',
-    image: '/assets/home/services/service-8.jpg',
+    image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80',
     fallback: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80'
   },
   {
     id: 'robotics-automation',
     title: 'Robotics & Automation',
-    textPosition: 'bottom',
-    image: '/assets/home/services/service-9.jpg',
+    image: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80',
     fallback: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80'
   },
   {
     id: 'business-research-ai-innovation',
     title: 'Business Research with AI Innovation',
-    textPosition: 'top',
-    image: '/assets/home/services/service-10.jpg',
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80',
     fallback: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80'
   },
   {
     id: 'software-testing-qa',
     title: 'Software Testing & QA',
-    textPosition: 'bottom',
-    image: '/assets/home/services/service-11.jpg',
+    image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80',
     fallback: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80'
   },
   {
     id: 'it-consulting',
     title: 'IT Consulting',
-    textPosition: 'top',
-    image: '/assets/home/services/service-12.jpg',
+    image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80',
     fallback: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80'
   }
 ];
 
 export default function HomeOurServicesSection() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [cardsPerView, setCardsPerView] = useState(3);
   const [sectionData, setSectionData] = useState({
-    badge: 'What We Deliver',
     heading: 'Our Services',
     services: defaultServices
   });
+  const [items, setItems] = useState(defaultServices);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [cardsPerView, setCardsPerView] = useState(3);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     fetch('http://localhost:5000/api/home-content/services')
@@ -106,12 +93,11 @@ export default function HomeOurServicesSection() {
       .then((data) => {
         if (data.success && data.content && data.content.services && data.content.services.length > 0) {
           setSectionData(data.content);
+          setItems(data.content.services);
         }
       })
       .catch((err) => console.error('Error fetching HomeServices API data:', err));
   }, []);
-
-  const allServices = sectionData.services || defaultServices;
 
   useEffect(() => {
     const handleResize = () => {
@@ -128,126 +114,102 @@ export default function HomeOurServicesSection() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const maxIndex = Math.max(0, allServices.length - cardsPerView);
-
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
-  };
-
-  const handlePrev = () => {
-    setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
-  };
-
   useEffect(() => {
+    if (isHovered) return;
+
     const timer = setInterval(() => {
-      handleNext();
+      setIsTransitioning(true);
     }, 5000);
+
     return () => clearInterval(timer);
-  }, [maxIndex]);
+  }, [isHovered]);
+
+  const handleTransitionEnd = (e) => {
+    if (e.target !== e.currentTarget) return;
+    if (isTransitioning) {
+      setItems((prevItems) => {
+        const next = [...prevItems];
+        const first = next.shift();
+        if (first) next.push(first);
+        return next;
+      });
+      setIsTransitioning(false);
+    }
+  };
 
   return (
-    <section className="w-full bg-[#181818] text-white py-14 md:py-20 flex flex-col justify-center overflow-hidden relative">
-      {/* Header Container */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full mb-8 sm:mb-12 flex items-center justify-between">
-        <ScrollReveal animation="up" delay={100}>
-          <div>
-            <span className="text-xs sm:text-sm font-medium tracking-widest text-orange-500 uppercase block mb-1">
-              {sectionData.badge || 'What We Deliver'}
-            </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-medium text-white tracking-tight">
-              {sectionData.heading || 'Our Services'}
-            </h2>
-          </div>
-        </ScrollReveal>
+    <section
+      className="w-full bg-[#1a1a1a] text-white py-[50px] sm:py-[60px] px-5 sm:px-[40px] relative overflow-hidden"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onTouchStart={() => setIsHovered(true)}
+      onTouchEnd={() => setIsHovered(false)}
+    >
+      <div className="max-w-[1100px] mx-auto w-full">
+        {/* Section Heading */}
+        <h2 className="text-[28px] sm:text-[40px] font-normal text-white text-left mb-6 sm:mb-8 tracking-tight capitalize">
+          {sectionData.heading || 'Our Services'}
+        </h2>
 
-        {/* Navigation Buttons & Counter */}
-        <ScrollReveal animation="fade" delay={200} className="flex items-center space-x-4">
-          <span className="text-sm font-medium text-gray-400 font-mono hidden sm:inline-block">
-            {String(currentIndex + 1).padStart(2, '0')} / {String(allServices.length).padStart(2, '0')}
-          </span>
-          <div className="flex items-center space-x-3">
-            <button
-              onClick={handlePrev}
-              aria-label="Previous service"
-              className="w-11 h-11 rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-white/10 hover:border-white transition-all duration-200"
-            >
-              <ChevronLeft size={20} />
-            </button>
-            <button
-              onClick={handleNext}
-              aria-label="Next service"
-              className="w-11 h-11 rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-white/10 hover:border-white transition-all duration-200"
-            >
-              <ChevronRight size={20} />
-            </button>
-          </div>
-        </ScrollReveal>
-      </div>
+        {/* Services Carousel Grid Viewport */}
+        <div className="w-full overflow-hidden relative">
+          <div
+            onTransitionEnd={handleTransitionEnd}
+            style={{
+              transform: isTransitioning
+                ? `translateX(calc(-1 * (100% + 20px) / ${cardsPerView}))`
+                : 'translateX(0px)',
+              transition: isTransitioning
+                ? 'transform 500ms ease-in-out'
+                : 'none'
+            }}
+            className="flex gap-[20px] w-full"
+          >
+            {items.map((srv, idx) => {
+              const isOdd = idx % 2 === 0;
 
-      {/* 3-Card Display Viewport Container */}
-      <ScrollReveal animation="scale" delay={300} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative overflow-hidden" style={{ clipPath: 'inset(0 0 0 0)' }}>
-        <div
-          style={{
-            transform: `translateX(calc(-${currentIndex} * (100% + 24px) / ${cardsPerView}))`,
-            transition: 'transform 600ms cubic-bezier(0.4, 0, 0.2, 1)'
-          }}
-          className="flex gap-6 w-full"
-        >
-          {allServices.map((srv, idx) => {
-            const isVisible = idx >= currentIndex && idx < currentIndex + cardsPerView;
+              const fallbackUrl = defaultServices.find((ds) => ds.id === srv.id)?.fallback || defaultServices[5].fallback;
+              const imageUrl = (srv.image && !srv.image.includes('/assets/home/services/'))
+                ? getMediaUrl(srv.image)
+                : fallbackUrl;
 
-            return (
-              <Link
-                key={`${srv.id}-${idx}`}
-                to={`/services/${srv.id}`}
-                tabIndex={isVisible ? 0 : -1}
-                className={`w-full sm:w-[calc((100%-24px)/2)] lg:w-[calc((100%-48px)/3)] h-[400px] sm:h-[460px] lg:h-[480px] shrink-0 rounded-[20px] overflow-hidden relative group border border-white/10 block transition-all duration-500 hover:border-orange-500/50 ${
-                  isVisible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-                }`}
-              >
-                {/* Background Image */}
-                <img
-                  src={getMediaUrl(srv.image)}
-                  alt={srv.title}
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = srv.fallback || defaultServices[0].fallback;
-                  }}
-                  className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-out"
-                />
-
-                {/* Dark Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/30 to-black/85 group-hover:from-black/90 group-hover:to-black/90 transition-all duration-300" />
-
-                {/* Text Overlay - Odd cards top left, Even cards bottom left */}
-                <div
-                  className={`absolute left-6 right-6 z-10 p-4 text-left transition-all duration-300 ${
-                    idx % 2 === 0 ? 'top-6 text-top' : 'bottom-6 text-bottom'
-                  }`}
+              return (
+                <Link
+                  key={`${srv.id}-${idx}`}
+                  to={`/services/${srv.id}`}
+                  className="w-full sm:w-[calc((100%-20px)/2)] lg:w-[calc((100%-40px)/3)] h-[489px] shrink-0 rounded-[20px] overflow-hidden relative group block shadow-[0_5px_15px_rgba(0,0,0,0.3)] transition-transform duration-300 ease-in-out hover:scale-[1.05]"
                 >
-                  <h3 className="text-2xl sm:text-3xl font-medium text-white tracking-tight leading-snug group-hover:text-orange-400 transition-colors">
-                    {srv.title}
-                  </h3>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
+                  {/* Background Image */}
+                  <img
+                    src={imageUrl}
+                    alt={srv.title}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = fallbackUrl;
+                    }}
+                    className="absolute inset-0 w-full h-full object-cover object-center"
+                  />
 
-        {/* Bottom Pagination Bar */}
-        <div className="flex justify-center items-center gap-2 mt-8">
-          {allServices.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrentIndex(idx)}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                idx === currentIndex ? 'w-8 bg-orange-500' : 'w-2 bg-white/30 hover:bg-white/60'
-              }`}
-              aria-label={`Go to slide ${idx + 1}`}
-            />
-          ))}
+                  {/* Dark Overlay matching original rgba(0,0,0,0.5) and hover rgba(0,0,0,0.3) */}
+                  <div className="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-colors duration-300 z-[1]" />
+
+                  {/* Service Card Text: Odd = Top-Left, Even = Bottom-Left */}
+                  <div
+                    className={`relative z-[2] p-5 w-full h-full flex flex-col ${
+                      isOdd ? 'justify-start' : 'justify-end'
+                    }`}
+                  >
+                    <div className="service-text text-left text-white text-[24px] sm:text-[35px] font-normal leading-[1.1] p-[15px] capitalize">
+                      {srv.title}
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
         </div>
-      </ScrollReveal>
+      </div>
     </section>
   );
 }
+

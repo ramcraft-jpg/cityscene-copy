@@ -75,20 +75,6 @@ export default function HomeHero() {
             {activeSlide.subtitle}
           </p>
         </div>
-
-        {/* Slide Indicator Dots */}
-        <div className="pt-8 flex items-center space-x-2">
-          {slides.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrentSlide(idx)}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                idx === currentSlide ? 'w-8 bg-white' : 'w-2 bg-white/40 hover:bg-white/70'
-              }`}
-              aria-label={`Go to slide ${idx + 1}`}
-            />
-          ))}
-        </div>
       </div>
 
       {/* Action Buttons: Positioned separately at bottom of section on desktop */}
@@ -101,7 +87,7 @@ export default function HomeHero() {
         </Link>
         <Link
           to={heroData.button2Link || '/contact'}
-          className="px-7 py-3 rounded-full bg-black text-white font-medium text-sm border border-white/20 hover:bg-gray-900 transition-all duration-300 shadow-lg"
+          className="px-7 py-3 rounded-full bg-black text-white font-medium text-sm border border-white/20 hover:bg-white hover:text-black hover:border-white transition-all duration-300 shadow-lg"
         >
           {heroData.button2Text || "Let's Talk"}
         </Link>
