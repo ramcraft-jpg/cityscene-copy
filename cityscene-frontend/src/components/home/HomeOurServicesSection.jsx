@@ -146,7 +146,7 @@ export default function HomeOurServicesSection() {
   }, [maxIndex]);
 
   return (
-    <section className="w-full min-h-screen min-h-[100svh] bg-[#181818] text-white py-10 md:py-14 flex flex-col justify-center overflow-hidden relative">
+    <section className="w-full bg-[#181818] text-white py-14 md:py-20 flex flex-col justify-center overflow-hidden relative">
       {/* Header Container */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full mb-8 sm:mb-12 flex items-center justify-between">
         <ScrollReveal animation="up" delay={100}>
@@ -201,7 +201,7 @@ export default function HomeOurServicesSection() {
                 key={`${srv.id}-${idx}`}
                 to={`/services/${srv.id}`}
                 tabIndex={isVisible ? 0 : -1}
-                className={`w-full sm:w-[calc((100%-24px)/2)] lg:w-[calc((100%-48px)/3)] h-[400px] sm:h-[460px] lg:h-[480px] shrink-0 rounded-2xl overflow-hidden relative group border border-white/10 shadow-2xl block transition-all duration-500 hover:border-orange-500/50 ${
+                className={`w-full sm:w-[calc((100%-24px)/2)] lg:w-[calc((100%-48px)/3)] h-[400px] sm:h-[460px] lg:h-[480px] shrink-0 rounded-[20px] overflow-hidden relative group border border-white/10 block transition-all duration-500 hover:border-orange-500/50 ${
                   isVisible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
                 }`}
               >

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import logo from '../../assets/Untitled design (47).png';
 
 export default function Footer() {
   return (
@@ -10,16 +11,19 @@ export default function Footer() {
           {/* Column 1: Logo */}
           <div className="flex flex-col items-start space-y-4">
             <Link to="/" className="flex items-center gap-3 group">
-              <div className="relative w-10 h-10 flex items-center justify-center rounded-full bg-gradient-to-tr from-blue-600 via-orange-500 to-amber-500 shadow-sm p-[2px]">
-                <div className="w-full h-full bg-[#171717] rounded-full flex items-center justify-center overflow-hidden">
-                  <span className="text-orange-500 font-extrabold text-xl">S</span>
-                </div>
+              <div className="w-9 h-9 sm:w-10 sm:h-10 overflow-hidden relative flex-shrink-0 flex items-center justify-start">
+                <img
+                  src={logo}
+                  alt="CityScene Logo Icon"
+                  className="h-full w-auto max-w-none object-contain"
+                  style={{ objectPosition: 'left center' }}
+                />
               </div>
               <div className="flex flex-col text-left">
                 <span className="text-lg font-bold tracking-tight text-white leading-none">
-                  City Scene
+                  CityScene
                 </span>
-                <span className="text-sm font-semibold text-gray-200 leading-none mt-0.5">
+                <span className="text-sm font-semibold text-white leading-none mt-0.5">
                   Global
                 </span>
               </div>

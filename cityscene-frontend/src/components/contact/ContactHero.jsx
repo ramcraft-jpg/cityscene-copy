@@ -97,7 +97,7 @@ export default function ContactHero() {
   const isVideoMode = heroData.backgroundMediaType === 'video' || (heroData.backgroundMediaType !== 'image' && !!bgVideo);
 
   return (
-    <section className="group relative w-full bg-[#1c1917] text-white min-h-[620px] lg:min-h-[700px] flex items-center py-12 lg:py-20 overflow-hidden">
+    <section className="group relative w-full bg-[#1c1917] text-white min-h-[680px] sm:min-h-[740px] lg:min-h-[820px] flex items-center py-16 lg:py-24 overflow-hidden">
       {/* Background Overhead Image / Video Layer */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         {isVideoMode && bgVideo ? (
@@ -123,40 +123,40 @@ export default function ContactHero() {
             className="w-full h-full object-cover object-center transform scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
           />
         )}
-        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/25 transition-colors duration-700 pointer-events-none" />
+        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors duration-700 pointer-events-none" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
           {/* Left Column: Heading and Messaging */}
-          <div className="lg:col-span-6 space-y-4 text-left">
-            <div className="max-w-md">
-              <span className="text-xs sm:text-sm font-medium uppercase tracking-widest text-white block">
-                {heroData.subheading || defaultHero.subheading}
-              </span>
-              <div className="w-full h-[2px] bg-white/90 my-3" />
+          <div className="lg:col-span-6 text-left">
+            <div className="text-xs sm:text-sm font-bold uppercase tracking-widest text-white mb-2">
+              {heroData.subheading || defaultHero.subheading}
             </div>
 
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-normal text-white tracking-tight leading-[1.08] whitespace-pre-line">
+            {/* Horizontal Line under Subheading matching reference width */}
+            <div className="w-full max-w-[340px] sm:max-w-[380px] h-[1.5px] bg-white/90 mb-5" />
+
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.1] mb-4 whitespace-pre-line">
               {heroData.title || defaultHero.title}
             </h1>
 
-            <p className="text-base sm:text-lg text-gray-200 font-light leading-relaxed max-w-md pt-2">
+            <p className="text-sm sm:text-base text-gray-200 leading-relaxed font-normal max-w-[340px] sm:max-w-[380px]">
               {heroData.description || defaultHero.description}
             </p>
           </div>
 
           {/* Right Column: Dark Floating Form Card */}
           <div className="lg:col-span-6 flex justify-center lg:justify-end">
-            <div className="w-full max-w-md bg-[#2b2b2b]/95 backdrop-blur-md rounded-2xl p-6 sm:p-8 shadow-2xl border border-white/10 text-white">
+            <div className="w-full max-w-[420px] bg-[#333333]/85 backdrop-blur-md rounded-3xl p-6 sm:p-7 shadow-2xl border border-white/10 text-white">
               
               {status === 'success' && (
-                <div className="mb-5 p-4 rounded-xl bg-green-900/40 border border-green-500/50 flex items-start gap-3 text-green-200 text-xs sm:text-sm">
+                <div className="mb-4 p-3.5 rounded-xl bg-green-900/40 border border-green-500/50 flex items-start gap-3 text-green-200 text-xs sm:text-sm">
                   <CheckCircle2 className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
                   <div>
                     <p className="font-semibold">{successMessage}</p>
-                    <p className="text-[11px] text-green-300 mt-1 font-normal">
+                    <p className="text-[11px] text-green-300 mt-0.5 font-normal">
                       Our IT experts will get back to you shortly.
                     </p>
                   </div>
@@ -164,16 +164,16 @@ export default function ContactHero() {
               )}
 
               {status === 'error' && (
-                <div className="mb-5 p-4 rounded-xl bg-red-900/40 border border-red-500/50 flex items-center gap-3 text-red-200 text-xs sm:text-sm">
+                <div className="mb-4 p-3.5 rounded-xl bg-red-900/40 border border-red-500/50 flex items-center gap-3 text-red-200 text-xs sm:text-sm">
                   <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0" />
                   <p className="font-medium">Something went wrong. Please try submitting again.</p>
                 </div>
               )}
 
-              <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+              <form onSubmit={handleSubmit} className="space-y-3.5" noValidate>
                 {/* Full Name */}
                 <div>
-                  <label htmlFor="fullName" className="block text-xs font-medium text-gray-200 mb-1.5 uppercase tracking-wide">
+                  <label htmlFor="fullName" className="block text-xs font-bold text-white mb-1 tracking-wide">
                     Full Name
                   </label>
                   <input
@@ -183,7 +183,7 @@ export default function ContactHero() {
                     value={formData.fullName}
                     onChange={handleChange}
                     placeholder="Enter your full name"
-                    className={`w-full px-4 py-2.5 rounded-xl bg-[#424242] border text-sm text-white placeholder-gray-400 focus:outline-none transition-colors ${
+                    className={`w-full px-5 py-2.5 rounded-full bg-[#464646]/90 border text-sm text-white placeholder-gray-400 focus:outline-none transition-colors ${
                       errors.fullName
                         ? 'border-red-500 focus:ring-2 focus:ring-red-400'
                         : 'border-transparent focus:ring-2 focus:ring-cyan-400'
@@ -199,7 +199,7 @@ export default function ContactHero() {
 
                 {/* Email */}
                 <div>
-                  <label htmlFor="email" className="block text-xs font-medium text-gray-200 mb-1.5 uppercase tracking-wide">
+                  <label htmlFor="email" className="block text-xs font-bold text-white mb-1 tracking-wide">
                     Email
                   </label>
                   <input
@@ -209,7 +209,7 @@ export default function ContactHero() {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="Enter your email"
-                    className={`w-full px-4 py-2.5 rounded-xl bg-[#424242] border text-sm text-white placeholder-gray-400 focus:outline-none transition-colors ${
+                    className={`w-full px-5 py-2.5 rounded-full bg-[#464646]/90 border text-sm text-white placeholder-gray-400 focus:outline-none transition-colors ${
                       errors.email
                         ? 'border-red-500 focus:ring-2 focus:ring-red-400'
                         : 'border-transparent focus:ring-2 focus:ring-cyan-400'
@@ -225,7 +225,7 @@ export default function ContactHero() {
 
                 {/* Phone No */}
                 <div>
-                  <label htmlFor="phone" className="block text-xs font-medium text-gray-200 mb-1.5 uppercase tracking-wide">
+                  <label htmlFor="phone" className="block text-xs font-bold text-white mb-1 tracking-wide">
                     Phone No
                   </label>
                   <input
@@ -235,7 +235,7 @@ export default function ContactHero() {
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder="Enter your phone number"
-                    className={`w-full px-4 py-2.5 rounded-xl bg-[#424242] border text-sm text-white placeholder-gray-400 focus:outline-none transition-colors ${
+                    className={`w-full px-5 py-2.5 rounded-full bg-[#464646]/90 border text-sm text-white placeholder-gray-400 focus:outline-none transition-colors ${
                       errors.phone
                         ? 'border-red-500 focus:ring-2 focus:ring-red-400'
                         : 'border-transparent focus:ring-2 focus:ring-cyan-400'
@@ -251,17 +251,17 @@ export default function ContactHero() {
 
                 {/* Message */}
                 <div>
-                  <label htmlFor="message" className="block text-xs font-medium text-gray-200 mb-1.5 uppercase tracking-wide">
+                  <label htmlFor="message" className="block text-xs font-bold text-white mb-1 tracking-wide">
                     Message
                   </label>
                   <textarea
                     id="message"
                     name="message"
-                    rows={4}
+                    rows={3}
                     value={formData.message}
                     onChange={handleChange}
                     placeholder="Enter your message"
-                    className={`w-full p-3.5 rounded-xl bg-[#424242] border text-sm text-white placeholder-gray-400 focus:outline-none transition-colors ${
+                    className={`w-full px-5 py-2.5 rounded-2xl bg-[#464646]/90 border text-sm text-white placeholder-gray-400 focus:outline-none transition-colors resize-none ${
                       errors.message
                         ? 'border-red-500 focus:ring-2 focus:ring-red-400'
                         : 'border-transparent focus:ring-2 focus:ring-cyan-400'
@@ -276,11 +276,11 @@ export default function ContactHero() {
                 </div>
 
                 {/* Cyan/Teal Submit Button */}
-                <div className="pt-2 flex justify-end">
+                <div className="pt-1 flex justify-end">
                   <button
                     type="submit"
                     disabled={status === 'loading'}
-                    className="inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-[#00bcd4] hover:bg-[#00acc1] text-white font-medium text-sm rounded-lg transition-all shadow-md active:scale-95 disabled:opacity-60"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-2 bg-[#00bcd4] hover:bg-[#00acc1] text-white font-semibold text-xs sm:text-sm rounded-lg transition-all shadow-md active:scale-95 disabled:opacity-60"
                   >
                     {status === 'loading' ? (
                       <>

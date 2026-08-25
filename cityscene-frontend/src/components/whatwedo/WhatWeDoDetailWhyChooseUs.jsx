@@ -28,7 +28,7 @@ export default function WhatWeDoDetailWhyChooseUs({ service }) {
           {service.whyChooseCards.map((card, idx) => (
             <div
               key={idx}
-              className="bg-[#0b0b0b]/90 backdrop-blur-md border border-neutral-800 rounded-2xl p-8 text-left space-y-4 hover:border-neutral-600 transition-all duration-300 shadow-2xl min-h-[220px] flex flex-col justify-start"
+              className="bg-[#0b0b0b]/90 backdrop-blur-md border border-neutral-800 rounded-2xl p-8 text-left space-y-4 hover:border-neutral-600 transition-all duration-300 min-h-[220px] flex flex-col justify-start"
             >
               <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight leading-snug">
                 {card.title}

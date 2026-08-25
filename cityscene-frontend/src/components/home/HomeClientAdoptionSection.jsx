@@ -31,7 +31,7 @@ export default function HomeClientAdoptionSection() {
   const fallbackSrc = getMediaUrl(data.fallbackImage || defaultClientAdoptionData.fallbackImage);
 
   return (
-    <section className="w-full min-h-screen bg-white py-12 flex items-center justify-center border-b border-gray-100">
+    <section className="w-full bg-white py-16 lg:py-24 flex items-center justify-center border-b border-gray-100">
       <div className="w-full max-w-[1400px] px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-center">
         
         {/* Left Column: Vertical Image */}

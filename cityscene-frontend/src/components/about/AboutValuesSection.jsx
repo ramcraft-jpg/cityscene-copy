@@ -36,7 +36,7 @@ export default function AboutValuesSection() {
   const valuesList = data.values && data.values.length > 0 ? data.values : staticValues;
 
   return (
-    <section className="w-full bg-white py-20 md:py-28 border-b border-gray-100">
+    <section className="w-full bg-white py-16 md:py-20 border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Centered Section Heading */}
         <div className="text-center mb-12 md:mb-16">
@@ -50,13 +50,13 @@ export default function AboutValuesSection() {
           {valuesList.map((val, idx) => (
             <div
               key={val.id || idx}
-              className="group relative block w-full h-[380px] sm:h-[420px] rounded-2xl md:rounded-3xl overflow-hidden shadow-lg transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
+              className="group relative block w-full h-[380px] sm:h-[420px] rounded-[20px] overflow-hidden border border-white/10 transition-all duration-300 hover:-translate-y-1.5"
             >
               {/* Background Image */}
               <img
                 src={getMediaUrl(val.image)}
                 alt={val.title}
-                className="w-full h-full object-cover object-center transform transition-transform duration-700 ease-out group-hover:scale-110"
+                className="w-full h-full object-cover object-center transform transition-transform duration-700 ease-out group-hover:scale-105"
               />
 
               {/* Dark Vignette Overlay */}
@@ -73,7 +73,7 @@ export default function AboutValuesSection() {
               </div>
 
               {/* Subtle Border Glow */}
-              <div className="absolute inset-0 rounded-2xl md:rounded-3xl border border-white/10 group-hover:border-white/30 transition-colors pointer-events-none" />
+              <div className="absolute inset-0 rounded-[20px] border border-white/10 group-hover:border-white/30 transition-colors pointer-events-none" />
             </div>
           ))}
         </div>

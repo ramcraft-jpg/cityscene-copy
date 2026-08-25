@@ -66,40 +66,34 @@ export default function PortfolioHero({ videoSrc: propVideoSrc }) {
         <div className="absolute inset-0 bg-black/40 group-hover:bg-black/25 transition-colors duration-700 pointer-events-none" />
       </div>
 
-      {/* Hero Content Container */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="max-w-2xl text-left">
-          {/* Eyebrow Label */}
-          <span className="text-sm sm:text-base font-medium uppercase tracking-widest text-white block">
-            {data.subheading || defaultHeroData.subheading}
-          </span>
-
-          {/* Full-width Horizontal White Line Divider */}
-          <div className="w-full max-w-xl sm:max-w-2xl h-[2px] bg-white/90 my-3" />
-
-          {/* Main Heading */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-normal text-white tracking-tight leading-[1.12] mb-4 whitespace-pre-line">
-            {data.title || defaultHeroData.title}
-          </h1>
-
-          {/* Supporting Text */}
-          <p className="text-base sm:text-lg text-gray-200 font-light leading-relaxed max-w-lg mb-8">
-            {data.description || defaultHeroData.description}
-          </p>
-
-          {/* "Let's Talk ->" Button with circular arrow */}
-          <div>
-            <Link
-              to={data.buttonLink || '/contact'}
-              className="inline-flex items-center gap-3 text-white text-base sm:text-lg font-medium group/btn hover:opacity-90 transition-opacity"
-            >
-              <span>{data.buttonText || "Let's Talk"}</span>
-              <div className="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center shadow-md group-hover/btn:scale-110 transition-transform">
-                <ArrowRight className="w-4 h-4 text-black stroke-[3]" />
-              </div>
-            </Link>
-          </div>
+      {/* Hero Content Overlay */}
+      <div className="absolute top-[40%] left-[5%] -translate-y-1/2 z-10 max-w-[85%] md:max-w-[50vw] text-left text-white">
+        {/* Small Text Label with 80vw Horizontal Line */}
+        <div className="relative text-[0.8rem] font-medium uppercase tracking-[1px] text-white pt-2 mb-5 pb-1">
+          <span>{data.subheading || defaultHeroData.subheading}</span>
+          <div className="absolute left-0 -bottom-1 w-[80vw] h-[1.5px] bg-white" />
         </div>
+
+        {/* Main Heading */}
+        <h1 className="text-3xl sm:text-5xl font-normal leading-[1.3] text-white max-w-[90%] my-3 whitespace-pre-line">
+          {data.title || defaultHeroData.title}
+        </h1>
+
+        {/* Supporting Paragraph */}
+        <p className="text-base text-gray-300 my-4 leading-relaxed font-light max-w-[80%]">
+          {data.description || defaultHeroData.description}
+        </p>
+
+        {/* CTA Button with Circular Arrow Icon */}
+        <Link
+          to={data.buttonLink || '/contact'}
+          className="inline-flex items-center gap-2 text-[1.2rem] font-medium text-white hover:opacity-90 transition-opacity mt-2 group"
+        >
+          <span>{data.buttonText || "Let's Talk"}</span>
+          <div className="w-[35px] h-[35px] bg-white text-black rounded-full flex items-center justify-center font-bold text-lg group-hover:translate-x-1 transition-transform">
+            ➜
+          </div>
+        </Link>
       </div>
     </section>
   );

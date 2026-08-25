@@ -36,7 +36,7 @@ export default function BlogCard({ blog }) {
   return (
     <Link
       to={`/blog/${blog.slug}`}
-      className="group flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 border border-gray-100 h-full"
+      className="group flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-100 hover:border-gray-200 transition-all duration-300 h-full"
     >
       {/* Image Container with Padding matching CityScene design */}
       <div className="p-3 pb-0">

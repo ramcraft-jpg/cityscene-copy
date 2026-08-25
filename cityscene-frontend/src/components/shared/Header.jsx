@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Shield } from 'lucide-react';
 
+import logo from '../../assets/Untitled design (47).png';
+
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
@@ -41,41 +43,31 @@ export default function Header() {
 
   return (
     <header className="w-full bg-white border-b border-gray-100 sticky top-0 z-30 transition-all duration-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between">
+      <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2.5 group">
-          <div className="relative w-8 h-8 flex items-center justify-center rounded-full bg-gradient-to-tr from-blue-600 via-orange-500 to-amber-500 shadow-sm p-[2px]">
-            <div className="w-full h-full bg-white rounded-full flex items-center justify-center overflow-hidden">
-              <div className="relative flex items-center justify-center font-bold text-sm text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-blue-600">
-                <span className="text-orange-600 font-extrabold text-base">S</span>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col">
-            <span className="text-base font-bold tracking-tight text-gray-900 leading-none">
-              CityScene
-            </span>
-            <span className="text-xs font-semibold text-gray-800 leading-none mt-0.5">
-              Global
-            </span>
-          </div>
+        <Link to="/" className="flex items-center shrink-0">
+          <img
+            src={logo}
+            alt="CityScene Global Logo"
+            className="h-8 sm:h-9 md:h-10 w-auto object-contain"
+            style={{ objectFit: 'contain' }}
+          />
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-6 sm:space-x-8 lg:space-x-10 ml-auto">
+        <nav className="hidden md:flex items-center space-x-5 sm:space-x-6 lg:space-x-8 ml-auto">
           {navItems.map((item) => {
             const active = isActive(item.path);
             return (
               <Link
                 key={item.name}
                 to={item.path}
-                className={`relative py-1 text-base lg:text-[16px] font-medium tracking-normal transition-colors duration-200 ${
-                  active ? 'text-black font-semibold' : 'text-gray-600 hover:text-black'
-                }`}
+                className={`relative py-1 text-sm sm:text-sm lg:text-[15px] font-bold tracking-normal transition-colors duration-200 ${active ? 'text-gray-900 font-bold' : 'text-gray-600 hover:text-gray-900'
+                  }`}
               >
                 {item.name}
                 {active && (
-                  <span className="absolute -bottom-1 left-0 w-full h-[2px] bg-black transition-all duration-300" />
+                  <span className="absolute -bottom-1 left-0 w-full h-[2px] bg-gray-900 transition-all duration-300" />
                 )}
               </Link>
             );
@@ -86,13 +78,12 @@ export default function Header() {
             to="/admin/login"
             id="navbar-admin-btn"
             title="Admin Portal"
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200 border ${
-              isAdminActive
-                ? 'bg-orange-600 text-white border-orange-600 shadow-sm'
-                : 'bg-gray-50 text-gray-600 border-gray-200 hover:bg-orange-50 hover:text-orange-600 hover:border-orange-200'
-            }`}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200 border ${isAdminActive
+              ? 'bg-orange-600 text-white border-orange-600 shadow-sm'
+              : 'bg-gray-50 text-gray-600 border-gray-200 hover:bg-orange-50 hover:text-orange-600 hover:border-orange-200'
+              }`}
           >
-            <Shield size={14} />
+            <Shield size={11} />
             <span>Admin</span>
           </Link>
         </nav>
@@ -103,13 +94,12 @@ export default function Header() {
             to="/admin/login"
             id="mobile-navbar-admin-btn"
             title="Admin Portal"
-            className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold border transition-colors ${
-              isAdminActive
-                ? 'bg-orange-600 text-white border-orange-600'
-                : 'bg-gray-50 text-gray-700 border-gray-200'
-            }`}
+            className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold border transition-colors ${isAdminActive
+              ? 'bg-orange-600 text-white border-orange-600'
+              : 'bg-gray-50 text-gray-700 border-gray-200'
+              }`}
           >
-            <Shield size={14} />
+            <Shield size={11} />
             <span>Admin</span>
           </Link>
 
@@ -133,11 +123,10 @@ export default function Header() {
                 key={item.name}
                 to={item.path}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
-                  active
-                    ? 'bg-gray-100 text-gray-900 font-bold border-l-4 border-gray-900'
-                    : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
-                }`}
+                className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${active
+                  ? 'bg-gray-100 text-gray-900 font-bold border-l-4 border-gray-900'
+                  : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                  }`}
               >
                 {item.name}
               </Link>
@@ -148,7 +137,7 @@ export default function Header() {
             onClick={() => setMobileMenuOpen(false)}
             className="flex items-center gap-2 px-3 py-2 rounded-md text-base font-medium text-orange-600 bg-orange-50 font-bold"
           >
-            <Shield size={18} />
+            <Shield size={11} />
             Admin Portal
           </Link>
         </div>

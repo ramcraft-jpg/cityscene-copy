@@ -6,7 +6,7 @@ export default function CareerJobCard({ job }) {
   const jobId = job.id || job._id;
 
   return (
-    <div className="group relative bg-white/20 hover:bg-white/30 backdrop-blur-md rounded-xl p-4 sm:p-5 border border-white/30 shadow-xl hover:shadow-2xl transform hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between items-center text-center h-full">
+    <div className="group relative bg-white/20 hover:bg-white/30 backdrop-blur-md rounded-xl p-4 sm:p-5 border border-white/20 hover:border-white/40 transition-all duration-300 flex flex-col justify-between items-center text-center h-full">
       {/* Top Job Image */}
       <div className="w-full h-36 sm:h-40 md:h-[155px] rounded-lg overflow-hidden mb-3 border border-white/20 shrink-0">
         <img

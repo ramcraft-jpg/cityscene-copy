@@ -6,7 +6,7 @@ import { useVideoIntersectionObserver } from '../../utils/useVideoIntersectionOb
 
 const defaultHeroData = {
   subheading: 'WHAT WE DO',
-  title: 'Professional Services Tailored for You',
+  title: 'Professional\nServices Tailored for\nYou',
   description: 'Helping businesses innovate and grow in the digital age.',
   buttonText: "Let's Talk",
   buttonLink: '/contact',
@@ -37,7 +37,7 @@ export default function WhatWeDoHero() {
   const isVideoMode = data.backgroundMediaType === 'video' || (data.backgroundMediaType !== 'image' && !!rawBgVideo) || (!!rawBgVideo && !data.backgroundMediaType);
 
   return (
-    <section className="relative w-full h-screen min-h-[600px] bg-[#111] overflow-hidden text-left">
+    <section className="group relative w-full min-h-[720px] lg:min-h-[850px] h-[88vh] bg-[#111] overflow-hidden flex items-center text-left">
       {/* Background Video / Image Layer */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         {isVideoMode && bgVideo ? (
@@ -66,21 +66,21 @@ export default function WhatWeDoHero() {
         <div className="absolute inset-0 bg-black/40 pointer-events-none" />
       </div>
 
-      {/* Hero Header Content */}
-      <div className="absolute top-[40%] left-[5%] -translate-y-1/2 z-10 max-w-[85%] md:max-w-[50vw] text-left text-white">
+      {/* Hero Header Content Unit */}
+      <div className="absolute top-[50%] left-[8%] md:left-[10%] -translate-y-1/2 z-10 w-[85%] max-w-[550px] lg:max-w-[600px] text-left text-white">
         {/* Small Text Label with 80vw Horizontal Line */}
-        <div className="relative text-[0.8rem] font-medium uppercase tracking-[1px] text-white pt-2 mb-5 pb-1">
+        <div className="relative text-[0.85rem] font-medium uppercase tracking-[1px] text-white pt-2 mb-6 pb-1">
           <span>{data.subheading || defaultHeroData.subheading}</span>
           <div className="absolute left-0 -bottom-1 w-[80vw] h-[1.5px] bg-white" />
         </div>
 
-        {/* Main Heading */}
-        <h1 className="text-3xl sm:text-5xl font-normal leading-[1.3] text-white max-w-[90%] my-3">
+        {/* Main Heading with Exact Line Breaks */}
+        <h1 className="text-3xl sm:text-5xl lg:text-[54px] font-normal leading-[1.25] text-white my-4 whitespace-pre-line tracking-tight">
           {data.title || defaultHeroData.title}
         </h1>
 
         {/* Supporting Paragraph */}
-        <p className="text-base text-gray-300 my-4 leading-relaxed font-light max-w-[80%]">
+        <p className="text-base sm:text-lg text-gray-200 my-5 leading-relaxed font-light max-w-[480px]">
           {data.description || defaultHeroData.description}
         </p>
 

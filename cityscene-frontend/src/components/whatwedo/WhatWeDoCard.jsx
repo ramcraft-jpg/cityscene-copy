@@ -8,7 +8,7 @@ export default function WhatWeDoCard({ service, index = 0 }) {
   return (
     <Link
       to={service.path}
-      className="service-card group relative block w-full h-[489px] rounded-[20px] overflow-hidden shadow-lg border-0 outline-none flex transition-transform duration-300 hover:scale-[1.05]"
+      className="service-card group relative block w-full h-[489px] rounded-[20px] overflow-hidden border border-white/10 outline-none flex transition-transform duration-300 hover:scale-[1.03]"
       style={{ textDecoration: 'none' }}
     >
       {/* Service Background Image */}

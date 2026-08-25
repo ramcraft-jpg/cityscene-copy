@@ -35,7 +35,7 @@ export default function HomeCommitmentSection() {
   const isVideoMode = data.backgroundMediaType === 'video' || (data.backgroundMediaType !== 'image' && !!videoSrc);
 
   return (
-    <section className="group relative w-full min-h-screen min-h-[100svh] bg-black text-white flex items-center overflow-hidden border-b border-white/10 py-16 lg:py-24">
+    <section className="group relative w-full min-h-[600px] lg:min-h-[720px] h-[82vh] bg-black text-white flex items-center overflow-hidden border-b border-white/10 py-16 lg:py-24">
       {/* Background Video / Media with Fallback */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         {isVideoMode && videoSrc ? (

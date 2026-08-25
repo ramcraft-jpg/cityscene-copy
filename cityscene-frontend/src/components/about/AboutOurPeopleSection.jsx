@@ -26,7 +26,7 @@ export default function AboutOurPeopleSection() {
   }, []);
 
   return (
-    <section className="w-full bg-[#171717] text-white py-24 md:py-32 relative overflow-hidden">
+    <section className="w-full bg-[#171717] text-white py-16 md:py-24 relative overflow-hidden">
       {data.bgImage && (
         <div className="absolute inset-0 z-0">
           <img src={getMediaUrl(data.bgImage)} alt="Our People Background" className="w-full h-full object-cover opacity-20" />
