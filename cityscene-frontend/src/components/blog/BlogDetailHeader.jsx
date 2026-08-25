@@ -26,7 +26,7 @@ export default function BlogDetailHeader({ blog, categorySlug }) {
       </nav>
 
       {/* Main Article Title */}
-      <h1 className="text-3xl sm:text-4xl lg:text-[40px] font-bold text-[#111827] tracking-tight leading-[1.25] mb-4">
+      <h1 className="text-3xl sm:text-4xl lg:text-[40px] font-medium text-[#111827] tracking-tight leading-[1.25] mb-4">
         {blog.title}
       </h1>
 

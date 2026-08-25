@@ -46,7 +46,7 @@ export default function PortfolioDetailHero({ project, categoryCaps, titleSystem
           {/* Right Column Details */}
           <div className="flex flex-col items-start">
             {/* Category Caps */}
-            <span className="text-xs sm:text-sm font-semibold tracking-[0.2em] text-gray-900 uppercase mb-2 block">
+            <span className="text-xs sm:text-sm font-medium tracking-[0.2em] text-gray-900 uppercase mb-2 block">
               {categoryCaps}
             </span>
 
@@ -54,19 +54,19 @@ export default function PortfolioDetailHero({ project, categoryCaps, titleSystem
             <div className="w-12 h-[2px] bg-gray-900 mb-6" />
 
             {/* Project System Title */}
-            <h1 className="text-3xl sm:text-4xl lg:text-[46px] font-bold text-gray-900 tracking-tight leading-[1.15] mb-6">
+            <h1 className="text-3xl sm:text-4xl lg:text-[46px] font-medium text-gray-900 tracking-tight leading-[1.15] mb-6">
               {titleSystem}
             </h1>
 
             {/* Summary Description */}
-            <p className="text-base sm:text-lg text-gray-600 leading-relaxed mb-8 max-w-xl">
+            <p className="text-base sm:text-lg text-gray-600 leading-relaxed font-light mb-8 max-w-xl">
               {project.description}
             </p>
 
             {/* Request Demo Button */}
             <button
               onClick={onOpenDemo}
-              className="px-6 py-2.5 border border-gray-900 text-gray-900 font-semibold text-sm rounded-lg hover:bg-gray-900 hover:text-white transition-colors duration-200 focus:outline-none"
+              className="px-6 py-2.5 border border-gray-900 text-gray-900 font-medium text-sm rounded-lg hover:bg-gray-900 hover:text-white transition-colors duration-200 focus:outline-none"
             >
               Request Demo
             </button>

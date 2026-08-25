@@ -24,30 +24,30 @@ export default function WhatWeDoInnovationSection() {
   const imageSrc = getMediaUrl(data.image || defaultEmpoweringData.image);
 
   return (
-    <section className="w-full bg-white py-16 md:py-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left Column: Text Content */}
-          <div className="max-w-xl">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight mb-6 whitespace-pre-line">
-              {data.heading || defaultEmpoweringData.heading}
-            </h2>
-            <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
-              {data.description || defaultEmpoweringData.description}
-            </p>
-          </div>
+    <section className="w-full bg-white py-16 flex items-center justify-between z-10 relative">
+      <div className="w-full max-w-full flex flex-col md:flex-row items-center justify-between">
+        
+        {/* Left Column: Text Content */}
+        <div className="flex-1 py-5 px-6 md:pl-[100px] text-left">
+          <h2 className="text-3xl sm:text-[32px] font-medium text-[#222] leading-tight mb-4 md:ml-[50px] lg:ml-[100px]">
+            {data.heading || defaultEmpoweringData.heading}
+          </h2>
+          <p className="text-base text-[#666] leading-relaxed font-normal max-w-[550px] md:ml-[50px] lg:ml-[100px]">
+            {data.description || defaultEmpoweringData.description}
+          </p>
+        </div>
 
-          {/* Right Column: High Angle Blueprint Team Collaboration Image */}
-          <div className="w-full flex justify-center md:justify-end">
-            <div className="relative overflow-hidden rounded-2xl md:rounded-3xl shadow-md border border-gray-100 max-w-lg w-full">
-              <img
-                src={imageSrc}
-                alt="High angle aerial view of team collaborating over blueprints and laptops"
-                className="w-full h-auto max-h-[380px] object-cover object-center transform hover:scale-105 transition-transform duration-500"
-              />
-            </div>
+        {/* Right Column: Image */}
+        <div className="flex-1 flex justify-center items-center p-5 md:mr-[50px] lg:mr-[100px]">
+          <div className="w-full flex justify-center">
+            <img
+              src={imageSrc}
+              alt="High angle aerial view of team collaborating over blueprints and laptops"
+              className="w-[80%] max-w-[400px] h-auto object-cover rounded-[10px] shadow-sm"
+            />
           </div>
         </div>
+
       </div>
     </section>
   );

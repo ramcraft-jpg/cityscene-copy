@@ -26,15 +26,15 @@ export default function ContactInfo() {
   return (
     <div className="space-y-6 text-left">
       {/* Section Title matching Screenshot 1 */}
-      <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight">
+      <h2 className="text-3xl sm:text-4xl font-medium text-gray-900 tracking-tight">
         {data.title || defaultDetails.title}
       </h2>
 
-      <div className="space-y-5 text-base sm:text-lg text-gray-800 font-medium pt-2">
+      <div className="space-y-5 text-base sm:text-lg text-gray-800 font-normal pt-2">
         {/* Address */}
         <div className="flex items-start gap-4">
           <MapPin className="w-6 h-6 text-gray-900 flex-shrink-0 mt-1" />
-          <p className="leading-snug text-gray-800 whitespace-pre-line">
+          <p className="leading-snug text-gray-800 font-normal whitespace-pre-line">
             {data.address || defaultDetails.address}
           </p>
         </div>
@@ -45,7 +45,7 @@ export default function ContactInfo() {
             <Phone className="w-6 h-6 text-gray-900 flex-shrink-0" />
             <a
               href={`tel:${data.phone1.replace(/[^0-9+]/g, '')}`}
-              className="text-gray-900 font-bold hover:text-blue-600 transition-colors"
+              className="text-gray-900 font-medium hover:text-blue-600 transition-colors"
             >
               {data.phone1}
             </a>
@@ -58,7 +58,7 @@ export default function ContactInfo() {
             <Phone className="w-6 h-6 text-gray-900 flex-shrink-0" />
             <a
               href={`tel:${data.phone2.replace(/[^0-9+]/g, '')}`}
-              className="text-gray-900 font-bold hover:text-blue-600 transition-colors"
+              className="text-gray-900 font-medium hover:text-blue-600 transition-colors"
             >
               {data.phone2}
             </a>
@@ -71,7 +71,7 @@ export default function ContactInfo() {
             <Mail className="w-6 h-6 text-gray-900 flex-shrink-0" />
             <a
               href={`mailto:${data.email}`}
-              className="text-gray-900 font-bold hover:text-blue-600 transition-colors"
+              className="text-gray-900 font-medium hover:text-blue-600 transition-colors"
             >
               {data.email}
             </a>

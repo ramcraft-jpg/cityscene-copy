@@ -27,7 +27,7 @@ export default function PortfolioTrustedClients() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Title */}
         <div className="text-center mb-8 sm:mb-12">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-black tracking-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-normal text-black tracking-tight">
             {heading || defaultHeading}
           </h2>
         </div>
@@ -51,7 +51,7 @@ export default function PortfolioTrustedClients() {
                   }}
                 />
               ) : (
-                <span className="text-sm font-bold text-gray-900 tracking-tight text-center">
+                <span className="text-sm font-medium text-gray-900 tracking-tight text-center">
                   {client.name}
                 </span>
               )}

@@ -30,25 +30,28 @@ export default function HomeWhatPeopleAreSaying() {
   const marqueeList = [...rawList, ...rawList, ...rawList, ...rawList];
 
   return (
-    <section className="w-full min-h-screen min-h-[100svh] bg-white py-10 md:py-14 flex flex-col justify-center border-b border-gray-100 overflow-hidden relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-center">
+    <section 
+      className="w-full bg-white text-black py-16 px-5 text-center overflow-hidden relative"
+      style={{ clipPath: 'polygon(0% 0%, 100% 0%, 100% 85%, 50% 100%, 0% 85%)' }}
+    >
+      <div className="max-w-[800px] mx-auto w-full text-center pb-12">
         
-        <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-bold text-gray-900 tracking-tight mb-12 sm:mb-16">
+        <h2 className="text-2xl font-medium text-black mb-8">
           {data.heading || 'What People Are Saying?'}
         </h2>
 
         {/* Continuous Marquee Track Wrapper */}
-        <div className="relative w-full overflow-hidden py-6">
-          <div className="animate-marquee flex gap-6 sm:gap-8">
+        <div className="relative w-full overflow-hidden py-4">
+          <div className="animate-marquee flex gap-5">
             {marqueeList.map((item, idx) => (
               <div
                 key={idx}
-                className="w-[270px] sm:w-[320px] md:w-[340px] h-[210px] sm:h-[220px] flex-shrink-0 bg-[#1c1c1c] text-white rounded-2xl md:rounded-3xl p-6 sm:p-8 flex flex-col justify-center items-center text-center shadow-xl border border-neutral-800 transition-transform duration-300 hover:scale-[1.03] cursor-pointer"
+                className="w-[260px] sm:w-[280px] min-h-[120px] flex-shrink-0 bg-[#1a1a1a] text-white rounded-[10px] p-5 flex flex-col justify-center items-center text-center shadow-md transition-transform duration-300 hover:scale-[1.03]"
               >
-                <p className="text-sm sm:text-base text-gray-200 leading-relaxed font-normal mb-5 max-w-xs">
+                <p className="text-sm text-gray-200 leading-relaxed font-light mb-3">
                   {item.quote}
                 </p>
-                <p className="text-base sm:text-lg font-bold text-white tracking-tight">
+                <p className="text-sm font-medium text-white">
                   - {item.author}
                 </p>
               </div>

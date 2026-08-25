@@ -8,10 +8,10 @@ export default function BlogDetailContent({ blog, authorTagline, liked, likesCou
     <>
       {/* Card Header inside White Card */}
       <div className="mb-8 border-b border-gray-100 pb-6">
-        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 leading-snug mb-2">
+        <h2 className="text-2xl sm:text-3xl font-medium text-gray-900 leading-snug mb-2">
           {blog.title}
         </h2>
-        <p className="text-sm font-semibold text-gray-500">
+        <p className="text-sm font-medium text-gray-500">
           {authorTagline}
         </p>
       </div>
@@ -20,7 +20,7 @@ export default function BlogDetailContent({ blog, authorTagline, liked, likesCou
       <div
         className="prose prose-lg max-w-none text-[#2d3748] leading-relaxed
           prose-p:mb-5 prose-p:leading-[1.8] prose-p:text-base sm:prose-p:text-[17px] prose-p:font-normal prose-p:text-gray-800
-          prose-headings:font-bold prose-headings:text-gray-900 prose-headings:tracking-tight
+          prose-headings:font-medium prose-headings:text-gray-900 prose-headings:tracking-tight
           prose-h2:text-2xl prose-h2:sm:text-3xl prose-h2:mt-8 prose-h2:mb-4
           prose-h3:text-lg sm:prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3 prose-h3:text-gray-900
           prose-ul:my-4 prose-ul:list-disc prose-ul:pl-6 prose-ul:space-y-2

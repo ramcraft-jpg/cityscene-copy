@@ -49,7 +49,7 @@ export default function BlogCard({ blog }) {
           />
           {/* Category Tag */}
           {blog.category && (
-            <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md text-gray-900 text-xs font-semibold px-3 py-1 rounded-full shadow-sm border border-gray-200/50">
+            <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md text-gray-900 text-xs font-medium px-3 py-1 rounded-full shadow-sm border border-gray-200/50">
               {blog.category}
             </div>
           )}
@@ -79,13 +79,13 @@ export default function BlogCard({ blog }) {
           )}
 
           {/* Title */}
-          <h3 className="text-gray-900 font-bold text-lg md:text-xl leading-snug group-hover:text-blue-600 transition-colors line-clamp-2">
+          <h3 className="text-gray-900 font-medium text-lg md:text-xl leading-snug group-hover:text-blue-600 transition-colors line-clamp-2">
             {blog.title}
           </h3>
 
           {/* Summary / Description */}
           {blog.summary && (
-            <p className="text-gray-600 text-xs sm:text-sm line-clamp-2 leading-relaxed">
+            <p className="text-gray-600 text-xs sm:text-sm line-clamp-2 leading-relaxed font-light">
               {blog.summary}
             </p>
           )}
@@ -97,7 +97,7 @@ export default function BlogCard({ blog }) {
             <button
               onClick={handleLike}
               className={`flex items-center gap-1 transition-colors ${
-                liked ? 'text-red-500 font-semibold' : 'hover:text-red-500'
+                liked ? 'text-red-500 font-medium' : 'hover:text-red-500'
               }`}
               title="Like"
             >
@@ -119,7 +119,7 @@ export default function BlogCard({ blog }) {
             </button>
           </div>
 
-          <div className="flex items-center gap-1 font-semibold text-blue-600 group-hover:translate-x-1 transition-transform">
+          <div className="flex items-center gap-1 font-medium text-blue-600 group-hover:translate-x-1 transition-transform">
             <span>Read More</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </div>

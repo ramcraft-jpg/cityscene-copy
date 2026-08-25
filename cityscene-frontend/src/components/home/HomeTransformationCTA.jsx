@@ -33,55 +33,47 @@ export default function HomeTransformationCTA() {
   const features = data.features && data.features.length > 0 ? data.features : defaultTransformationData.features;
 
   return (
-    <section className="w-full bg-white text-gray-900 py-8 sm:py-10 border-t border-gray-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 items-center">
-          
-          {/* Left Column */}
-          <div className="md:col-span-5 text-left space-y-4">
-            <span className="text-xs sm:text-sm font-semibold tracking-widest text-orange-600 uppercase block">
-              {data.badge || defaultTransformationData.badge}
-            </span>
+    <section className="w-full bg-white text-black py-16 px-4 md:px-[10%] flex flex-col md:flex-row items-center justify-center relative min-h-[60vh]">
+      {/* Left Content */}
+      <div className="w-full md:w-1/2 text-left md:ml-[40px] lg:ml-[80px] space-y-4">
+        <span className="text-xs sm:text-sm font-medium tracking-widest text-orange-600 uppercase block">
+          {data.badge || defaultTransformationData.badge}
+        </span>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight leading-tight">
-              {data.heading || defaultTransformationData.heading}
-            </h2>
+        <h2 className="text-3xl md:text-[2.8rem] font-medium text-black leading-tight">
+          {data.heading || defaultTransformationData.heading}
+        </h2>
 
-            <p className="text-lg sm:text-xl text-gray-600 font-light">
-              {data.subtitle || defaultTransformationData.subtitle}
-            </p>
+        <p className="text-lg md:text-[1.2rem] text-black my-2 font-light">
+          {data.subtitle || defaultTransformationData.subtitle}
+        </p>
 
-            <div className="pt-2">
-              <Link
-                to={data.buttonLink || '/contact'}
-                className="inline-flex items-center justify-center px-8 py-3 rounded-full border-2 border-gray-900 text-gray-900 font-semibold text-sm hover:bg-gray-900 hover:text-white transition-colors duration-200"
-              >
-                {data.buttonText || 'Connect With Us'}
-              </Link>
-            </div>
-          </div>
-
-          {/* Vertical Line Divider */}
-          <div className="hidden md:block md:col-span-1 flex justify-center">
-            <div className="w-[2px] h-44 bg-gray-900/80 mx-auto" />
-          </div>
-
-          {/* Right Column */}
-          <div className="md:col-span-6 space-y-6 text-sm sm:text-base text-gray-700 leading-relaxed font-normal">
-            <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-              {data.description || defaultTransformationData.description}
-            </p>
-
-            <ul className="space-y-3 font-medium text-gray-900 pt-2">
-              {features.map((feat, idx) => (
-                <li key={idx} className="text-base sm:text-lg font-semibold text-gray-900">
-                  {feat}
-                </li>
-              ))}
-            </ul>
-          </div>
-
+        <div className="pt-2">
+          <Link
+            to={data.buttonLink || '/contact'}
+            className="inline-block px-5 py-2.5 bg-none border border-black text-black font-medium text-base rounded-[20px] hover:bg-black hover:text-white transition-all duration-300"
+          >
+            {data.buttonText || 'Connect With Us'}
+          </Link>
         </div>
+      </div>
+
+      {/* Vertical Divider Line */}
+      <div className="hidden md:block w-[2px] h-[70%] bg-black mx-4 relative left-[-30px] lg:left-[-60px] shrink-0" />
+
+      {/* Right Content */}
+      <div className="w-full md:w-1/2 text-left text-black text-base relative left-0 md:left-[-15px] lg:left-[-30px] max-w-[400px] mt-8 md:mt-0 space-y-4">
+        <p className="text-base text-black mb-4 leading-relaxed">
+          {data.description || defaultTransformationData.description}
+        </p>
+
+        <ul className="space-y-2 font-medium text-black">
+          {features.map((feat, idx) => (
+            <li key={idx} className="text-base font-semibold text-black">
+              {feat}
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

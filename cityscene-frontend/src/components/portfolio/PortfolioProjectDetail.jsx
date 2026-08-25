@@ -16,11 +16,11 @@ export default function PortfolioProjectDetail({ project }) {
   if (!project) {
     return (
       <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center py-20 px-4 text-center">
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">Project Not Found</h2>
+        <h2 className="text-3xl font-medium text-gray-900 mb-4">Project Not Found</h2>
         <p className="text-gray-600 mb-8">The requested portfolio project could not be found.</p>
         <Link
           to="/portfolio"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-black text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-black text-white font-medium rounded-lg hover:bg-gray-800 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Portfolio

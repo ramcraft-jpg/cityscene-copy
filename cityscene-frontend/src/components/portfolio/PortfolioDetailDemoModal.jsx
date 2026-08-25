@@ -17,14 +17,14 @@ export default function PortfolioDetailDemoModal({ isOpen, onClose, titleSystem,
         {demoSubmitted ? (
           <div className="text-center py-6">
             <CheckCircle2 className="w-12 h-12 text-green-500 mx-auto mb-3" />
-            <h4 className="text-xl font-bold text-gray-900 mb-2">Demo Request Received!</h4>
+            <h4 className="text-xl font-medium text-gray-900 mb-2">Demo Request Received!</h4>
             <p className="text-sm text-gray-600">
               Thank you for requesting a demo of <strong>{titleSystem}</strong>. Our team will contact you shortly.
             </p>
           </div>
         ) : (
           <div>
-            <h3 className="text-xl font-bold text-gray-900 mb-1">
+            <h3 className="text-xl font-medium text-gray-900 mb-1">
               Request a Demo
             </h3>
             <p className="text-xs text-gray-500 mb-6">
@@ -33,7 +33,7 @@ export default function PortfolioDetailDemoModal({ isOpen, onClose, titleSystem,
 
             <form onSubmit={onSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-gray-800 mb-1">Full Name</label>
+                <label className="block text-xs font-medium text-gray-800 mb-1">Full Name</label>
                 <input
                   type="text"
                   required
@@ -45,7 +45,7 @@ export default function PortfolioDetailDemoModal({ isOpen, onClose, titleSystem,
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-gray-800 mb-1">Work Email</label>
+                <label className="block text-xs font-medium text-gray-800 mb-1">Work Email</label>
                 <input
                   type="email"
                   required
@@ -57,7 +57,7 @@ export default function PortfolioDetailDemoModal({ isOpen, onClose, titleSystem,
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-gray-800 mb-1">Company / Organization</label>
+                <label className="block text-xs font-medium text-gray-800 mb-1">Company / Organization</label>
                 <input
                   type="text"
                   value={demoForm.company}
@@ -69,7 +69,7 @@ export default function PortfolioDetailDemoModal({ isOpen, onClose, titleSystem,
 
               <button
                 type="submit"
-                className="w-full py-2.5 bg-black text-white text-sm font-semibold rounded-lg hover:bg-gray-800 transition-colors mt-2"
+                className="w-full py-2.5 bg-black text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors mt-2"
               >
                 Submit Request
               </button>

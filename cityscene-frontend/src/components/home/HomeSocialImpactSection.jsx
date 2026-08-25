@@ -31,59 +31,55 @@ export default function HomeSocialImpactSection() {
   const fallbackSrc = getMediaUrl(data.fallbackImage || defaultSocialImpactData.fallbackImage);
 
   return (
-    <section className="w-full min-h-screen min-h-[100svh] bg-white py-10 md:py-14 flex flex-col justify-center border-b border-gray-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
-          {/* Left Column: Heading & Text */}
-          <div className="lg:col-span-6 space-y-6">
-            <div>
-              <span className="text-xs sm:text-sm font-semibold tracking-widest text-orange-600 uppercase block mb-1">
-                {data.badge || defaultSocialImpactData.badge}
-              </span>
-              <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-bold text-gray-900 tracking-tight">
-                {data.heading || defaultSocialImpactData.heading}
-              </h2>
-            </div>
+    <section className="w-full bg-white py-14 flex items-center justify-center border-b border-gray-100">
+      <div className="w-[90%] max-w-[1100px] mx-auto flex flex-col lg:flex-row items-center justify-center gap-10">
+        
+        {/* Left Column: Heading & Text */}
+        <div className="w-full lg:w-1/2 text-left space-y-4">
+          <span className="text-base font-medium text-gray-800 block">
+            {data.badge || defaultSocialImpactData.badge}
+          </span>
+          <h2 className="text-3xl sm:text-[32px] font-medium text-black leading-snug">
+            {data.heading || defaultSocialImpactData.heading}
+          </h2>
 
-            {data.paragraph1 && (
-              <p className="text-sm sm:text-base text-gray-600 leading-relaxed font-normal">
-                {data.paragraph1}
-              </p>
-            )}
+          {data.paragraph1 && (
+            <p className="text-base text-gray-800 leading-relaxed font-normal">
+              {data.paragraph1}
+            </p>
+          )}
 
-            {data.paragraph2 && (
-              <p className="text-sm sm:text-base text-gray-600 leading-relaxed font-normal">
-                {data.paragraph2}
-              </p>
-            )}
+          {data.paragraph2 && (
+            <p className="text-base text-gray-800 leading-relaxed font-normal">
+              {data.paragraph2}
+            </p>
+          )}
 
-            <div className="pt-2">
-              <Link
-                to={data.buttonLink || '/about'}
-                className="inline-flex items-center justify-center px-7 py-3 rounded-full border-2 border-gray-900 text-gray-900 font-semibold text-sm hover:bg-gray-900 hover:text-white transition-colors"
-              >
-                {data.buttonText || 'View All Impact'}
-              </Link>
-            </div>
+          <div className="pt-2">
+            <Link
+              to={data.buttonLink || '/about'}
+              className="inline-block px-5 py-2.5 bg-[#FFA500] hover:bg-black text-white font-medium text-base rounded-[20px] transition-all duration-300 shadow-sm"
+            >
+              {data.buttonText || 'View All Impact'}
+            </Link>
           </div>
-
-          {/* Right Column: Image */}
-          <div className="lg:col-span-6 flex justify-center lg:justify-end">
-            <div className="w-full max-w-lg h-[360px] sm:h-[440px] lg:h-[480px] rounded-2xl overflow-hidden shadow-lg border border-gray-100 bg-gray-50">
-              <img
-                src={imageSrc}
-                alt="Social Impact By CityScene Global"
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = fallbackSrc;
-                }}
-                className="w-full h-full object-cover object-center"
-              />
-            </div>
-          </div>
-
         </div>
+
+        {/* Right Column: Image */}
+        <div className="w-full lg:w-1/2 flex justify-center items-center">
+          <div className="w-full max-h-[350px] rounded-[10px] overflow-hidden shadow-md">
+            <img
+              src={imageSrc}
+              alt="Social Impact By CityScene Global"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = fallbackSrc;
+              }}
+              className="w-full h-[350px] object-cover object-center rounded-[10px]"
+            />
+          </div>
+        </div>
+
       </div>
     </section>
   );

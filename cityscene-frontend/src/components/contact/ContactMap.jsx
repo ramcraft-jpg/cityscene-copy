@@ -32,7 +32,7 @@ export default function ContactMap() {
         href={directMapLink}
         target="_blank"
         rel="noopener noreferrer"
-        className="absolute top-4 left-4 z-10 inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white text-blue-600 font-semibold text-xs rounded-md shadow-md border border-gray-200 hover:bg-gray-50 transition-colors"
+        className="absolute top-4 left-4 z-10 inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white text-blue-600 font-medium text-xs rounded-md shadow-md border border-gray-200 hover:bg-gray-50 transition-colors"
       >
         <span>{buttonText}</span>
         <ExternalLink className="w-3.5 h-3.5" />

@@ -69,8 +69,8 @@ export default function Header() {
               <Link
                 key={item.name}
                 to={item.path}
-                className={`relative py-1 text-base lg:text-[17px] font-bold tracking-tight transition-colors duration-200 ${
-                  active ? 'text-black' : 'text-gray-500 hover:text-black'
+                className={`relative py-1 text-base lg:text-[16px] font-medium tracking-normal transition-colors duration-200 ${
+                  active ? 'text-black font-semibold' : 'text-gray-600 hover:text-black'
                 }`}
               >
                 {item.name}

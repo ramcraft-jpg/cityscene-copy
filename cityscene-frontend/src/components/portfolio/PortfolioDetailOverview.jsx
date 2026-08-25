@@ -23,7 +23,7 @@ export default function PortfolioDetailOverview({ overviewParas }) {
     <section className="w-full bg-white py-12 md:py-16">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         <div className="bg-[#f8f9fa] rounded-2xl p-8 sm:p-12 border-l-[4px] border-black border-y border-r border-gray-200/60 shadow-sm">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6 tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-medium text-gray-900 mb-6 tracking-tight">
             System Overview
           </h2>
 

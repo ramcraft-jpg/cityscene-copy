@@ -27,7 +27,7 @@ export default function ContactIntro() {
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 lg:gap-12 mb-4">
           {/* Left Main Heading */}
           <div className="flex-1 max-w-lg">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight leading-tight whitespace-pre-line">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-medium text-white tracking-tight leading-tight whitespace-pre-line">
               {data.heading || defaultIntro.heading}
             </h2>
           </div>
@@ -37,7 +37,7 @@ export default function ContactIntro() {
 
           {/* Right Supporting Text */}
           <div className="flex-1 max-w-xl">
-            <p className="text-sm sm:text-base text-gray-300 leading-relaxed font-normal">
+            <p className="text-sm sm:text-base text-gray-300 leading-relaxed font-light">
               {data.description || defaultIntro.description}
             </p>
           </div>
@@ -46,7 +46,7 @@ export default function ContactIntro() {
         {/* Horizontal Line with Centered "REACH US OUT" Badge */}
         <div className="relative flex items-center justify-center pt-2">
           <div className="w-full h-[1px] bg-white/20 absolute inset-0 top-1/2 -translate-y-1/2" />
-          <span className="relative z-10 bg-[#0a0a0a] px-5 text-xs font-bold tracking-widest text-white uppercase">
+          <span className="relative z-10 bg-[#0a0a0a] px-5 text-xs font-medium tracking-widest text-white uppercase">
             {data.badgeText || defaultIntro.badgeText}
           </span>
         </div>

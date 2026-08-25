@@ -70,7 +70,7 @@ export default function ContactForm() {
 
   return (
     <div className="bg-white rounded-2xl p-6 sm:p-10 shadow-sm border border-gray-100">
-      <h3 className="text-2xl font-bold text-gray-900 mb-6 tracking-tight">
+      <h3 className="text-2xl font-medium text-gray-900 mb-6 tracking-tight">
         Send Us a Message
       </h3>
 
@@ -79,8 +79,8 @@ export default function ContactForm() {
         <div className="mb-6 p-4 rounded-xl bg-green-50 border border-green-200 flex items-start gap-3 text-green-800 text-sm">
           <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
           <div>
-            <p className="font-semibold">{successMessage}</p>
-            <p className="text-xs text-green-700 mt-1">
+            <p className="font-medium">{successMessage}</p>
+            <p className="text-xs text-green-700 mt-1 font-normal">
               We have received your details and will get in touch with you within 24 hours.
             </p>
           </div>
@@ -91,14 +91,14 @@ export default function ContactForm() {
       {status === 'error' && (
         <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 flex items-center gap-3 text-red-800 text-sm">
           <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0" />
-          <p className="font-semibold">Something went wrong. Please try submitting again.</p>
+          <p className="font-medium">Something went wrong. Please try submitting again.</p>
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6" noValidate>
         {/* Full Name */}
         <div>
-          <label htmlFor="fullName" className="block text-sm font-semibold text-gray-900 mb-2">
+          <label htmlFor="fullName" className="block text-sm font-medium text-gray-900 mb-2">
             Full Name <span className="text-red-500">*</span>
           </label>
           <input
@@ -115,7 +115,7 @@ export default function ContactForm() {
             }`}
           />
           {errors.fullName && (
-            <p className="mt-1.5 text-xs text-red-500 font-medium flex items-center gap-1">
+            <p className="mt-1.5 text-xs text-red-500 font-normal flex items-center gap-1">
               <AlertCircle className="w-3.5 h-3.5" />
               {errors.fullName}
             </p>
@@ -126,7 +126,7 @@ export default function ContactForm() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {/* Email */}
           <div>
-            <label htmlFor="email" className="block text-sm font-semibold text-gray-900 mb-2">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-900 mb-2">
               Email <span className="text-red-500">*</span>
             </label>
             <input
@@ -143,7 +143,7 @@ export default function ContactForm() {
               }`}
             />
             {errors.email && (
-              <p className="mt-1.5 text-xs text-red-500 font-medium flex items-center gap-1">
+              <p className="mt-1.5 text-xs text-red-500 font-normal flex items-center gap-1">
                 <AlertCircle className="w-3.5 h-3.5" />
                 {errors.email}
               </p>
@@ -152,7 +152,7 @@ export default function ContactForm() {
 
           {/* Phone No */}
           <div>
-            <label htmlFor="phone" className="block text-sm font-semibold text-gray-900 mb-2">
+            <label htmlFor="phone" className="block text-sm font-medium text-gray-900 mb-2">
               Phone No <span className="text-red-500">*</span>
             </label>
             <input
@@ -169,7 +169,7 @@ export default function ContactForm() {
               }`}
             />
             {errors.phone && (
-              <p className="mt-1.5 text-xs text-red-500 font-medium flex items-center gap-1">
+              <p className="mt-1.5 text-xs text-red-500 font-normal flex items-center gap-1">
                 <AlertCircle className="w-3.5 h-3.5" />
                 {errors.phone}
               </p>
@@ -179,7 +179,7 @@ export default function ContactForm() {
 
         {/* Message */}
         <div>
-          <label htmlFor="message" className="block text-sm font-semibold text-gray-900 mb-2">
+          <label htmlFor="message" className="block text-sm font-medium text-gray-900 mb-2">
             Message <span className="text-red-500">*</span>
           </label>
           <textarea
@@ -196,7 +196,7 @@ export default function ContactForm() {
             }`}
           />
           {errors.message && (
-            <p className="mt-1.5 text-xs text-red-500 font-medium flex items-center gap-1">
+            <p className="mt-1.5 text-xs text-red-500 font-normal flex items-center gap-1">
               <AlertCircle className="w-3.5 h-3.5" />
               {errors.message}
             </p>
@@ -208,7 +208,7 @@ export default function ContactForm() {
           <button
             type="submit"
             disabled={status === 'loading'}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold rounded-xl shadow-md hover:from-orange-600 hover:to-amber-600 transition-all hover:scale-[1.02] disabled:opacity-60 disabled:cursor-not-allowed text-base"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-medium rounded-xl shadow-md hover:from-orange-600 hover:to-amber-600 transition-all hover:scale-[1.02] disabled:opacity-60 disabled:cursor-not-allowed text-base"
           >
             {status === 'loading' ? (
               <>

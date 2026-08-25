@@ -70,7 +70,7 @@ export default function PortfolioHero({ videoSrc: propVideoSrc }) {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="max-w-2xl text-left">
           {/* Eyebrow Label */}
-          <span className="text-sm sm:text-base font-extrabold uppercase tracking-widest text-white block">
+          <span className="text-sm sm:text-base font-medium uppercase tracking-widest text-white block">
             {data.subheading || defaultHeroData.subheading}
           </span>
 
@@ -78,12 +78,12 @@ export default function PortfolioHero({ videoSrc: propVideoSrc }) {
           <div className="w-full max-w-xl sm:max-w-2xl h-[2px] bg-white/90 my-3" />
 
           {/* Main Heading */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.12] mb-4 whitespace-pre-line">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-normal text-white tracking-tight leading-[1.12] mb-4 whitespace-pre-line">
             {data.title || defaultHeroData.title}
           </h1>
 
           {/* Supporting Text */}
-          <p className="text-base sm:text-lg text-gray-200 font-normal leading-relaxed max-w-lg mb-8">
+          <p className="text-base sm:text-lg text-gray-200 font-light leading-relaxed max-w-lg mb-8">
             {data.description || defaultHeroData.description}
           </p>
 
@@ -91,7 +91,7 @@ export default function PortfolioHero({ videoSrc: propVideoSrc }) {
           <div>
             <Link
               to={data.buttonLink || '/contact'}
-              className="inline-flex items-center gap-3 text-white text-base sm:text-lg font-extrabold group/btn hover:opacity-90 transition-opacity"
+              className="inline-flex items-center gap-3 text-white text-base sm:text-lg font-medium group/btn hover:opacity-90 transition-opacity"
             >
               <span>{data.buttonText || "Let's Talk"}</span>
               <div className="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center shadow-md group-hover/btn:scale-110 transition-transform">

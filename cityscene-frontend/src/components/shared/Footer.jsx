@@ -28,7 +28,7 @@ export default function Footer() {
 
           {/* Column 2: Quick Links */}
           <div>
-            <h3 className="text-lg font-bold text-white mb-4 tracking-tight">Quick Links</h3>
+            <h3 className="text-lg font-medium text-white mb-4 tracking-tight">Quick Links</h3>
             <ul className="space-y-2.5 text-sm text-gray-300">
               <li>
                 <Link to="/" className="hover:text-white transition-colors">Home</Link>
@@ -56,7 +56,7 @@ export default function Footer() {
 
           {/* Column 3: Services */}
           <div>
-            <h3 className="text-lg font-bold text-white mb-4 tracking-tight">Services</h3>
+            <h3 className="text-lg font-medium text-white mb-4 tracking-tight">Services</h3>
             <ul className="space-y-2.5 text-sm text-gray-300">
               <li>
                 <Link to="/services/custom-software-development" className="hover:text-white transition-colors">Software Development</Link>
@@ -78,7 +78,7 @@ export default function Footer() {
 
           {/* Column 4: Contact */}
           <div>
-            <h3 className="text-lg font-bold text-white mb-4 tracking-tight">Contact</h3>
+            <h3 className="text-lg font-medium text-white mb-4 tracking-tight">Contact</h3>
             <div className="space-y-3 text-sm text-gray-300">
               <p className="leading-relaxed">
                 S.P Tower, 150, Sirsi Rd,<br />

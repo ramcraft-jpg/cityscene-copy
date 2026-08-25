@@ -11,7 +11,7 @@ export default function PortfolioDetailExecution({ project }) {
   return (
     <section className="w-full bg-black text-white py-16 md:py-24 border-t border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl sm:text-4xl font-bold text-white mb-12 tracking-tight">
+        <h2 className="text-3xl sm:text-4xl font-medium text-white mb-12 tracking-tight">
           Project Execution & Analytics
         </h2>
 
@@ -22,7 +22,7 @@ export default function PortfolioDetailExecution({ project }) {
               key={idx}
               className="border border-white/20 bg-neutral-950/90 rounded-xl p-8 space-y-3 hover:border-white/40 transition-colors"
             >
-              <h3 className="text-xl font-bold text-white leading-snug">
+              <h3 className="text-xl font-medium text-white leading-snug">
                 {feat.title}
               </h3>
               <p className="text-sm text-gray-400 leading-relaxed">

@@ -26,11 +26,11 @@ export default function WhatWeDoGrid() {
   const displayedServices = showAll ? services : services.slice(0, 6);
 
   return (
-    <section className="w-full bg-[#171717] py-20 md:py-28">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="w-full bg-[#1a1a1a] text-white py-[60px] px-5 sm:px-[40px] text-center">
+      <div className="max-w-[1100px] mx-auto w-full">
         {/* Section Heading */}
-        <div className="text-left mb-12 md:mb-16">
-          <h2 className="text-4xl sm:text-5xl font-normal text-white tracking-tight">
+        <div className="text-left">
+          <h2 className="text-3xl sm:text-[40px] font-medium text-white tracking-tight -translate-y-5 ml-0 sm:ml-[50px]">
             Our Services
           </h2>
         </div>
@@ -54,18 +54,18 @@ export default function WhatWeDoGrid() {
         {/* 3-Column Service Cards Grid */}
         {!loading && !error && (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-              {displayedServices.map((service) => (
-                <WhatWeDoCard key={service.id || service._id} service={service} />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-[1100px] mx-auto">
+              {displayedServices.map((service, idx) => (
+                <WhatWeDoCard key={service.id || service._id} service={service} index={idx} />
               ))}
             </div>
 
             {/* View More / View Less Toggle Button */}
             {services.length > 6 && (
-              <div className="mt-16 flex justify-center">
+              <div className="mt-8 text-center">
                 <button
                   onClick={() => setShowAll(!showAll)}
-                  className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white font-medium text-base border border-white/20 transition-all duration-300 transform hover:scale-105 shadow-md focus:outline-none focus:ring-2 focus:ring-white/50"
+                  className="inline-flex items-center gap-2 px-6 py-2.5 rounded-[25px] bg-transparent hover:bg-white hover:text-black text-white font-bold text-base border-2 border-white transition-all duration-300 shadow-md"
                 >
                   <span>{showAll ? 'View Less Services' : 'View More Services'}</span>
                   {showAll ? <ChevronUp size={20} /> : <ChevronDown size={20} />}

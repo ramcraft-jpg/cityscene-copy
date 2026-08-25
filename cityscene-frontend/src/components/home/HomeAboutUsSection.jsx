@@ -31,52 +31,43 @@ export default function HomeAboutUsSection() {
   const fallbackSrc = getMediaUrl(data.fallbackImage || defaultAboutData.fallbackImage);
 
   return (
-    <section className="w-full min-h-screen min-h-[100svh] bg-[#222222] text-white py-10 md:py-14 flex flex-col justify-center overflow-hidden border-b border-white/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-          
-          {/* Left Column: Visual Image Panel */}
-          <div className="lg:col-span-5 flex justify-center lg:justify-start">
-            <div className="w-full max-w-md lg:max-w-none h-[340px] sm:h-[420px] lg:h-[480px] rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-neutral-900 relative group">
-              <img
-                src={imageSrc}
-                alt="About CityScene Global"
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = fallbackSrc;
-                }}
-                className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-out"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-            </div>
+    <section className="w-full bg-[#222222] text-white py-16 flex items-center justify-center border-b border-white/10">
+      <div className="w-full max-w-[800px] mx-auto px-6 relative text-justify">
+        
+        {/* Vertical Left Line Divider */}
+        <div className="absolute left-0 top-[60px] h-[80%] w-[4px] bg-[#ccc]" />
+
+        <div className="pl-6 space-y-4">
+          <span className="text-xs sm:text-sm font-medium tracking-widest text-orange-500 uppercase block text-left">
+            {data.badge || defaultAboutData.badge}
+          </span>
+
+          <h2 className="text-3xl sm:text-[32px] font-medium text-white text-left mb-4">
+            {data.heading || defaultAboutData.heading}
+          </h2>
+
+          {data.paragraph1 && (
+            <p className="text-base leading-relaxed text-[#ddd] font-light text-justify mb-4">
+              {data.paragraph1}
+            </p>
+          )}
+
+          {data.paragraph2 && (
+            <p className="text-base leading-relaxed text-[#ddd] font-light text-justify mb-4">
+              {data.paragraph2}
+            </p>
+          )}
+
+          <div className="pt-2 text-left">
+            <Link
+              to={data.buttonLink || '/about'}
+              className="inline-block px-6 py-2.5 rounded-full border-2 border-white text-white font-medium text-sm hover:bg-white hover:text-black transition-all duration-300"
+            >
+              {data.buttonText || 'Learn More'}
+            </Link>
           </div>
-
-          {/* Right Column: Heading & Content with Left Accent Line */}
-          <div className="lg:col-span-7 border-l-2 border-white pl-6 sm:pl-8 space-y-6 flex flex-col items-start">
-            <span className="text-xs sm:text-sm font-semibold tracking-widest text-orange-500 uppercase">
-              {data.badge || defaultAboutData.badge}
-            </span>
-
-            <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-bold text-white tracking-tight leading-tight">
-              {data.heading || defaultAboutData.heading}
-            </h2>
-
-            <div className="space-y-4 text-sm sm:text-base text-gray-300 leading-relaxed font-normal">
-              {data.paragraph1 && <p>{data.paragraph1}</p>}
-              {data.paragraph2 && <p>{data.paragraph2}</p>}
-            </div>
-
-            <div className="pt-2">
-              <Link
-                to={data.buttonLink || '/about'}
-                className="inline-flex items-center justify-center px-7 py-3 rounded-full border-2 border-white text-white font-semibold text-sm hover:bg-white hover:text-gray-900 transition-colors"
-              >
-                {data.buttonText || 'Learn More'}
-              </Link>
-            </div>
-          </div>
-
         </div>
+
       </div>
     </section>
   );

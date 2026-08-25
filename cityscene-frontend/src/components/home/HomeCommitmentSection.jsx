@@ -69,29 +69,27 @@ export default function HomeCommitmentSection() {
         <div className="absolute inset-0 bg-black/40 group-hover:bg-black/25 transition-colors duration-700 pointer-events-none" />
       </div>
 
-      {/* Hero-Spaced Content Container */}
-      <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="max-w-2xl text-left space-y-6">
-          <span className="text-xs sm:text-sm font-semibold tracking-widest text-orange-500 uppercase block">
-            {data.badge || defaultCommitmentData.badge}
-          </span>
+      {/* Center Content Container */}
+      <div className="relative z-10 max-w-[700px] mx-auto px-5 w-full text-center flex flex-col items-center justify-center space-y-4">
+        <span className="text-xs sm:text-sm font-medium tracking-widest text-orange-500 uppercase block">
+          {data.badge || defaultCommitmentData.badge}
+        </span>
 
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
-            {data.heading || defaultCommitmentData.heading}
-          </h2>
+        <h2 className="text-3xl sm:text-5xl font-medium text-white leading-tight">
+          {data.heading || defaultCommitmentData.heading}
+        </h2>
 
-          <p className="text-lg sm:text-2xl text-gray-200 leading-relaxed font-light">
-            {data.description || defaultCommitmentData.description}
-          </p>
+        <p className="text-lg sm:text-[22px] text-gray-200 leading-normal font-light max-w-[600px] mx-auto">
+          {data.description || defaultCommitmentData.description}
+        </p>
 
-          <div className="pt-2">
-            <Link
-              to={data.buttonLink || '/about'}
-              className="inline-flex items-center justify-center px-8 py-3.5 bg-white text-gray-900 font-semibold rounded-full hover:bg-gray-100 transition-colors shadow-lg text-sm sm:text-base"
-            >
-              {data.buttonText || 'Learn More'}
-            </Link>
-          </div>
+        <div className="pt-3">
+          <Link
+            to={data.buttonLink || '/about'}
+            className="inline-block px-7 py-3.5 bg-[#ff6600] hover:bg-[#e65c00] text-white font-medium text-lg sm:text-xl rounded-[8px] transition-all duration-300 shadow-md"
+          >
+            {data.buttonText || 'Learn More'}
+          </Link>
         </div>
       </div>
     </section>

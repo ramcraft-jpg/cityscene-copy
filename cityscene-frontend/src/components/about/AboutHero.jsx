@@ -70,7 +70,7 @@ export default function AboutHero() {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 w-full">
         <div className="max-w-2xl text-left">
           {/* Subheading Label */}
-          <div className="text-white font-semibold text-sm sm:text-base tracking-widest uppercase mb-3">
+          <div className="text-white font-medium text-sm sm:text-base tracking-widest uppercase mb-3">
             {data.subheading || defaultHeroData.subheading}
           </div>
 

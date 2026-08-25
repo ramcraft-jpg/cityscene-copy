@@ -132,17 +132,17 @@ export default function ContactHero() {
           {/* Left Column: Heading and Messaging */}
           <div className="lg:col-span-6 space-y-4 text-left">
             <div className="max-w-md">
-              <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-white block">
+              <span className="text-xs sm:text-sm font-medium uppercase tracking-widest text-white block">
                 {heroData.subheading || defaultHero.subheading}
               </span>
               <div className="w-full h-[2px] bg-white/90 my-3" />
             </div>
 
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.08] whitespace-pre-line">
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-normal text-white tracking-tight leading-[1.08] whitespace-pre-line">
               {heroData.title || defaultHero.title}
             </h1>
 
-            <p className="text-base sm:text-lg text-gray-200 font-normal leading-relaxed max-w-md pt-2">
+            <p className="text-base sm:text-lg text-gray-200 font-light leading-relaxed max-w-md pt-2">
               {heroData.description || defaultHero.description}
             </p>
           </div>
@@ -156,7 +156,7 @@ export default function ContactHero() {
                   <CheckCircle2 className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
                   <div>
                     <p className="font-semibold">{successMessage}</p>
-                    <p className="text-[11px] text-green-300 mt-1">
+                    <p className="text-[11px] text-green-300 mt-1 font-normal">
                       Our IT experts will get back to you shortly.
                     </p>
                   </div>
@@ -166,14 +166,14 @@ export default function ContactHero() {
               {status === 'error' && (
                 <div className="mb-5 p-4 rounded-xl bg-red-900/40 border border-red-500/50 flex items-center gap-3 text-red-200 text-xs sm:text-sm">
                   <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0" />
-                  <p className="font-semibold">Something went wrong. Please try submitting again.</p>
+                  <p className="font-medium">Something went wrong. Please try submitting again.</p>
                 </div>
               )}
 
               <form onSubmit={handleSubmit} className="space-y-4" noValidate>
                 {/* Full Name */}
                 <div>
-                  <label htmlFor="fullName" className="block text-xs font-bold text-gray-200 mb-1.5 uppercase tracking-wide">
+                  <label htmlFor="fullName" className="block text-xs font-medium text-gray-200 mb-1.5 uppercase tracking-wide">
                     Full Name
                   </label>
                   <input
@@ -190,7 +190,7 @@ export default function ContactHero() {
                     }`}
                   />
                   {errors.fullName && (
-                    <p className="mt-1 text-[11px] text-red-400 font-medium flex items-center gap-1">
+                    <p className="mt-1 text-[11px] text-red-400 font-normal flex items-center gap-1">
                       <AlertCircle className="w-3 h-3" />
                       {errors.fullName}
                     </p>
@@ -199,7 +199,7 @@ export default function ContactHero() {
 
                 {/* Email */}
                 <div>
-                  <label htmlFor="email" className="block text-xs font-bold text-gray-200 mb-1.5 uppercase tracking-wide">
+                  <label htmlFor="email" className="block text-xs font-medium text-gray-200 mb-1.5 uppercase tracking-wide">
                     Email
                   </label>
                   <input
@@ -216,7 +216,7 @@ export default function ContactHero() {
                     }`}
                   />
                   {errors.email && (
-                    <p className="mt-1 text-[11px] text-red-400 font-medium flex items-center gap-1">
+                    <p className="mt-1 text-[11px] text-red-400 font-normal flex items-center gap-1">
                       <AlertCircle className="w-3 h-3" />
                       {errors.email}
                     </p>
@@ -225,7 +225,7 @@ export default function ContactHero() {
 
                 {/* Phone No */}
                 <div>
-                  <label htmlFor="phone" className="block text-xs font-bold text-gray-200 mb-1.5 uppercase tracking-wide">
+                  <label htmlFor="phone" className="block text-xs font-medium text-gray-200 mb-1.5 uppercase tracking-wide">
                     Phone No
                   </label>
                   <input
@@ -242,7 +242,7 @@ export default function ContactHero() {
                     }`}
                   />
                   {errors.phone && (
-                    <p className="mt-1 text-[11px] text-red-400 font-medium flex items-center gap-1">
+                    <p className="mt-1 text-[11px] text-red-400 font-normal flex items-center gap-1">
                       <AlertCircle className="w-3 h-3" />
                       {errors.phone}
                     </p>
@@ -251,7 +251,7 @@ export default function ContactHero() {
 
                 {/* Message */}
                 <div>
-                  <label htmlFor="message" className="block text-xs font-bold text-gray-200 mb-1.5 uppercase tracking-wide">
+                  <label htmlFor="message" className="block text-xs font-medium text-gray-200 mb-1.5 uppercase tracking-wide">
                     Message
                   </label>
                   <textarea
@@ -268,7 +268,7 @@ export default function ContactHero() {
                     }`}
                   />
                   {errors.message && (
-                    <p className="mt-1 text-[11px] text-red-400 font-medium flex items-center gap-1">
+                    <p className="mt-1 text-[11px] text-red-400 font-normal flex items-center gap-1">
                       <AlertCircle className="w-3 h-3" />
                       {errors.message}
                     </p>
@@ -280,7 +280,7 @@ export default function ContactHero() {
                   <button
                     type="submit"
                     disabled={status === 'loading'}
-                    className="inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-[#00bcd4] hover:bg-[#00acc1] text-white font-bold text-sm rounded-lg transition-all shadow-md active:scale-95 disabled:opacity-60"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-[#00bcd4] hover:bg-[#00acc1] text-white font-medium text-sm rounded-lg transition-all shadow-md active:scale-95 disabled:opacity-60"
                   >
                     {status === 'loading' ? (
                       <>

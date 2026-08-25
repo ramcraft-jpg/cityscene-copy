@@ -15,14 +15,14 @@ export default function PortfolioDetailModules({ project }) {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 items-start">
           {/* Left Column: Title & Overview */}
           <div className="md:col-span-5 flex flex-col items-start">
-            <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-bold text-gray-900 tracking-tight leading-[1.2] mb-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-medium text-gray-900 tracking-tight leading-[1.2] mb-6">
               {modulesTitle}
             </h2>
 
             {/* Short Underline below category */}
             <div className="w-16 h-[2px] bg-gray-900 mb-8" />
 
-            <p className="text-base sm:text-lg text-gray-600 leading-relaxed max-w-md">
+            <p className="text-base sm:text-lg text-gray-600 leading-relaxed max-w-md font-light">
               {summaryNote}
             </p>
           </div>
@@ -31,7 +31,7 @@ export default function PortfolioDetailModules({ project }) {
           <div className="md:col-span-7 border-l-2 border-gray-900 pl-8 lg:pl-12 space-y-8 sm:space-y-10">
             {capabilities.map((cap, idx) => (
               <div key={idx} className="space-y-2">
-                <h3 className="text-xl font-bold text-gray-900 tracking-tight">
+                <h3 className="text-xl font-medium text-gray-900 tracking-tight">
                   {cap.title}
                 </h3>
                 <p className="text-sm sm:text-base text-gray-600 leading-relaxed">

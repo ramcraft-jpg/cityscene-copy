@@ -40,7 +40,7 @@ export default function AboutValuesSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Centered Section Heading */}
         <div className="text-center mb-12 md:mb-16">
-          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 tracking-tight">
+          <h2 className="text-4xl sm:text-5xl font-semibold text-gray-900 tracking-tight">
             {data.heading || 'Our Values'}
           </h2>
         </div>
@@ -64,10 +64,10 @@ export default function AboutValuesSection() {
 
               {/* Text Container with Dynamic Positioning */}
               <div className={`absolute max-w-[85%] flex flex-col z-10 ${getPositionClasses(val.position)}`}>
-                <h3 className="text-white text-2xl sm:text-3xl font-bold tracking-tight mb-2">
+                <h3 className="text-white text-2xl sm:text-3xl font-semibold tracking-tight mb-2">
                   {val.title}
                 </h3>
-                <p className="text-gray-200 text-sm sm:text-base font-light leading-snug">
+                <p className="text-gray-200 text-sm sm:text-base font-normal leading-snug">
                   {val.description}
                 </p>
               </div>

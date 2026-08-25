@@ -151,10 +151,10 @@ export default function HomeOurServicesSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full mb-8 sm:mb-12 flex items-center justify-between">
         <ScrollReveal animation="up" delay={100}>
           <div>
-            <span className="text-xs sm:text-sm font-semibold tracking-widest text-orange-500 uppercase block mb-1">
+            <span className="text-xs sm:text-sm font-medium tracking-widest text-orange-500 uppercase block mb-1">
               {sectionData.badge || 'What We Deliver'}
             </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-bold text-white tracking-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-medium text-white tracking-tight">
               {sectionData.heading || 'Our Services'}
             </h2>
           </div>
@@ -219,13 +219,13 @@ export default function HomeOurServicesSection() {
                 {/* Dark Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/30 to-black/85 group-hover:from-black/90 group-hover:to-black/90 transition-all duration-300" />
 
-                {/* Text Overlay */}
+                {/* Text Overlay - Odd cards top left, Even cards bottom left */}
                 <div
-                  className={`absolute left-7 right-7 z-10 ${
-                    srv.textPosition === 'top' ? 'top-8' : 'bottom-8'
+                  className={`absolute left-6 right-6 z-10 p-4 text-left transition-all duration-300 ${
+                    idx % 2 === 0 ? 'top-6 text-top' : 'bottom-6 text-bottom'
                   }`}
                 >
-                  <h3 className="text-2xl sm:text-3xl font-bold text-white tracking-tight leading-snug group-hover:text-orange-400 transition-colors">
+                  <h3 className="text-2xl sm:text-3xl font-medium text-white tracking-tight leading-snug group-hover:text-orange-400 transition-colors">
                     {srv.title}
                   </h3>
                 </div>
