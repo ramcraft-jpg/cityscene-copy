@@ -91,6 +91,8 @@ export default function App() {
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="/Blog/:slug" element={<BlogPost />} />
+        <Route path="/blog/:category/:slug" element={<BlogPost />} />
+        <Route path="/Blog/:category/:slug" element={<BlogPost />} />
 
         {/* Portfolio Routes */}
         <Route path="/Portfolio" element={<Portfolio />} />

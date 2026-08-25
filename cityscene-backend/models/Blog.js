@@ -68,6 +68,67 @@ export const Blog = sequelize.define('Blog', {
     type: DataTypes.STRING,
     defaultValue: '/assets/images/author-vishwambhar.png'
   },
+  authorRole: {
+    type: DataTypes.STRING,
+    defaultValue: 'Senior Tech Lead & Solution Architect'
+  },
+  authorBio: {
+    type: DataTypes.TEXT,
+    defaultValue: ''
+  },
+  blocks: {
+    type: DataTypes.JSON,
+    allowNull: true,
+    defaultValue: []
+  },
+  ctaHeading: {
+    type: DataTypes.STRING,
+    defaultValue: ''
+  },
+  ctaDescription: {
+    type: DataTypes.TEXT,
+    defaultValue: ''
+  },
+  ctaButtonText: {
+    type: DataTypes.STRING,
+    defaultValue: ''
+  },
+  ctaButtonLink: {
+    type: DataTypes.STRING,
+    defaultValue: ''
+  },
+  seoTitle: {
+    type: DataTypes.STRING,
+    defaultValue: ''
+  },
+  seoDescription: {
+    type: DataTypes.TEXT,
+    defaultValue: ''
+  },
+  focusKeyword: {
+    type: DataTypes.STRING,
+    defaultValue: ''
+  },
+  seoKeywords: {
+    type: DataTypes.STRING,
+    defaultValue: ''
+  },
+  canonicalUrl: {
+    type: DataTypes.STRING,
+    defaultValue: ''
+  },
+  ogTitle: {
+    type: DataTypes.STRING,
+    defaultValue: ''
+  },
+  ogDescription: {
+    type: DataTypes.TEXT,
+    defaultValue: ''
+  },
+  ogImage: {
+    type: DataTypes.STRING,
+    defaultValue: ''
+  },
   order: {
     type: DataTypes.INTEGER,
     defaultValue: 0

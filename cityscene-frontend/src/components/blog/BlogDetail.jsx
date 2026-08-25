@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import BlogDetailHeader from './BlogDetailHeader';
 import BlogDetailContent from './BlogDetailContent';
 import BlogDetailAuthor from './BlogDetailAuthor';
+import BlogDetailCTA from './BlogDetailCTA';
 import BlogDetailComments from './BlogDetailComments';
 
 export default function BlogDetail({ blog, relatedBlogs = [] }) {
@@ -42,6 +43,8 @@ export default function BlogDetail({ blog, relatedBlogs = [] }) {
       }
     ]);
     setCommentText('');
+    setAuthorName('');
+    setAuthorEmail('');
   };
 
   const handleKeyDown = (e) => {
@@ -70,17 +73,17 @@ export default function BlogDetail({ blog, relatedBlogs = [] }) {
   const categorySlug = (blog.category || 'it-solutions').toLowerCase().replace(/\s+/g, '-');
   const authorAvatar = (typeof blog.author === 'object' ? blog.author?.avatar : null) || blog.authorAvatar || "/assets/images/author-vishwambhar.png";
   const authorDisplayName = (typeof blog.author === 'object' ? blog.author?.name : null) || blog.author || "Vishwambhar Singh";
-  const authorTagline = (typeof blog.author === 'object' ? blog.author?.tagline : null) || "CityScene Global — Jaipur's IT & Digital Innovation Partner";
 
   return (
     <article className="min-h-screen bg-[#f8f9fa] text-gray-900 font-sans pb-24">
+      {/* Blog Breadcrumb, Title, Summary, Date & Read Time */}
       <BlogDetailHeader blog={blog} categorySlug={categorySlug} />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         <div className="bg-white rounded-2xl border border-gray-200/80 p-6 sm:p-10 md:p-12 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.03)] mb-10">
+          {/* Complete Article Content Blocks */}
           <BlogDetailContent
             blog={blog}
-            authorTagline={authorTagline}
             liked={liked}
             likesCount={likesCount}
             handleLike={handleLike}
@@ -88,10 +91,21 @@ export default function BlogDetail({ blog, relatedBlogs = [] }) {
             scrollToComments={scrollToComments}
           />
 
-          <hr className="border-t border-gray-200 my-6" />
+          {/* Clean Author Profile Row */}
+          <BlogDetailAuthor
+            authorAvatar={authorAvatar}
+            authorDisplayName={authorDisplayName}
+          />
 
-          <BlogDetailAuthor authorAvatar={authorAvatar} authorDisplayName={authorDisplayName} />
+          {/* Dynamic CTA Card Section */}
+          <BlogDetailCTA
+            ctaHeading={blog.ctaHeading}
+            ctaDescription={blog.ctaDescription}
+            ctaButtonText={blog.ctaButtonText}
+            ctaButtonLink={blog.ctaButtonLink}
+          />
 
+          {/* Interactive Comments & Discussion Section */}
           <BlogDetailComments
             comments={comments}
             authorName={authorName}

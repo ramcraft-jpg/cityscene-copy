@@ -8,8 +8,7 @@ export default function PortfolioDetailValueProp({ project }) {
 
   if (!valuePropositions || valuePropositions.length === 0) return null;
 
-  // Dynamically map current project's portfolio card image to Core Value Proposition background
-  const rawBgImage = project.image || project.cardImage || project.coverImage || project.heroImage || project.backgroundImage || project.valuePropBgImage;
+  const rawBgImage = project.valuePropBgImage || project.image || project.heroImage || project.backgroundImage;
   const bgImage = getMediaUrl(rawBgImage);
 
   return (

@@ -33,25 +33,25 @@ export default function PortfolioTrustedClients() {
         </div>
 
         {/* All 6 Logos in Single Horizontal Line */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 items-center justify-center justify-items-center gap-3 sm:gap-6 md:gap-8 lg:gap-10 w-full max-w-7xl mx-auto">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 items-center justify-center justify-items-center gap-4 sm:gap-6 md:gap-8 lg:gap-10 w-full max-w-7xl mx-auto">
           {clientsList.map((client) => (
             <div
               key={client.id || client._id}
-              className="flex items-center justify-center p-2 transition-transform duration-200 hover:scale-105 w-full"
+              className="flex items-center justify-center p-3 sm:p-4 transition-transform duration-300 hover:scale-110 w-full min-h-[90px] sm:min-h-[110px] md:min-h-[130px]"
               title={client.name}
             >
               {client.logo ? (
                 <img
                   src={getMediaUrl(client.logo)}
                   alt={client.name || 'Client Logo'}
-                  className="h-14 sm:h-16 md:h-20 lg:h-24 w-full max-w-[150px] sm:max-w-[170px] md:max-w-[190px] object-contain transition-all duration-200 drop-shadow-sm mx-auto"
+                  className="h-24 sm:h-28 md:h-32 lg:h-36 xl:h-40 w-full max-w-[200px] sm:max-w-[240px] md:max-w-[280px] lg:max-w-[320px] object-contain transition-all duration-300 drop-shadow-sm mx-auto"
                   onError={(e) => {
                     e.target.onerror = null;
                     e.target.style.display = 'none';
                   }}
                 />
               ) : (
-                <span className="text-sm font-medium text-gray-900 tracking-tight text-center">
+                <span className="text-base sm:text-lg font-semibold text-gray-900 tracking-tight text-center">
                   {client.name}
                 </span>
               )}

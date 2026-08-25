@@ -6,6 +6,8 @@ import SEO from '../components/common/SEO';
 import BlogDetail from '../components/blog/BlogDetail';
 import { getBlogBySlug, getRelatedBlogs } from '../services/blogService';
 
+import blogsData from '../data/blogs';
+
 export default function BlogPost() {
   const { slug } = useParams();
   const [blog, setBlog] = useState(null);
@@ -18,30 +20,57 @@ export default function BlogPost() {
     setLoading(true);
     setError(null);
 
-    Promise.all([
-      getBlogBySlug(slug),
-      getRelatedBlogs(slug, 3)
-    ])
-      .then(([blogData, relatedData]) => {
-        setBlog(blogData);
-        setRelatedBlogs(relatedData);
+    getBlogBySlug(slug)
+      .then((blogData) => {
+        const local = blogsData.find((b) => b.slug.toLowerCase() === slug?.toLowerCase() || b.id === slug);
+        
+        // Use backend blogData if it has rich blocks, otherwise merge or use local rich seed data
+        if (blogData && blogData.blocks) {
+          let parsedBlocks = blogData.blocks;
+          if (typeof parsedBlocks === 'string') {
+            try { parsedBlocks = JSON.parse(parsedBlocks); } catch (e) { parsedBlocks = []; }
+          }
+          if (Array.isArray(parsedBlocks) && parsedBlocks.length >= 3) {
+            setBlog(blogData);
+          } else if (local) {
+            setBlog({ ...local, ...blogData, blocks: local.blocks });
+          } else {
+            setBlog(blogData);
+          }
+        } else if (local) {
+          setBlog(local);
+        } else {
+          setBlog(blogData);
+        }
+
+        getRelatedBlogs(slug, 3).then(setRelatedBlogs).catch(() => {});
         setLoading(false);
       })
       .catch((err) => {
-        console.error('[BlogPost Page Error]:', err);
-        setError(err.message || 'Failed to load blog article.');
+        const local = blogsData.find((b) => b.slug.toLowerCase() === slug?.toLowerCase() || b.id === slug);
+        if (local) {
+          setBlog(local);
+          setError(null);
+        } else {
+          setError(err.message || 'Failed to load blog article.');
+        }
         setLoading(false);
       });
   }, [slug]);
+
+  const seoTitle = blog?.seoTitle || (blog ? `${blog.title} | CityScene Blog` : 'Blog Article | CityScene Global');
+  const seoDesc = blog?.seoDescription || blog?.summary || 'Read our latest tech insights and articles at CityScene Global.';
+  const ogImg = blog?.ogImage || blog?.image || '';
 
   return (
     <div className="min-h-screen bg-[#f8f9fa] flex flex-col selection:bg-orange-500 selection:text-white">
       <SEO
         pageKey={`blog:${slug}`}
         fallback={{
-          title: blog ? `${blog.title} | CityScene Blog` : 'Blog Article | CityScene Global',
-          description: blog?.summary || 'Read our latest tech insights and articles at CityScene Global.',
-          ogImage: blog?.image || ''
+          title: seoTitle,
+          description: seoDesc,
+          ogImage: ogImg,
+          keywords: blog?.seoKeywords || blog?.focusKeyword || ''
         }}
       />
       {/* Shared Header */}

@@ -7,9 +7,26 @@ import { initialServices } from '../services/seedService.js';
  */
 const ensureSeedServices = async () => {
   try {
-    const count = await Service.count();
-    if (count === 0 && initialServices && initialServices.length > 0) {
-      await Service.bulkCreate(initialServices, { ignoreDuplicates: true });
+    if (!initialServices || initialServices.length === 0) return;
+    for (const s of initialServices) {
+      const existing = await Service.findOne({
+        where: {
+          [Op.or]: [
+            { id: s.id },
+            { path: s.path }
+          ]
+        }
+      });
+      if (!existing) {
+        await Service.create(s);
+      } else {
+        if (!existing.processSteps || (Array.isArray(existing.processSteps) && existing.processSteps.length === 0)) {
+          await existing.update({
+            processTitle: s.processTitle || existing.processTitle,
+            processSteps: s.processSteps
+          });
+        }
+      }
     }
   } catch (error) {
     console.error('[Service Seed Sync Error]:', error.message);

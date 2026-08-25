@@ -7,9 +7,42 @@ import { initialBlogs } from '../services/seedService.js';
  */
 const ensureSeedBlogs = async () => {
   try {
-    const count = await Blog.count();
-    if (count === 0 && initialBlogs && initialBlogs.length > 0) {
-      await Blog.bulkCreate(initialBlogs, { ignoreDuplicates: true });
+    if (!initialBlogs || initialBlogs.length === 0) return;
+    for (const b of initialBlogs) {
+      const existing = await Blog.findOne({
+        where: {
+          [Op.or]: [
+            { id: b.id },
+            { slug: b.slug }
+          ]
+        }
+      });
+      if (!existing) {
+        await Blog.create(b);
+      } else {
+        await Blog.update(
+          {
+            title: b.title,
+            category: b.category,
+            date: b.date,
+            readTime: b.readTime,
+            summary: b.summary,
+            content: b.content,
+            blocks: b.blocks,
+            author: b.author,
+            authorAvatar: b.authorAvatar,
+            authorRole: b.authorRole,
+            authorBio: b.authorBio,
+            ctaHeading: b.ctaHeading,
+            ctaDescription: b.ctaDescription,
+            ctaButtonText: b.ctaButtonText,
+            ctaButtonLink: b.ctaButtonLink,
+            seoTitle: b.seoTitle,
+            seoDescription: b.seoDescription
+          },
+          { where: { id: existing.id } }
+        );
+      }
     }
   } catch (error) {
     console.error('[Blog Seed Sync Error]:', error.message);
