@@ -69,8 +69,8 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="bg-white rounded-2xl p-6 sm:p-10 shadow-sm border border-gray-100">
-      <h3 className="text-2xl font-medium text-gray-900 mb-6 tracking-tight">
+    <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-gray-100">
+      <h3 className="text-2xl font-semibold text-gray-900 mb-6 tracking-tight">
         Send Us a Message
       </h3>
 

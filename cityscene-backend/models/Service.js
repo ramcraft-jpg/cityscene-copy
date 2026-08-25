@@ -8,11 +8,11 @@ export const Service = sequelize.define('Service', {
     allowNull: false
   },
   title: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: false
   },
   displayTitle: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: false
   },
   path: {
@@ -20,7 +20,7 @@ export const Service = sequelize.define('Service', {
     allowNull: false
   },
   image: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: false
   },
   position: {
@@ -32,7 +32,7 @@ export const Service = sequelize.define('Service', {
     allowNull: false
   },
   topicName: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: true
   },
   heroDesc: {
@@ -40,7 +40,7 @@ export const Service = sequelize.define('Service', {
     allowNull: true
   },
   heroImage: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: true
   },
   backgroundMediaType: {
@@ -48,15 +48,15 @@ export const Service = sequelize.define('Service', {
     defaultValue: 'image'
   },
   backgroundImage: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     defaultValue: ''
   },
   backgroundVideo: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     defaultValue: ''
   },
   heroVideo: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     defaultValue: ''
   },
   introP1: {
@@ -68,23 +68,27 @@ export const Service = sequelize.define('Service', {
     allowNull: true
   },
   whyChooseTitle: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: true
   },
   whyChooseSubtitle: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: true
   },
   whyChooseCards: {
     type: DataTypes.JSON,
     defaultValue: []
   },
+  whyChooseBottomText: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
   expertiseTitle: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: true
   },
   expertiseSubtitle: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: true
   },
   expertiseItems: {
@@ -92,7 +96,7 @@ export const Service = sequelize.define('Service', {
     defaultValue: []
   },
   processTitle: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: true
   },
   processSteps: {
@@ -103,8 +107,24 @@ export const Service = sequelize.define('Service', {
     type: DataTypes.JSON,
     defaultValue: []
   },
+  ctaHeading: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
+  ctaDescription: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
+  ctaButtonText: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
+  ctaButtonLink: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
   video: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     defaultValue: ''
   },
   order: {

@@ -1,17 +1,45 @@
 import React from 'react';
 
 export default function WhatWeDoDetailIntro({ service }) {
-  if (!service || (!service.introP1 && !service.introP2)) return null;
+  if (!service) return null;
+
+  // Extract all available intro paragraphs dynamically
+  let paragraphs = [];
+
+  if (Array.isArray(service.introParagraphs) && service.introParagraphs.length > 0) {
+    paragraphs = service.introParagraphs.filter(p => p && typeof p === 'string');
+  } else {
+    const candidateKeys = ['introP1', 'introP2', 'introP3', 'introP4', 'introContent', 'additionalIntroContent'];
+    candidateKeys.forEach(key => {
+      if (service[key] && typeof service[key] === 'string' && service[key].trim().length > 0) {
+        paragraphs.push(service[key]);
+      }
+    });
+  }
+
+  if (paragraphs.length === 0) return null;
 
   return (
-    <section className="w-full bg-white py-14 md:py-20 border-b border-gray-100">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-gray-700 leading-relaxed text-base sm:text-lg space-y-6">
-        {service.introP1 && (
-          <p>
-            At <strong className="text-gray-900 font-semibold">CityScene Global</strong>, {service.introP1.replace(/^At CityScene Global,\s*/i, '')}
-          </p>
-        )}
-        {service.introP2 && <p>{service.introP2}</p>}
+    <section className="w-full bg-white py-10 sm:py-14 md:py-16">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-neutral-50 border-l-[6px] border-black rounded-2xl p-6 sm:p-10 md:p-12 text-left shadow-sm">
+          <div className="text-neutral-700 leading-relaxed text-base sm:text-lg lg:text-xl space-y-6 font-normal">
+            {paragraphs.map((para, idx) => {
+              if (para.startsWith('At CityScene Global')) {
+                return (
+                  <p key={idx} className="break-words">
+                    At <strong className="text-neutral-900 font-semibold">CityScene Global</strong>, {para.replace(/^At CityScene Global,\s*/i, '')}
+                  </p>
+                );
+              }
+              return (
+                <p key={idx} className="break-words">
+                  {para}
+                </p>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </section>
   );

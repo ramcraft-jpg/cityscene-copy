@@ -86,10 +86,10 @@ export default function CareerContactSection() {
   };
 
   return (
-    <section className="w-full bg-[#27272a] text-white py-20 lg:py-28">
+    <section className="w-full bg-[#27272a] text-white py-12 lg:py-16">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Section Heading */}
-        <h2 className="text-4xl sm:text-5xl font-bold text-white tracking-tight mb-3">
+        <h2 className="text-4xl sm:text-5xl font-semibold text-white tracking-tight mb-3">
           {header.heading || defaultHeader.heading}
         </h2>
         <p className="text-base sm:text-lg text-gray-300 mb-10">

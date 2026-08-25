@@ -4,6 +4,7 @@ import WhatWeDoDetailIntro from './WhatWeDoDetailIntro';
 import WhatWeDoDetailWhyChooseUs from './WhatWeDoDetailWhyChooseUs';
 import WhatWeDoDetailExpertise from './WhatWeDoDetailExpertise';
 import WhatWeDoDetailProcess from './WhatWeDoDetailProcess';
+import WhatWeDoDetailIndustries from './WhatWeDoDetailIndustries';
 import WhatWeDoDetailFaq from './WhatWeDoDetailFaq';
 
 export default function WhatWeDoServiceDetail({ service }) {
@@ -16,6 +17,7 @@ export default function WhatWeDoServiceDetail({ service }) {
       <WhatWeDoDetailWhyChooseUs service={service} />
       <WhatWeDoDetailExpertise service={service} />
       <WhatWeDoDetailProcess service={service} />
+      <WhatWeDoDetailIndustries service={service} />
       <WhatWeDoDetailFaq service={service} />
     </>
   );

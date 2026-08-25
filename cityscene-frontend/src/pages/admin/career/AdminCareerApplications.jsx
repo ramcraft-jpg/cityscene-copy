@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { getAdminToken } from '../../../services/adminAuthService';
+import ConfirmDeleteModal from '../../../components/admin/ConfirmDeleteModal';
+import { AdminLoadingState, AdminEmptyState } from '../../../components/admin/AdminStateFeedback';
 
 export default function AdminCareerApplications() {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [selectedApp, setSelectedApp] = useState(null);
+  const [deleteTarget, setDeleteTarget] = useState(null);
 
   useEffect(() => {
     loadApplications();
@@ -30,8 +34,31 @@ export default function AdminCareerApplications() {
     }
   };
 
+  const handleDeleteApplication = async () => {
+    if (!deleteTarget) return;
+    try {
+      setSaving(true);
+      const token = getAdminToken();
+      const res = await fetch(`http://localhost:5000/api/applications/${deleteTarget._id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setDeleteTarget(null);
+        loadApplications();
+      }
+    } catch (err) {
+      console.error('Error deleting application:', err);
+    } finally {
+      setSaving(false);
+    }
+  };
+
   if (loading) {
-    return <div className="p-8 text-center text-slate-500 font-semibold">Loading Candidate Applications Inbox...</div>;
+    return <AdminLoadingState message="Loading Candidate Applications Inbox..." />;
   }
 
   return (
@@ -54,13 +81,10 @@ export default function AdminCareerApplications() {
       </div>
 
       {applications.length === 0 ? (
-        <div className="bg-white p-12 rounded-2xl border border-slate-200 text-center space-y-3">
-          <span className="text-4xl block">📭</span>
-          <h3 className="text-base font-bold text-slate-800">No Candidate Applications Yet</h3>
-          <p className="text-xs text-slate-500 max-w-sm mx-auto">
-            Applications submitted through the public website's Apply Online page will appear here automatically.
-          </p>
-        </div>
+        <AdminEmptyState
+          title="No Candidate Applications Yet"
+          description="Applications submitted through the public website's Apply Online page will appear here automatically."
+        />
       ) : (
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
           <table className="w-full text-left text-xs text-slate-700">
@@ -71,7 +95,7 @@ export default function AdminCareerApplications() {
                 <th className="p-3.5">Email / Phone</th>
                 <th className="p-3.5">Resume Attachment</th>
                 <th className="p-3.5">Applied Date</th>
-                <th className="p-3.5 text-right">Action</th>
+                <th className="p-3.5 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 font-medium">
@@ -106,12 +130,18 @@ export default function AdminCareerApplications() {
                   <td className="p-3.5 text-slate-500 text-[11px]">
                     {new Date(app.createdAt).toLocaleDateString()} {new Date(app.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </td>
-                  <td className="p-3.5 text-right">
+                  <td className="p-3.5 text-right space-x-2">
                     <button
                       onClick={() => setSelectedApp(app)}
                       className="px-3 py-1 bg-slate-800 hover:bg-slate-900 text-white font-bold text-[11px] rounded transition shadow-sm"
                     >
                       View Details
+                    </button>
+                    <button
+                      onClick={() => setDeleteTarget(app)}
+                      className="px-3 py-1 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 font-bold text-[11px] rounded transition"
+                    >
+                      Delete
                     </button>
                   </td>
                 </tr>
@@ -177,6 +207,16 @@ export default function AdminCareerApplications() {
           </div>
         </div>
       )}
+
+      {/* DELETE CONFIRMATION MODAL */}
+      <ConfirmDeleteModal
+        isOpen={Boolean(deleteTarget)}
+        onClose={() => setDeleteTarget(null)}
+        onConfirm={handleDeleteApplication}
+        title="Delete Candidate Application"
+        itemName={deleteTarget?.fullName ? `${deleteTarget.fullName} (${deleteTarget.position})` : 'Application'}
+        isDeleting={saving}
+      />
     </div>
   );
 }

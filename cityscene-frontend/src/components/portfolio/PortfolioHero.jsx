@@ -37,7 +37,7 @@ export default function PortfolioHero({ videoSrc: propVideoSrc }) {
   const isVideoMode = data.backgroundMediaType === 'video' || (data.backgroundMediaType !== 'image' && !!rawBgVideo) || (!!rawBgVideo && !data.backgroundMediaType);
 
   return (
-    <section className="group relative w-full h-[90vh] min-h-[720px] lg:min-h-[850px] bg-black text-white flex items-center overflow-hidden py-20 lg:py-32">
+    <section className="group relative w-full min-h-[500px] lg:min-h-[580px] bg-black text-white flex items-center overflow-hidden py-16 lg:py-24">
       {/* Background Image / Video Layer */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         {isVideoMode && bgVideo ? (

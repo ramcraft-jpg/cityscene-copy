@@ -32,7 +32,7 @@ export default function HomeCareerNextBigThingSection() {
         </span>
 
         {/* Main Heading matching reference image */}
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-[1.2]">
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-white tracking-tight leading-[1.2]">
           {data.headingLine1 || defaultCareerData.headingLine1} <br />
           {data.headingLine2 || defaultCareerData.headingLine2}
         </h2>
@@ -41,7 +41,7 @@ export default function HomeCareerNextBigThingSection() {
         <div className="pt-2">
           <Link
             to={data.buttonLink || '/career'}
-            className="inline-flex items-center justify-center px-8 py-3.5 bg-white text-black font-bold text-[11px] sm:text-xs rounded-full tracking-widest hover:bg-gray-200 transition-all duration-300 shadow-md uppercase"
+            className="inline-flex items-center justify-center px-8 py-3.5 bg-white text-black font-medium text-[11px] sm:text-xs rounded-full tracking-widest hover:bg-gray-200 transition-all duration-300 shadow-md uppercase"
           >
             {data.buttonText || 'VIEW OUR MORE'}
           </Link>

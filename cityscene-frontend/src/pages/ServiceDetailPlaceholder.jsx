@@ -6,6 +6,8 @@ import SEO from '../components/common/SEO';
 import WhatWeDoServiceDetail from '../components/whatwedo/WhatWeDoServiceDetail';
 import { getServiceById } from '../services/serviceService';
 
+import servicesData from '../data/services';
+
 export default function ServiceDetailPlaceholder() {
   const { serviceId, slug } = useParams();
   const targetId = serviceId || slug;
@@ -20,16 +22,24 @@ export default function ServiceDetailPlaceholder() {
 
     getServiceById(targetId)
       .then((data) => {
-        if (!data) {
-          setError(`Service '${targetId}' not found.`);
+        const local = servicesData.find((s) => s.id === targetId || s.path?.endsWith(targetId));
+        if (data) {
+          setService(local ? { ...data, ...local } : data);
+        } else if (local) {
+          setService(local);
         } else {
-          setService(data);
+          setError(`Service '${targetId}' not found.`);
         }
         setLoading(false);
       })
       .catch((err) => {
-        console.error('[ServiceDetail Error]:', err);
-        setError(err.message || 'Failed to load service details.');
+        const local = servicesData.find((s) => s.id === targetId || s.path?.endsWith(targetId));
+        if (local) {
+          setService(local);
+          setError(null);
+        } else {
+          setError(err.message || 'Failed to load service details.');
+        }
         setLoading(false);
       });
   }, [targetId]);

@@ -7,8 +7,8 @@ export default function Footer() {
     <footer className="w-full bg-[#171717] text-white font-montserrat" style={{ fontFamily: "'Montserrat', sans-serif" }}>
 
       {/* Upper Main Footer */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 font-montserrat" style={{ fontFamily: "'Montserrat', sans-serif" }}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 font-montserrat" style={{ fontFamily: "'Montserrat', sans-serif" }}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
 
           {/* Column 1: Logo */}
           <div className="flex flex-col items-start space-y-4">
@@ -35,11 +35,11 @@ export default function Footer() {
 
           {/* Column 2: Quick Links */}
           <div>
-            <h3 className="text-xl font-bold text-white mb-5 tracking-tight">
+            <h3 className="text-xl font-semibold text-white mb-4 tracking-tight">
               Quick Links
             </h3>
 
-            <ul className="space-y-3 text-[15px] font-medium text-gray-200">
+            <ul className="space-y-2.5 text-[15px] font-medium text-gray-200">
               <li><Link to="/" className="hover:text-white transition-colors">Home</Link></li>
               <li><Link to="/about" className="hover:text-white transition-colors">About CityScene</Link></li>
               <li><Link to="/services" className="hover:text-white transition-colors">What we do</Link></li>
@@ -52,11 +52,11 @@ export default function Footer() {
 
           {/* Column 3: Services */}
           <div>
-            <h3 className="text-xl font-bold text-white mb-5 tracking-tight">
+            <h3 className="text-xl font-semibold text-white mb-4 tracking-tight">
               Services
             </h3>
 
-            <ul className="space-y-3 text-[15px] font-medium text-gray-200">
+            <ul className="space-y-2.5 text-[15px] font-medium text-gray-200">
               <li>
                 <Link to="/services/custom-software-development" className="hover:text-white transition-colors">
                   Software Development
@@ -87,7 +87,7 @@ export default function Footer() {
 
           {/* Column 4: Contact */}
           <div>
-            <h3 className="text-xl font-bold text-white mb-5 tracking-tight">
+            <h3 className="text-xl font-semibold text-white mb-4 tracking-tight">
               Contact
             </h3>
 

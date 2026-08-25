@@ -3,6 +3,7 @@ import { getHomeSectionContent, updateHomeSectionContent, uploadHomeMedia } from
 import { getBlogs, createBlog, updateBlog, deleteBlog } from '../../../services/blogService';
 import { getMediaUrl } from '../../../utils/imageUrl';
 import AdminHeroMediaControl from '../../../components/admin/AdminHeroMediaControl';
+import ConfirmDeleteModal from '../../../components/admin/ConfirmDeleteModal';
 
 export default function AdminBlogArticles() {
   const [gridHeader, setGridHeader] = useState({
@@ -1136,33 +1137,14 @@ export default function AdminBlogArticles() {
       )}
 
       {/* DELETE CONFIRMATION MODAL */}
-      {deleteTarget && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 border border-slate-200 space-y-4">
-            <h3 className="text-lg font-bold text-slate-900">Delete Blog Article</h3>
-            <p className="text-xs text-slate-600 leading-relaxed font-normal">
-              Are you sure you want to delete <strong className="text-slate-900">{deleteTarget.title}</strong>? This will remove the article from database and the public Blogs page.
-            </p>
-            <div className="flex justify-end gap-3 pt-2">
-              <button
-                type="button"
-                onClick={() => setDeleteTarget(null)}
-                className="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-lg"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                onClick={handleConfirmDelete}
-                disabled={saving}
-                className="px-5 py-2 text-xs font-bold text-white bg-red-600 hover:bg-red-700 rounded-lg shadow transition"
-              >
-                {saving ? 'Deleting...' : 'Confirm Delete'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <ConfirmDeleteModal
+        isOpen={Boolean(deleteTarget)}
+        onClose={() => setDeleteTarget(null)}
+        onConfirm={handleConfirmDelete}
+        title="Delete Blog Article"
+        itemName={deleteTarget?.title || 'Article'}
+        isDeleting={saving}
+      />
     </div>
   );
 }

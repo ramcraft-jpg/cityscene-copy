@@ -22,7 +22,7 @@ export default function AboutCompanySection() {
   }, []);
 
   return (
-    <section className="w-full bg-white py-12 md:py-24">
+    <section className="w-full bg-white py-12 md:py-16">
       <div className="max-w-5xl mx-auto px-6 sm:px-8 space-y-6 text-gray-700 text-base md:text-lg leading-relaxed font-normal">
         <p>
           {data.paragraph1 || defaultCompanyData.paragraph1}

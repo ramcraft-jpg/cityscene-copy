@@ -62,7 +62,7 @@ export default function Header() {
               <Link
                 key={item.name}
                 to={item.path}
-                className={`relative py-1 text-sm sm:text-sm lg:text-[15px] font-bold tracking-normal transition-colors duration-200 ${active ? 'text-gray-900 font-bold' : 'text-gray-600 hover:text-gray-900'
+                className={`relative py-1 text-sm sm:text-sm lg:text-[15px] font-medium tracking-normal transition-colors duration-200 ${active ? 'text-gray-900 font-semibold' : 'text-gray-600 hover:text-gray-900'
                   }`}
               >
                 {item.name}
@@ -78,7 +78,7 @@ export default function Header() {
             to="/admin/login"
             id="navbar-admin-btn"
             title="Admin Portal"
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200 border ${isAdminActive
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 border ${isAdminActive
               ? 'bg-orange-600 text-white border-orange-600 shadow-sm'
               : 'bg-gray-50 text-gray-600 border-gray-200 hover:bg-orange-50 hover:text-orange-600 hover:border-orange-200'
               }`}

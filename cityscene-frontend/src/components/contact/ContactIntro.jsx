@@ -27,7 +27,7 @@ export default function ContactIntro() {
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 lg:gap-12 mb-4">
           {/* Left Main Heading */}
           <div className="flex-1 max-w-lg">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-medium text-white tracking-tight leading-tight whitespace-pre-line">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-white tracking-tight leading-tight whitespace-pre-line">
               {data.heading || defaultIntro.heading}
             </h2>
           </div>

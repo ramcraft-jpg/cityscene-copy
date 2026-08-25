@@ -56,7 +56,7 @@ export default function HomeClientAdoptionSection() {
 
         {/* Right Content Section */}
         <div className="w-full lg:w-[48%] max-w-[500px] py-2 text-left flex flex-col justify-center">
-          <h2 className="text-[28px] sm:text-[32px] font-bold text-black mb-3.5 leading-[1.2] tracking-tight">
+          <h2 className="text-[28px] sm:text-[32px] font-semibold text-black mb-3.5 leading-[1.2] tracking-tight">
             {isDefaultHeading ? (
               <>
                 How do we <br />
@@ -84,7 +84,7 @@ export default function HomeClientAdoptionSection() {
           <div>
             <Link
               to={data.buttonLink || '/about'}
-              className="inline-block px-5 py-2.5 text-[14px] font-bold text-black bg-white border-2 border-black rounded-[30px] hover:bg-black hover:text-white transition-all duration-300"
+              className="inline-block px-5 py-2.5 text-[14px] font-medium text-black bg-white border-2 border-black rounded-[30px] hover:bg-black hover:text-white transition-all duration-300"
             >
               {data.buttonText || 'View All Topics'}
             </Link>

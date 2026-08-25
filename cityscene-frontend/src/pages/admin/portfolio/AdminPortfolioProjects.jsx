@@ -2,14 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getProjects, createProject, deleteProject } from '../../../services/projectService';
 import { getMediaUrl } from '../../../utils/imageUrl';
-import { Plus, Edit, Trash2, MapPin, Tag, Layers } from 'lucide-react';
+import { Plus, Edit, Trash2, MapPin, Tag, Layers, RefreshCw } from 'lucide-react';
+import ConfirmDeleteModal from '../../../components/admin/ConfirmDeleteModal';
+import ImageInputField from '../../../components/admin/ImageInputField';
+import { AdminLoadingState, AdminEmptyState } from '../../../components/admin/AdminStateFeedback';
 
 export default function AdminPortfolioProjects() {
   const navigate = useNavigate();
   const [projectsList, setProjectsList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [message, setMessage] = useState(null);
+
+  // Delete modal state
+  const [deleteTarget, setDeleteTarget] = useState(null);
 
   // New Project Creation State
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -29,6 +36,7 @@ export default function AdminPortfolioProjects() {
   const loadProjects = async () => {
     try {
       setLoading(true);
+      setMessage(null);
       const data = await getProjects(true);
       if (data) setProjectsList(data);
     } catch (err) {
@@ -72,24 +80,23 @@ export default function AdminPortfolioProjects() {
     }
   };
 
-  const handleDeleteProject = async (projectId, projectTitle) => {
-    if (!window.confirm(`Are you sure you want to delete "${projectTitle || projectId}"? This action cannot be undone.`)) {
-      return;
-    }
+  const confirmDeleteProject = async () => {
+    if (!deleteTarget) return;
     try {
-      setSaving(true);
-      await deleteProject(projectId);
-      setMessage({ type: 'success', text: 'Project deleted successfully.' });
+      setDeleting(true);
+      await deleteProject(deleteTarget.id);
+      setMessage({ type: 'success', text: `✓ Project "${deleteTarget.title}" permanently deleted.` });
+      setDeleteTarget(null);
       loadProjects();
     } catch (err) {
       setMessage({ type: 'error', text: err.message || 'Failed to delete project.' });
     } finally {
-      setSaving(false);
+      setDeleting(false);
     }
   };
 
   if (loading) {
-    return <div className="p-8 text-center text-slate-500 font-semibold">Loading Projects Management Cards...</div>;
+    return <AdminLoadingState message="Loading Portfolio Projects Management..." />;
   }
 
   return (
@@ -105,12 +112,22 @@ export default function AdminPortfolioProjects() {
           </p>
         </div>
 
-        <button
-          onClick={() => setIsAddModalOpen(true)}
-          className="px-4 py-2.5 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs rounded-xl shadow-lg transition flex items-center gap-1.5 self-start sm:self-auto"
-        >
-          <Plus className="w-4 h-4" /> Add New Project
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={loadProjects}
+            className="p-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition"
+            title="Refresh Projects List"
+          >
+            <RefreshCw className="w-4 h-4" />
+          </button>
+
+          <button
+            onClick={() => setIsAddModalOpen(true)}
+            className="px-4 py-2.5 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs rounded-xl shadow-lg transition flex items-center gap-1.5"
+          >
+            <Plus className="w-4 h-4" /> Add New Project
+          </button>
+        </div>
       </div>
 
       {/* Alert Banner */}
@@ -205,7 +222,7 @@ export default function AdminPortfolioProjects() {
                       type="button"
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleDeleteProject(projectId, proj.title);
+                        setDeleteTarget({ id: projectId, title: proj.title });
                       }}
                       className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition"
                       title="Delete Project"
@@ -232,16 +249,23 @@ export default function AdminPortfolioProjects() {
       </div>
 
       {projectsList.length === 0 && (
-        <div className="bg-white p-12 rounded-2xl border border-slate-200 text-center space-y-3">
-          <p className="text-slate-500 text-sm font-semibold">No Project Cards found in database.</p>
-          <button
-            onClick={() => setIsAddModalOpen(true)}
-            className="px-4 py-2 bg-orange-600 text-white font-bold text-xs rounded-xl shadow"
-          >
-            Create First Project
-          </button>
-        </div>
+        <AdminEmptyState
+          title="No Project Cards found"
+          description="Create your first portfolio project to display on the public website."
+          actionText="Add New Project"
+          onAction={() => setIsAddModalOpen(true)}
+        />
       )}
+
+      {/* Delete Confirmation Modal */}
+      <ConfirmDeleteModal
+        isOpen={Boolean(deleteTarget)}
+        onClose={() => setDeleteTarget(null)}
+        onConfirm={confirmDeleteProject}
+        title="Delete Portfolio Project"
+        itemName={deleteTarget?.title || 'Project'}
+        isDeleting={deleting}
+      />
 
       {/* Add New Project Modal */}
       {isAddModalOpen && (
@@ -259,13 +283,13 @@ export default function AdminPortfolioProjects() {
 
             <form onSubmit={handleCreateNewProject} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">Project Title</label>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Project Title *</label>
                 <input
                   type="text"
                   value={newProject.title}
                   onChange={(e) => setNewProject({ ...newProject, title: e.target.value })}
                   className="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg font-bold"
-                  placeholder="e.g. Commercial Solar Plant"
+                  placeholder="e.g. Commercial AI Infrastructure"
                   required
                 />
               </div>
@@ -277,7 +301,7 @@ export default function AdminPortfolioProjects() {
                   value={newProject.slug}
                   onChange={(e) => setNewProject({ ...newProject, slug: e.target.value })}
                   className="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg font-mono"
-                  placeholder="e.g. commercial-solar-plant"
+                  placeholder="e.g. commercial-ai-infrastructure"
                 />
                 <p className="text-[10px] text-slate-400 mt-1">If left empty, auto-generated from title.</p>
               </div>
@@ -290,7 +314,7 @@ export default function AdminPortfolioProjects() {
                     value={newProject.category}
                     onChange={(e) => setNewProject({ ...newProject, category: e.target.value })}
                     className="w-full px-3 py-1.5 text-xs border border-slate-300 rounded-lg"
-                    placeholder="e.g. Solar Energy"
+                    placeholder="e.g. Enterprise Software"
                   />
                 </div>
 
@@ -301,13 +325,13 @@ export default function AdminPortfolioProjects() {
                     value={newProject.location}
                     onChange={(e) => setNewProject({ ...newProject, location: e.target.value })}
                     className="w-full px-3 py-1.5 text-xs border border-slate-300 rounded-lg"
-                    placeholder="e.g. Rajasthan, India"
+                    placeholder="e.g. Jaipur, India"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">Short Description</label>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Short Description *</label>
                 <textarea
                   rows="3"
                   value={newProject.description}
@@ -318,11 +342,17 @@ export default function AdminPortfolioProjects() {
                 />
               </div>
 
+              <ImageInputField
+                label="Project Cover Image URL"
+                value={newProject.image}
+                onChange={(url) => setNewProject({ ...newProject, image: url })}
+              />
+
               <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-4 py-2 text-xs font-bold text-slate-600 bg-slate-100 rounded-lg"
+                  className="px-4 py-2 text-xs font-bold text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200 transition"
                 >
                   Cancel
                 </button>
@@ -330,7 +360,7 @@ export default function AdminPortfolioProjects() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="px-6 py-2 text-xs font-bold text-white bg-orange-600 hover:bg-orange-700 rounded-lg shadow"
+                  className="px-6 py-2 text-xs font-bold text-white bg-orange-600 hover:bg-orange-700 rounded-lg shadow transition disabled:opacity-50"
                 >
                   {saving ? 'Creating...' : 'Create & Edit Details'}
                 </button>

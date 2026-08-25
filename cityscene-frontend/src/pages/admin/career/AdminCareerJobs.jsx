@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getHomeSectionContent, updateHomeSectionContent, uploadHomeMedia } from '../../../services/homeContentService';
 import { getMediaUrl } from '../../../utils/imageUrl';
 import { getAdminToken } from '../../../services/adminAuthService';
+import ConfirmDeleteModal from '../../../components/admin/ConfirmDeleteModal';
 
 export default function AdminCareerJobs() {
   const [headerData, setHeaderData] = useState({
@@ -444,33 +445,14 @@ export default function AdminCareerJobs() {
       )}
 
       {/* DELETE CONFIRMATION MODAL */}
-      {deleteTarget && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 border border-slate-200 space-y-4">
-            <h3 className="text-lg font-bold text-slate-900">Delete Job Opening</h3>
-            <p className="text-xs text-slate-600 leading-relaxed font-normal">
-              Are you sure you want to delete <strong className="text-slate-900">{deleteTarget.title}</strong>? This will remove the job opening from MongoDB and the public Career page.
-            </p>
-            <div className="flex justify-end gap-3 pt-2">
-              <button
-                type="button"
-                onClick={() => setDeleteTarget(null)}
-                className="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-lg"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                onClick={handleConfirmDelete}
-                disabled={saving}
-                className="px-5 py-2 text-xs font-bold text-white bg-red-600 hover:bg-red-700 rounded-lg shadow transition"
-              >
-                {saving ? 'Deleting...' : 'Confirm Delete'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <ConfirmDeleteModal
+        isOpen={Boolean(deleteTarget)}
+        onClose={() => setDeleteTarget(null)}
+        onConfirm={handleConfirmDelete}
+        title="Delete Job Opening"
+        itemName={deleteTarget?.title || 'Job Opening'}
+        isDeleting={saving}
+      />
     </div>
   );
 }

@@ -33,7 +33,7 @@ export default function PortfolioProjectCard({ project }) {
 
       {/* Bottom Card Title - Bottom Left Area */}
       <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-7 z-20 text-left">
-        <h3 className="text-2xl sm:text-[28px] font-medium text-white tracking-tight leading-tight drop-shadow-md">
+        <h3 className="text-2xl sm:text-[28px] font-semibold text-white tracking-tight leading-tight drop-shadow-md">
           {project.title}
         </h3>
       </div>

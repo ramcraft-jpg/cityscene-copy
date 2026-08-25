@@ -20,7 +20,7 @@ export default function CareerJobCard({ job }) {
       {/* Content */}
       <div className="flex-1 flex flex-col items-center justify-between w-full">
         <div className="mb-4">
-          <h3 className="text-lg sm:text-xl font-bold text-white mb-2 tracking-tight drop-shadow-sm">
+          <h3 className="text-lg sm:text-xl font-semibold text-white mb-2 tracking-tight drop-shadow-sm">
             {job.title}
           </h3>
           <p className="text-xs sm:text-sm text-gray-200 font-light leading-relaxed max-w-xs mx-auto line-clamp-2">
@@ -32,7 +32,7 @@ export default function CareerJobCard({ job }) {
         <div className="pt-1 w-full flex justify-center">
           <Link
             to={`/career/apply/${jobId}`}
-            className="inline-block px-6 py-2.5 rounded-full bg-white text-gray-900 hover:bg-gray-100 font-bold text-xs sm:text-sm shadow-lg transition-all duration-300 transform hover:scale-105"
+            className="inline-block px-6 py-2.5 rounded-full bg-white text-gray-900 hover:bg-gray-100 font-medium text-xs sm:text-sm shadow-lg transition-all duration-300 transform hover:scale-105"
           >
             Apply Now
           </Link>

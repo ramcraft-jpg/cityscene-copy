@@ -145,9 +145,9 @@ export default function AdminLayout({ children }) {
   const isContactActive = location.pathname.startsWith('/admin/contact');
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col font-sans">
+    <div className="h-screen w-full overflow-hidden flex flex-col bg-slate-50 font-sans">
       {/* Top Navbar */}
-      <header className="bg-slate-900 border-b border-slate-800 text-white sticky top-0 z-30 shadow-md">
+      <header className="shrink-0 bg-slate-900 border-b border-slate-800 text-white z-30 shadow-md">
         <div className="px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
           <div className="flex items-center gap-4">
             {/* Mobile Sidebar Toggle Button */}
@@ -194,8 +194,8 @@ export default function AdminLayout({ children }) {
         </div>
       </header>
 
-      {/* Main Layout Grid */}
-      <div className="flex-1 flex overflow-hidden">
+      {/* Main Layout Area */}
+      <div className="flex-1 min-h-0 flex overflow-hidden relative">
         {/* Mobile Backdrop */}
         {sidebarOpen && (
           <div
@@ -206,11 +206,12 @@ export default function AdminLayout({ children }) {
 
         {/* Sidebar Navigation */}
         <aside
-          className={`fixed lg:sticky top-[61px] left-0 z-40 h-[calc(100vh-61px)] w-64 bg-slate-900 border-r border-slate-800 transform transition-transform duration-300 ease-in-out flex flex-col justify-between overflow-y-auto ${
+          className={`fixed lg:relative top-0 left-0 z-40 h-full w-64 bg-slate-900 border-r border-slate-800 transform transition-transform duration-300 ease-in-out flex flex-col overflow-hidden shrink-0 ${
             sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
           }`}
         >
-          <div className="p-4 space-y-6">
+          {/* Scrollable Navigation Menu Area */}
+          <nav className="sidebar-scroll flex-1 min-h-0 overflow-y-auto p-4 space-y-6">
             {/* Main Navigation */}
             <div>
               <div className="px-3 mb-2 text-[11px] font-bold tracking-wider text-slate-400 uppercase">
@@ -224,10 +225,10 @@ export default function AdminLayout({ children }) {
                       <NavLink
                         to={item.path}
                         onClick={() => setSidebarOpen(false)}
-                        className={`flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-semibold transition duration-150 ${
+                        className={`flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 ${
                           isActive
                             ? 'bg-orange-600 text-white shadow-md'
-                            : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+                            : 'text-slate-300 hover:bg-slate-800 hover:text-white hover:translate-x-1'
                         }`}
                       >
                         {item.icon}
@@ -252,10 +253,10 @@ export default function AdminLayout({ children }) {
                   <button
                     type="button"
                     onClick={() => setHomeExpanded(!homeExpanded)}
-                    className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition duration-150 ${
+                    className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
                       isHomeActive
                         ? 'bg-slate-800 text-orange-400 border-l-4 border-orange-500 font-semibold'
-                        : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
+                        : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200 hover:translate-x-1'
                     }`}
                   >
                     <div className="flex items-center gap-2.5">
@@ -279,10 +280,10 @@ export default function AdminLayout({ children }) {
                             <NavLink
                               to={sub.path}
                               onClick={() => setSidebarOpen(false)}
-                              className={`block px-3 py-1.5 rounded-md text-xs font-medium transition duration-150 ${
+                              className={`block px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200 ${
                                 isSubActive
                                   ? 'bg-orange-500/20 text-orange-400 font-semibold border-l-2 border-orange-500'
-                                  : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
+                                  : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200 hover:translate-x-1'
                               }`}
                             >
                               {sub.label}
@@ -299,10 +300,10 @@ export default function AdminLayout({ children }) {
                   <button
                     type="button"
                     onClick={() => setServicesExpanded(!servicesExpanded)}
-                    className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition duration-150 ${
+                    className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
                       isServicesActive
                         ? 'bg-slate-800 text-orange-400 border-l-4 border-orange-500 font-semibold'
-                        : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
+                        : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200 hover:translate-x-1'
                     }`}
                   >
                     <div className="flex items-center gap-2.5">
@@ -327,10 +328,10 @@ export default function AdminLayout({ children }) {
                             <NavLink
                               to={sub.path}
                               onClick={() => setSidebarOpen(false)}
-                              className={`block px-3 py-1.5 rounded-md text-xs font-medium transition duration-150 ${
+                              className={`block px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200 ${
                                 isSubActive
                                   ? 'bg-orange-500/20 text-orange-400 font-semibold border-l-2 border-orange-500'
-                                  : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
+                                  : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200 hover:translate-x-1'
                               }`}
                             >
                               {sub.label}
@@ -348,10 +349,10 @@ export default function AdminLayout({ children }) {
                                       <NavLink
                                         to={srvPath}
                                         onClick={() => setSidebarOpen(false)}
-                                        className={`block px-2 py-1 rounded text-[11px] truncate font-medium transition duration-150 ${
+                                        className={`block px-2 py-1 rounded text-[11px] truncate font-medium transition-all duration-200 ${
                                           isSrvActive
                                             ? 'text-orange-400 font-bold bg-slate-800/80'
-                                            : 'text-slate-400 hover:text-slate-200'
+                                            : 'text-slate-400 hover:text-slate-200 hover:translate-x-1'
                                         }`}
                                         title={srv.title}
                                       >
@@ -374,10 +375,10 @@ export default function AdminLayout({ children }) {
                   <button
                     type="button"
                     onClick={() => setAboutExpanded(!aboutExpanded)}
-                    className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition duration-150 ${
+                    className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
                       isAboutActive
                         ? 'bg-slate-800 text-orange-400 border-l-4 border-orange-500 font-semibold'
-                        : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
+                        : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200 hover:translate-x-1'
                     }`}
                   >
                     <div className="flex items-center gap-2.5">
@@ -401,10 +402,10 @@ export default function AdminLayout({ children }) {
                             <NavLink
                               to={sub.path}
                               onClick={() => setSidebarOpen(false)}
-                              className={`block px-3 py-1.5 rounded-md text-xs font-medium transition duration-150 ${
+                              className={`block px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200 ${
                                 isSubActive
                                   ? 'bg-orange-500/20 text-orange-400 font-semibold border-l-2 border-orange-500'
-                                  : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
+                                  : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200 hover:translate-x-1'
                               }`}
                             >
                               {sub.label}
@@ -421,10 +422,10 @@ export default function AdminLayout({ children }) {
                   <button
                     type="button"
                     onClick={() => setCareerExpanded(!careerExpanded)}
-                    className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition duration-150 ${
+                    className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
                       isCareerActive
                         ? 'bg-slate-800 text-orange-400 border-l-4 border-orange-500 font-semibold'
-                        : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
+                        : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200 hover:translate-x-1'
                     }`}
                   >
                     <div className="flex items-center gap-2.5">
@@ -448,10 +449,10 @@ export default function AdminLayout({ children }) {
                             <NavLink
                               to={sub.path}
                               onClick={() => setSidebarOpen(false)}
-                              className={`block px-3 py-1.5 rounded-md text-xs font-medium transition duration-150 ${
+                              className={`block px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200 ${
                                 isSubActive
                                   ? 'bg-orange-500/20 text-orange-400 font-semibold border-l-2 border-orange-500'
-                                  : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
+                                  : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200 hover:translate-x-1'
                               }`}
                             >
                               {sub.label}
@@ -468,10 +469,10 @@ export default function AdminLayout({ children }) {
                   <button
                     type="button"
                     onClick={() => setPortfolioExpanded(!portfolioExpanded)}
-                    className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition duration-150 ${
+                    className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
                       isPortfolioActive
                         ? 'bg-slate-800 text-orange-400 border-l-4 border-orange-500 font-semibold'
-                        : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
+                        : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200 hover:translate-x-1'
                     }`}
                   >
                     <div className="flex items-center gap-2.5">
@@ -495,10 +496,10 @@ export default function AdminLayout({ children }) {
                             <NavLink
                               to={sub.path}
                               onClick={() => setSidebarOpen(false)}
-                              className={`block px-3 py-1.5 rounded-md text-xs font-medium transition duration-150 ${
+                              className={`block px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200 ${
                                 isSubActive
                                   ? 'bg-orange-500/20 text-orange-400 font-semibold border-l-2 border-orange-500'
-                                  : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
+                                  : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200 hover:translate-x-1'
                               }`}
                             >
                               {sub.label}
@@ -515,10 +516,10 @@ export default function AdminLayout({ children }) {
                   <button
                     type="button"
                     onClick={() => setBlogsExpanded(!blogsExpanded)}
-                    className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition duration-150 ${
+                    className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
                       isBlogsActive
                         ? 'bg-slate-800 text-orange-400 border-l-4 border-orange-500 font-semibold'
-                        : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
+                        : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200 hover:translate-x-1'
                     }`}
                   >
                     <div className="flex items-center gap-2.5">
@@ -542,10 +543,10 @@ export default function AdminLayout({ children }) {
                             <NavLink
                               to={sub.path}
                               onClick={() => setSidebarOpen(false)}
-                              className={`block px-3 py-1.5 rounded-md text-xs font-medium transition duration-150 ${
+                              className={`block px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200 ${
                                 isSubActive
                                   ? 'bg-orange-500/20 text-orange-400 font-semibold border-l-2 border-orange-500'
-                                  : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
+                                  : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200 hover:translate-x-1'
                               }`}
                             >
                               {sub.label}
@@ -562,10 +563,10 @@ export default function AdminLayout({ children }) {
                   <button
                     type="button"
                     onClick={() => setContactExpanded(!contactExpanded)}
-                    className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition duration-150 ${
+                    className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
                       isContactActive
                         ? 'bg-slate-800 text-orange-400 border-l-4 border-orange-500 font-semibold'
-                        : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
+                        : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200 hover:translate-x-1'
                     }`}
                   >
                     <div className="flex items-center gap-2.5">
@@ -589,10 +590,10 @@ export default function AdminLayout({ children }) {
                             <NavLink
                               to={sub.path}
                               onClick={() => setSidebarOpen(false)}
-                              className={`block px-3 py-1.5 rounded-md text-xs font-medium transition duration-150 ${
+                              className={`block px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200 ${
                                 isSubActive
                                   ? 'bg-orange-500/20 text-orange-400 font-semibold border-l-2 border-orange-500'
-                                  : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
+                                  : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200 hover:translate-x-1'
                               }`}
                             >
                               {sub.label}
@@ -605,18 +606,20 @@ export default function AdminLayout({ children }) {
                 </li>
               </ul>
             </div>
-          </div>
+          </nav>
 
           {/* Footer Metadata */}
-          <div className="p-4 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+          <footer className="shrink-0 p-4 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between bg-slate-900">
             <span>CityScene Global v2.0</span>
-            <span className="w-2 h-2 rounded-full bg-emerald-500" title="Connected to MongoDB" />
-          </div>
+            <span className="w-2 h-2 rounded-full bg-emerald-500" title="Connected" />
+          </footer>
         </aside>
 
         {/* Main Content Area */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto max-w-7xl w-full mx-auto">
-          {children || <Outlet />}
+        <main className="flex-1 min-w-0 h-full overflow-y-auto p-4 sm:p-6 lg:p-8">
+          <div className="max-w-7xl w-full mx-auto">
+            {children || <Outlet />}
+          </div>
         </main>
       </div>
     </div>

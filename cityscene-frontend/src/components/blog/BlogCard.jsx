@@ -79,13 +79,13 @@ export default function BlogCard({ blog }) {
           )}
 
           {/* Title */}
-          <h3 className="text-gray-900 font-medium text-lg md:text-xl leading-snug group-hover:text-blue-600 transition-colors line-clamp-2">
+          <h3 className="text-gray-900 font-semibold text-lg md:text-xl leading-snug group-hover:text-blue-600 transition-colors line-clamp-2">
             {blog.title}
           </h3>
 
           {/* Summary / Description */}
           {blog.summary && (
-            <p className="text-gray-600 text-xs sm:text-sm line-clamp-2 leading-relaxed font-light">
+            <p className="text-gray-600 text-xs sm:text-sm line-clamp-2 leading-relaxed font-normal">
               {blog.summary}
             </p>
           )}
