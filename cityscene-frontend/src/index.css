@@ -165,18 +165,75 @@ html {
   padding-bottom: 2rem;
 }
 
-/* Mobile */
-
+/* Mobile (< 768px) */
 @media (max-width: 768px) {
-
   .section-viewport,
   .section-viewport-hero {
     min-height: auto;
-
     justify-content: flex-start;
-
     padding-top: 2rem;
     padding-bottom: 3rem;
   }
-
 }
+
+/* ==========================================================================
+   Comprehensive Responsive Media Queries for All Viewports & Devices
+   ========================================================================== */
+
+/* 1. Large Desktop Displays (1440px and wider) */
+@media (min-width: 1440px) {
+  .container-wide {
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* 2. Standard Laptops & MacBooks (1024px to 1439px) */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .laptop-responsive-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+  .laptop-padding {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* 3. Tablets & Small Laptops (768px to 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .tablet-responsive-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .tablet-stack {
+    flex-direction: column;
+  }
+}
+
+/* 4. Mobile Smartphones (under 768px) */
+@media (max-width: 767px) {
+  html, body {
+    overflow-x: hidden;
+  }
+  .mobile-full-width {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .mobile-text-center {
+    text-align: center;
+  }
+  .mobile-p-4 {
+    padding: 1rem;
+  }
+  .mobile-stack {
+    flex-direction: column;
+  }
+  /* Responsive Table Container */
+  .table-responsive-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
