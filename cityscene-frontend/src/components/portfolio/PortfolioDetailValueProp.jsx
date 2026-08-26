@@ -12,7 +12,7 @@ export default function PortfolioDetailValueProp({ project }) {
   const bgImage = getMediaUrl(rawBgImage);
 
   return (
-    <section className="relative w-full text-white py-20 md:py-28 overflow-hidden bg-gray-900">
+    <section className="relative w-full text-white py-12 md:py-16 overflow-hidden bg-gray-900">
       {/* 1. Project Background Image (Covers full section behind cards) */}
       <div className="absolute inset-0 z-0">
         <img
@@ -28,7 +28,7 @@ export default function PortfolioDetailValueProp({ project }) {
       {/* 3. Section Content Layer */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Heading */}
-        <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-medium text-white tracking-tight text-center mb-16">
+        <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-medium text-white tracking-tight text-center mb-8 sm:mb-10">
           Core Value <span className="border-b-2 border-white pb-1">Proposition</span>
         </h2>
 
@@ -37,7 +37,7 @@ export default function PortfolioDetailValueProp({ project }) {
           {valuePropositions.map((val, idx) => (
             <div
               key={idx}
-              className="bg-black/65 backdrop-blur-md border border-white/20 rounded-2xl p-8 flex flex-col justify-start hover:border-white/50 transition-all duration-300 shadow-2xl"
+              className="bg-black/65 backdrop-blur-md border border-white/20 rounded-2xl p-5 sm:p-6 flex flex-col justify-start hover:border-white/50 transition-all duration-300 shadow-2xl"
             >
               <h3 className="text-xl sm:text-2xl font-medium text-white mb-3 tracking-tight">
                 {val.title}

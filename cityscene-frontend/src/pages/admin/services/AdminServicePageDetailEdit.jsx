@@ -97,7 +97,7 @@ export default function AdminServicePageDetailEdit() {
       setServiceData((prev) => ({
         ...prev,
         [fieldKey]: fileUrl,
-        ...(fieldKey === 'heroImage' && !prev.image ? { image: fileUrl } : {})
+        ...(fieldKey === 'heroImage' ? { image: fileUrl, heroImage: fileUrl } : {})
       }));
       setMessage({ type: 'success', text: 'Media file uploaded successfully.' });
     } catch (err) {
@@ -536,6 +536,44 @@ export default function AdminServicePageDetailEdit() {
                   className="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg"
                   placeholder="e.g. Empowering organizations with robust software solutions."
                 />
+              </div>
+            </div>
+
+            {/* Why Choose Us Background Image */}
+            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+              <label className="block text-xs font-bold text-slate-700">Why Choose Us Background Image</label>
+              <div className="flex flex-col sm:flex-row items-center gap-4">
+                <div className="w-44 h-24 rounded-lg overflow-hidden bg-slate-900 shrink-0 border border-slate-300 relative flex items-center justify-center">
+                  {serviceData.whyChooseImage ? (
+                    <img
+                      src={getMediaUrl(serviceData.whyChooseImage)}
+                      alt="Why Choose Us Preview"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <span className="text-slate-400 text-xs font-medium">Default Image</span>
+                  )}
+                </div>
+                <div className="flex-1 space-y-2 w-full">
+                  <input
+                    type="text"
+                    value={serviceData.whyChooseImage || ''}
+                    onChange={(e) => setServiceData({ ...serviceData, whyChooseImage: e.target.value })}
+                    className="w-full px-3 py-1.5 text-xs border border-slate-300 rounded-lg bg-white font-mono"
+                    placeholder="e.g. /uploads/why-choose-bg.jpg or https://..."
+                  />
+                  <label className="cursor-pointer px-4 py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-lg transition inline-flex items-center gap-1.5">
+                    <ImageIcon className="w-3.5 h-3.5 text-orange-400" />
+                    <span>{uploading ? 'Uploading...' : 'Replace Section Background Image'}</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleMediaUpload(e, 'whyChooseImage')}
+                      disabled={uploading}
+                      className="hidden"
+                    />
+                  </label>
+                </div>
               </div>
             </div>
 

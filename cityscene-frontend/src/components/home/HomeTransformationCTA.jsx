@@ -33,7 +33,7 @@ export default function HomeTransformationCTA() {
   const isDefaultHeading = headingText.toLowerCase().includes('transformation starts here');
 
   return (
-    <section className="w-full bg-white text-black py-12 sm:py-16 flex items-center justify-center border-b border-gray-100">
+    <section className="w-full bg-white text-black py-10 sm:py-12 flex items-center justify-center border-b border-gray-100">
       <div className="w-full max-w-[1100px] mx-auto px-6 sm:px-10 flex flex-col md:flex-row items-center justify-center">
         
         {/* Left Side */}

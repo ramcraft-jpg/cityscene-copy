@@ -33,12 +33,12 @@ export default function HomeClientAdoptionSection() {
   const isDefaultHeading = headingText.toLowerCase().includes('how do we serve the client');
 
   return (
-    <section className="w-full bg-white py-14 sm:py-16 lg:py-20 flex items-center justify-center border-b border-gray-100">
+    <section className="w-full bg-white py-12 sm:py-14 lg:py-16 flex items-center justify-center border-b border-gray-100">
       <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-center">
         
         {/* Left Image Container */}
         <div className="w-full lg:w-[34%] max-w-[360px] lg:max-w-[400px] flex justify-center items-center shrink-0">
-          <div className="w-full h-[360px] sm:h-[420px] lg:h-[460px] rounded-[10px] overflow-hidden shadow-sm">
+          <div className="w-full h-[320px] sm:h-[380px] lg:h-[400px] rounded-[10px] overflow-hidden shadow-sm">
             <img
               src={imageSrc}
               alt="How do we serve the client"

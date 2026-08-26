@@ -14,7 +14,7 @@ export default function WhatWeDoDetailHero({ service }) {
 
   // Dynamically retrieve the respective service card image
   const imageSrc = getMediaUrl(
-    service.image || service.heroImage || service.backgroundImage
+    service.heroImage || service.image || service.backgroundImage
   );
 
   const isVideoMode =
@@ -37,7 +37,7 @@ export default function WhatWeDoDetailHero({ service }) {
             loop
             muted
             playsInline
-            className="absolute inset-0 w-full h-full object-cover object-center"
+            className="absolute inset-0 w-full h-full object-contain object-center"
             onError={(e) => {
               e.target.style.display = 'none';
             }}
@@ -54,7 +54,7 @@ export default function WhatWeDoDetailHero({ service }) {
       </div>
 
       {/* Right Column: Spacious Content Area (~54% width) */}
-      <div className="w-full lg:w-[54%] flex flex-col justify-center text-left px-8 sm:px-14 lg:pl-20 lg:pr-24 py-14 lg:py-20 bg-white">
+      <div className="w-full lg:w-[54%] flex flex-col justify-center text-left px-8 sm:px-14 lg:pl-16 lg:pr-20 py-10 lg:py-14 bg-white">
         
         {/* Category Label */}
         <div>
@@ -62,16 +62,16 @@ export default function WhatWeDoDetailHero({ service }) {
             {topicLabel}
           </span>
           {/* Short Underline (75px) */}
-          <div className="w-[75px] h-[2.5px] bg-black mt-3 mb-8 sm:mb-10" />
+          <div className="w-[75px] h-[2.5px] bg-black mt-2 mb-6 sm:mb-8" />
         </div>
 
         {/* Large Service Title */}
-        <h1 className="text-3xl sm:text-4xl lg:text-[50px] font-medium text-gray-900 tracking-tight leading-[1.18] mb-6 sm:mb-8 whitespace-pre-line">
+        <h1 className="text-3xl sm:text-4xl lg:text-[46px] font-medium text-gray-900 tracking-tight leading-[1.18] mb-4 sm:mb-6 whitespace-pre-line">
           {service.displayTitle || service.title}
         </h1>
 
         {/* Short Service Description */}
-        <p className="text-base sm:text-lg text-gray-600 leading-relaxed font-normal mb-8 sm:mb-10 max-w-xl">
+        <p className="text-base sm:text-lg text-gray-600 leading-relaxed font-normal mb-6 sm:mb-8 max-w-xl">
           {service.heroDesc || service.shortDesc}
         </p>
 
@@ -79,7 +79,7 @@ export default function WhatWeDoDetailHero({ service }) {
         <div>
           <Link
             to="/about"
-            className="inline-flex items-center justify-center px-9 py-3.5 rounded-[6px] border-2 border-black bg-transparent text-black font-semibold text-sm tracking-wide hover:bg-black hover:text-white transition-all duration-300"
+            className="inline-flex items-center justify-center px-7 py-3 rounded-[6px] border-2 border-black bg-transparent text-black font-medium text-sm tracking-wide hover:bg-black hover:text-white transition-all duration-300"
           >
             About Us
           </Link>

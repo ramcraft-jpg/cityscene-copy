@@ -49,7 +49,7 @@ export default function Blog() {
         <BlogHero />
 
         {/* Technology Introduction Section matching reference website */}
-        <section className="w-full bg-white text-black py-16 md:py-24 border-t border-b border-gray-100">
+        <section className="w-full bg-white text-black py-12 md:py-16 border-t border-b border-gray-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row items-center justify-between gap-8 lg:gap-16">
               {/* Left Main Heading */}
@@ -79,12 +79,12 @@ export default function Blog() {
 
         {/* Blog Grid Section */}
         {loading ? (
-          <div className="bg-black py-24 text-center text-white">
+          <div className="bg-black py-16 text-center text-white">
             <div className="w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
             <p className="text-sm font-medium">Loading insights...</p>
           </div>
         ) : error ? (
-          <div className="bg-black py-24 text-center text-red-400">
+          <div className="bg-black py-16 text-center text-red-400">
             <p className="text-lg font-semibold mb-2">Unable to load blog articles</p>
             <p className="text-sm text-red-300">{error}</p>
           </div>

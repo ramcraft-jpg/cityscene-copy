@@ -24,7 +24,7 @@ export default function ServiceDetailPlaceholder() {
       .then((data) => {
         const local = servicesData.find((s) => s.id === targetId || s.path?.endsWith(targetId));
         if (data) {
-          setService(local ? { ...data, ...local } : data);
+          setService(local ? { ...local, ...data } : data);
         } else if (local) {
           setService(local);
         } else {

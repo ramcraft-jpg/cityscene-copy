@@ -10,17 +10,17 @@ export default function PortfolioDetailModules({ project }) {
   if (!capabilities || capabilities.length === 0) return null;
 
   return (
-    <section className="w-full bg-white py-12 md:py-16 border-t border-gray-100">
+    <section className="w-full bg-white py-10 md:py-12 border-t border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 items-start">
           {/* Left Column: Title & Overview */}
           <div className="md:col-span-5 flex flex-col items-start">
-            <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-semibold text-gray-900 tracking-tight leading-[1.2] mb-6">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-gray-900 tracking-tight leading-[1.2] mb-4">
               {modulesTitle}
             </h2>
 
             {/* Short Underline below category */}
-            <div className="w-16 h-[2px] bg-gray-900 mb-8" />
+            <div className="w-16 h-[2px] bg-gray-900 mb-6" />
 
             <p className="text-base sm:text-lg text-gray-600 leading-relaxed max-w-md font-normal">
               {summaryNote}

@@ -97,7 +97,7 @@ export default function ContactHero() {
   const isVideoMode = heroData.backgroundMediaType === 'video' || (heroData.backgroundMediaType !== 'image' && !!bgVideo);
 
   return (
-    <section className="group relative w-full bg-[#1c1917] text-white min-h-[500px] sm:min-h-[560px] lg:min-h-[620px] flex items-center py-12 lg:py-16 overflow-hidden">
+    <section className="relative w-full h-screen overflow-hidden flex items-center justify-center text-white text-left">
       {/* Background Overhead Image / Video Layer */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         {isVideoMode && bgVideo ? (
@@ -108,7 +108,7 @@ export default function ContactHero() {
             muted
             playsInline
             poster={bgImage}
-            className="w-full h-full object-cover object-center transform scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
+            className="absolute inset-0 w-full h-full object-cover object-center"
             src={bgVideo}
             onError={(e) => {
               e.target.style.display = 'none';
@@ -120,10 +120,10 @@ export default function ContactHero() {
           <img
             src={bgImage}
             alt="Contact Us Background"
-            className="w-full h-full object-cover object-center transform scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
+            className="absolute inset-0 w-full h-full object-cover object-center"
           />
         )}
-        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors duration-700 pointer-events-none" />
+        <div className="absolute inset-0 bg-black/40 pointer-events-none z-[1]" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
@@ -131,7 +131,7 @@ export default function ContactHero() {
           
           {/* Left Column: Heading and Messaging */}
           <div className="lg:col-span-6 text-left">
-            <div className="text-xs sm:text-sm font-bold uppercase tracking-widest text-white mb-2">
+            <div className="text-xs sm:text-sm font-medium uppercase tracking-widest text-white mb-2">
               {heroData.subheading || defaultHero.subheading}
             </div>
 
@@ -139,8 +139,8 @@ export default function ContactHero() {
             <div className="w-full max-w-[340px] sm:max-w-[380px] h-[1.5px] bg-white/90 mb-5" />
 
             <h1
-              className="text-5xl sm:text-6xl lg:text-[72px] font-extrabold text-white tracking-tight leading-[1.05] mb-4 whitespace-pre-line"
-              style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 800 }}
+              className="text-4xl sm:text-5xl lg:text-6xl font-semibold text-white tracking-tight leading-[1.05] mb-4 whitespace-pre-line"
+              style={{ fontFamily: "'Montserrat', sans-serif" }}
             >
               {heroData.title || defaultHero.title}
             </h1>
@@ -176,7 +176,7 @@ export default function ContactHero() {
               <form onSubmit={handleSubmit} className="space-y-3.5" noValidate>
                 {/* Full Name */}
                 <div>
-                  <label htmlFor="fullName" className="block text-xs font-bold text-white mb-1 tracking-wide">
+                  <label htmlFor="fullName" className="block text-xs font-medium text-white mb-1 tracking-wide">
                     Full Name
                   </label>
                   <input
@@ -202,7 +202,7 @@ export default function ContactHero() {
 
                 {/* Email */}
                 <div>
-                  <label htmlFor="email" className="block text-xs font-bold text-white mb-1 tracking-wide">
+                  <label htmlFor="email" className="block text-xs font-medium text-white mb-1 tracking-wide">
                     Email
                   </label>
                   <input
@@ -228,7 +228,7 @@ export default function ContactHero() {
 
                 {/* Phone No */}
                 <div>
-                  <label htmlFor="phone" className="block text-xs font-bold text-white mb-1 tracking-wide">
+                  <label htmlFor="phone" className="block text-xs font-medium text-white mb-1 tracking-wide">
                     Phone No
                   </label>
                   <input
@@ -254,7 +254,7 @@ export default function ContactHero() {
 
                 {/* Message */}
                 <div>
-                  <label htmlFor="message" className="block text-xs font-bold text-white mb-1 tracking-wide">
+                  <label htmlFor="message" className="block text-xs font-medium text-white mb-1 tracking-wide">
                     Message
                   </label>
                   <textarea
@@ -283,7 +283,7 @@ export default function ContactHero() {
                   <button
                     type="submit"
                     disabled={status === 'loading'}
-                    className="inline-flex items-center justify-center gap-2 px-6 py-2 bg-[#00bcd4] hover:bg-[#00acc1] text-white font-semibold text-xs sm:text-sm rounded-lg transition-all shadow-md active:scale-95 disabled:opacity-60"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-2 bg-[#00bcd4] hover:bg-[#00acc1] text-white font-medium text-xs sm:text-sm rounded-lg transition-all shadow-md active:scale-95 disabled:opacity-60"
                   >
                     {status === 'loading' ? (
                       <>

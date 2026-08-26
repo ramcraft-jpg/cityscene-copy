@@ -11,7 +11,7 @@ export default function BlogGrid({ blogs }) {
   }
 
   return (
-    <section className="w-full bg-black py-16 lg:py-24">
+    <section className="w-full bg-black py-12 lg:py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Grid Container */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">

@@ -31,10 +31,10 @@ export default function HomeWhatPeopleAreSaying() {
 
   return (
     <section
-      className="w-full bg-white text-black py-16 px-5 text-center overflow-hidden relative"
+      className="w-full bg-white text-black py-12 sm:py-14 px-5 text-center overflow-hidden relative"
       style={{ clipPath: 'polygon(0% 0%, 100% 0%, 100% 85%, 50% 100%, 0% 85%)' }}
     >
-      <div className="max-w-[800px] mx-auto w-full text-center pb-12">
+      <div className="max-w-[800px] mx-auto w-full text-center pb-6">
 
         <h2 className="text-2xl font-medium text-black mb-8">
           {data.heading || 'What People Are Saying?'}

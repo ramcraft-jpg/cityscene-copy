@@ -35,7 +35,7 @@ export default function Portfolio() {
 
         {/* Our Projects Grid Section */}
         {loading ? (
-          <div className="bg-black py-24 text-center text-white">
+          <div className="bg-black py-16 text-center text-white">
             <div className="w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
             <p className="text-sm font-medium">Loading portfolio projects...</p>
           </div>

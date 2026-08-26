@@ -20,9 +20,9 @@ export default function WhatWeDoDetailIntro({ service }) {
   if (paragraphs.length === 0) return null;
 
   return (
-    <section className="w-full bg-white py-10 sm:py-14 md:py-16">
+    <section className="w-full bg-white py-8 sm:py-10 md:py-12">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-neutral-50 border-l-[6px] border-black rounded-2xl p-6 sm:p-10 md:p-12 text-left shadow-sm">
+        <div className="bg-neutral-50 border-l-[6px] border-black rounded-2xl p-5 sm:p-7 md:p-8 text-left shadow-sm">
           <div className="text-neutral-700 leading-relaxed text-base sm:text-lg lg:text-xl space-y-6 font-normal">
             {paragraphs.map((para, idx) => {
               if (para.startsWith('At CityScene Global')) {

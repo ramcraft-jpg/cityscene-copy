@@ -92,7 +92,7 @@ export default function CareerContactSection() {
         <h2 className="text-4xl sm:text-5xl font-semibold text-white tracking-tight mb-3">
           {header.heading || defaultHeader.heading}
         </h2>
-        <p className="text-base sm:text-lg text-gray-300 mb-10">
+        <p className="text-base sm:text-lg text-gray-300 mb-6">
           {header.subtitle || defaultHeader.subtitle}
         </p>
 
@@ -192,7 +192,7 @@ export default function CareerContactSection() {
             <button
               type="submit"
               disabled={status === 'loading'}
-              className="w-full py-3.5 px-6 rounded-full bg-white hover:bg-gray-100 text-gray-900 font-bold text-base shadow-md hover:shadow-lg transition-all active:scale-[0.99] disabled:opacity-70 flex items-center justify-center gap-2"
+              className="w-full py-3.5 px-6 rounded-full bg-white hover:bg-gray-100 text-gray-900 font-medium text-base shadow-md hover:shadow-lg transition-all active:scale-[0.99] disabled:opacity-70 flex items-center justify-center gap-2"
             >
               {status === 'loading' ? (
                 <>

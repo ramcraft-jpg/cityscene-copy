@@ -23,7 +23,7 @@ export default function Footer() {
               </div>
 
               <div className="flex flex-col text-left">
-                <span className="text-lg font-bold tracking-tight text-white leading-none">
+                <span className="text-lg font-semibold tracking-tight text-white leading-none">
                   CityScene
                 </span>
                 <span className="text-sm font-semibold text-white leading-none mt-0.5">

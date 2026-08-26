@@ -18,7 +18,7 @@ export default function PortfolioDetailHero({ project, categoryCaps, titleSystem
   return (
     <section className="w-full bg-white border-b border-gray-100 min-h-[580px] lg:min-h-[700px] flex flex-col lg:flex-row items-stretch overflow-hidden">
       {/* LEFT HALF: Full-height Split-Screen Image / Video (0 Left Margin, Full Height) */}
-      <div className="w-full lg:w-1/2 shrink-0 min-h-[360px] sm:min-h-[450px] lg:min-h-[640px] relative overflow-hidden bg-gray-900">
+      <div className="w-full lg:w-1/2 shrink-0 min-h-[360px] sm:min-h-[460px] lg:min-h-[640px] relative overflow-hidden bg-gray-900">
         {isVideoMode && videoSrc ? (
           <video
             ref={videoRef}
@@ -28,7 +28,7 @@ export default function PortfolioDetailHero({ project, categoryCaps, titleSystem
             loop
             muted
             playsInline
-            className="w-full h-full object-cover object-center"
+            className="w-full h-full object-contain object-center"
             onError={(e) => {
               e.target.style.display = 'none';
             }}
@@ -46,7 +46,7 @@ export default function PortfolioDetailHero({ project, categoryCaps, titleSystem
       </div>
 
       {/* RIGHT HALF: Project Information Content */}
-      <div className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-12 lg:px-16 xl:px-20 py-12 lg:py-20 text-left bg-white">
+      <div className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-12 lg:px-16 xl:px-20 py-10 lg:py-14 text-left bg-white">
         <div className="max-w-xl w-full">
           {/* Category / Subheading */}
           <span className="text-xs sm:text-sm font-semibold tracking-[0.2em] text-gray-900 uppercase mb-2 block">
@@ -54,15 +54,15 @@ export default function PortfolioDetailHero({ project, categoryCaps, titleSystem
           </span>
 
           {/* Small Horizontal Line */}
-          <div className="w-12 h-[2.5px] bg-gray-900 mb-6 sm:mb-8" />
+          <div className="w-12 h-[2.5px] bg-gray-900 mb-5 sm:mb-6" />
 
           {/* Project Title */}
-          <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-bold text-gray-900 tracking-tight leading-[1.18] mb-6">
+          <h1 className="text-3xl sm:text-4xl lg:text-[40px] font-semibold text-gray-900 tracking-tight leading-[1.18] mb-5">
             {titleSystem}
           </h1>
 
           {/* Full Description (Multiple lines of content) */}
-          <div className="space-y-4 text-base sm:text-lg text-gray-600 font-light leading-relaxed mb-8">
+          <div className="space-y-4 text-base sm:text-lg text-gray-600 font-light leading-relaxed mb-6">
             {displayParas.map((para, idx) => (
               <p key={idx}>{para}</p>
             ))}
@@ -72,7 +72,7 @@ export default function PortfolioDetailHero({ project, categoryCaps, titleSystem
           <div>
             <button
               onClick={onOpenDemo}
-              className="px-8 py-3.5 bg-gray-900 hover:bg-black text-white font-bold text-sm sm:text-base rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
+              className="px-6 py-3 bg-gray-900 hover:bg-black text-white font-medium text-sm sm:text-base rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
             >
               Request Demo
             </button>

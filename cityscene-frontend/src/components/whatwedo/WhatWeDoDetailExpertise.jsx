@@ -12,7 +12,7 @@ export default function WhatWeDoDetailExpertise({ service }) {
     <>
       {/* 1. Main Expertise Rail Section */}
       {hasExpertise && (
-        <section className="w-full bg-white py-12 md:py-16 border-t border-gray-100">
+        <section className="w-full bg-white py-10 md:py-12 border-t border-gray-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
               <div className="lg:col-span-5 space-y-3">
@@ -44,18 +44,18 @@ export default function WhatWeDoDetailExpertise({ service }) {
 
       {/* 2. Explore Our Custom Software Development Expertise (Exact CityScene Global Black Grid Section) */}
       {hasSoftwareTypes && (
-        <section className="w-full bg-black text-white py-12 sm:py-16 border-t border-zinc-900">
+        <section className="w-full bg-black text-white py-10 sm:py-12 border-t border-zinc-900">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-left">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-white text-left mb-8 md:mb-10 tracking-tight leading-snug">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-white text-left mb-6 md:mb-8 tracking-tight leading-snug">
               {service.softwareTypesTitle || 'Explore Our Custom Software Development Expertise'}
             </h2>
 
             {/* Grid matching reference website (3 cols on lg desktop, 2 cols on md tablet, 1 col on mobile) */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
               {service.softwareTypesItems.map((st, idx) => (
                 <div
                   key={idx}
-                  className="bg-black border border-[#333333] p-6 sm:p-7 rounded-none text-left flex flex-col justify-start"
+                  className="bg-black border border-[#333333] p-5 sm:p-6 rounded-none text-left flex flex-col justify-start"
                 >
                   <h3 className="text-lg sm:text-xl font-semibold text-white mb-3 tracking-tight leading-snug">
                     {st.title}

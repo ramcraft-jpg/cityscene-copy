@@ -112,7 +112,7 @@ export default function JobApplication() {
       <Header />
       <main className="flex-grow relative">
         {/* Full-width Background Image (Clean without black shadow overlay) */}
-        <div className="relative w-full min-h-[700px] lg:min-h-[800px] bg-gray-100 overflow-hidden py-12 md:py-20 flex items-center">
+        <div className="relative w-full min-h-[550px] lg:min-h-[650px] bg-gray-100 overflow-hidden py-10 md:py-14 flex items-center">
           <div className="absolute inset-0 z-0">
             <img
               src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1920&q=80"
@@ -134,7 +134,7 @@ export default function JobApplication() {
 
               {/* Apply Online White Form Card (Side Aligned) */}
               <div className="w-full max-w-md bg-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-gray-100 text-gray-900">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6 text-left">
+                <h2 className="text-2xl font-semibold text-gray-900 mb-6 text-left">
                   Apply Online
                 </h2>
 
@@ -184,7 +184,7 @@ export default function JobApplication() {
 
                   {/* Phone Number */}
                   <div>
-                    <label className="block text-xs font-semibold text-gray-600 mb-1">
+                    <label className="block text-xs font-medium text-gray-600 mb-1">
                       Phone Number:
                     </label>
                     <input
@@ -202,7 +202,7 @@ export default function JobApplication() {
 
                   {/* Your Message */}
                   <div>
-                    <label className="block text-xs font-semibold text-gray-600 mb-1">
+                    <label className="block text-xs font-medium text-gray-600 mb-1">
                       Your Message:
                     </label>
                     <textarea
@@ -217,7 +217,7 @@ export default function JobApplication() {
 
                   {/* Position Dropdown */}
                   <div>
-                    <label className="block text-xs font-semibold text-gray-600 mb-1">
+                    <label className="block text-xs font-medium text-gray-600 mb-1">
                       Position:
                     </label>
                     <select
@@ -240,7 +240,7 @@ export default function JobApplication() {
 
                   {/* Upload Resume */}
                   <div>
-                    <label className="block text-xs font-semibold text-gray-600 mb-1">
+                    <label className="block text-xs font-medium text-gray-600 mb-1">
                       Upload Resume:
                     </label>
                     <input
@@ -248,7 +248,7 @@ export default function JobApplication() {
                       name="resume"
                       accept=".pdf,.doc,.docx"
                       onChange={handleChange}
-                      className="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 border border-gray-200 rounded-lg p-1"
+                      className="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-xs file:font-medium file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 border border-gray-200 rounded-lg p-1"
                     />
                     {errors.resume && (
                       <p className="text-xs text-red-500 mt-1">{errors.resume}</p>
@@ -260,7 +260,7 @@ export default function JobApplication() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full py-3 px-6 rounded-full bg-gray-900 hover:bg-gray-800 text-white font-semibold text-sm transition-all shadow-md focus:outline-none focus:ring-2 focus:ring-gray-900 disabled:opacity-50"
+                      className="w-full py-3 px-6 rounded-full bg-gray-900 hover:bg-gray-800 text-white font-medium text-sm transition-all shadow-md focus:outline-none focus:ring-2 focus:ring-gray-900 disabled:opacity-50"
                     >
                       {isSubmitting ? 'Submitting...' : 'Submit & Continue'}
                     </button>

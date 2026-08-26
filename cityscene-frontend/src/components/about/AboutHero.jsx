@@ -37,7 +37,7 @@ export default function AboutHero() {
   const isVideoMode = data.backgroundMediaType === 'video' || (data.backgroundMediaType !== 'image' && !!rawBgVideo) || (!!rawBgVideo && !data.backgroundMediaType);
 
   return (
-    <section className="group relative w-full min-h-[500px] lg:min-h-[580px] bg-black overflow-hidden flex items-center">
+    <section className="relative w-full h-screen overflow-hidden flex items-center justify-center text-white text-left">
       {/* Background Media Layer */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         {isVideoMode && bgVideo ? (
@@ -48,7 +48,7 @@ export default function AboutHero() {
             muted
             playsInline
             poster={bgImage}
-            className="w-full h-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
+            className="absolute inset-0 w-full h-full object-cover object-center"
             src={bgVideo}
             onError={(e) => {
               e.target.style.display = 'none';
@@ -59,38 +59,37 @@ export default function AboutHero() {
         {(!isVideoMode || !bgVideo) && (
           <img
             src={bgImage}
-            alt="Tech team and business innovation atmosphere"
-            className="w-full h-full object-cover object-center transform scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
+            alt="About CityScene Global"
+            className="absolute inset-0 w-full h-full object-cover object-center"
           />
         )}
-        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/25 transition-colors duration-700 pointer-events-none" />
       </div>
 
       {/* Hero Content Overlay */}
-      <div className="absolute top-[40%] left-[5%] -translate-y-1/2 z-10 max-w-[85%] md:max-w-[50vw] text-left text-white">
-        {/* Small Text Label with 80vw Horizontal Line */}
-        <div className="relative text-[0.8rem] font-medium uppercase tracking-[1px] text-white pt-2 mb-5 pb-1">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-12 text-left text-white w-full">
+        {/* Small Text Label with Horizontal Line */}
+        <div className="relative text-xs sm:text-sm font-semibold uppercase tracking-[2px] text-white pb-3 mb-6">
           <span>{data.subheading || defaultHeroData.subheading}</span>
-          <div className="absolute left-0 -bottom-1 w-[80vw] h-[1.5px] bg-white" />
+          <div className="absolute left-0 bottom-0 w-[80vw] max-w-[800px] h-[1.5px] bg-white/80" />
         </div>
 
         {/* Main Heading */}
-        <h1 className="text-3xl sm:text-5xl font-normal leading-[1.3] text-white max-w-[90%] my-3 whitespace-pre-line">
+        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-normal leading-[1.2] text-white max-w-3xl mb-6 whitespace-pre-line">
           {data.title || defaultHeroData.title}
         </h1>
 
         {/* Supporting Paragraph */}
-        <p className="text-base text-gray-300 my-4 leading-relaxed font-light max-w-[80%]">
+        <p className="text-base sm:text-lg text-gray-200 leading-relaxed font-light max-w-2xl mb-8">
           {data.description || defaultHeroData.description}
         </p>
 
-        {/* CTA Button with Circular Arrow Icon */}
+        {/* CTA Button with Arrow Icon */}
         <Link
           to={data.buttonLink || '/contact'}
-          className="inline-flex items-center gap-2 text-[1.2rem] font-medium text-white hover:opacity-90 transition-opacity mt-2 group"
+          className="inline-flex items-center gap-3 text-lg font-medium text-white hover:opacity-90 transition-opacity group"
         >
           <span>{data.buttonText || "Let's Talk"}</span>
-          <div className="w-[35px] h-[35px] bg-white text-black rounded-full flex items-center justify-center font-bold text-lg group-hover:translate-x-1 transition-transform">
+          <div className="w-9 h-9 bg-white text-black rounded-full flex items-center justify-center font-bold text-base group-hover:translate-x-1 transition-transform shadow">
             ➜
           </div>
         </Link>

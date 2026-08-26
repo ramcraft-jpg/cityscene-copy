@@ -26,9 +26,9 @@ export default function Contact() {
         <ContactIntro />
 
         {/* 4. Contact Us Info & Google Map Side-by-Side Section matching Screenshot 1 */}
-        <section className="w-full bg-white text-gray-900 py-16 lg:py-24">
+        <section className="w-full bg-white text-gray-900 py-12 lg:py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
               {/* Left Column: Contact Us Details */}
               <div className="lg:col-span-5">
                 <ContactInfo />

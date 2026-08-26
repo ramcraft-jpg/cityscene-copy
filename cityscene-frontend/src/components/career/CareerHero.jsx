@@ -85,18 +85,15 @@ export default function CareerHero() {
   };
 
   return (
-    <div className="relative w-full bg-black overflow-hidden flex flex-col justify-between">
-      {/* Unified Background Image / Video Container spanning ENTIRE Hero & Job Cards area */}
-      <div
-        className="absolute inset-0 z-0 transition-transform duration-75 ease-out overflow-hidden"
-        style={{ transform: `translateY(${scrollY * 0.15}px)` }}
-      >
+    <div className="relative w-full min-h-screen bg-black overflow-hidden flex flex-col justify-between">
+      {/* Background Image / Video Layer */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
         {isVideoMode && bgVideo ? (
           isYoutubeOrVimeo ? (
             <iframe
               src={embedVideoSrc}
               title="Career Hero Video"
-              className="w-full h-full object-cover pointer-events-none"
+              className="absolute inset-0 w-full h-full object-cover pointer-events-none"
               allow="autoplay; fullscreen"
             />
           ) : (
@@ -107,7 +104,7 @@ export default function CareerHero() {
               muted
               playsInline
               poster={bgImage}
-              className="w-full h-full object-cover hero-video"
+              className="absolute inset-0 w-full h-full object-cover object-center"
               src={bgVideo}
               onError={(e) => {
                 e.target.style.display = 'none';
@@ -120,7 +117,7 @@ export default function CareerHero() {
           <img
             src={bgImage}
             alt="Career Hero Background"
-            className="w-full h-full object-cover object-center hero-video"
+            className="absolute inset-0 w-full h-full object-cover object-center"
           />
         )}
       </div>
@@ -128,10 +125,9 @@ export default function CareerHero() {
       {/* Relative Page Content Container overlaying the background */}
       <div className="relative z-10 w-full flex flex-col justify-between pt-20 sm:pt-28 pb-0">
         {/* 1. Hero Content Box */}
-        <section className="max-w-lg mx-auto px-4 w-full py-8 text-center">
+        <section className="max-w-lg mx-auto px-4 w-full py-6 text-center">
           <div
-            className="rounded-2xl p-6 sm:p-8 space-y-4 text-center mx-auto"
-            style={{ backgroundColor: 'rgba(0, 0, 0, 0.55)' }}
+            className="hero-text rounded-[10px] p-6 sm:p-8 space-y-4 text-center mx-auto bg-black/40 backdrop-blur-md border border-white/10"
           >
             {/* Main Heading */}
             <h1 className="text-3xl sm:text-4xl md:text-[2.75rem] font-bold text-white leading-tight tracking-tight">
@@ -149,14 +145,14 @@ export default function CareerHero() {
                 <a
                   href={buttonLink}
                   onClick={handleScrollToTarget}
-                  className="inline-block px-7 py-3 text-sm sm:text-base font-bold text-black bg-white rounded-full hover:bg-gray-100 transition-all duration-200 shadow-md cursor-pointer"
+                  className="explore-btn inline-block px-7 py-3 text-sm sm:text-base font-bold text-black bg-white hover:bg-black hover:text-white rounded-[30px] transition-all duration-300 shadow-md cursor-pointer"
                 >
                   {data.buttonText || 'Explore Jobs'}
                 </a>
               ) : (
                 <Link
                   to={buttonLink}
-                  className="inline-block px-7 py-3 text-sm sm:text-base font-bold text-black bg-white rounded-full hover:bg-gray-100 transition-all duration-200 shadow-md"
+                  className="explore-btn inline-block px-7 py-3 text-sm sm:text-base font-bold text-black bg-white hover:bg-black hover:text-white rounded-[30px] transition-all duration-300 shadow-md"
                 >
                   {data.buttonText || 'Explore Jobs'}
                 </Link>

@@ -9,9 +9,9 @@ export default function PortfolioDetailExecution({ project }) {
   if (!executionFeatures || executionFeatures.length === 0) return null;
 
   return (
-    <section className="w-full bg-black text-white py-16 md:py-24 border-t border-white/10">
+    <section className="w-full bg-black text-white py-12 md:py-16 border-t border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl sm:text-4xl font-medium text-white mb-12 tracking-tight">
+        <h2 className="text-3xl sm:text-4xl font-medium text-white mb-8 tracking-tight">
           Project Execution & Analytics
         </h2>
 
@@ -20,7 +20,7 @@ export default function PortfolioDetailExecution({ project }) {
           {executionFeatures.map((feat, idx) => (
             <div
               key={idx}
-              className="border border-white/20 bg-neutral-950/90 rounded-xl p-8 space-y-3 hover:border-white/40 transition-colors"
+              className="border border-white/20 bg-neutral-950/90 rounded-xl p-5 sm:p-6 space-y-3 hover:border-white/40 transition-colors"
             >
               <h3 className="text-xl font-medium text-white leading-snug">
                 {feat.title}

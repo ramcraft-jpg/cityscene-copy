@@ -31,12 +31,12 @@ export default function HomeSocialImpactSection() {
   const fallbackSrc = getMediaUrl(data.fallbackImage || defaultSocialImpactData.fallbackImage);
 
   return (
-    <section className="w-full bg-white py-14 flex items-center justify-center border-b border-gray-100">
-      <div className="w-[90%] max-w-[1100px] mx-auto flex flex-col lg:flex-row items-center justify-center gap-10">
+    <section className="w-full bg-white py-12 sm:py-14 flex items-center justify-center border-b border-gray-100">
+      <div className="w-[90%] max-w-[1100px] mx-auto flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-10">
 
         {/* Left Column: Heading & Text */}
         <div className="w-full lg:w-1/2 text-left space-y-4">
-          <span className="text-base font-medium text-gray-800 block">
+          <span className="text-sm font-medium text-gray-800 block">
             {data.badge || defaultSocialImpactData.badge}
           </span>
           <h2 className="text-3xl sm:text-[32px] font-medium text-black leading-snug">
@@ -58,7 +58,7 @@ export default function HomeSocialImpactSection() {
           <div className="pt-2">
             <Link
               to={data.buttonLink || '/about'}
-              className="inline-block px-5 py-2.5 bg-none border border-black text-black font-medium text-base rounded-[20px] hover:bg-black hover:text-white transition-all duration-300"
+              className="inline-block px-5 py-2.5 bg-none border border-black text-black font-medium text-sm rounded-full hover:bg-black hover:text-white transition-all duration-300"
             >
               {data.buttonText || 'View All Impact'}
             </Link>
@@ -67,7 +67,7 @@ export default function HomeSocialImpactSection() {
 
         {/* Right Column: Image */}
         <div className="w-full lg:w-1/2 flex justify-center items-center">
-          <div className="w-full max-h-[350px] rounded-[10px] overflow-hidden shadow-md">
+          <div className="w-full h-[260px] sm:h-[350px] rounded-[10px] overflow-hidden shadow-md">
             <img
               src={imageSrc}
               alt="Social Impact By CityScene Global"
@@ -75,7 +75,7 @@ export default function HomeSocialImpactSection() {
                 e.target.onerror = null;
                 e.target.src = fallbackSrc;
               }}
-              className="w-full h-[350px] object-cover object-center rounded-[10px]"
+              className="w-full h-full object-cover object-center rounded-[10px]"
             />
           </div>
         </div>

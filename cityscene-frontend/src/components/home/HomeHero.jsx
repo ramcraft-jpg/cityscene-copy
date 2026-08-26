@@ -78,16 +78,16 @@ export default function HomeHero() {
       </div>
 
       {/* Action Buttons: Positioned separately at bottom of section on desktop */}
-      <div className="absolute bottom-10 left-8 md:left-[50%] md:-translate-x-1/2 flex items-center gap-6 md:gap-16 z-20">
+      <div className="absolute bottom-6 sm:bottom-10 left-4 sm:left-8 md:left-[50%] md:-translate-x-1/2 flex items-center gap-3 sm:gap-6 md:gap-16 z-20">
         <Link
           to={heroData.button1Link || '/about'}
-          className="px-7 py-3 rounded-full border-2 border-white text-white font-medium text-sm hover:bg-white hover:text-black transition-all duration-300 shadow-lg"
+          className="px-5 sm:px-7 py-2.5 sm:py-3 rounded-full border-2 border-white text-white font-medium text-xs sm:text-sm hover:bg-white hover:text-black transition-all duration-300 shadow-lg shrink-0"
         >
           {heroData.button1Text || 'About Us'}
         </Link>
         <Link
           to={heroData.button2Link || '/contact'}
-          className="px-7 py-3 rounded-full bg-black text-white font-medium text-sm border border-white/20 hover:bg-white hover:text-black hover:border-white transition-all duration-300 shadow-lg"
+          className="px-5 sm:px-7 py-2.5 sm:py-3 rounded-full bg-black text-white font-medium text-xs sm:text-sm border border-white/20 hover:bg-white hover:text-black hover:border-white transition-all duration-300 shadow-lg shrink-0"
         >
           {heroData.button2Text || "Let's Talk"}
         </Link>

@@ -11,9 +11,9 @@ export default function WhatWeDoDetailFaq({ service }) {
   };
 
   return (
-    <section className="w-full bg-white py-12 md:py-16 border-t border-gray-100">
+    <section className="w-full bg-white py-10 md:py-12 border-t border-gray-100">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 text-center mb-8 tracking-tight">
+        <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 text-center mb-6 sm:mb-8 tracking-tight">
           Frequently Asked Questions
         </h2>
         <div className="space-y-3 text-left">
@@ -24,7 +24,7 @@ export default function WhatWeDoDetailFaq({ service }) {
             >
               <button
                 onClick={() => toggleFaq(idx)}
-                className="w-full flex items-center justify-between p-4 sm:p-5 text-left bg-gray-50 hover:bg-gray-100/80 transition-colors font-semibold text-gray-900 text-base sm:text-lg"
+                className="w-full flex items-center justify-between p-4 sm:p-5 text-left bg-gray-50 hover:bg-gray-100/80 transition-colors font-medium text-gray-900 text-base sm:text-lg"
               >
                 <span>{faq.q}</span>
                 {openFaq === idx ? (

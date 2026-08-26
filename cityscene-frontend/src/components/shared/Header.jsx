@@ -94,7 +94,7 @@ export default function Header() {
             to="/admin/login"
             id="mobile-navbar-admin-btn"
             title="Admin Portal"
-            className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold border transition-colors ${isAdminActive
+            className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium border transition-colors ${isAdminActive
               ? 'bg-orange-600 text-white border-orange-600'
               : 'bg-gray-50 text-gray-700 border-gray-200'
               }`}
@@ -124,7 +124,7 @@ export default function Header() {
                 to={item.path}
                 onClick={() => setMobileMenuOpen(false)}
                 className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${active
-                  ? 'bg-gray-100 text-gray-900 font-bold border-l-4 border-gray-900'
+                  ? 'bg-gray-100 text-gray-900 font-semibold border-l-4 border-gray-900'
                   : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
                   }`}
               >
@@ -135,7 +135,7 @@ export default function Header() {
           <Link
             to="/admin/login"
             onClick={() => setMobileMenuOpen(false)}
-            className="flex items-center gap-2 px-3 py-2 rounded-md text-base font-medium text-orange-600 bg-orange-50 font-bold"
+            className="flex items-center gap-2 px-3 py-2 rounded-md text-base font-medium text-orange-600 bg-orange-50"
           >
             <Shield size={11} />
             Admin Portal

@@ -36,7 +36,7 @@ export default function ProjectPost() {
 
       <main className="flex-grow">
         {loading ? (
-          <div className="py-24 text-center text-gray-600">
+          <div className="py-16 text-center text-gray-600">
             <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
             <p className="text-sm font-medium">Loading case study...</p>
           </div>

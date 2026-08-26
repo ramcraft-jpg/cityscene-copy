@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getMediaUrl } from '../../utils/imageUrl';
+import { getServices } from '../../services/serviceService';
 
 const defaultServices = [
   {
@@ -88,12 +89,10 @@ export default function HomeOurServicesSection() {
   const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/home-content/services')
-      .then((res) => res.json())
+    getServices()
       .then((data) => {
-        if (data.success && data.content && data.content.services && data.content.services.length > 0) {
-          setSectionData(data.content);
-          setItems(data.content.services);
+        if (Array.isArray(data) && data.length > 0) {
+          setItems(data);
         }
       })
       .catch((err) => console.error('Error fetching HomeServices API data:', err));
@@ -169,15 +168,14 @@ export default function HomeOurServicesSection() {
               const isOdd = idx % 2 === 0;
 
               const fallbackUrl = defaultServices.find((ds) => ds.id === srv.id)?.fallback || defaultServices[5].fallback;
-              const imageUrl = (srv.image && !srv.image.includes('/assets/home/services/'))
-                ? getMediaUrl(srv.image)
-                : fallbackUrl;
+              const rawImg = srv.image || srv.heroImage || srv.backgroundImage || srv.bgImage;
+              const imageUrl = rawImg ? getMediaUrl(rawImg) : fallbackUrl;
 
               return (
                 <Link
                   key={`${srv.id}-${idx}`}
                   to={`/services/${srv.id}`}
-                  className="w-full sm:w-[calc((100%-20px)/2)] lg:w-[calc((100%-40px)/3)] h-[489px] shrink-0 rounded-[20px] overflow-hidden relative group block shadow-[0_5px_15px_rgba(0,0,0,0.3)] transition-transform duration-300 ease-in-out hover:scale-[1.05]"
+                  className="w-full sm:w-[calc((100%-20px)/2)] lg:w-[calc((100%-40px)/3)] h-[400px] sm:h-[440px] shrink-0 rounded-[20px] overflow-hidden relative group block shadow-[0_5px_15px_rgba(0,0,0,0.3)] transition-transform duration-300 ease-in-out hover:scale-[1.03]"
                 >
                   {/* Background Image */}
                   <img
@@ -199,7 +197,7 @@ export default function HomeOurServicesSection() {
                       isOdd ? 'justify-start' : 'justify-end'
                     }`}
                   >
-                    <div className="service-text text-left text-white text-[24px] sm:text-[35px] font-normal leading-[1.1] p-[15px] capitalize">
+                    <div className="service-text text-left text-white text-[20px] sm:text-[28px] font-normal leading-[1.1] p-[10px] capitalize">
                       {srv.title}
                     </div>
                   </div>

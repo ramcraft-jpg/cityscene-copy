@@ -23,10 +23,10 @@ export default function PortfolioTrustedClients() {
   }, []);
 
   return (
-    <section className="w-full bg-white py-12 sm:py-16 border-t border-gray-100">
+    <section className="w-full bg-white py-10 sm:py-12 border-t border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Title */}
-        <div className="text-center mb-8 sm:mb-12">
+        <div className="text-center mb-6 sm:mb-8">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-black tracking-tight">
             {heading || defaultHeading}
           </h2>

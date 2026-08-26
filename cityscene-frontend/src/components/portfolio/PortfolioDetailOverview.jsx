@@ -10,7 +10,7 @@ export default function PortfolioDetailOverview({ overviewParas }) {
     return parts.map((part, i) => {
       if (part.startsWith('**') && part.endsWith('**')) {
         return (
-          <strong key={i} className="font-bold text-gray-900">
+          <strong key={i} className="font-semibold text-gray-900">
             {part.slice(2, -2)}
           </strong>
         );
@@ -20,7 +20,7 @@ export default function PortfolioDetailOverview({ overviewParas }) {
   };
 
   return (
-    <section className="w-full bg-white py-12 md:py-16">
+    <section className="w-full bg-white py-8 md:py-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         <div className="bg-[#f8f9fa] rounded-2xl p-6 sm:p-8 border-l-[4px] border-black border-y border-r border-gray-200/60 shadow-sm">
           <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-6 tracking-tight">

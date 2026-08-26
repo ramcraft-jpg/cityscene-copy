@@ -27,7 +27,7 @@ export default function HomeAboutUsSection() {
   }, []);
 
   return (
-    <section className="w-full bg-[#222222] text-white py-16 flex items-center justify-center border-b border-white/10">
+    <section className="w-full bg-[#222222] text-white py-12 sm:py-16 flex items-center justify-center border-b border-white/10">
       <div className="w-full max-w-[800px] mx-auto px-6 relative text-justify">
 
         {/* Vertical Left Line Divider */}

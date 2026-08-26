@@ -90,7 +90,7 @@ export default function WhatWeDoHero() {
           className="inline-flex items-center gap-2 text-[1.2rem] font-medium text-white hover:opacity-90 transition-opacity mt-2 group"
         >
           <span>{data.buttonText || "Let's Talk"}</span>
-          <div className="w-[35px] h-[35px] bg-white text-black rounded-full flex items-center justify-center font-bold text-lg group-hover:translate-x-1 transition-transform">
+          <div className="w-[35px] h-[35px] bg-white text-black rounded-full flex items-center justify-center font-medium text-lg group-hover:translate-x-1 transition-transform">
             ➜
           </div>
         </Link>

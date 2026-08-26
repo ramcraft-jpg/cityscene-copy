@@ -7,6 +7,17 @@ const defaultCompanyData = {
   image: ''
 };
 
+const renderFormattedText = (text) => {
+  if (!text) return null;
+  const parts = text.split(/(CityScene Global Private Limited|CityScene Global)/g);
+  return parts.map((part, index) => {
+    if (part === 'CityScene Global Private Limited' || part === 'CityScene Global') {
+      return <strong key={index} className="font-bold text-neutral-900">{part}</strong>;
+    }
+    return part;
+  });
+};
+
 export default function AboutCompanySection() {
   const [data, setData] = useState(defaultCompanyData);
 
@@ -21,15 +32,17 @@ export default function AboutCompanySection() {
       .catch((err) => console.error('Error fetching AboutCompanySection API data:', err));
   }, []);
 
+  const p1 = data.paragraph1 || defaultCompanyData.paragraph1;
+  const p2 = data.paragraph2 || defaultCompanyData.paragraph2;
+
   return (
-    <section className="w-full bg-white py-12 md:py-16">
-      <div className="max-w-5xl mx-auto px-6 sm:px-8 space-y-6 text-gray-700 text-base md:text-lg leading-relaxed font-normal">
-        <p>
-          {data.paragraph1 || defaultCompanyData.paragraph1}
+    <section className="w-full bg-white py-12 px-6 sm:px-[10vw] lg:px-[15vw] relative shadow-[0_4px_10px_rgba(0,0,0,0.06)]">
+      <div className="space-y-6 text-[#333] text-[18px] leading-[1.7] text-justify font-normal">
+        <p className="break-words">
+          {renderFormattedText(p1)}
         </p>
-        <br />
-        <p>
-          {data.paragraph2 || defaultCompanyData.paragraph2}
+        <p className="break-words">
+          {renderFormattedText(p2)}
         </p>
         {data.image && (
           <div className="mt-8 flex justify-center">

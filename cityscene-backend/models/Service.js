@@ -75,6 +75,10 @@ export const Service = sequelize.define('Service', {
     type: DataTypes.TEXT,
     allowNull: true
   },
+  whyChooseImage: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
   whyChooseCards: {
     type: DataTypes.JSON,
     defaultValue: []

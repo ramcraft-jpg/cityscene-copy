@@ -40,17 +40,17 @@ export default function PortfolioProjectGrid({ projects }) {
   };
 
   return (
-    <section className="w-full bg-[#181818] py-16 md:py-24 text-white">
+    <section className="w-full bg-[#181818] py-12 md:py-16 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="mb-8 md:mb-12">
+        <div className="mb-6 md:mb-8">
           <h2 className="text-3xl sm:text-4xl font-normal text-white tracking-tight">
             {header.heading || defaultHeader.heading}
           </h2>
         </div>
 
         {/* Project Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-8">
           {visibleProjects.map((project) => (
             <PortfolioProjectCard key={project.id || project.slug || project._id} project={project} />
           ))}

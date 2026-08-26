@@ -36,11 +36,11 @@ export default function AboutValuesSection() {
   const valuesList = data.values && data.values.length > 0 ? data.values : staticValues;
 
   return (
-    <section className="w-full bg-white py-12 md:py-16 border-b border-gray-100">
+    <section className="w-full bg-white py-10 md:py-12 border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Centered Section Heading */}
-        <div className="text-center mb-8 md:mb-10">
-          <h2 className="text-4xl sm:text-5xl font-semibold text-gray-900 tracking-tight">
+        <div className="text-center mb-6 md:mb-8">
+          <h2 className="text-3xl sm:text-4xl font-semibold text-gray-900 tracking-tight">
             {data.heading || 'Our Values'}
           </h2>
         </div>
@@ -50,7 +50,7 @@ export default function AboutValuesSection() {
           {valuesList.map((val, idx) => (
             <div
               key={val.id || idx}
-              className="group relative block w-full h-[380px] sm:h-[420px] rounded-[20px] overflow-hidden border border-white/10 transition-all duration-300 hover:-translate-y-1.5"
+              className="group relative block w-full h-[340px] sm:h-[380px] rounded-[20px] overflow-hidden border border-white/10 transition-all duration-300 hover:-translate-y-1.5"
             >
               {/* Background Image */}
               <img

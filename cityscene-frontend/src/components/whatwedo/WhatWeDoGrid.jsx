@@ -26,11 +26,11 @@ export default function WhatWeDoGrid() {
   const displayedServices = showAll ? services : services.slice(0, 6);
 
   return (
-    <section className="w-full bg-[#1a1a1a] text-white py-[60px] px-5 sm:px-[40px] text-center">
+    <section className="w-full bg-[#1a1a1a] text-white py-12 sm:py-16 px-5 sm:px-[40px] text-center">
       <div className="max-w-[1100px] mx-auto w-full">
         {/* Section Heading */}
         <div className="text-left">
-          <h2 className="text-3xl sm:text-[40px] font-medium text-white tracking-tight -translate-y-5 ml-0 sm:ml-[50px]">
+          <h2 className="text-3xl sm:text-[40px] font-medium text-white tracking-tight mb-6 ml-0 sm:ml-[10px]">
             Our Services
           </h2>
         </div>
@@ -65,7 +65,7 @@ export default function WhatWeDoGrid() {
               <div className="mt-8 text-center">
                 <button
                   onClick={() => setShowAll(!showAll)}
-                  className="inline-flex items-center gap-2 px-6 py-2.5 rounded-[25px] bg-transparent hover:bg-white hover:text-black text-white font-bold text-base border-2 border-white transition-all duration-300 shadow-md"
+                  className="inline-flex items-center gap-2 px-6 py-2.5 rounded-[25px] bg-transparent hover:bg-white hover:text-black text-white font-medium text-sm sm:text-base border-2 border-white transition-all duration-300 shadow-md"
                 >
                   <span>{showAll ? 'View Less Services' : 'View More Services'}</span>
                   {showAll ? <ChevronUp size={20} /> : <ChevronDown size={20} />}

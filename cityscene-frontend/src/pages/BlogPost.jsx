@@ -78,13 +78,13 @@ export default function BlogPost() {
 
       <main className="flex-grow">
         {loading ? (
-          <div className="py-24 text-center text-gray-600">
+          <div className="py-16 text-center text-gray-600">
             <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
             <p className="text-sm font-medium">Loading article...</p>
           </div>
         ) : error ? (
-          <div className="max-w-3xl mx-auto my-24 p-8 bg-red-50 rounded-2xl border border-red-200 text-center text-red-800">
-            <h2 className="text-2xl font-bold mb-2">Article Not Found</h2>
+          <div className="max-w-3xl mx-auto my-12 sm:my-16 p-8 bg-red-50 rounded-2xl border border-red-200 text-center text-red-800">
+            <h2 className="text-2xl font-semibold mb-2">Article Not Found</h2>
             <p className="text-sm text-red-600 mb-6">{error}</p>
             <Link
               to="/blog"

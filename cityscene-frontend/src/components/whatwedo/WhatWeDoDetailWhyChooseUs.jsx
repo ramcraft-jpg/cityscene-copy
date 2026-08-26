@@ -1,12 +1,14 @@
 import React from 'react';
+import { getMediaUrl } from '../../utils/imageUrl';
 
 export default function WhatWeDoDetailWhyChooseUs({ service }) {
   if (!service || !service.whyChooseCards || service.whyChooseCards.length === 0) return null;
 
-  const bgImage = service.image || service.heroImage || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1920&q=80';
+  const rawBg = service.whyChooseImage || service.whyChooseBgImage || service.backgroundImage || service.heroImage || service.image;
+  const bgImage = rawBg ? getMediaUrl(rawBg) : 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1920&q=80';
 
   return (
-    <section className="relative w-full bg-black text-white py-14 md:py-20 overflow-hidden border-t border-b border-white/10">
+    <section className="relative w-full bg-black text-white py-12 md:py-16 overflow-hidden border-t border-b border-white/10">
       {/* Dynamic Background Image of current service */}
       <div className="absolute inset-0 z-0">
         <img
@@ -20,7 +22,7 @@ export default function WhatWeDoDetailWhyChooseUs({ service }) {
       <div className="absolute inset-0 bg-black/65 z-0 pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mx-auto text-center space-y-3 mb-12">
+        <div className="max-w-3xl mx-auto text-center space-y-3 mb-8">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-white whitespace-pre-line">
             {service.whyChooseTitle || 'Why Choose Us?'}
           </h2>
@@ -35,7 +37,7 @@ export default function WhatWeDoDetailWhyChooseUs({ service }) {
           {service.whyChooseCards.map((card, idx) => (
             <div
               key={idx}
-              className="bg-black/80 backdrop-blur-md border border-neutral-800 p-6 sm:p-7 text-left space-y-3 hover:border-neutral-500 transition-all duration-300 flex flex-col justify-start"
+              className="bg-black/80 backdrop-blur-md border border-neutral-800 p-5 sm:p-6 text-left space-y-3 hover:border-neutral-500 transition-all duration-300 flex flex-col justify-start"
             >
               <h3 className="text-lg sm:text-xl font-semibold text-white tracking-tight leading-snug">
                 {card.title}
