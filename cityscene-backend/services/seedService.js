@@ -1998,15 +1998,26 @@ export const seedDatabase = async () => {
       }
     }
 
-    console.log('✅ SQL Seeding complete!');
-    console.log(`   - Blogs: ${blogsInserted} new records inserted`);
-    console.log(`   - Services: ${servicesInserted} new records inserted`);
-    console.log(`   - Clients: ${clientsInserted} new records inserted`);
-    console.log(`   - Projects: ${projectsInserted} new records inserted`);
-    console.log(`   - Jobs: ${jobsInserted} new records inserted`);
-    console.log(`   - Testimonials: ${testimonialsInserted} new records inserted`);
-    console.log(`   - HomeContent Sections: ${homeSectionsInserted} new records inserted`);
-    console.log(`   - SEO Metas: ${seoMetasInserted} new records inserted`);
+    const [totalBlogs, totalServices, totalClients, totalProjects, totalJobs, totalTestimonials, totalHome, totalSeo] = await Promise.all([
+      Blog.count(),
+      Service.count(),
+      Client.count(),
+      Project.count(),
+      Job.count(),
+      Testimonial.count(),
+      HomeContent.count(),
+      SeoMeta.count()
+    ]);
+
+    console.log('✅ MySQL Database Status & Seeding Check:');
+    console.log(`   - Blogs: ${totalBlogs} total records in MySQL (${blogsInserted} new inserted)`);
+    console.log(`   - Services: ${totalServices} total records in MySQL (${servicesInserted} new inserted)`);
+    console.log(`   - Clients: ${totalClients} total records in MySQL (${clientsInserted} new inserted)`);
+    console.log(`   - Projects: ${totalProjects} total records in MySQL (${projectsInserted} new inserted)`);
+    console.log(`   - Jobs: ${totalJobs} total records in MySQL (${jobsInserted} new inserted)`);
+    console.log(`   - Testimonials: ${totalTestimonials} total records in MySQL (${testimonialsInserted} new inserted)`);
+    console.log(`   - HomeContent Sections: ${totalHome} total records in MySQL (${homeSectionsInserted} new inserted)`);
+    console.log(`   - SEO Metas: ${totalSeo} total records in MySQL (${seoMetasInserted} new inserted)`);
   } catch (error) {
     console.error('❌ Error during SQL database seeding:', error);
   }

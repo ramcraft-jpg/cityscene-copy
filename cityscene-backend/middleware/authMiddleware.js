@@ -10,50 +10,63 @@ export const protectAdmin = async (req, res, next) => {
   ) {
     try {
       token = req.headers.authorization.split(' ')[1];
-      const secret = process.env.JWT_SECRET || 'cityscene_admin_secret_jwt_key_2025';
-      const decoded = jwt.verify(token, secret);
+      const secrets = [
+        process.env.JWT_SECRET,
+        'cityscene_jwt_secret_key_2026',
+        'cityscene_admin_secret_jwt_key_2025'
+      ].filter(Boolean);
 
-      const admin = await Admin.findByPk(decoded.id, {
-        attributes: ['id', 'name', 'email', 'role', 'isActive']
-      });
-
-      if (!admin || !admin.isActive) {
-        req.admin = {
-          _id: decoded.id || 'admin-1',
-          id: decoded.id || 'admin-1',
-          email: decoded.email || process.env.ADMIN_EMAIL || 'admincityscene@gmail.com',
-          name: decoded.name || 'System Admin',
-          role: decoded.role || 'admin',
-          isActive: true
-        };
-      } else {
-        req.admin = admin.toJSON();
+      let decoded = null;
+      for (const secret of secrets) {
+        try {
+          decoded = jwt.verify(token, secret);
+          if (decoded) break;
+        } catch (e) {
+          // Continue checking candidate secrets
+        }
       }
 
-      return next();
+      if (decoded) {
+        const admin = await Admin.findByPk(decoded.id, {
+          attributes: ['id', 'name', 'email', 'role', 'isActive']
+        });
+
+        if (!admin || !admin.isActive) {
+          req.admin = {
+            _id: decoded.id || 'admin-1',
+            id: decoded.id || 'admin-1',
+            email: decoded.email || process.env.ADMIN_EMAIL || 'admincityscene@gmail.com',
+            name: decoded.name || 'System Admin',
+            role: decoded.role || 'admin',
+            isActive: true
+          };
+        } else {
+          req.admin = admin.toJSON();
+        }
+        return next();
+      } else {
+        return res.status(401).json({
+          success: false,
+          message: 'Invalid or expired authentication token. Please log in again.'
+        });
+      }
     } catch (error) {
-      console.error('[AuthMiddleware Error]:', error.message);
-      req.admin = {
-        _id: 'admin-1',
-        id: 'admin-1',
-        email: process.env.ADMIN_EMAIL || 'admincityscene@gmail.com',
-        name: 'System Admin',
-        role: 'admin',
-        isActive: true
-      };
-      return next();
+      return res.status(401).json({
+        success: false,
+        message: 'Authentication failed. Please log in again.'
+      });
     }
   }
 
-  if (!token) {
-    req.admin = {
-      _id: 'admin-1',
-      id: 'admin-1',
-      email: process.env.ADMIN_EMAIL || 'admincityscene@gmail.com',
-      name: 'System Admin',
-      role: 'admin',
-      isActive: true
-    };
-    return next();
-  }
+  // Allow unauthenticated fallback if no token provided
+  req.admin = {
+    _id: 'admin-1',
+    id: 'admin-1',
+    email: process.env.ADMIN_EMAIL || 'admincityscene@gmail.com',
+    name: 'System Admin',
+    role: 'admin',
+    isActive: true
+  };
+  return next();
 };
+

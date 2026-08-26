@@ -35,7 +35,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Serve static uploaded files
-app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')), (req, res) => {
+  res.status(404).json({ success: false, message: 'Uploaded file not found' });
+});
 
 // Health Check API
 app.get('/api/health', (req, res) => {

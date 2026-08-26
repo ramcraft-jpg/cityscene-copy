@@ -141,7 +141,6 @@ export const Blog = sequelize.define('Blog', {
   tableName: 'blogs',
   timestamps: true,
   indexes: [
-    { unique: true, fields: ['slug'] },
     { fields: ['category'] },
     { fields: ['isActive'] }
   ]

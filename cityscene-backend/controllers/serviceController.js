@@ -8,7 +8,6 @@ import { initialServices } from '../services/seedService.js';
 const ensureSeedServices = async () => {
   try {
     if (!initialServices || initialServices.length === 0) return;
-    await Service.sync({ alter: true });
     const count = await Service.count();
     if (count === 0) {
       await Service.bulkCreate(initialServices);

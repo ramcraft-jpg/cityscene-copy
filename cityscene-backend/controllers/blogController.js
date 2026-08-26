@@ -8,7 +8,6 @@ import { initialBlogs } from '../services/seedService.js';
 const ensureSeedBlogs = async () => {
   try {
     if (!initialBlogs || initialBlogs.length === 0) return;
-    await Blog.sync({ alter: true });
     const count = await Blog.count();
     if (count === 0) {
       await Blog.bulkCreate(initialBlogs);
