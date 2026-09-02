@@ -1,0 +1,29 @@
+name: citysceneglobal
+
+services:
+  backend:
+    build:
+      context: ./cityscene-backend
+
+    container_name: citysceneglobal-backend
+
+    restart: unless-stopped
+
+    env_file:
+      - ./cityscene-backend/.env
+
+    volumes:
+      - uploads:/app/uploads
+
+    expose:
+      - "5000"
+
+    networks:
+      - sunscope_shared
+
+volumes:
+  uploads:
+
+networks:
+  sunscope_shared:
+    external: true
