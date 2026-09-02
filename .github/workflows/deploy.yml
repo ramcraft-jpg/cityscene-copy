@@ -81,7 +81,7 @@ jobs:
           script: |
             set -e
 
-            cd /opt/apps/citysceneglobal-website
+            cd /opt/apps/citysceneglobal-website/app
 
             git fetch origin main
             git reset --hard origin/main
