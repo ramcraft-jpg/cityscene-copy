@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { getMediaUrl } from '../../utils/imageUrl';
 import { useVideoIntersectionObserver } from '../../utils/useVideoIntersectionObserver';
+import { flashApiFetch } from '../../config/api';
 
 const defaultHeroData = {
   subheading: 'WHO WE ARE',
@@ -19,7 +20,7 @@ export default function AboutHero() {
   const videoRef = useVideoIntersectionObserver({ threshold: 0.15 });
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/home-content/about-hero')
+    flashApiFetch('/home-content/about-hero')
       .then((res) => res.json())
       .then((resData) => {
         if (resData.success && resData.content && resData.content.title) {

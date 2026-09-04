@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { getAdminToken } from '../../../services/adminAuthService';
 import ConfirmDeleteModal from '../../../components/admin/ConfirmDeleteModal';
 import { AdminLoadingState, AdminEmptyState } from '../../../components/admin/AdminStateFeedback';
+import { flashApiFetch } from '../../../config/api';
+import { getMediaUrl } from '../../../utils/imageUrl';
 
 export default function AdminCareerApplications() {
   const [applications, setApplications] = useState([]);
@@ -17,12 +18,7 @@ export default function AdminCareerApplications() {
   const loadApplications = async () => {
     try {
       setLoading(true);
-      const token = getAdminToken();
-      const res = await fetch('http://localhost:5000/api/applications', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+      const res = await flashApiFetch('/applications');
       const data = await res.json();
       if (data && data.data) {
         setApplications(data.data);
@@ -38,12 +34,8 @@ export default function AdminCareerApplications() {
     if (!deleteTarget) return;
     try {
       setSaving(true);
-      const token = getAdminToken();
-      const res = await fetch(`http://localhost:5000/api/applications/${deleteTarget._id}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+      const res = await flashApiFetch(`/applications/${deleteTarget._id}`, {
+        method: 'DELETE'
       });
       const data = await res.json();
       if (res.ok && data.success) {
@@ -116,7 +108,7 @@ export default function AdminCareerApplications() {
                   <td className="p-3.5">
                     {app.resumePath ? (
                       <a
-                        href={`http://localhost:5000${app.resumePath}`}
+                        href={getMediaUrl(app.resumePath)}
                         target="_blank"
                         rel="noreferrer"
                         className="inline-flex items-center gap-1 text-blue-600 font-bold hover:underline"
@@ -182,7 +174,7 @@ export default function AdminCareerApplications() {
                 <span className="font-bold text-slate-900 block mb-0.5">Resume Document:</span>
                 {selectedApp.resumePath ? (
                   <a
-                    href={`http://localhost:5000${selectedApp.resumePath}`}
+                    href={getMediaUrl(selectedApp.resumePath)}
                     target="_blank"
                     rel="noreferrer"
                     className="inline-block px-4 py-2 bg-blue-50 text-blue-700 font-bold rounded-lg border border-blue-200 hover:bg-blue-100 transition"

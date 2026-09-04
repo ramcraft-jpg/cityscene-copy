@@ -1,14 +1,11 @@
-const API_BASE = 'http://localhost:5000/api/admin';
+import { flashApiFetch } from '../config/api';
 
 const TOKEN_KEY = 'cityscene_admin_token';
 const USER_KEY = 'cityscene_admin_user';
 
 export const loginAdmin = async (email, password) => {
-  const response = await fetch(`${API_BASE}/login`, {
+  const response = await flashApiFetch('/admin/login', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
     body: JSON.stringify({ email, password })
   });
 
@@ -27,11 +24,8 @@ export const loginAdmin = async (email, password) => {
 };
 
 export const registerAdmin = async (name, email, password) => {
-  const response = await fetch(`${API_BASE}/register`, {
+  const response = await flashApiFetch('/admin/register', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
     body: JSON.stringify({ name, email, password })
   });
 
@@ -78,12 +72,8 @@ export const verifySession = async () => {
   if (!token) return false;
 
   try {
-    const response = await fetch(`${API_BASE}/me`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }
+    const response = await flashApiFetch('/admin/me', {
+      method: 'GET'
     });
 
     if (!response.ok) {

@@ -1,14 +1,8 @@
-import { getAdminToken } from './adminAuthService';
-
-const API_BASE = 'http://localhost:5000/api/clients';
-
-const getToken = () => {
-  return getAdminToken() || 'admin-session-token';
-};
+import { flashApiFetch } from '../config/api';
 
 export const getClients = async () => {
   try {
-    const res = await fetch(API_BASE);
+    const res = await flashApiFetch('/clients');
     const json = await res.json();
     if (res.ok && json.data) {
       return json.data;
@@ -20,13 +14,8 @@ export const getClients = async () => {
 };
 
 export const createClient = async (clientData) => {
-  const token = getToken();
-  const res = await fetch(API_BASE, {
+  const res = await flashApiFetch('/clients', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    },
     body: JSON.stringify(clientData)
   });
   const data = await res.json();
@@ -37,13 +26,8 @@ export const createClient = async (clientData) => {
 };
 
 export const updateClient = async (id, clientData) => {
-  const token = getToken();
-  const res = await fetch(`${API_BASE}/${encodeURIComponent(id)}`, {
+  const res = await flashApiFetch(`/clients/${encodeURIComponent(id)}`, {
     method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    },
     body: JSON.stringify(clientData)
   });
   const data = await res.json();
@@ -54,12 +38,8 @@ export const updateClient = async (id, clientData) => {
 };
 
 export const deleteClient = async (id) => {
-  const token = getToken();
-  const res = await fetch(`${API_BASE}/${encodeURIComponent(id)}`, {
-    method: 'DELETE',
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
+  const res = await flashApiFetch(`/clients/${encodeURIComponent(id)}`, {
+    method: 'DELETE'
   });
   const data = await res.json();
   if (!res.ok || !data.success) {

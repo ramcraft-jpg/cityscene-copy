@@ -1,14 +1,11 @@
-const API_BASE = 'http://localhost:5000/api';
+import { flashApiFetch } from '../config/api';
 
 /**
- * Service layer handling contact form submission via Express backend API.
+ * Service layer handling contact form submission via Flash API.
  */
 export const submitContactForm = async (formData) => {
-  const response = await fetch(`${API_BASE}/contact`, {
+  const response = await flashApiFetch('/contact', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
     body: JSON.stringify(formData)
   });
 

@@ -1,10 +1,8 @@
-import { getAdminToken } from './adminAuthService';
-
-const API_BASE = 'http://localhost:5000/api/home-content';
+import { flashApiFetch } from '../config/api';
 
 export const getHomeSectionContent = async (section) => {
   try {
-    const response = await fetch(`${API_BASE}/${section}`);
+    const response = await flashApiFetch(`/home-content/${section}`);
     const data = await response.json();
     if (!response.ok || !data.success) {
       throw new Error(data.message || `Failed to fetch ${section} content`);
@@ -17,14 +15,9 @@ export const getHomeSectionContent = async (section) => {
 };
 
 export const updateHomeSectionContent = async (section, content) => {
-  const token = getAdminToken();
   try {
-    const response = await fetch(`${API_BASE}/${section}`, {
+    const response = await flashApiFetch(`/home-content/${section}`, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
       body: JSON.stringify({ content })
     });
     const data = await response.json();
@@ -39,16 +32,12 @@ export const updateHomeSectionContent = async (section, content) => {
 };
 
 export const uploadHomeMedia = async (file) => {
-  const token = getAdminToken();
   const formData = new FormData();
   formData.append('file', file);
 
   try {
-    const response = await fetch(`${API_BASE}/upload-media`, {
+    const response = await flashApiFetch('/home-content/upload-media', {
       method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      },
       body: formData
     });
     const data = await response.json();

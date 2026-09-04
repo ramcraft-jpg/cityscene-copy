@@ -1,6 +1,4 @@
-import { getAdminToken } from './adminAuthService';
-
-const API_BASE = 'http://localhost:5000/api/seo';
+import { flashApiFetch } from '../config/api';
 
 /**
  * Fetch all SEO metadata configurations
@@ -12,7 +10,7 @@ export const getAllSeoMeta = async (group = 'all', search = '') => {
     if (search) params.append('search', search);
 
     const queryString = params.toString() ? `?${params.toString()}` : '';
-    const response = await fetch(`${API_BASE}${queryString}`);
+    const response = await flashApiFetch(`/seo${queryString}`);
     const data = await response.json();
     if (!response.ok || !data.success) {
       throw new Error(data.message || 'Failed to fetch SEO settings');
@@ -30,7 +28,7 @@ export const getAllSeoMeta = async (group = 'all', search = '') => {
 export const getSeoMetaByPageKey = async (pageKey) => {
   try {
     const encodedKey = encodeURIComponent(pageKey);
-    const response = await fetch(`${API_BASE}/${encodedKey}`);
+    const response = await flashApiFetch(`/seo/${encodedKey}`);
     const data = await response.json();
     if (!response.ok || !data.success) {
       throw new Error(data.message || `Failed to fetch SEO settings for ${pageKey}`);
@@ -46,15 +44,10 @@ export const getSeoMetaByPageKey = async (pageKey) => {
  * Update/Save SEO metadata for a specific pageKey
  */
 export const updateSeoMeta = async (pageKey, seoData) => {
-  const token = getAdminToken();
   try {
     const encodedKey = encodeURIComponent(pageKey);
-    const response = await fetch(`${API_BASE}/${encodedKey}`, {
+    const response = await flashApiFetch(`/seo/${encodedKey}`, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
       body: JSON.stringify(seoData)
     });
     const data = await response.json();
@@ -72,14 +65,10 @@ export const updateSeoMeta = async (pageKey, seoData) => {
  * Reset/Delete SEO record for a pageKey
  */
 export const resetSeoMeta = async (pageKey) => {
-  const token = getAdminToken();
   try {
     const encodedKey = encodeURIComponent(pageKey);
-    const response = await fetch(`${API_BASE}/${encodedKey}`, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
+    const response = await flashApiFetch(`/seo/${encodedKey}`, {
+      method: 'DELETE'
     });
     const data = await response.json();
     if (!response.ok || !data.success) {

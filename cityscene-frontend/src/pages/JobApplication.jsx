@@ -4,6 +4,7 @@ import Header from '../components/shared/Header';
 import Footer from '../components/shared/Footer';
 import { jobsData } from '../data/jobs';
 import { submitJobApplication } from '../services/applicationService';
+import { getJobs } from '../services/jobService';
 import { ArrowLeft, CheckCircle2 } from 'lucide-react';
 
 export default function JobApplication() {
@@ -26,13 +27,12 @@ export default function JobApplication() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    fetch('http://localhost:5000/api/jobs')
-      .then((res) => res.json())
-      .then((resData) => {
-        if (resData.success && resData.data) {
-          setAvailableJobs(resData.data);
+    getJobs()
+      .then((jobsList) => {
+        if (jobsList && Array.isArray(jobsList)) {
+          setAvailableJobs(jobsList);
           if (jobId) {
-            const selectedJob = resData.data.find((j) => j.id === jobId);
+            const selectedJob = jobsList.find((j) => j.id === jobId);
             if (selectedJob) {
               setFormData((prev) => ({ ...prev, position: selectedJob.title }));
             }

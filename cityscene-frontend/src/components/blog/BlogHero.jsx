@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getMediaUrl } from '../../utils/imageUrl';
 import { useVideoIntersectionObserver } from '../../utils/useVideoIntersectionObserver';
+import { flashApiFetch } from '../../config/api';
 
 const defaultHeroData = {
   subheading: 'BLOG',
@@ -32,7 +33,7 @@ export default function BlogHero({ videoSrc: propVideoSrc }) {
   const videoRef = useVideoIntersectionObserver({ threshold: 0.15 });
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/home-content/blog-hero')
+    flashApiFetch('/home-content/blog-hero')
       .then((res) => res.json())
       .then((resData) => {
         if (resData.success && resData.content && resData.content.title) {

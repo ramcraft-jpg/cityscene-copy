@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ExternalLink } from 'lucide-react';
+import { flashApiFetch } from '../../config/api';
 
 const defaultMap = {
   mapEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3557.513233887208!2d75.72754637604473!3d26.9189874591522!2m3!1f00!2f00!3f00!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db350106fffff%3A0x8670fa929d91fbd0!2sSirsi%20Rd%2C%20Jaipur%2C%20Rajasthan!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin',
@@ -11,7 +12,7 @@ export default function ContactMap() {
   const [data, setData] = useState(defaultMap);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/home-content/contact-map')
+    flashApiFetch('/home-content/contact-map')
       .then((res) => res.json())
       .then((resData) => {
         if (resData.success && resData.content && resData.content.mapEmbedUrl) {

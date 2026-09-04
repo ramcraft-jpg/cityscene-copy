@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { uploadHomeMedia } from '../../../services/homeContentService';
 import { getClients, createClient, updateClient, deleteClient } from '../../../services/clientService';
 import ConfirmDeleteModal from '../../../components/admin/ConfirmDeleteModal';
+import { getMediaUrl } from '../../../utils/imageUrl';
 
 export default function AdminPortfolioClients() {
   const [clientsList, setClientsList] = useState([]);
@@ -30,14 +31,6 @@ export default function AdminPortfolioClients() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const getMediaUrl = (url) => {
-    if (!url) return '';
-    if (url.startsWith('/uploads')) {
-      return `http://localhost:5000${url}`;
-    }
-    return url;
   };
 
   // Direct Upload New Client Image File

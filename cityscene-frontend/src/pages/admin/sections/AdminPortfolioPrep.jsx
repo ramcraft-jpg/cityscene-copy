@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { flashApiFetch } from '../../../config/api';
 
 export default function AdminPortfolioPrep() {
   const [projectCount, setProjectCount] = useState(0);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/projects')
+    flashApiFetch('/projects')
       .then(r => r.json())
       .then(d => setProjectCount(d.count || (d.data ? d.data.length : 0)))
       .catch(() => setProjectCount(0));

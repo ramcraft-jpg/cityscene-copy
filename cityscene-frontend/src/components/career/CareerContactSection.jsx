@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
 import { submitContactForm } from '../../services/contactService';
+import { flashApiFetch } from '../../config/api';
 
 const defaultHeader = {
   heading: 'Contact Us',
@@ -21,7 +22,7 @@ export default function CareerContactSection() {
   const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/home-content/career-contact')
+    flashApiFetch('/home-content/career-contact')
       .then((res) => res.json())
       .then((resData) => {
         if (resData.success && resData.content && resData.content.heading) {

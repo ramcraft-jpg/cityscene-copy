@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import CareerJobGrid from './CareerJobGrid';
 import { getMediaUrl } from '../../utils/imageUrl';
 import { useVideoIntersectionObserver } from '../../utils/useVideoIntersectionObserver';
+import { flashApiFetch } from '../../config/api';
 
 const defaultHeroData = {
   title: 'Join Our Team',
@@ -19,7 +20,7 @@ export default function CareerHero() {
   const videoRef = useVideoIntersectionObserver({ threshold: 0.15 });
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/home-content/career-hero')
+    flashApiFetch('/home-content/career-hero')
       .then((res) => res.json())
       .then((resData) => {
         if (resData.success && resData.content) {

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { flashApiFetch } from '../../../config/api';
 
 export default function AdminBlogsPrep() {
   const [blogCount, setBlogCount] = useState(0);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/blogs')
+    flashApiFetch('/blogs')
       .then(r => r.json())
       .then(d => setBlogCount(d.count || (d.data ? d.data.length : 0)))
       .catch(() => setBlogCount(0));

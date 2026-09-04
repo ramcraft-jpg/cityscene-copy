@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getMediaUrl } from '../../utils/imageUrl';
+import { flashApiFetch } from '../../config/api';
 
 const defaultHeroSlides = [
   {
@@ -40,7 +41,7 @@ export default function HomeHero() {
   });
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/home-content/hero')
+    flashApiFetch('/home-content/hero')
       .then((res) => res.json())
       .then((resData) => {
         if (resData.success && resData.content && Array.isArray(resData.content.slides)) {

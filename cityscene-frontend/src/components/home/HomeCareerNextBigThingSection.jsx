@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { flashApiFetch } from '../../config/api';
 
 const defaultCareerData = {
   badge: 'ARE YOU READY ?',
@@ -13,7 +14,7 @@ export default function HomeCareerNextBigThingSection() {
   const [data, setData] = useState(defaultCareerData);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/home-content/career')
+    flashApiFetch('/home-content/career')
       .then((res) => res.json())
       .then((resData) => {
         if (resData.success && resData.content && resData.content.badge) {

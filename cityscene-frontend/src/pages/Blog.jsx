@@ -5,6 +5,7 @@ import SEO from '../components/common/SEO';
 import BlogHero from '../components/blog/BlogHero';
 import BlogGrid from '../components/blog/BlogGrid';
 import { getBlogs } from '../services/blogService';
+import { flashApiFetch } from '../config/api';
 
 const defaultIntro = {
   heading: 'Technology is evolving rapidly - are you keeping up?',
@@ -22,7 +23,7 @@ export default function Blog() {
 
     Promise.all([
       getBlogs(),
-      fetch('http://localhost:5000/api/home-content/blog-intro').then(r => r.json()).catch(() => null)
+      flashApiFetch('/home-content/blog-intro').then(r => r.json()).catch(() => null)
     ])
       .then(([data, introRes]) => {
         if (data) setBlogsList(data);

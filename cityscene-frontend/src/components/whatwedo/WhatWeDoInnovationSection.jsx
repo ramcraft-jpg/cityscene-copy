@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getMediaUrl } from '../../utils/imageUrl';
+import { flashApiFetch } from '../../config/api';
 
 const defaultEmpoweringData = {
   heading: 'Empowering Businesses with Innovation',
@@ -11,7 +12,7 @@ export default function WhatWeDoInnovationSection() {
   const [data, setData] = useState(defaultEmpoweringData);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/home-content/whatwedo-innovation')
+    flashApiFetch('/home-content/whatwedo-innovation')
       .then((res) => res.json())
       .then((resData) => {
         if (resData.success && resData.content && resData.content.heading) {

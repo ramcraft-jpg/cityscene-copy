@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getMediaUrl } from '../../utils/imageUrl';
+import { flashApiFetch } from '../../config/api';
 
 const defaultClientAdoptionData = {
   heading: 'How do we serve the client',
@@ -16,7 +17,7 @@ export default function HomeClientAdoptionSection() {
   const [data, setData] = useState(defaultClientAdoptionData);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/home-content/client-adoption')
+    flashApiFetch('/home-content/client-adoption')
       .then((res) => res.json())
       .then((resData) => {
         if (resData.success && resData.content && resData.content.heading) {

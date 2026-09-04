@@ -1,13 +1,11 @@
 import staticProjects from '../data/projects';
 import staticClients from '../data/clients';
-import { getAdminToken } from './adminAuthService';
-
-const API_BASE = 'http://localhost:5000/api';
+import { flashApiFetch } from '../config/api';
 
 export const getProjects = async (includeAll = false) => {
   try {
-    const url = includeAll ? `${API_BASE}/projects?all=true` : `${API_BASE}/projects`;
-    const res = await fetch(url);
+    const endpoint = includeAll ? '/projects?all=true' : '/projects';
+    const res = await flashApiFetch(endpoint);
     if (res.ok) {
       const json = await res.json();
       if (json.data) return json.data;
@@ -21,7 +19,7 @@ export const getProjects = async (includeAll = false) => {
 export const getProjectBySlug = async (slug) => {
   if (!slug) return null;
   try {
-    const res = await fetch(`${API_BASE}/projects/${encodeURIComponent(slug)}`);
+    const res = await flashApiFetch(`/projects/${encodeURIComponent(slug)}`);
     if (res.ok) {
       const json = await res.json();
       if (json.data) return json.data;
@@ -31,7 +29,7 @@ export const getProjectBySlug = async (slug) => {
   }
 
   const found = staticProjects.find(
-    (p) => p.slug.toLowerCase() === slug.toLowerCase() || p.id === slug
+    (p) => p.slug?.toLowerCase() === slug.toLowerCase() || p.id === slug
   );
   return found || null;
 };
@@ -39,7 +37,7 @@ export const getProjectBySlug = async (slug) => {
 export const getRelatedProjects = async (currentSlug, limit = 3) => {
   const allProjects = await getProjects();
   const current = allProjects.find(
-    (p) => p.slug.toLowerCase() === currentSlug?.toLowerCase() || p.id === currentSlug
+    (p) => p.slug?.toLowerCase() === currentSlug?.toLowerCase() || p.id === currentSlug
   );
 
   if (!current) return allProjects.slice(0, limit);
@@ -53,7 +51,7 @@ export const getRelatedProjects = async (currentSlug, limit = 3) => {
 
 export const getClients = async () => {
   try {
-    const res = await fetch(`${API_BASE}/projects/clients`);
+    const res = await flashApiFetch('/projects/clients');
     if (!res.ok) throw new Error('Failed to fetch clients from API');
     const json = await res.json();
     return json.data || staticClients;
@@ -64,13 +62,8 @@ export const getClients = async () => {
 };
 
 export const createProject = async (projectData) => {
-  const token = getAdminToken();
-  const response = await fetch(`${API_BASE}/projects`, {
+  const response = await flashApiFetch('/projects', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    },
     body: JSON.stringify(projectData)
   });
   const data = await response.json();
@@ -81,13 +74,8 @@ export const createProject = async (projectData) => {
 };
 
 export const updateProject = async (id, projectData) => {
-  const token = getAdminToken();
-  const response = await fetch(`${API_BASE}/projects/${encodeURIComponent(id)}`, {
+  const response = await flashApiFetch(`/projects/${encodeURIComponent(id)}`, {
     method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    },
     body: JSON.stringify(projectData)
   });
   const data = await response.json();
@@ -98,12 +86,8 @@ export const updateProject = async (id, projectData) => {
 };
 
 export const deleteProject = async (id) => {
-  const token = getAdminToken();
-  const response = await fetch(`${API_BASE}/projects/${encodeURIComponent(id)}`, {
-    method: 'DELETE',
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
+  const response = await flashApiFetch(`/projects/${encodeURIComponent(id)}`, {
+    method: 'DELETE'
   });
   const data = await response.json();
   if (!response.ok || !data.success) {

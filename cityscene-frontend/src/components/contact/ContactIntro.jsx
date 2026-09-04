@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { flashApiFetch } from '../../config/api';
 
 const defaultIntro = {
   heading: 'How can we\nassist you today?',
@@ -10,7 +11,7 @@ export default function ContactIntro() {
   const [data, setData] = useState(defaultIntro);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/home-content/contact-intro')
+    flashApiFetch('/home-content/contact-intro')
       .then((res) => res.json())
       .then((resData) => {
         if (resData.success && resData.content && resData.content.heading) {

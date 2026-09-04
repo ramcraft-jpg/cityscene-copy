@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getMediaUrl } from '../../utils/imageUrl';
 import { useVideoIntersectionObserver } from '../../utils/useVideoIntersectionObserver';
+import { flashApiFetch } from '../../config/api';
 
 const defaultCommitmentData = {
   heading: 'Our Commitment',
@@ -20,7 +21,7 @@ export default function HomeCommitmentSection() {
   const videoRef = useVideoIntersectionObserver({ threshold: 0.15 });
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/home-content/commitment')
+    flashApiFetch('/home-content/commitment')
       .then((res) => res.json())
       .then((resData) => {
         if (resData.success && resData.content && resData.content.heading) {

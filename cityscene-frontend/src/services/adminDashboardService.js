@@ -1,15 +1,15 @@
-const API_BASE = 'http://localhost:5000/api';
+import { flashApiFetch } from '../config/api';
 
 export const fetchDashboardMetrics = async () => {
   try {
     const [servicesRes, blogsRes, projectsRes, jobsRes, testimonialsRes, contactRes, appRes] = await Promise.all([
-      fetch(`${API_BASE}/services`).then(r => r.ok ? r.json() : { count: 0, data: [] }),
-      fetch(`${API_BASE}/blogs`).then(r => r.ok ? r.json() : { count: 0, data: [] }),
-      fetch(`${API_BASE}/projects`).then(r => r.ok ? r.json() : { count: 0, data: [] }),
-      fetch(`${API_BASE}/jobs`).then(r => r.ok ? r.json() : { count: 0, data: [] }),
-      fetch(`${API_BASE}/testimonials`).then(r => r.ok ? r.json() : { count: 0, data: [] }),
-      fetch(`${API_BASE}/contact`).then(r => r.ok ? r.json() : { count: 0, data: [] }),
-      fetch(`${API_BASE}/applications`).then(r => r.ok ? r.json() : { count: 0, data: [] })
+      flashApiFetch('/services').then(r => r.ok ? r.json() : { count: 0, data: [] }),
+      flashApiFetch('/blogs').then(r => r.ok ? r.json() : { count: 0, data: [] }),
+      flashApiFetch('/projects').then(r => r.ok ? r.json() : { count: 0, data: [] }),
+      flashApiFetch('/jobs').then(r => r.ok ? r.json() : { count: 0, data: [] }),
+      flashApiFetch('/testimonials').then(r => r.ok ? r.json() : { count: 0, data: [] }),
+      flashApiFetch('/contact').then(r => r.ok ? r.json() : { count: 0, data: [] }),
+      flashApiFetch('/applications').then(r => r.ok ? r.json() : { count: 0, data: [] })
     ]);
 
     const services = Array.isArray(servicesRes.data) ? servicesRes.data : [];

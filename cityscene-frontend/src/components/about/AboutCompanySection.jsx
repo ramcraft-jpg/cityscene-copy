@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getMediaUrl } from '../../utils/imageUrl';
+import { flashApiFetch } from '../../config/api';
 
 const defaultCompanyData = {
   paragraph1: 'At CityScene Global Private Limited, we understand the challenges businesses face in navigating today’s fast-paced, technology-driven world. Many companies grapple with outdated infrastructure, slow system performance, and the complexity of managing multiple IT solutions—all while trying to keep up with the latest advancements in Automation, AI, and Blockchain. These obstacles can hinder growth, drain resources, and create inefficiencies that disrupt operations.',
@@ -22,7 +23,7 @@ export default function AboutCompanySection() {
   const [data, setData] = useState(defaultCompanyData);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/home-content/about-company')
+    flashApiFetch('/home-content/about-company')
       .then((res) => res.json())
       .then((resData) => {
         if (resData.success && resData.content && (resData.content.paragraph1 || resData.content.paragraph2)) {

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { flashApiFetch } from '../../config/api';
 
 const defaultTestimonials = [
   { quote: '"A game-changer for my business. Thank you!"', author: 'EsunScope' },
@@ -15,7 +16,7 @@ export default function HomeWhatPeopleAreSaying() {
   });
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/home-content/testimonials')
+    flashApiFetch('/home-content/testimonials')
       .then((res) => res.json())
       .then((resData) => {
         if (resData.success && resData.content && resData.content.testimonials && resData.content.testimonials.length > 0) {

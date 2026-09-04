@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { getAdminToken } from '../../../services/adminAuthService';
 import ConfirmDeleteModal from '../../../components/admin/ConfirmDeleteModal';
+import { flashApiFetch } from '../../../config/api';
 
 export default function AdminContactInquiries() {
   const [inquiries, setInquiries] = useState([]);
@@ -15,12 +15,7 @@ export default function AdminContactInquiries() {
   const loadInquiries = async () => {
     try {
       setLoading(true);
-      const token = getAdminToken();
-      const res = await fetch('http://localhost:5000/api/contact', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+      const res = await flashApiFetch('/contact');
       const data = await res.json();
       if (data && data.data) {
         setInquiries(data.data);
@@ -35,12 +30,8 @@ export default function AdminContactInquiries() {
   const handleDeleteInquiry = async () => {
     if (!deleteTarget) return;
     try {
-      const token = getAdminToken();
-      const res = await fetch(`http://localhost:5000/api/contact/${deleteTarget._id}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+      const res = await flashApiFetch(`/contact/${deleteTarget._id}`, {
+        method: 'DELETE'
       });
       const data = await res.json();
       if (res.ok && data.success) {

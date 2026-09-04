@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:5000/api';
+import { flashApiFetch } from '../config/api';
 
 // Service abstraction for career job application form submission
 export const submitJobApplication = async (formData) => {
@@ -13,7 +13,7 @@ export const submitJobApplication = async (formData) => {
       body.append('resume', formData.resume);
     }
 
-    const response = await fetch(`${API_BASE}/applications`, {
+    const response = await flashApiFetch('/applications', {
       method: 'POST',
       body
     });
@@ -33,4 +33,3 @@ export const submitJobApplication = async (formData) => {
     };
   }
 };
-

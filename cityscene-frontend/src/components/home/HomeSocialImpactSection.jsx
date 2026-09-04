@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getMediaUrl } from '../../utils/imageUrl';
+import { flashApiFetch } from '../../config/api';
 
 const defaultSocialImpactData = {
   badge: 'Social Impact',
@@ -17,7 +18,7 @@ export default function HomeSocialImpactSection() {
   const [data, setData] = useState(defaultSocialImpactData);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/home-content/social-impact')
+    flashApiFetch('/home-content/social-impact')
       .then((res) => res.json())
       .then((resData) => {
         if (resData.success && resData.content && resData.content.heading) {

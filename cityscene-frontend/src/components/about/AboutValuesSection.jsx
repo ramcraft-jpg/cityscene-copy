@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { valuesData as staticValues } from '../../data/aboutData';
 import { getMediaUrl } from '../../utils/imageUrl';
+import { flashApiFetch } from '../../config/api';
 
 const defaultValuesData = {
   heading: 'Our Values',
@@ -11,7 +12,7 @@ export default function AboutValuesSection() {
   const [data, setData] = useState(defaultValuesData);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/home-content/about-values')
+    flashApiFetch('/home-content/about-values')
       .then((res) => res.json())
       .then((resData) => {
         if (resData.success && resData.content && resData.content.values) {

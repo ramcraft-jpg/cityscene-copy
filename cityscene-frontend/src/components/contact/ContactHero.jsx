@@ -3,6 +3,7 @@ import { Send, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 import { submitContactForm } from '../../services/contactService';
 import { getMediaUrl } from '../../utils/imageUrl';
 import { useVideoIntersectionObserver } from '../../utils/useVideoIntersectionObserver';
+import { flashApiFetch } from '../../config/api';
 
 const defaultHero = {
   subheading: "LET'S TALK",
@@ -28,7 +29,7 @@ export default function ContactHero() {
   const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/home-content/contact-hero')
+    flashApiFetch('/home-content/contact-hero')
       .then((res) => res.json())
       .then((resData) => {
         if (resData.success && resData.content && resData.content.title) {

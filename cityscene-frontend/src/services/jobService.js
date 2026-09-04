@@ -1,9 +1,7 @@
-import { getAdminToken } from './adminAuthService';
-
-const API_URL = 'http://localhost:5000/api/jobs';
+import { flashApiFetch } from '../config/api';
 
 export const getJobs = async (all = false) => {
-  const res = await fetch(`${API_URL}?all=${all}`);
+  const res = await flashApiFetch(`/jobs?all=${all}`);
   const json = await res.json();
   if (!res.ok || !json.success) {
     throw new Error(json.message || 'Failed to fetch jobs.');
@@ -12,13 +10,8 @@ export const getJobs = async (all = false) => {
 };
 
 export const createJob = async (jobData) => {
-  const token = getAdminToken();
-  const res = await fetch(API_URL, {
+  const res = await flashApiFetch('/jobs', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    },
     body: JSON.stringify(jobData)
   });
   const json = await res.json();
@@ -29,13 +22,8 @@ export const createJob = async (jobData) => {
 };
 
 export const updateJob = async (id, jobData) => {
-  const token = getAdminToken();
-  const res = await fetch(`${API_URL}/${encodeURIComponent(id)}`, {
+  const res = await flashApiFetch(`/jobs/${encodeURIComponent(id)}`, {
     method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    },
     body: JSON.stringify(jobData)
   });
   const json = await res.json();
@@ -46,12 +34,8 @@ export const updateJob = async (id, jobData) => {
 };
 
 export const deleteJob = async (id) => {
-  const token = getAdminToken();
-  const res = await fetch(`${API_URL}/${encodeURIComponent(id)}`, {
-    method: 'DELETE',
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
+  const res = await flashApiFetch(`/jobs/${encodeURIComponent(id)}`, {
+    method: 'DELETE'
   });
   const json = await res.json();
   if (!res.ok || !json.success) {

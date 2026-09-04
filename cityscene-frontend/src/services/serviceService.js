@@ -1,12 +1,10 @@
-import { getAdminToken } from './adminAuthService';
+import { flashApiFetch } from '../config/api';
 import staticServices from '../data/services';
-
-const API_BASE = 'http://localhost:5000/api';
 
 export const getServices = async (includeAll = false) => {
   try {
-    const url = includeAll ? `${API_BASE}/services?all=true` : `${API_BASE}/services`;
-    const response = await fetch(url);
+    const endpoint = includeAll ? '/services?all=true' : '/services';
+    const response = await flashApiFetch(endpoint);
     if (response.ok) {
       const json = await response.json();
       if (json.data) {
@@ -24,7 +22,7 @@ export const getServiceById = async (id) => {
   const cleanId = id.trim().toLowerCase();
 
   try {
-    const response = await fetch(`${API_BASE}/services/${encodeURIComponent(cleanId)}`);
+    const response = await flashApiFetch(`/services/${encodeURIComponent(cleanId)}`);
     if (response.ok) {
       const json = await response.json();
       if (json.data) return json.data;
@@ -45,13 +43,8 @@ export const getServiceById = async (id) => {
 };
 
 export const createService = async (serviceData) => {
-  const token = getAdminToken();
-  const response = await fetch(`${API_BASE}/services`, {
+  const response = await flashApiFetch('/services', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    },
     body: JSON.stringify(serviceData)
   });
   const data = await response.json();
@@ -62,13 +55,8 @@ export const createService = async (serviceData) => {
 };
 
 export const updateService = async (id, serviceData) => {
-  const token = getAdminToken();
-  const response = await fetch(`${API_BASE}/services/${encodeURIComponent(id)}`, {
+  const response = await flashApiFetch(`/services/${encodeURIComponent(id)}`, {
     method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    },
     body: JSON.stringify(serviceData)
   });
   const data = await response.json();
@@ -79,12 +67,8 @@ export const updateService = async (id, serviceData) => {
 };
 
 export const deleteService = async (id) => {
-  const token = getAdminToken();
-  const response = await fetch(`${API_BASE}/services/${encodeURIComponent(id)}`, {
-    method: 'DELETE',
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
+  const response = await flashApiFetch(`/services/${encodeURIComponent(id)}`, {
+    method: 'DELETE'
   });
   const data = await response.json();
   if (!response.ok || !data.success) {

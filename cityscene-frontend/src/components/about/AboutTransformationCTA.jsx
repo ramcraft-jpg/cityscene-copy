@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import { flashApiFetch } from '../../config/api';
 
 const defaultTransformationData = {
   heading: 'Transformation starts here',
@@ -17,7 +18,7 @@ export default function AboutTransformationCTA() {
   const [data, setData] = useState(defaultTransformationData);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/home-content/about-transformation')
+    flashApiFetch('/home-content/about-transformation')
       .then((res) => res.json())
       .then((resData) => {
         if (resData.success && resData.content && resData.content.heading) {

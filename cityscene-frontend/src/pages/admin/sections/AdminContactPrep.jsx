@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { flashApiFetch } from '../../../config/api';
 
 export default function AdminContactPrep() {
   const [contactCount, setContactCount] = useState(0);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/contact')
+    flashApiFetch('/contact')
       .then(r => r.json())
       .then(d => setContactCount(d.count || (d.data ? d.data.length : 0)))
       .catch(() => setContactCount(0));

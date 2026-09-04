@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getMediaUrl } from '../../utils/imageUrl';
+import { flashApiFetch } from '../../config/api';
 
 const defaultAboutData = {
   heading: 'About Us',
@@ -16,7 +17,7 @@ export default function HomeAboutUsSection() {
   const [data, setData] = useState(defaultAboutData);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/home-content/about')
+    flashApiFetch('/home-content/about')
       .then((res) => res.json())
       .then((resData) => {
         if (resData.success && resData.content && resData.content.heading) {

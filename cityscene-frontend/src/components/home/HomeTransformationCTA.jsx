@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { flashApiFetch } from '../../config/api';
 
 const defaultTransformationData = {
   heading: 'Transformation starts here',
@@ -18,7 +19,7 @@ export default function HomeTransformationCTA() {
   const [data, setData] = useState(defaultTransformationData);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/home-content/transformation')
+    flashApiFetch('/home-content/transformation')
       .then((res) => res.json())
       .then((resData) => {
         if (resData.success && resData.content && resData.content.heading) {

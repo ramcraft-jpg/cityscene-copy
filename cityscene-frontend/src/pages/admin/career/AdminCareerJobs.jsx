@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { getHomeSectionContent, updateHomeSectionContent, uploadHomeMedia } from '../../../services/homeContentService';
 import { getMediaUrl } from '../../../utils/imageUrl';
-import { getAdminToken } from '../../../services/adminAuthService';
 import ConfirmDeleteModal from '../../../components/admin/ConfirmDeleteModal';
+import { flashApiFetch } from '../../../config/api';
 
 export default function AdminCareerJobs() {
   const [headerData, setHeaderData] = useState({
@@ -31,7 +31,7 @@ export default function AdminCareerJobs() {
       setLoading(true);
       const [gridHeaderRes, jobsRes] = await Promise.all([
         getHomeSectionContent('career-grid-header').catch(() => null),
-        fetch('http://localhost:5000/api/jobs?all=true').then(r => r.json()).catch(() => null)
+        flashApiFetch('/jobs?all=true').then(r => r.json()).catch(() => null)
       ]);
 
       if (gridHeaderRes && gridHeaderRes.heading) setHeaderData(gridHeaderRes);
@@ -98,20 +98,15 @@ export default function AdminCareerJobs() {
     e.preventDefault();
     if (!selectedJob.title) return;
 
-    const token = getAdminToken();
     const targetId = selectedJob.originalId || selectedJob.id || selectedJob._id;
-    const url = isAddMode ? 'http://localhost:5000/api/jobs' : `http://localhost:5000/api/jobs/${encodeURIComponent(targetId)}`;
+    const endpoint = isAddMode ? '/jobs' : `/jobs/${encodeURIComponent(targetId)}`;
     const method = isAddMode ? 'POST' : 'PUT';
 
     try {
       setSaving(true);
       setMessage(null);
-      const response = await fetch(url, {
+      const response = await flashApiFetch(endpoint, {
         method,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
         body: JSON.stringify(selectedJob)
       });
 
@@ -132,17 +127,13 @@ export default function AdminCareerJobs() {
 
   const handleConfirmDelete = async () => {
     if (!deleteTarget) return;
-    const token = getAdminToken();
     const targetId = deleteTarget.id || deleteTarget._id;
 
     try {
       setSaving(true);
       setMessage(null);
-      const response = await fetch(`http://localhost:5000/api/jobs/${encodeURIComponent(targetId)}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+      const response = await flashApiFetch(`/jobs/${encodeURIComponent(targetId)}`, {
+        method: 'DELETE'
       });
       const resData = await response.json();
       if (!response.ok || !resData.success) {

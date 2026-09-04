@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { flashApiFetch } from '../../../config/api';
 
 export default function AdminTestimonialsPrep() {
   const [testimonialCount, setTestimonialCount] = useState(0);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/testimonials')
+    flashApiFetch('/testimonials')
       .then(r => r.json())
       .then(d => setTestimonialCount(d.count || (d.data ? d.data.length : 0)))
       .catch(() => setTestimonialCount(0));

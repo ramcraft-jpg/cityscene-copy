@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { getMediaUrl } from '../../utils/imageUrl';
+import { flashApiFetch } from '../../config/api';
 
 const defaultPeopleData = {
   subheading: 'Our People',
@@ -15,7 +16,7 @@ export default function AboutOurPeopleSection() {
   const [data, setData] = useState(defaultPeopleData);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/home-content/about-people')
+    flashApiFetch('/home-content/about-people')
       .then((res) => res.json())
       .then((resData) => {
         if (resData.success && resData.content && resData.content.title) {

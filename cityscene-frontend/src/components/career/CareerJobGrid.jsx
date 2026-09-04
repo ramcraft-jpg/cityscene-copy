@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { jobsData as fallbackJobs } from '../../data/jobs';
 import CareerJobCard from './CareerJobCard';
+import { getJobs } from '../../services/jobService';
 
 export default function CareerJobGrid({ jobs: customJobs }) {
   const [jobs, setJobs] = useState(customJobs || fallbackJobs);
 
   useEffect(() => {
     if (!customJobs) {
-      fetch('http://localhost:5000/api/jobs')
-        .then((r) => r.json())
-        .then((jobsRes) => {
-          if (jobsRes && jobsRes.success && jobsRes.data) {
-            setJobs(jobsRes.data);
+      getJobs()
+        .then((jobsData) => {
+          if (jobsData && Array.isArray(jobsData)) {
+            setJobs(jobsData);
           }
         })
         .catch(() => null);

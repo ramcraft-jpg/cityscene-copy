@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getClients } from '../../services/clientService';
 import { getMediaUrl } from '../../utils/imageUrl';
+import { flashApiFetch } from '../../config/api';
 
 const defaultHeading = 'Trusted by fast growing startups';
 
@@ -10,7 +11,7 @@ export default function PortfolioTrustedClients() {
 
   useEffect(() => {
     Promise.all([
-      fetch('http://localhost:5000/api/home-content/portfolio-clients').then((r) => r.json()).catch(() => null),
+      flashApiFetch('/home-content/portfolio-clients').then((r) => r.json()).catch(() => null),
       getClients().catch(() => [])
     ]).then(([headerRes, clientsData]) => {
       if (headerRes && headerRes.success && headerRes.content && headerRes.content.heading) {

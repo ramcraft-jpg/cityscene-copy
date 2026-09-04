@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PortfolioProjectCard from './PortfolioProjectCard';
+import { flashApiFetch } from '../../config/api';
 
 const defaultHeader = {
   heading: 'Our Projects'
@@ -10,7 +11,7 @@ export default function PortfolioProjectGrid({ projects }) {
   const [visibleCount, setVisibleCount] = useState(6);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/home-content/portfolio-grid-header')
+    flashApiFetch('/home-content/portfolio-grid-header')
       .then((res) => res.json())
       .then((resData) => {
         if (resData.success && resData.content && resData.content.heading) {

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { getMediaUrl } from '../../utils/imageUrl';
 import { useVideoIntersectionObserver } from '../../utils/useVideoIntersectionObserver';
+import { flashApiFetch } from '../../config/api';
 
 const defaultHeroData = {
   subheading: 'PORTFOLIO',
@@ -19,7 +20,7 @@ export default function PortfolioHero({ videoSrc: propVideoSrc }) {
   const videoRef = useVideoIntersectionObserver({ threshold: 0.15 });
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/home-content/portfolio-hero')
+    flashApiFetch('/home-content/portfolio-hero')
       .then((res) => res.json())
       .then((resData) => {
         if (resData.success && resData.content && resData.content.title) {

@@ -1,4 +1,5 @@
 import React from 'react';
+import { getMediaUrl } from '../../utils/imageUrl';
 
 const isVideoUrl = (url) => {
   if (!url || typeof url !== 'string') return false;
@@ -61,14 +62,6 @@ export default function AdminHeroMediaControl({
   onRemoveMedia
 }) {
   const isVideoMode = mediaType === 'video' || isVideoUrl(imageUrl) || isVideoUrl(videoUrl);
-
-  const getMediaUrl = (url) => {
-    if (!url) return '';
-    if (url.startsWith('/uploads')) {
-      return `http://localhost:5000${url}`;
-    }
-    return url;
-  };
 
   const currentVideoSrc = getMediaUrl(videoUrl);
   const embedVideoSrc = getEmbedVideoUrl(currentVideoSrc);

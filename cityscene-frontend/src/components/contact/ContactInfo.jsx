@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MapPin, Phone, Mail } from 'lucide-react';
+import { flashApiFetch } from '../../config/api';
 
 const defaultDetails = {
   title: 'Contact Us',
@@ -13,7 +14,7 @@ export default function ContactInfo() {
   const [data, setData] = useState(defaultDetails);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/home-content/contact-details')
+    flashApiFetch('/home-content/contact-details')
       .then((res) => res.json())
       .then((resData) => {
         if (resData.success && resData.content && resData.content.address) {
