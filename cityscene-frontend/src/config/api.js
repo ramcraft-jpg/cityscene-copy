@@ -24,10 +24,7 @@ export const getFlashApiUrl = () => {
   }
 
   if (isProd) {
-    if (typeof window !== 'undefined' && window.location && window.location.origin) {
-      return `${window.location.origin.replace(/\/+$/, '')}/api`;
-    }
-    return 'https://staging.citysceneglobal.com/api';
+    return '/api';
   }
 
   // Development Fallback Only
@@ -52,7 +49,7 @@ export const getFlashApiOrigin = () => {
     if (typeof window !== 'undefined' && window.location && window.location.origin) {
       return window.location.origin.replace(/\/+$/, '');
     }
-    return 'https://staging.citysceneglobal.com';
+    return '';
   }
 
   // Development Fallback Only
