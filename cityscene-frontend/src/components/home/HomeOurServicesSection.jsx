@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getMediaUrl } from '../../utils/imageUrl';
+import { getHomeSectionContent } from '../../services/homeContentService';
 import { getServices } from '../../services/serviceService';
 
 const defaultServices = [
@@ -89,13 +90,36 @@ export default function HomeOurServicesSection() {
   const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
-    getServices()
-      .then((data) => {
-        if (Array.isArray(data) && data.length > 0) {
-          setItems(data);
+    let isMounted = true;
+    getHomeSectionContent('services')
+      .then((content) => {
+        if (isMounted && content && Array.isArray(content.services) && content.services.length > 0) {
+          setSectionData({
+            heading: content.heading || 'Our Services',
+            services: content.services
+          });
+          setItems(content.services);
+          return;
         }
+        return getServices().then((data) => {
+          if (isMounted && Array.isArray(data) && data.length > 0) {
+            setItems(data);
+          }
+        });
       })
-      .catch((err) => console.error('Error fetching HomeServices API data:', err));
+      .catch(() => {
+        getServices()
+          .then((data) => {
+            if (isMounted && Array.isArray(data) && data.length > 0) {
+              setItems(data);
+            }
+          })
+          .catch((err) => console.error('Error fetching HomeServices API data:', err));
+      });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   useEffect(() => {
