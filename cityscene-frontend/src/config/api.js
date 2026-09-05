@@ -24,8 +24,10 @@ export const getFlashApiUrl = () => {
   }
 
   if (isProd) {
-    console.warn('[Flash API Config Warning]: VITE_FLASH_API_URL is not explicitly set. Falling back to default production origin.');
-    return 'https://api.citysceneglobal.com/api';
+    if (typeof window !== 'undefined' && window.location && window.location.origin) {
+      return `${window.location.origin.replace(/\/+$/, '')}/api`;
+    }
+    return 'https://staging.citysceneglobal.com/api';
   }
 
   // Development Fallback Only
@@ -47,7 +49,10 @@ export const getFlashApiOrigin = () => {
   }
 
   if (isProd) {
-    return 'https://api.citysceneglobal.com';
+    if (typeof window !== 'undefined' && window.location && window.location.origin) {
+      return window.location.origin.replace(/\/+$/, '');
+    }
+    return 'https://staging.citysceneglobal.com';
   }
 
   // Development Fallback Only
