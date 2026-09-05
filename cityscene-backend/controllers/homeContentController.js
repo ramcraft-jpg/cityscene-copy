@@ -125,10 +125,31 @@ export const defaultHomeContent = {
       { q: 'How long does a custom software build take?', a: 'Typically 8 to 12 weeks for an MVP depending on complexity.' }
     ]
   },
+  'contact-hero': {
+    subheading: "LET'S TALK",
+    title: 'Contact\nUs',
+    description: 'Bridging The Gap Between Ideas & Execution, Contact Us Today.',
+    bgImage: '/assets/images/contact-hero.jpg',
+    bgVideo: ''
+  },
+  'contact-intro': {
+    heading: 'How can we\nassist you today?',
+    description: "We're here to assist you! Let us know your requirements, and we'll connect you with the right IT experts to deliver the best solutions.",
+    badgeText: 'REACH US OUT'
+  },
+  'contact-details': {
+    title: 'Contact Us',
+    address: 'Second Floor, S.p Tower, 150, Sirsi Rd,\nOfficers Campus Colony, Jaipur, Rajasthan, India',
+    phone1: '+91-7689999377',
+    phone2: '+971-528225509',
+    email: 'info@citysceneglobal.com'
+  },
   'contact-info': {
-    address: 'S.P Tower, Sirsi Rd, Jaipur, Rajasthan',
-    email: 'info@citysceneglobal.com',
-    phone: '+91 98765 43210'
+    title: 'Contact Us',
+    address: 'Second Floor, S.p Tower, 150, Sirsi Rd,\nOfficers Campus Colony, Jaipur, Rajasthan, India',
+    phone1: '+91-7689999377',
+    phone2: '+971-528225509',
+    email: 'info@citysceneglobal.com'
   },
   'contact-map': {
     mapEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3557.513233887208!2d75.72754637604473!3d26.9189874591522!2m3!1f00!2f00!3f00!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db350106fffff%3A0x8670fa929d91fbd0!2sSirsi%20Rd%2C%20Jaipur%2C%20Rajasthan!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin',

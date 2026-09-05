@@ -17,8 +17,8 @@ export default function ContactInfo() {
     flashApiFetch('/home-content/contact-details')
       .then((res) => res.json())
       .then((resData) => {
-        if (resData.success && resData.content && resData.content.address) {
-          setData(resData.content);
+        if (resData.success && resData.content && Object.keys(resData.content).length > 0) {
+          setData((prev) => ({ ...prev, ...resData.content }));
         }
       })
       .catch((err) => console.error('Error fetching ContactInfo API data:', err));
