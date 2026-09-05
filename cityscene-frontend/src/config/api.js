@@ -24,9 +24,8 @@ export const getFlashApiUrl = () => {
   }
 
   if (isProd) {
-    throw new Error(
-      '[Flash API Config Error]: VITE_FLASH_API_URL environment variable is missing or empty in production deployment.'
-    );
+    console.warn('[Flash API Config Warning]: VITE_FLASH_API_URL is not explicitly set. Falling back to default production origin.');
+    return 'https://api.citysceneglobal.com/api';
   }
 
   // Development Fallback Only
@@ -48,9 +47,7 @@ export const getFlashApiOrigin = () => {
   }
 
   if (isProd) {
-    throw new Error(
-      '[Flash API Config Error]: VITE_FLASH_API_URL environment variable is missing or empty in production deployment.'
-    );
+    return 'https://api.citysceneglobal.com';
   }
 
   // Development Fallback Only
