@@ -93,9 +93,11 @@ export default function ContactHero() {
     }
   };
 
+  const [videoError, setVideoError] = useState(false);
+
   const bgImage = getMediaUrl(heroData.bgImage || heroData.backgroundImage || defaultHero.bgImage);
   const bgVideo = getMediaUrl(heroData.bgVideo || heroData.backgroundVideo);
-  const isVideoMode = heroData.backgroundMediaType === 'video' || (heroData.backgroundMediaType !== 'image' && !!bgVideo);
+  const isVideoMode = !videoError && (heroData.backgroundMediaType === 'video' || (heroData.backgroundMediaType !== 'image' && !!bgVideo));
 
   return (
     <section className="relative w-full h-screen overflow-hidden flex items-center justify-center text-white text-left">
@@ -112,12 +114,13 @@ export default function ContactHero() {
             className="absolute inset-0 w-full h-full object-cover object-center"
             src={bgVideo}
             onError={(e) => {
-              e.target.style.display = 'none';
+              console.warn('[ContactHero Video Error]: Unable to play video source, falling back to background image.');
+              setVideoError(true);
             }}
           />
         ) : null}
 
-        {(!isVideoMode || !bgVideo) && (
+        {(!isVideoMode || !bgVideo || videoError) && (
           <img
             src={bgImage}
             alt="Contact Us Background"
