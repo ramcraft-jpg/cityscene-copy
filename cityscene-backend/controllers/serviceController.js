@@ -105,13 +105,24 @@ export const createService = async (req, res, next) => {
       return res.status(400).json({ success: false, message: `A service with ID '${serviceId}' already exists.` });
     }
 
+    const defaultImg = 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80';
+    const cardImgUrl = req.body.cardImage || image || defaultImg;
+    const heroImgUrl = req.body.heroImage || image || defaultImg;
+    const contentImgUrl = req.body.contentImage || heroImgUrl;
+    const whyChooseBgUrl = req.body.whyChooseUsBackgroundImage || req.body.whyChooseImage || defaultImg;
+
     const newService = await Service.create({
       ...req.body,
       id: serviceId,
       title: title.trim(),
       displayTitle: (displayTitle || `${title} Services`).trim(),
       path: servicePath,
-      image: image || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80',
+      image: cardImgUrl,
+      cardImage: cardImgUrl,
+      heroImage: heroImgUrl,
+      contentImage: contentImgUrl,
+      whyChooseUsBackgroundImage: whyChooseBgUrl,
+      whyChooseImage: whyChooseBgUrl,
       shortDesc: (shortDesc || 'Comprehensive service offering by CityScene Global.').trim(),
       position: req.body.position || 'bottom-left',
       order: req.body.order || 0,

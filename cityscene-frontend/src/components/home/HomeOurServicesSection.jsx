@@ -91,31 +91,21 @@ export default function HomeOurServicesSection() {
 
   useEffect(() => {
     let isMounted = true;
+    getServices()
+      .then((data) => {
+        if (isMounted && Array.isArray(data) && data.length > 0) {
+          setItems(data);
+        }
+      })
+      .catch((err) => console.error('Error fetching HomeServices API data:', err));
+
     getHomeSectionContent('services')
       .then((content) => {
-        if (isMounted && content && Array.isArray(content.services) && content.services.length > 0) {
-          setSectionData({
-            heading: content.heading || 'Our Services',
-            services: content.services
-          });
-          setItems(content.services);
-          return;
+        if (isMounted && content && content.heading) {
+          setSectionData((prev) => ({ ...prev, heading: content.heading }));
         }
-        return getServices().then((data) => {
-          if (isMounted && Array.isArray(data) && data.length > 0) {
-            setItems(data);
-          }
-        });
       })
-      .catch(() => {
-        getServices()
-          .then((data) => {
-            if (isMounted && Array.isArray(data) && data.length > 0) {
-              setItems(data);
-            }
-          })
-          .catch((err) => console.error('Error fetching HomeServices API data:', err));
-      });
+      .catch(() => {});
 
     return () => {
       isMounted = false;
@@ -192,7 +182,7 @@ export default function HomeOurServicesSection() {
               const isOdd = idx % 2 === 0;
 
               const fallbackUrl = defaultServices.find((ds) => ds.id === srv.id)?.fallback || defaultServices[5].fallback;
-              const rawImg = srv.image || srv.heroImage || srv.backgroundImage || srv.bgImage;
+              const rawImg = srv.cardImage || srv.image;
               const imageUrl = rawImg ? getMediaUrl(rawImg) : fallbackUrl;
 
               return (

@@ -95,9 +95,12 @@ export default function ContactHero() {
 
   const [videoError, setVideoError] = useState(false);
 
-  const bgImage = getMediaUrl(heroData.bgImage || heroData.backgroundImage || defaultHero.bgImage);
-  const bgVideo = getMediaUrl(heroData.bgVideo || heroData.backgroundVideo);
-  const isVideoMode = !videoError && (heroData.backgroundMediaType === 'video' || (heroData.backgroundMediaType !== 'image' && !!bgVideo));
+  const rawBgImage = heroData.bgImage || heroData.backgroundImage || defaultHero.bgImage;
+  const rawBgVideo = heroData.bgVideo || heroData.backgroundVideo;
+
+  const bgImage = getMediaUrl(rawBgImage);
+  const bgVideo = rawBgVideo ? getMediaUrl(rawBgVideo) : '';
+  const isVideoMode = !videoError && (heroData.backgroundMediaType === 'video' || (heroData.backgroundMediaType !== 'image' && !!rawBgVideo));
 
   return (
     <section className="relative w-full h-screen overflow-hidden flex items-center justify-center text-white text-left">

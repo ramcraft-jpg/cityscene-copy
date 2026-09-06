@@ -59,6 +59,8 @@ export default function AdminWhatWeDoServices() {
         id: cleanId,
         displayTitle: newService.title,
         path: `/services/${cleanId}`,
+        cardImage: newService.image,
+        image: newService.image,
         heroDesc: newService.shortDesc,
         order: servicesList.length + 1,
         isActive: true
@@ -147,7 +149,7 @@ export default function AdminWhatWeDoServices() {
               {/* Card Cover Image */}
               <div className="h-48 w-full bg-slate-900 overflow-hidden relative">
                 <img
-                  src={getMediaUrl(srv.image)}
+                  src={getMediaUrl(srv.cardImage || srv.image)}
                   alt={srv.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   onError={(e) => {

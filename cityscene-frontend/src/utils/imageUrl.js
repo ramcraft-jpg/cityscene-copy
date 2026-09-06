@@ -31,9 +31,6 @@ export const getMediaUrl = (url, fallback = DEFAULT_PLACEHOLDER_IMAGE) => {
   if (trimmed.startsWith('uploads/')) {
     return `${backendOrigin}/${trimmed}`;
   }
-  if (trimmed.startsWith('/images') || trimmed.startsWith('/videos') || trimmed.startsWith('/assets')) {
-    return `${backendOrigin}${trimmed}`;
-  }
 
   return trimmed;
 };

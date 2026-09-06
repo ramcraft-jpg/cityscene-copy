@@ -130,7 +130,8 @@ export const defaultHomeContent = {
     title: 'Contact\nUs',
     description: 'Bridging The Gap Between Ideas & Execution, Contact Us Today.',
     bgImage: '/assets/images/contact-hero.jpg',
-    bgVideo: ''
+    bgVideo: '',
+    backgroundMediaType: 'image'
   },
   'contact-intro': {
     heading: 'How can we\nassist you today?',

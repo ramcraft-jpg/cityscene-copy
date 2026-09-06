@@ -100,6 +100,25 @@ export default function AdminHomeServices() {
         <p className="text-xs text-slate-500 font-medium">Manage featured services cards, titles, images, and section titles displayed on Home Page.</p>
       </div>
 
+      {/* Single Source of Truth Notice */}
+      <div className="bg-gradient-to-r from-orange-500/10 via-amber-500/10 to-transparent p-5 rounded-2xl border border-orange-200 text-slate-800 space-y-2">
+        <div className="flex items-center gap-2 font-bold text-orange-950 text-sm">
+          <span>⚡ Single Source of Truth for Services</span>
+        </div>
+        <p className="text-xs text-slate-700 leading-relaxed font-medium">
+          The Home Page "Our Services" section automatically fetches service cards from the main <strong>What We Do Services API</strong>.
+          Changing a service's title or <code>cardImage</code> in <strong>What We Do Services Cards</strong> automatically updates both <code>/services</code> and the Home Page.
+        </p>
+        <div className="pt-1">
+          <a
+            href="/admin/services/grid"
+            className="inline-flex items-center gap-1 text-xs font-bold text-orange-600 hover:text-orange-700 hover:underline"
+          >
+            Go to What We Do Services Cards Management →
+          </a>
+        </div>
+      </div>
+
       {/* Message Banner */}
       {message && (
         <div

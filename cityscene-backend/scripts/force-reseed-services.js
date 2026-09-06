@@ -6,7 +6,9 @@ async function forceReseedServices() {
   try {
     console.log('Connecting to database...');
     await sequelize.authenticate();
-    console.log('Database connected. Reseeding/Updating all 12 services with unique datasets...');
+    console.log('Syncing Service database schema with alter: true...');
+    await Service.sync({ alter: true });
+    console.log('Database schema synchronized. Updating all services with independent media fields...');
 
     for (const srvData of initialServices) {
       const targetId = srvData.id;
@@ -15,16 +17,40 @@ async function forceReseedServices() {
         where: { id: targetId }
       });
 
+      const cardImg = srvData.cardImage || srvData.image;
+      const heroImg = srvData.heroImage || srvData.image;
+      const contentImg = srvData.contentImage || heroImg;
+      const whyChooseBg = srvData.whyChooseUsBackgroundImage || srvData.whyChooseImage || srvData.backgroundImage || heroImg;
+
+      const payload = {
+        ...srvData,
+        cardImage: cardImg,
+        image: cardImg,
+        heroImage: heroImg,
+        contentImage: contentImg,
+        whyChooseUsBackgroundImage: whyChooseBg,
+        whyChooseImage: whyChooseBg
+      };
+
       if (existing) {
         console.log(`Updating service: ${targetId} (${srvData.displayTitle || srvData.title})...`);
-        await existing.update(srvData);
+        // preserve custom non-empty images if previously customized by user
+        const updatePayload = {
+          ...payload,
+          cardImage: existing.cardImage || cardImg,
+          image: existing.cardImage || existing.image || cardImg,
+          heroImage: existing.heroImage || heroImg,
+          contentImage: existing.contentImage || existing.heroImage || contentImg,
+          whyChooseUsBackgroundImage: existing.whyChooseUsBackgroundImage || existing.whyChooseImage || whyChooseBg
+        };
+        await existing.update(updatePayload);
       } else {
         console.log(`Creating service: ${targetId} (${srvData.displayTitle || srvData.title})...`);
-        await Service.create(srvData);
+        await Service.create(payload);
       }
     }
 
-    console.log('✅ ALL 12 SERVICES UPDATED IN DATABASE SUCCESSFULLY!');
+    console.log('✅ ALL SERVICES UPDATED IN DATABASE SUCCESSFULLY WITH SEPARATED MEDIA FIELDS!');
     process.exit(0);
   } catch (err) {
     console.error('❌ Database reseed error:', err);

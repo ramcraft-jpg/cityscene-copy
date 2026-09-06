@@ -4,7 +4,7 @@ import { getMediaUrl } from '../../utils/imageUrl';
 export default function WhatWeDoDetailWhyChooseUs({ service }) {
   if (!service || !service.whyChooseCards || service.whyChooseCards.length === 0) return null;
 
-  const rawBg = service.whyChooseImage || service.whyChooseBgImage || service.backgroundImage || service.heroImage || service.image;
+  const rawBg = service.whyChooseUsBackgroundImage || service.whyChooseImage || service.whyChooseBgImage;
   const bgImage = rawBg ? getMediaUrl(rawBg) : 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1920&q=80';
 
   return (

@@ -12,10 +12,9 @@ export default function WhatWeDoDetailHero({ service }) {
     service.heroVideo || service.backgroundVideo || service.video
   );
 
-  // Dynamically retrieve the respective service card image
-  const imageSrc = getMediaUrl(
-    service.heroImage || service.image || service.backgroundImage
-  );
+  // Retrieve hero image for individual service detail hero banner
+  const rawHeroImage = service.heroImage || service.image;
+  const imageSrc = getMediaUrl(rawHeroImage);
 
   const isVideoMode =
     service.backgroundMediaType === 'video' ||

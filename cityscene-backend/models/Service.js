@@ -23,6 +23,10 @@ export const Service = sequelize.define('Service', {
     type: DataTypes.TEXT,
     allowNull: false
   },
+  cardImage: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
   position: {
     type: DataTypes.STRING,
     defaultValue: 'bottom-left'
@@ -40,6 +44,10 @@ export const Service = sequelize.define('Service', {
     allowNull: true
   },
   heroImage: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
+  contentImage: {
     type: DataTypes.TEXT,
     allowNull: true
   },
@@ -76,6 +84,10 @@ export const Service = sequelize.define('Service', {
     allowNull: true
   },
   whyChooseImage: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
+  whyChooseUsBackgroundImage: {
     type: DataTypes.TEXT,
     allowNull: true
   },

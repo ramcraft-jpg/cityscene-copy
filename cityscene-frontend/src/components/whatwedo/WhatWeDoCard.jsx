@@ -4,7 +4,7 @@ import { getMediaUrl } from '../../utils/imageUrl';
 
 export default function WhatWeDoCard({ service, index = 0 }) {
   const isOdd = index % 2 === 0;
-  const cardImage = service.image || service.heroImage || service.backgroundImage || service.bgImage;
+  const cardImage = service.cardImage || service.image;
 
   return (
     <Link

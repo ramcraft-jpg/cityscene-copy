@@ -27,7 +27,7 @@ export default function AdminServicePageDetailEdit() {
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState(null);
-  const [activeTab, setActiveTab] = useState('hero'); // 'hero' | 'intro' | 'whyChoose' | 'expertise' | 'process' | 'faqs' | 'meta'
+  const [activeTab, setActiveTab] = useState('hero'); // 'hero' | 'cardMedia' | 'intro' | 'whyChoose' | 'expertise' | 'process' | 'faqs' | 'meta'
 
   const [serviceData, setServiceData] = useState({
     id: id || '',
@@ -35,7 +35,11 @@ export default function AdminServicePageDetailEdit() {
     displayTitle: '',
     path: `/services/${id}`,
     image: '',
+    cardImage: '',
     heroImage: '',
+    contentImage: '',
+    whyChooseUsBackgroundImage: '',
+    whyChooseImage: '',
     video: '',
     heroVideo: '',
     backgroundMediaType: 'image',
@@ -72,6 +76,10 @@ export default function AdminServicePageDetailEdit() {
       if (data) {
         setServiceData({
           ...data,
+          cardImage: data.cardImage || data.image || '',
+          heroImage: data.heroImage || '',
+          contentImage: data.contentImage || '',
+          whyChooseUsBackgroundImage: data.whyChooseUsBackgroundImage || data.whyChooseImage || '',
           whyChooseCards: Array.isArray(data.whyChooseCards) ? data.whyChooseCards : [],
           expertiseItems: Array.isArray(data.expertiseItems) ? data.expertiseItems : [],
           processSteps: Array.isArray(data.processSteps) ? data.processSteps : [],
@@ -94,12 +102,17 @@ export default function AdminServicePageDetailEdit() {
     try {
       setUploading(true);
       const fileUrl = await uploadHomeMedia(file);
-      setServiceData((prev) => ({
-        ...prev,
-        [fieldKey]: fileUrl,
-        ...(fieldKey === 'heroImage' ? { image: fileUrl, heroImage: fileUrl } : {})
-      }));
-      setMessage({ type: 'success', text: 'Media file uploaded successfully.' });
+      setServiceData((prev) => {
+        const next = { ...prev, [fieldKey]: fileUrl };
+        if (fieldKey === 'cardImage') {
+          next.image = fileUrl;
+        }
+        if (fieldKey === 'whyChooseUsBackgroundImage') {
+          next.whyChooseImage = fileUrl;
+        }
+        return next;
+      });
+      setMessage({ type: 'success', text: `Media file uploaded successfully for ${fieldKey}.` });
     } catch (err) {
       setMessage({ type: 'error', text: err.message || 'Media upload failed.' });
     } finally {
@@ -254,7 +267,17 @@ export default function AdminServicePageDetailEdit() {
             activeTab === 'hero' ? 'bg-slate-900 text-white shadow' : 'text-slate-600 hover:bg-slate-100'
           }`}
         >
-          <ImageIcon className="w-4 h-4 text-orange-400" /> Hero & Media
+          <ImageIcon className="w-4 h-4 text-orange-400" /> Hero Banner
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab('cardMedia')}
+          className={`px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2 shrink-0 ${
+            activeTab === 'cardMedia' ? 'bg-slate-900 text-white shadow' : 'text-slate-600 hover:bg-slate-100'
+          }`}
+        >
+          <ImageIcon className="w-4 h-4 text-teal-400" /> Service Card Image
         </button>
 
         <button
@@ -264,7 +287,7 @@ export default function AdminServicePageDetailEdit() {
             activeTab === 'intro' ? 'bg-slate-900 text-white shadow' : 'text-slate-600 hover:bg-slate-100'
           }`}
         >
-          <Edit2 className="w-4 h-4 text-blue-400" /> Intro Paragraphs
+          <Edit2 className="w-4 h-4 text-blue-400" /> Detail Content & Image
         </button>
 
         <button
@@ -274,7 +297,7 @@ export default function AdminServicePageDetailEdit() {
             activeTab === 'whyChoose' ? 'bg-slate-900 text-white shadow' : 'text-slate-600 hover:bg-slate-100'
           }`}
         >
-          <Layout className="w-4 h-4 text-emerald-400" /> Why Choose Us Cards ({serviceData.whyChooseCards?.length || 0})
+          <Layout className="w-4 h-4 text-emerald-400" /> Why Choose Us
         </button>
 
         <button
@@ -284,7 +307,7 @@ export default function AdminServicePageDetailEdit() {
             activeTab === 'expertise' ? 'bg-slate-900 text-white shadow' : 'text-slate-600 hover:bg-slate-100'
           }`}
         >
-          <CheckCircle2 className="w-4 h-4 text-purple-400" /> Expertise Cards ({serviceData.expertiseItems?.length || 0})
+          <CheckCircle2 className="w-4 h-4 text-purple-400" /> Expertise ({serviceData.expertiseItems?.length || 0})
         </button>
 
         <button
@@ -294,7 +317,7 @@ export default function AdminServicePageDetailEdit() {
             activeTab === 'process' ? 'bg-slate-900 text-white shadow' : 'text-slate-600 hover:bg-slate-100'
           }`}
         >
-          <Layers className="w-4 h-4 text-amber-400" /> Process Steps ({serviceData.processSteps?.length || 0})
+          <Layers className="w-4 h-4 text-amber-400" /> Process ({serviceData.processSteps?.length || 0})
         </button>
 
         <button
@@ -320,16 +343,16 @@ export default function AdminServicePageDetailEdit() {
 
       {/* Main Tab Panels */}
       <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
-        {/* 1. HERO & MEDIA TAB */}
+        {/* 1. HERO BANNER TAB */}
         {activeTab === 'hero' && (
           <div className="space-y-6">
             <h2 className="text-lg font-bold text-slate-900 border-b border-slate-100 pb-3 flex items-center gap-2">
-              <span>🖼️</span> Hero Banner & Media Settings
+              <span>🖼️</span> Hero Banner Image & Media Controls
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">Service Page Title</label>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Service Title</label>
                 <input
                   type="text"
                   value={serviceData.title || ''}
@@ -393,44 +416,49 @@ export default function AdminServicePageDetailEdit() {
               </div>
             </div>
 
-            {/* Cover Image Control */}
+            {/* Dedicated Hero Image Control */}
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Hero Image / Video Poster</label>
+              <div className="flex items-center justify-between mb-1">
+                <label className="block text-xs font-bold text-slate-700">Hero Banner Image (heroImage)</label>
+                <span className="text-[11px] text-orange-600 font-semibold">Affects ONLY detail page Hero banner</span>
+              </div>
               <div className="flex flex-col sm:flex-row items-center gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
                 <div className="w-44 h-32 rounded-lg overflow-hidden bg-slate-900 shrink-0 border border-slate-300 relative flex items-center justify-center">
-                  {(serviceData.heroImage || serviceData.image) ? (
+                  {serviceData.heroImage ? (
                     <img
-                      src={getMediaUrl(serviceData.heroImage || serviceData.image)}
+                      src={getMediaUrl(serviceData.heroImage)}
                       alt="Hero preview"
                       className="w-full h-full object-cover"
                       onError={(e) => {
-                        e.target.src = 'https://via.placeholder.com/300x200?text=Image+Not+Found';
+                        e.target.src = 'https://via.placeholder.com/300x200?text=Hero+Image+Not+Found';
                       }}
                     />
                   ) : (
-                    <span className="text-slate-400 text-xs">No Image</span>
+                    <span className="text-slate-400 text-xs">No Hero Image</span>
                   )}
                 </div>
 
                 <div className="flex-1 space-y-2 w-full">
                   <input
                     type="text"
-                    value={serviceData.heroImage || serviceData.image || ''}
-                    onChange={(e) => setServiceData({ ...serviceData, heroImage: e.target.value, image: e.target.value })}
+                    value={serviceData.heroImage || ''}
+                    onChange={(e) => setServiceData({ ...serviceData, heroImage: e.target.value })}
                     className="w-full px-3 py-1.5 text-xs border border-slate-300 rounded-lg bg-white font-mono"
-                    placeholder="e.g. /uploads/image.jpg"
+                    placeholder="e.g. /uploads/hero-image.jpg"
                   />
-                  <label className="cursor-pointer px-4 py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-lg transition inline-flex items-center gap-1.5">
-                    <ImageIcon className="w-3.5 h-3.5 text-orange-400" />
-                    <span>{uploading ? 'Uploading...' : 'Replace Hero Image'}</span>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => handleMediaUpload(e, 'heroImage')}
-                      disabled={uploading}
-                      className="hidden"
-                    />
-                  </label>
+                  <div className="flex items-center gap-2">
+                    <label className="cursor-pointer px-4 py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-lg transition inline-flex items-center gap-1.5">
+                      <ImageIcon className="w-3.5 h-3.5 text-orange-400" />
+                      <span>{uploading ? 'Uploading...' : 'Upload/Replace Hero Image'}</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handleMediaUpload(e, 'heroImage')}
+                        disabled={uploading}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
                 </div>
               </div>
             </div>
@@ -464,12 +492,127 @@ export default function AdminServicePageDetailEdit() {
           </div>
         )}
 
-        {/* 2. INTRO PARAGRAPHS TAB */}
+        {/* 2. SERVICE CARD MEDIA TAB */}
+        {activeTab === 'cardMedia' && (
+          <div className="space-y-6">
+            <h2 className="text-lg font-bold text-slate-900 border-b border-slate-100 pb-3 flex items-center gap-2">
+              <span>🃏</span> Service Card Media Controls (cardImage)
+            </h2>
+            <p className="text-xs text-slate-500 font-medium">
+              This image is used ONLY for the service cards displayed on the <strong>/services</strong> page and the <strong>Home Page</strong> "Our Services" section.
+            </p>
+
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Short Description for Cards</label>
+              <textarea
+                rows="2"
+                value={serviceData.shortDesc || ''}
+                onChange={(e) => setServiceData({ ...serviceData, shortDesc: e.target.value })}
+                className="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg"
+                placeholder="Short summary displayed on service cards..."
+              />
+            </div>
+
+            {/* Dedicated Card Image Control */}
+            <div>
+              <div className="flex items-center justify-between mb-1">
+                <label className="block text-xs font-bold text-slate-700">Service Card Image (cardImage)</label>
+                <span className="text-[11px] text-teal-600 font-semibold">Affects ONLY /services & Home cards</span>
+              </div>
+              <div className="flex flex-col sm:flex-row items-center gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                <div className="w-44 h-32 rounded-lg overflow-hidden bg-slate-900 shrink-0 border border-slate-300 relative flex items-center justify-center">
+                  {(serviceData.cardImage || serviceData.image) ? (
+                    <img
+                      src={getMediaUrl(serviceData.cardImage || serviceData.image)}
+                      alt="Card preview"
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.target.src = 'https://via.placeholder.com/300x200?text=Card+Image+Not+Found';
+                      }}
+                    />
+                  ) : (
+                    <span className="text-slate-400 text-xs">No Card Image</span>
+                  )}
+                </div>
+
+                <div className="flex-1 space-y-2 w-full">
+                  <input
+                    type="text"
+                    value={serviceData.cardImage || serviceData.image || ''}
+                    onChange={(e) => setServiceData({ ...serviceData, cardImage: e.target.value, image: e.target.value })}
+                    className="w-full px-3 py-1.5 text-xs border border-slate-300 rounded-lg bg-white font-mono"
+                    placeholder="e.g. /uploads/card-image.jpg"
+                  />
+                  <div className="flex items-center gap-2">
+                    <label className="cursor-pointer px-4 py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-lg transition inline-flex items-center gap-1.5">
+                      <ImageIcon className="w-3.5 h-3.5 text-teal-400" />
+                      <span>{uploading ? 'Uploading...' : 'Upload/Replace Card Image'}</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handleMediaUpload(e, 'cardImage')}
+                        disabled={uploading}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* 3. DETAIL CONTENT & IMAGE TAB */}
         {activeTab === 'intro' && (
           <div className="space-y-6">
             <h2 className="text-lg font-bold text-slate-900 border-b border-slate-100 pb-3 flex items-center gap-2">
-              <span>📝</span> Intro Paragraphs Section
+              <span>📝</span> Detail Page Inner Content & Image (contentImage)
             </h2>
+
+            {/* Dedicated Content Image Control */}
+            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="block text-xs font-bold text-slate-700">Service Detail Content Image (contentImage)</label>
+                <span className="text-[11px] text-blue-600 font-semibold">Affects ONLY detail page inner content section</span>
+              </div>
+              <div className="flex flex-col sm:flex-row items-center gap-4">
+                <div className="w-44 h-28 rounded-lg overflow-hidden bg-slate-900 shrink-0 border border-slate-300 relative flex items-center justify-center">
+                  {serviceData.contentImage ? (
+                    <img
+                      src={getMediaUrl(serviceData.contentImage)}
+                      alt="Content preview"
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.target.src = 'https://via.placeholder.com/300x200?text=Content+Image+Not+Found';
+                      }}
+                    />
+                  ) : (
+                    <span className="text-slate-400 text-xs italic">No Content Image</span>
+                  )}
+                </div>
+
+                <div className="flex-1 space-y-2 w-full">
+                  <input
+                    type="text"
+                    value={serviceData.contentImage || ''}
+                    onChange={(e) => setServiceData({ ...serviceData, contentImage: e.target.value })}
+                    className="w-full px-3 py-1.5 text-xs border border-slate-300 rounded-lg bg-white font-mono"
+                    placeholder="e.g. /uploads/content-image.jpg or https://..."
+                  />
+                  <label className="cursor-pointer px-4 py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-lg transition inline-flex items-center gap-1.5">
+                    <ImageIcon className="w-3.5 h-3.5 text-blue-400" />
+                    <span>{uploading ? 'Uploading...' : 'Upload/Replace Content Image'}</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleMediaUpload(e, 'contentImage')}
+                      disabled={uploading}
+                      className="hidden"
+                    />
+                  </label>
+                </div>
+              </div>
+            </div>
 
             <div>
               <label className="block text-xs font-bold text-slate-700 mb-1">Intro Paragraph 1</label>
@@ -495,15 +638,15 @@ export default function AdminServicePageDetailEdit() {
           </div>
         )}
 
-        {/* 3. WHY CHOOSE US CARDS TAB */}
+        {/* 4. WHY CHOOSE US CARDS TAB */}
         {activeTab === 'whyChoose' && (
           <div className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-3">
               <div>
                 <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                  <span>💡</span> Why Choose Us Section Cards ({serviceData.whyChooseCards?.length || 0})
+                  <span>💡</span> Why Choose Us Section & Background Image
                 </h2>
-                <p className="text-xs text-slate-500">Manage heading, subtitle, and individual feature cards.</p>
+                <p className="text-xs text-slate-500">Manage section background image, titles, and individual feature cards.</p>
               </div>
 
               <button
@@ -513,6 +656,50 @@ export default function AdminServicePageDetailEdit() {
               >
                 <Plus className="w-4 h-4" /> Add Card
               </button>
+            </div>
+
+            {/* Why Choose Us Dedicated Background Image Control */}
+            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="block text-xs font-bold text-slate-700">Why Choose Us Background Image (whyChooseUsBackgroundImage)</label>
+                <span className="text-[11px] text-emerald-600 font-semibold">Affects ONLY Why Choose Us background</span>
+              </div>
+              <div className="flex flex-col sm:flex-row items-center gap-4">
+                <div className="w-44 h-24 rounded-lg overflow-hidden bg-slate-900 shrink-0 border border-slate-300 relative flex items-center justify-center">
+                  {(serviceData.whyChooseUsBackgroundImage || serviceData.whyChooseImage) ? (
+                    <img
+                      src={getMediaUrl(serviceData.whyChooseUsBackgroundImage || serviceData.whyChooseImage)}
+                      alt="Why Choose Us Preview"
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.target.src = 'https://via.placeholder.com/300x200?text=Bg+Image+Not+Found';
+                      }}
+                    />
+                  ) : (
+                    <span className="text-slate-400 text-xs font-medium">No Background Image</span>
+                  )}
+                </div>
+                <div className="flex-1 space-y-2 w-full">
+                  <input
+                    type="text"
+                    value={serviceData.whyChooseUsBackgroundImage || serviceData.whyChooseImage || ''}
+                    onChange={(e) => setServiceData({ ...serviceData, whyChooseUsBackgroundImage: e.target.value, whyChooseImage: e.target.value })}
+                    className="w-full px-3 py-1.5 text-xs border border-slate-300 rounded-lg bg-white font-mono"
+                    placeholder="e.g. /uploads/why-choose-bg.jpg or https://..."
+                  />
+                  <label className="cursor-pointer px-4 py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-lg transition inline-flex items-center gap-1.5">
+                    <ImageIcon className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>{uploading ? 'Uploading...' : 'Upload/Replace Section Background'}</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleMediaUpload(e, 'whyChooseUsBackgroundImage')}
+                      disabled={uploading}
+                      className="hidden"
+                    />
+                  </label>
+                </div>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -536,44 +723,6 @@ export default function AdminServicePageDetailEdit() {
                   className="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg"
                   placeholder="e.g. Empowering organizations with robust software solutions."
                 />
-              </div>
-            </div>
-
-            {/* Why Choose Us Background Image */}
-            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
-              <label className="block text-xs font-bold text-slate-700">Why Choose Us Background Image</label>
-              <div className="flex flex-col sm:flex-row items-center gap-4">
-                <div className="w-44 h-24 rounded-lg overflow-hidden bg-slate-900 shrink-0 border border-slate-300 relative flex items-center justify-center">
-                  {serviceData.whyChooseImage ? (
-                    <img
-                      src={getMediaUrl(serviceData.whyChooseImage)}
-                      alt="Why Choose Us Preview"
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <span className="text-slate-400 text-xs font-medium">Default Image</span>
-                  )}
-                </div>
-                <div className="flex-1 space-y-2 w-full">
-                  <input
-                    type="text"
-                    value={serviceData.whyChooseImage || ''}
-                    onChange={(e) => setServiceData({ ...serviceData, whyChooseImage: e.target.value })}
-                    className="w-full px-3 py-1.5 text-xs border border-slate-300 rounded-lg bg-white font-mono"
-                    placeholder="e.g. /uploads/why-choose-bg.jpg or https://..."
-                  />
-                  <label className="cursor-pointer px-4 py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-lg transition inline-flex items-center gap-1.5">
-                    <ImageIcon className="w-3.5 h-3.5 text-orange-400" />
-                    <span>{uploading ? 'Uploading...' : 'Replace Section Background Image'}</span>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => handleMediaUpload(e, 'whyChooseImage')}
-                      disabled={uploading}
-                      className="hidden"
-                    />
-                  </label>
-                </div>
               </div>
             </div>
 

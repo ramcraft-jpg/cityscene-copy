@@ -25,7 +25,8 @@ export default function AdminContactHero() {
       setLoading(true);
       const res = await getHomeSectionContent('contact-hero');
       if (res && res.title) {
-        setData(res);
+        const mediaType = res.backgroundMediaType || (res.bgVideo || res.backgroundVideo ? 'video' : 'image');
+        setData({ ...res, backgroundMediaType: mediaType });
       }
     } catch (err) {
       console.error(err);
@@ -132,8 +133,8 @@ export default function AdminContactHero() {
           imageUrl={data.bgImage || data.backgroundImage || ''}
           videoUrl={data.bgVideo || data.backgroundVideo || ''}
           onChangeMediaType={(type) => setData({ ...data, backgroundMediaType: type })}
-          onChangeImage={(url) => setData({ ...data, bgImage: url, backgroundImage: url })}
-          onChangeVideo={(url) => setData({ ...data, bgVideo: url, backgroundVideo: url })}
+          onChangeImage={(url) => setData({ ...data, bgImage: url, backgroundImage: url, backgroundMediaType: 'image' })}
+          onChangeVideo={(url) => setData({ ...data, bgVideo: url, backgroundVideo: url, backgroundMediaType: 'video' })}
           uploading={uploading}
           onUpload={async (file, type) => {
             if (!file) return;
