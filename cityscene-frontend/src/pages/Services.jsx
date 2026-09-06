@@ -12,7 +12,7 @@ export default function Services() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-white text-gray-900 selection:bg-orange-500 selection:text-white">
+    <div className="min-h-screen flex flex-col bg-transparent text-gray-900 selection:bg-orange-500 selection:text-white relative">
       <SEO pageKey="services" />
       <Header />
       <main className="flex-grow">

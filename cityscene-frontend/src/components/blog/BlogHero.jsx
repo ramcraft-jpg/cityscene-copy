@@ -5,10 +5,12 @@ import { flashApiFetch } from '../../config/api';
 
 const defaultHeroData = {
   subheading: 'BLOG',
-  title: 'Pioneering the\nNext Wave of\nTechnology',
+  title: 'Pioneering the\nNext Wave of Technology',
   description: 'Innovative, scalable, and AI-driven solutions for a smarter digital world.',
   bgImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1920&q=80',
-  bgVideo: ''
+  bgVideo: '/files/vd14.mp4',
+  videoFallback: '/files/vd12.mp4',
+  onlineFallback: 'https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-code-42866-large.mp4'
 };
 
 const isVideoUrl = (url) => {
@@ -50,8 +52,9 @@ export default function BlogHero({ videoSrc: propVideoSrc }) {
     rawBgVideo = rawBgImage;
   }
 
-  const bgImage = isVideoUrl(rawBgImage) ? '' : getMediaUrl(rawBgImage);
-  const bgVideo = getMediaUrl(rawBgVideo);
+  const videoSrc = getMediaUrl(rawBgVideo || defaultHeroData.bgVideo);
+  const videoFallbackSrc = getMediaUrl(defaultHeroData.videoFallback);
+  const posterSrc = isVideoUrl(rawBgImage) ? '' : getMediaUrl(rawBgImage);
 
   const isVideoMode =
     data.backgroundMediaType === 'video' ||
@@ -61,35 +64,42 @@ export default function BlogHero({ videoSrc: propVideoSrc }) {
     isVideoUrl(rawBgVideo);
 
   return (
-    <section className="relative w-full min-h-[480px] py-16 md:py-0 md:h-screen md:min-h-[650px] overflow-hidden flex items-center justify-center text-white text-left">
-      {/* Background Image / Video Layer */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        {isVideoMode && bgVideo ? (
+    <section className="relative w-full min-h-[500px] py-16 md:py-0 md:h-screen md:min-h-[650px] overflow-hidden flex items-center justify-center text-white text-left [clip-path:inset(0)]">
+      {/* Background Image / Video Layer with Fixed Viewport Scroll-Over Effect */}
+      <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+        {isVideoMode && videoSrc ? (
           <video
             ref={videoRef}
+            key={videoSrc}
             autoPlay
             loop
             muted
             playsInline
-            poster={bgImage}
-            className="absolute inset-0 w-full h-full object-cover object-center"
-            src={bgVideo}
+            poster={posterSrc}
             onError={(e) => {
-              console.error('Video load error:', bgVideo);
+              if (e.target.src !== videoFallbackSrc) {
+                e.target.src = videoFallbackSrc;
+              }
             }}
-          />
+            className="w-full h-full object-cover object-center"
+          >
+            <source src={videoSrc} type="video/mp4" />
+            <source src={videoFallbackSrc} type="video/mp4" />
+            <source src={defaultHeroData.onlineFallback} type="video/mp4" />
+          </video>
         ) : null}
 
-        {(!isVideoMode || !bgVideo) && (
+        {(!isVideoMode || !videoSrc) && (
           <img
-            src={bgImage}
-            alt="Person using stylus on digital tablet with charts"
-            className="absolute inset-0 w-full h-full object-cover object-center"
+            src={posterSrc}
+            alt="Blog Hero Background"
+            className="w-full h-full object-cover object-center"
           />
         )}
+        <div className="absolute inset-0 bg-black/40 transition-colors duration-700 pointer-events-none" />
       </div>
 
-      {/* Hero Content Overlay */}
+      {/* Hero Content Overlay Scrolling Over Fixed Video */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-12 text-left text-white w-full">
         {/* Small Text Label with Horizontal Line */}
         <div className="relative text-xs sm:text-sm font-semibold uppercase tracking-[2px] text-white pb-3 mb-6">
@@ -110,3 +120,4 @@ export default function BlogHero({ videoSrc: propVideoSrc }) {
     </section>
   );
 }
+

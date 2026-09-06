@@ -11,12 +11,13 @@ const defaultHeroData = {
   buttonText: 'Explore Jobs',
   buttonLink: '#jobs',
   bgImage: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1920&q=80',
-  bgVideo: ''
+  bgVideo: '/files/vd10.mp4',
+  videoFallback: '/files/vd12.mp4',
+  onlineFallback: 'https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-code-42866-large.mp4'
 };
 
 export default function CareerHero() {
   const [data, setData] = useState(defaultHeroData);
-  const [scrollY, setScrollY] = useState(0);
   const videoRef = useVideoIntersectionObserver({ threshold: 0.15 });
 
   useEffect(() => {
@@ -31,20 +32,14 @@ export default function CareerHero() {
         }
       })
       .catch((err) => console.error('Error fetching CareerHero API data:', err));
-
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const rawBgImage = data.bgImage || data.backgroundImage || defaultHeroData.bgImage;
   const rawBgVideo = data.bgVideo || data.backgroundVideo || defaultHeroData.bgVideo;
 
-  const bgImage = getMediaUrl(rawBgImage);
-  const bgVideo = getMediaUrl(rawBgVideo);
+  const videoSrc = getMediaUrl(rawBgVideo || defaultHeroData.bgVideo);
+  const videoFallbackSrc = getMediaUrl(defaultHeroData.videoFallback);
+  const posterSrc = getMediaUrl(rawBgImage);
   const isVideoMode = data.backgroundMediaType === 'video' || (data.backgroundMediaType !== 'image' && !!rawBgVideo) || (!!rawBgVideo && !data.backgroundMediaType);
 
   const getEmbedVideoUrl = (url) => {
@@ -68,7 +63,7 @@ export default function CareerHero() {
     return trimmed;
   };
 
-  const embedVideoSrc = getEmbedVideoUrl(bgVideo);
+  const embedVideoSrc = getEmbedVideoUrl(videoSrc);
   const isYoutubeOrVimeo = embedVideoSrc.includes('youtube.com') || embedVideoSrc.includes('vimeo.com');
 
   const buttonLink = data.buttonLink || '#jobs';
@@ -86,41 +81,48 @@ export default function CareerHero() {
   };
 
   return (
-    <div className="relative w-full min-h-screen bg-black overflow-hidden flex flex-col justify-between">
-      {/* Background Image / Video Layer */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        {isVideoMode && bgVideo ? (
+    <div className="relative w-full min-h-screen bg-black overflow-hidden flex flex-col justify-between [clip-path:inset(0)]">
+      {/* Background Image / Video Layer with Fixed Viewport Scroll-Over Effect */}
+      <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+        {isVideoMode && videoSrc ? (
           isYoutubeOrVimeo ? (
             <iframe
               src={embedVideoSrc}
               title="Career Hero Video"
-              className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+              className="w-full h-full object-cover pointer-events-none"
               allow="autoplay; fullscreen"
             />
           ) : (
             <video
               ref={videoRef}
+              key={videoSrc}
               autoPlay
               loop
               muted
               playsInline
-              poster={bgImage}
-              className="absolute inset-0 w-full h-full object-cover object-center"
-              src={bgVideo}
+              poster={posterSrc}
               onError={(e) => {
-                e.target.style.display = 'none';
+                if (e.target.src !== videoFallbackSrc) {
+                  e.target.src = videoFallbackSrc;
+                }
               }}
-            />
+              className="w-full h-full object-cover object-center"
+            >
+              <source src={videoSrc} type="video/mp4" />
+              <source src={videoFallbackSrc} type="video/mp4" />
+              <source src={defaultHeroData.onlineFallback} type="video/mp4" />
+            </video>
           )
         ) : null}
 
-        {(!isVideoMode || !bgVideo) && (
+        {(!isVideoMode || !videoSrc) && (
           <img
-            src={bgImage}
+            src={posterSrc}
             alt="Career Hero Background"
-            className="absolute inset-0 w-full h-full object-cover object-center"
+            className="w-full h-full object-cover object-center"
           />
         )}
+        <div className="absolute inset-0 bg-black/40 transition-colors duration-700 pointer-events-none" />
       </div>
 
       {/* Relative Page Content Container overlaying the background */}
@@ -170,3 +172,4 @@ export default function CareerHero() {
     </div>
   );
 }
+

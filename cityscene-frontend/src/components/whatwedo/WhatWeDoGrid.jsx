@@ -26,7 +26,7 @@ export default function WhatWeDoGrid() {
   const displayedServices = showAll ? services : services.slice(0, 6);
 
   return (
-    <section className="w-full bg-[#1a1a1a] text-white py-12 sm:py-16 px-5 sm:px-[40px] text-center">
+    <section className="w-full bg-[#1a1a1a] text-white py-12 sm:py-16 px-5 sm:px-[40px] text-center z-20 relative">
       <div className="max-w-[1100px] mx-auto w-full">
         {/* Section Heading */}
         <div className="text-left">

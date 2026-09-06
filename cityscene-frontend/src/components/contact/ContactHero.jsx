@@ -9,8 +9,10 @@ const defaultHero = {
   subheading: "LET'S TALK",
   title: 'Contact\nUs',
   description: 'Bridging The Gap Between Ideas & Execution, Contact Us Today.',
-  bgImage: '/assets/images/contact-hero.jpg',
-  bgVideo: ''
+  bgImage: 'https://images.unsplash.com/photo-1423666639041-f56000c27a9a?auto=format&fit=crop&w=1920&q=80',
+  bgVideo: '/files/vd13.mp4',
+  videoFallback: '/files/vd12.mp4',
+  onlineFallback: 'https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-code-42866-large.mp4'
 };
 
 export default function ContactHero() {
@@ -96,38 +98,46 @@ export default function ContactHero() {
   const [videoError, setVideoError] = useState(false);
 
   const rawBgImage = heroData.bgImage || heroData.backgroundImage || defaultHero.bgImage;
-  const rawBgVideo = heroData.bgVideo || heroData.backgroundVideo;
+  const rawBgVideo = heroData.bgVideo || heroData.backgroundVideo || defaultHero.bgVideo;
 
   const bgImage = getMediaUrl(rawBgImage);
-  const bgVideo = rawBgVideo ? getMediaUrl(rawBgVideo) : '';
-  const isVideoMode = !videoError && (heroData.backgroundMediaType === 'video' || (heroData.backgroundMediaType !== 'image' && !!rawBgVideo));
+  const bgVideo = getMediaUrl(rawBgVideo || defaultHero.bgVideo);
+  const videoFallbackSrc = getMediaUrl(defaultHero.videoFallback);
+  const isVideoMode = !videoError && (heroData.backgroundMediaType === 'video' || (heroData.backgroundMediaType !== 'image' && !!rawBgVideo) || (!!rawBgVideo && !heroData.backgroundMediaType));
 
   return (
-    <section className="relative w-full min-h-[600px] py-12 md:py-20 md:h-screen md:min-h-[700px] overflow-hidden flex items-center justify-center text-white text-left">
-      {/* Background Overhead Image / Video Layer */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
+    <section className="relative w-full min-h-[600px] py-12 md:py-20 md:h-screen md:min-h-[700px] overflow-hidden flex items-center justify-center text-white text-left [clip-path:inset(0)]">
+      {/* Background Overhead Image / Video Layer with Fixed Viewport Scroll-Over Effect */}
+      <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
         {isVideoMode && bgVideo ? (
           <video
             ref={videoRef}
+            key={bgVideo}
             autoPlay
             loop
             muted
             playsInline
             poster={bgImage}
-            className="absolute inset-0 w-full h-full object-cover object-center"
-            src={bgVideo}
+            className="w-full h-full object-cover object-center"
             onError={(e) => {
-              console.warn('[ContactHero Video Error]: Unable to play video source, falling back to background image.');
-              setVideoError(true);
+              if (e.target.src !== videoFallbackSrc) {
+                e.target.src = videoFallbackSrc;
+              } else {
+                setVideoError(true);
+              }
             }}
-          />
+          >
+            <source src={bgVideo} type="video/mp4" />
+            <source src={videoFallbackSrc} type="video/mp4" />
+            <source src={defaultHero.onlineFallback} type="video/mp4" />
+          </video>
         ) : null}
 
         {(!isVideoMode || !bgVideo || videoError) && (
           <img
             src={bgImage}
             alt="Contact Us Background"
-            className="absolute inset-0 w-full h-full object-cover object-center"
+            className="w-full h-full object-cover object-center"
           />
         )}
         <div className="absolute inset-0 bg-black/40 pointer-events-none z-[1]" />
@@ -312,3 +322,4 @@ export default function ContactHero() {
     </section>
   );
 }
+

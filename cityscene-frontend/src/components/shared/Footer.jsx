@@ -4,7 +4,7 @@ import logo from '../../assets/Untitled design (47).png';
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-[#171717] text-white font-montserrat" style={{ fontFamily: "'Montserrat', sans-serif" }}>
+    <footer className="w-full bg-[#171717] text-white font-montserrat relative z-20" style={{ fontFamily: "'Montserrat', sans-serif" }}>
 
       {/* Upper Main Footer */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 font-montserrat" style={{ fontFamily: "'Montserrat', sans-serif" }}>
