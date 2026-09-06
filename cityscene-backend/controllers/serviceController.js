@@ -1,12 +1,38 @@
 import { Op } from 'sequelize';
 import { Service } from '../models/Service.js';
 import { initialServices } from '../services/seedService.js';
+import { sequelize } from '../config/db.js';
+
+let columnsChecked = false;
 
 /**
- * Ensure seed services exist in MySQL database
+ * Ensure schema columns and seed services exist in MySQL database
  */
 const ensureSeedServices = async () => {
   try {
+    if (!columnsChecked) {
+      columnsChecked = true;
+      try {
+        await Service.sync({ alter: true });
+      } catch (alterErr) {
+        console.log('[Service Schema Sync Notice]:', alterErr.message);
+        try {
+          const [cols] = await sequelize.query("SHOW COLUMNS FROM `services` LIKE 'cardImage'");
+          if (!cols || cols.length === 0) {
+            console.log('[Migration]: Adding missing cardImage, contentImage, whyChooseUsBackgroundImage columns...');
+            await sequelize.query("ALTER TABLE `services` ADD COLUMN `cardImage` TEXT NULL");
+            await sequelize.query("ALTER TABLE `services` ADD COLUMN `contentImage` TEXT NULL");
+            await sequelize.query("ALTER TABLE `services` ADD COLUMN `whyChooseUsBackgroundImage` TEXT NULL");
+            await sequelize.query("UPDATE `services` SET `cardImage` = `image` WHERE `cardImage` IS NULL OR `cardImage` = ''");
+            await sequelize.query("UPDATE `services` SET `contentImage` = IFNULL(`heroImage`, `image`) WHERE `contentImage` IS NULL OR `contentImage` = ''");
+            await sequelize.query("UPDATE `services` SET `whyChooseUsBackgroundImage` = IFNULL(`whyChooseImage`, `image`) WHERE `whyChooseUsBackgroundImage` IS NULL OR `whyChooseUsBackgroundImage` = ''");
+          }
+        } catch (queryErr) {
+          console.error('[MySQL Column Migration Error]:', queryErr.message);
+        }
+      }
+    }
+
     if (!initialServices || initialServices.length === 0) return;
     const count = await Service.count();
     if (count === 0) {
