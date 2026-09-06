@@ -28,25 +28,25 @@ export default function HomeAboutUsSection() {
   }, []);
 
   return (
-    <section className="w-full bg-[#222222] text-white py-12 sm:py-16 flex items-center justify-center border-b border-white/10">
-      <div className="w-full max-w-[800px] mx-auto px-6 relative text-justify">
+    <section className="w-full bg-[#222222] text-white py-10 sm:py-16 flex items-center justify-center border-b border-white/10">
+      <div className="w-full max-w-[800px] mx-auto px-4 sm:px-6 relative">
 
         {/* Vertical Left Line Divider */}
-        <div className="absolute left-0 top-[60px] h-[80%] w-[4px] bg-[#ccc]" />
+        <div className="absolute left-2 sm:left-0 top-[50px] sm:top-[60px] h-[80%] w-[3px] sm:w-[4px] bg-[#ccc]" />
 
-        <div className="pl-6 space-y-4">
-          <h2 className="text-3xl sm:text-[32px] font-medium text-white text-left mb-4">
+        <div className="pl-5 sm:pl-6 space-y-4">
+          <h2 className="text-2xl sm:text-[32px] font-medium text-white text-left mb-4">
             {data.heading || defaultAboutData.heading}
           </h2>
 
           {data.paragraph1 && (
-            <p className="text-base leading-relaxed text-[#ddd] font-light text-justify mb-4">
+            <p className="text-sm sm:text-base leading-relaxed text-[#ddd] font-light text-left sm:text-justify mb-4">
               {data.paragraph1}
             </p>
           )}
 
           {data.paragraph2 && (
-            <p className="text-base leading-relaxed text-[#ddd] font-light text-justify mb-4">
+            <p className="text-sm sm:text-base leading-relaxed text-[#ddd] font-light text-left sm:text-justify mb-4">
               {data.paragraph2}
             </p>
           )}
@@ -54,7 +54,7 @@ export default function HomeAboutUsSection() {
           <div className="pt-2 text-left">
             <Link
               to={data.buttonLink || '/about'}
-              className="inline-block px-6 py-2.5 rounded-full border-2 border-white text-white font-medium text-sm hover:bg-white hover:text-black transition-all duration-300"
+              className="inline-block px-5 sm:px-6 py-2 sm:py-2.5 rounded-full border-2 border-white text-white font-medium text-xs sm:text-sm hover:bg-white hover:text-black transition-all duration-300"
             >
               {data.buttonText || 'Learn More'}
             </Link>

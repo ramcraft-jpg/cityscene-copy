@@ -32,8 +32,8 @@ export default function HomeSocialImpactSection() {
   const fallbackSrc = getMediaUrl(data.fallbackImage || defaultSocialImpactData.fallbackImage);
 
   return (
-    <section className="w-full bg-white py-12 sm:py-14 flex items-center justify-center border-b border-gray-100">
-      <div className="w-[90%] max-w-[1100px] mx-auto flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-10">
+    <section className="w-full bg-white py-10 sm:py-14 flex items-center justify-center border-b border-gray-100">
+      <div className="w-full max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-10">
 
         {/* Left Column: Heading & Text */}
         <div className="w-full lg:w-1/2 text-left space-y-4">

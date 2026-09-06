@@ -61,7 +61,7 @@ export default function BlogHero({ videoSrc: propVideoSrc }) {
     isVideoUrl(rawBgVideo);
 
   return (
-    <section className="relative w-full h-screen overflow-hidden flex items-center justify-center text-white text-left">
+    <section className="relative w-full min-h-[480px] py-16 md:py-0 md:h-screen md:min-h-[650px] overflow-hidden flex items-center justify-center text-white text-left">
       {/* Background Image / Video Layer */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         {isVideoMode && bgVideo ? (

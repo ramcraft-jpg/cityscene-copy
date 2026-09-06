@@ -56,7 +56,7 @@ export default function HomeClientAdoptionSection() {
         <div className="hidden lg:block w-[3px] h-[300px] sm:h-[330px] lg:h-[360px] bg-black mx-8 lg:mx-10 xl:mx-14 shrink-0" />
 
         {/* Right Content Section */}
-        <div className="w-full lg:w-[48%] max-w-[500px] py-2 text-left flex flex-col justify-center">
+        <div className="w-full lg:w-[48%] max-w-[500px] mt-6 lg:mt-0 py-2 text-left flex flex-col justify-center">
           <h2 className="text-[28px] sm:text-[32px] font-semibold text-black mb-3.5 leading-[1.2] tracking-tight">
             {isDefaultHeading ? (
               <>

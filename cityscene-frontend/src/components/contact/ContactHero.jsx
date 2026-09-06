@@ -103,7 +103,7 @@ export default function ContactHero() {
   const isVideoMode = !videoError && (heroData.backgroundMediaType === 'video' || (heroData.backgroundMediaType !== 'image' && !!rawBgVideo));
 
   return (
-    <section className="relative w-full h-screen overflow-hidden flex items-center justify-center text-white text-left">
+    <section className="relative w-full min-h-[600px] py-12 md:py-20 md:h-screen md:min-h-[700px] overflow-hidden flex items-center justify-center text-white text-left">
       {/* Background Overhead Image / Video Layer */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         {isVideoMode && bgVideo ? (

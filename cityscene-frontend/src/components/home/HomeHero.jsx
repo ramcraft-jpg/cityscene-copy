@@ -63,32 +63,48 @@ export default function HomeHero() {
   }, [slides.length]);
 
   return (
-    <section className="relative w-full h-screen min-h-[600px] bg-[#0d0d0d] text-white overflow-hidden flex flex-col md:flex-row">
+    <section className="relative w-full min-h-[550px] md:h-screen md:min-h-[650px] bg-[#0d0d0d] text-white overflow-hidden flex flex-col md:flex-row">
       {/* Left Column: Content */}
-      <div className="w-full md:w-1/2 h-full flex flex-col justify-start pt-16 md:pt-24 p-8 md:p-16 z-10 bg-[#0d0d0d] text-white">
-        <div className="max-w-xl space-y-4">
-          <h1 className="text-3xl md:text-5xl font-normal leading-tight tracking-normal">
+      <div className="w-full md:w-1/2 min-h-[550px] md:h-full flex flex-col justify-between md:justify-start pt-16 md:pt-24 px-6 sm:px-10 md:p-16 z-10 bg-gradient-to-t from-[#0d0d0d] via-[#0d0d0d]/80 to-[#0d0d0d]/40 md:bg-[#0d0d0d] text-white pb-20 md:pb-16">
+        <div className="max-w-xl space-y-4 my-auto md:my-0">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-normal leading-tight tracking-normal">
             {activeSlide.titleLine1} <br />
             <span>{activeSlide.titleLine2}</span>
           </h1>
 
-          <p className="text-base md:text-lg text-gray-200 leading-relaxed font-light">
+          <p className="text-sm sm:text-base md:text-lg text-gray-200 leading-relaxed font-light">
             {activeSlide.subtitle}
           </p>
         </div>
+
+        {/* Action Buttons for Mobile */}
+        <div className="flex md:hidden items-center gap-3 sm:gap-4 pt-6 z-20">
+          <Link
+            to={heroData.button1Link || '/about'}
+            className="px-5 py-2.5 rounded-full border-2 border-white text-white font-medium text-xs sm:text-sm hover:bg-white hover:text-black transition-all duration-300 shadow-lg shrink-0"
+          >
+            {heroData.button1Text || 'About Us'}
+          </Link>
+          <Link
+            to={heroData.button2Link || '/contact'}
+            className="px-5 py-2.5 rounded-full bg-black text-white font-medium text-xs sm:text-sm border border-white/20 hover:bg-white hover:text-black hover:border-white transition-all duration-300 shadow-lg shrink-0"
+          >
+            {heroData.button2Text || "Let's Talk"}
+          </Link>
+        </div>
       </div>
 
-      {/* Action Buttons: Positioned separately at bottom of section on desktop */}
-      <div className="absolute bottom-6 sm:bottom-10 left-4 sm:left-8 md:left-[50%] md:-translate-x-1/2 flex items-center gap-3 sm:gap-6 md:gap-16 z-20">
+      {/* Action Buttons: Desktop centered overlay */}
+      <div className="hidden md:flex absolute bottom-8 left-[50%] -translate-x-1/2 items-center gap-12 z-20">
         <Link
           to={heroData.button1Link || '/about'}
-          className="px-5 sm:px-7 py-2.5 sm:py-3 rounded-full border-2 border-white text-white font-medium text-xs sm:text-sm hover:bg-white hover:text-black transition-all duration-300 shadow-lg shrink-0"
+          className="px-7 py-3 rounded-full border-2 border-white text-white font-medium text-sm hover:bg-white hover:text-black transition-all duration-300 shadow-lg shrink-0"
         >
           {heroData.button1Text || 'About Us'}
         </Link>
         <Link
           to={heroData.button2Link || '/contact'}
-          className="px-5 sm:px-7 py-2.5 sm:py-3 rounded-full bg-black text-white font-medium text-xs sm:text-sm border border-white/20 hover:bg-white hover:text-black hover:border-white transition-all duration-300 shadow-lg shrink-0"
+          className="px-7 py-3 rounded-full bg-black text-white font-medium text-sm border border-white/20 hover:bg-white hover:text-black hover:border-white transition-all duration-300 shadow-lg shrink-0"
         >
           {heroData.button2Text || "Let's Talk"}
         </Link>

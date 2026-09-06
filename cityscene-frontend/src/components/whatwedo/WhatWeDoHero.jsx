@@ -38,7 +38,7 @@ export default function WhatWeDoHero() {
   const isVideoMode = data.backgroundMediaType === 'video' || (data.backgroundMediaType !== 'image' && !!rawBgVideo) || (!!rawBgVideo && !data.backgroundMediaType);
 
   return (
-    <section className="group relative w-full min-h-[720px] lg:min-h-[850px] h-[88vh] bg-[#111] overflow-hidden flex items-center text-left">
+    <section className="group relative w-full min-h-[480px] py-20 md:py-0 md:min-h-[680px] md:h-[80vh] bg-[#111] overflow-hidden flex items-center text-left">
       {/* Background Video / Image Layer */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         {isVideoMode && bgVideo ? (
