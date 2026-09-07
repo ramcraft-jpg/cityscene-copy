@@ -9,14 +9,15 @@ const defaultHero = {
   subheading: "LET'S TALK",
   title: 'Contact\nUs',
   description: 'Bridging The Gap Between Ideas & Execution, Contact Us Today.',
-  bgImage: 'https://images.unsplash.com/photo-1423666639041-f56000c27a9a?auto=format&fit=crop&w=1920&q=80',
+  bgImage: '',
   bgVideo: '/files/vd13.mp4',
   videoFallback: '/files/vd12.mp4',
   onlineFallback: 'https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-code-42866-large.mp4'
 };
 
 export default function ContactHero() {
-  const [heroData, setHeroData] = useState(defaultHero);
+  const [heroData, setHeroData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const videoRef = useVideoIntersectionObserver({ threshold: 0.15 });
 
   const [formData, setFormData] = useState({
@@ -36,10 +37,39 @@ export default function ContactHero() {
       .then((resData) => {
         if (resData.success && resData.content && resData.content.title) {
           setHeroData(resData.content);
+        } else {
+          setHeroData(defaultHero);
         }
       })
-      .catch((err) => console.error('Error fetching ContactHero API data:', err));
+      .catch((err) => {
+        console.error('Error fetching ContactHero API data:', err);
+        setHeroData(defaultHero);
+      })
+      .finally(() => setLoading(false));
   }, []);
+
+  const [videoError, setVideoError] = useState(false);
+
+  if (loading) {
+    return (
+      <section className="relative w-full min-h-[600px] py-12 md:py-20 md:h-screen md:min-h-[700px] overflow-hidden flex items-center bg-[#0d0d0d] text-white">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center animate-pulse">
+            <div className="lg:col-span-6 space-y-4">
+              <div className="w-24 h-4 bg-white/20 rounded" />
+              <div className="w-3/4 h-14 bg-white/20 rounded" />
+              <div className="w-full h-16 bg-white/20 rounded" />
+            </div>
+            <div className="lg:col-span-6 flex justify-center lg:justify-end">
+              <div className="w-full max-w-[420px] h-[400px] bg-[#333333]/85 rounded-3xl" />
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  const activeHero = heroData || defaultHero;
 
   const validate = () => {
     const newErrors = {};
@@ -95,15 +125,13 @@ export default function ContactHero() {
     }
   };
 
-  const [videoError, setVideoError] = useState(false);
+  const rawBgImage = activeHero.bgImage || activeHero.backgroundImage || '';
+  const rawBgVideo = activeHero.bgVideo || activeHero.backgroundVideo || defaultHero.bgVideo;
 
-  const rawBgImage = heroData.bgImage || heroData.backgroundImage || defaultHero.bgImage;
-  const rawBgVideo = heroData.bgVideo || heroData.backgroundVideo || defaultHero.bgVideo;
-
-  const bgImage = getMediaUrl(rawBgImage);
+  const bgImage = rawBgImage ? getMediaUrl(rawBgImage) : '';
   const bgVideo = getMediaUrl(rawBgVideo || defaultHero.bgVideo);
   const videoFallbackSrc = getMediaUrl(defaultHero.videoFallback);
-  const isVideoMode = !videoError && (heroData.backgroundMediaType === 'video' || (heroData.backgroundMediaType !== 'image' && !!rawBgVideo) || (!!rawBgVideo && !heroData.backgroundMediaType));
+  const isVideoMode = !videoError && (activeHero.backgroundMediaType === 'video' || (activeHero.backgroundMediaType !== 'image' && !!rawBgVideo) || (!!rawBgVideo && !activeHero.backgroundMediaType));
 
   return (
     <section className="relative w-full min-h-[600px] py-12 md:py-20 md:h-screen md:min-h-[700px] overflow-hidden flex items-center justify-center text-white text-left [clip-path:inset(0)]">
@@ -117,7 +145,7 @@ export default function ContactHero() {
             loop
             muted
             playsInline
-            poster={bgImage}
+            poster={bgImage || undefined}
             className="w-full h-full object-cover object-center"
             onError={(e) => {
               if (e.target.src !== videoFallbackSrc) {
@@ -133,13 +161,13 @@ export default function ContactHero() {
           </video>
         ) : null}
 
-        {(!isVideoMode || !bgVideo || videoError) && (
+        {(!isVideoMode || !bgVideo || videoError) && bgImage ? (
           <img
             src={bgImage}
             alt="Contact Us Background"
             className="w-full h-full object-cover object-center"
           />
-        )}
+        ) : null}
         <div className="absolute inset-0 bg-black/40 pointer-events-none z-[1]" />
       </div>
 
@@ -149,7 +177,7 @@ export default function ContactHero() {
           {/* Left Column: Heading and Messaging */}
           <div className="lg:col-span-6 text-left">
             <div className="text-xs sm:text-sm font-medium uppercase tracking-widest text-white mb-2">
-              {heroData.subheading || defaultHero.subheading}
+              {activeHero.subheading || defaultHero.subheading}
             </div>
 
             {/* Horizontal Line under Subheading matching reference width */}
@@ -159,11 +187,11 @@ export default function ContactHero() {
               className="text-4xl sm:text-5xl lg:text-6xl font-semibold text-white tracking-tight leading-[1.05] mb-4 whitespace-pre-line"
               style={{ fontFamily: "'Montserrat', sans-serif" }}
             >
-              {heroData.title || defaultHero.title}
+              {activeHero.title || defaultHero.title}
             </h1>
 
             <p className="text-sm sm:text-base text-gray-200 leading-relaxed font-normal max-w-[340px] sm:max-w-[380px]">
-              {heroData.description || defaultHero.description}
+              {activeHero.description || defaultHero.description}
             </p>
           </div>
 

@@ -11,14 +11,15 @@ const defaultCommitmentData = {
   videoSrc: '/files/vd15.mp4',
   videoFallback: '/files/vd12.mp4',
   onlineFallback: 'https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-code-42866-large.mp4',
-  posterSrc: '/assets/home/commitment/commitment-bg.jpg',
-  posterFallback: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1920&q=80',
+  posterSrc: '',
+  posterFallback: '',
   buttonText: 'Learn More',
   buttonLink: '/services'
 };
 
 export default function HomeCommitmentSection() {
-  const [data, setData] = useState(defaultCommitmentData);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const videoRef = useVideoIntersectionObserver({ threshold: 0.15 });
 
   useEffect(() => {
@@ -27,15 +28,35 @@ export default function HomeCommitmentSection() {
       .then((resData) => {
         if (resData.success && resData.content && resData.content.heading) {
           setData(resData.content);
+        } else {
+          setData(defaultCommitmentData);
         }
       })
-      .catch((err) => console.error('Error fetching HomeCommitment API data:', err));
+      .catch((err) => {
+        console.error('Error fetching HomeCommitment API data:', err);
+        setData(defaultCommitmentData);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
-  const videoSrc = getMediaUrl(data.videoSrc || data.backgroundVideo || defaultCommitmentData.videoSrc);
+  if (loading) {
+    return (
+      <section className="relative w-full min-h-[550px] py-16 md:py-24 md:min-h-[650px] lg:h-screen bg-black text-white flex flex-col justify-center items-center overflow-hidden">
+        <div className="relative z-10 max-w-[800px] mx-auto px-5 w-full text-center flex flex-col items-center justify-center space-y-6 animate-pulse">
+          <div className="w-3/4 h-12 bg-white/20 rounded mx-auto" />
+          <div className="w-full h-16 bg-white/20 rounded mx-auto" />
+          <div className="w-36 h-10 bg-white/20 rounded-full mx-auto" />
+        </div>
+      </section>
+    );
+  }
+
+  const activeData = data || defaultCommitmentData;
+
+  const videoSrc = getMediaUrl(activeData.videoSrc || activeData.backgroundVideo || defaultCommitmentData.videoSrc);
   const videoFallbackSrc = getMediaUrl(defaultCommitmentData.videoFallback);
-  const posterSrc = getMediaUrl(data.posterSrc || data.backgroundImage || defaultCommitmentData.posterFallback);
-  const isVideoMode = data.backgroundMediaType === 'video' || (data.backgroundMediaType !== 'image' && !!videoSrc);
+  const posterSrc = (activeData.posterSrc || activeData.backgroundImage) ? getMediaUrl(activeData.posterSrc || activeData.backgroundImage) : '';
+  const isVideoMode = activeData.backgroundMediaType === 'video' || (activeData.backgroundMediaType !== 'image' && !!videoSrc);
 
   return (
     <section className="relative w-full min-h-[550px] py-16 md:py-24 md:min-h-[650px] lg:h-screen bg-black text-white flex flex-col justify-center items-center overflow-hidden [clip-path:inset(0)]">
@@ -49,7 +70,7 @@ export default function HomeCommitmentSection() {
             loop
             muted
             playsInline
-            poster={posterSrc}
+            poster={posterSrc || undefined}
             onError={(e) => {
               if (e.target.src !== videoFallbackSrc) {
                 e.target.src = videoFallbackSrc;
@@ -76,25 +97,25 @@ export default function HomeCommitmentSection() {
       {/* Center Content Container Scrolling Over Fixed Video */}
       <div className="relative z-10 max-w-[800px] mx-auto px-5 w-full text-center flex flex-col items-center justify-center space-y-6">
         <h2 className="text-4xl sm:text-5xl lg:text-[50px] font-bold text-white leading-tight tracking-tight">
-          {data.heading || defaultCommitmentData.heading}
+          {activeData.heading || defaultCommitmentData.heading}
         </h2>
 
         <p className="text-lg sm:text-xl lg:text-[22px] text-gray-100 leading-relaxed font-normal max-w-[650px] mx-auto">
-          {data.description || defaultCommitmentData.description}
+          {activeData.description || defaultCommitmentData.description}
         </p>
 
         <div className="pt-2">
           <Link
-            to={data.buttonLink || '/services'}
+            to={activeData.buttonLink || '/services'}
             className="inline-block px-7 py-3 text-base font-bold bg-white text-black hover:bg-black hover:text-white border-2 border-black rounded-full transition-all duration-300 shadow-lg"
           >
-            {data.buttonText || defaultCommitmentData.buttonText}
+            {activeData.buttonText || defaultCommitmentData.buttonText}
           </Link>
         </div>
 
         {/* Testimonial / Client Quote matching original code */}
         <p className="italic text-white text-base sm:text-lg font-medium tracking-wide pt-3">
-          {data.quote || defaultCommitmentData.quote}
+          {activeData.quote || defaultCommitmentData.quote}
         </p>
 
         {/* Small horizontal line */}

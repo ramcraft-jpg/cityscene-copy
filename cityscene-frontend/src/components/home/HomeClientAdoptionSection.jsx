@@ -7,14 +7,15 @@ const defaultClientAdoptionData = {
   heading: 'How do we serve the client',
   paragraph1: 'Our IT Client Adoption Process starts with the Initial Engagement phase, where we establish communication channels through digital platforms.',
   paragraph2: 'We begin with an in-depth consultation—either virtual or in-person—to understand your IT requirements, business goals, and operational challenges. During this stage, we gather essential documentation, including current IT infrastructure details, application landscapes, workflows, and user requirements, ensuring a tailored solution that aligns with your strategic objectives.',
-  image: '/assets/home/adoption/adoption-1.jpg',
-  fallbackImage: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80',
+  image: '/files/img24.jpg',
+  fallbackImage: '/files/img24.jpg',
   buttonText: 'View All Topics',
   buttonLink: '/about'
 };
 
 export default function HomeClientAdoptionSection() {
-  const [data, setData] = useState(defaultClientAdoptionData);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     flashApiFetch('/home-content/client-adoption')
@@ -22,15 +23,38 @@ export default function HomeClientAdoptionSection() {
       .then((resData) => {
         if (resData.success && resData.content && resData.content.heading) {
           setData(resData.content);
+        } else {
+          setData(defaultClientAdoptionData);
         }
       })
-      .catch((err) => console.error('Error fetching HomeClientAdoption API data:', err));
+      .catch((err) => {
+        console.error('Error fetching HomeClientAdoption API data:', err);
+        setData(defaultClientAdoptionData);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
-  const imageSrc = getMediaUrl(data.image || defaultClientAdoptionData.image);
-  const fallbackSrc = getMediaUrl(data.fallbackImage || defaultClientAdoptionData.fallbackImage);
+  if (loading) {
+    return (
+      <section className="w-full bg-white py-12 sm:py-14 lg:py-16 flex items-center justify-center border-b border-gray-100">
+        <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-center animate-pulse">
+          <div className="w-full lg:w-[34%] max-w-[360px] h-[320px] bg-gray-200 rounded-[10px]" />
+          <div className="hidden lg:block w-[3px] h-[300px] bg-gray-200 mx-10" />
+          <div className="w-full lg:w-[48%] max-w-[500px] mt-6 lg:mt-0 space-y-4">
+            <div className="w-3/4 h-8 bg-gray-200 rounded" />
+            <div className="w-full h-20 bg-gray-200 rounded" />
+          </div>
+        </div>
+      </section>
+    );
+  }
 
-  const headingText = data.heading || defaultClientAdoptionData.heading;
+  const activeData = data || defaultClientAdoptionData;
+
+  const imageSrc = getMediaUrl(activeData.image || defaultClientAdoptionData.image);
+  const fallbackSrc = getMediaUrl(activeData.fallbackImage || defaultClientAdoptionData.fallbackImage);
+
+  const headingText = activeData.heading || defaultClientAdoptionData.heading;
   const isDefaultHeading = headingText.toLowerCase().includes('how do we serve the client');
 
   return (
@@ -69,25 +93,25 @@ export default function HomeClientAdoptionSection() {
           </h2>
 
           <div className="space-y-3.5 mb-6">
-            {data.paragraph1 && (
+            {activeData.paragraph1 && (
               <p className="text-[15px] sm:text-[16px] text-[#444] leading-[1.6] font-normal">
-                {data.paragraph1}
+                {activeData.paragraph1}
               </p>
             )}
 
-            {data.paragraph2 && (
+            {activeData.paragraph2 && (
               <p className="text-[15px] sm:text-[16px] text-[#444] leading-[1.6] font-normal">
-                {data.paragraph2}
+                {activeData.paragraph2}
               </p>
             )}
           </div>
 
           <div>
             <Link
-              to={data.buttonLink || '/about'}
+              to={activeData.buttonLink || '/about'}
               className="inline-block px-5 py-2.5 text-[14px] font-medium text-black bg-white border-2 border-black rounded-[30px] hover:bg-black hover:text-white transition-all duration-300"
             >
-              {data.buttonText || 'View All Topics'}
+              {activeData.buttonText || 'View All Topics'}
             </Link>
           </div>
         </div>

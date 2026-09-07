@@ -6,24 +6,24 @@ import { flashApiFetch } from '../../config/api';
 const defaultHeroSlides = [
   {
     id: 1,
-    image: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=1200&q=80',
-    fallback: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=1200&q=80',
+    image: '/files/img4.jpg',
+    fallback: '/files/img4.jpg',
     titleLine1: 'Transforming Visions',
     titleLine2: 'into Digital Realities',
     subtitle: 'We empower your business with cutting-edge IT solutions through seamless digital engagement. From virtual consultations to personalized meetings, we deliver tailored solutions to drive your success.'
   },
   {
     id: 2,
-    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80',
-    fallback: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80',
+    image: '/files/pd2.jpeg',
+    fallback: '/files/pd2.jpeg',
     titleLine1: 'Empowering Businesses',
     titleLine2: 'With AI & Automation',
     subtitle: 'Streamline operations, improve efficiency, and unlock new growth opportunities with our custom AI and cloud engineering services.'
   },
   {
     id: 3,
-    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80',
-    fallback: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80',
+    image: '/files/pd3.webp',
+    fallback: '/files/pd3.webp',
     titleLine1: 'Next-Gen Infrastructure',
     titleLine2: '& Smart City Solutions',
     subtitle: 'Building sustainable, secure, and scalable digital ecosystems tailored for modern enterprises and forward-thinking communities.'
@@ -32,26 +32,47 @@ const defaultHeroSlides = [
 
 export default function HomeHero() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [heroData, setHeroData] = useState({
-    slides: defaultHeroSlides,
-    button1Text: 'About Us',
-    button1Link: '/about',
-    button2Text: "Let's Talk",
-    button2Link: '/contact'
-  });
+  const [heroData, setHeroData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     flashApiFetch('/home-content/hero')
       .then((res) => res.json())
       .then((resData) => {
-        if (resData.success && resData.content && Array.isArray(resData.content.slides)) {
+        if (resData.success && resData.content && Array.isArray(resData.content.slides) && resData.content.slides.length > 0) {
           setHeroData(resData.content);
+        } else {
+          setHeroData({
+            slides: defaultHeroSlides,
+            button1Text: 'About Us',
+            button1Link: '/about',
+            button2Text: "Let's Talk",
+            button2Link: '/contact'
+          });
         }
       })
-      .catch((err) => console.error('Error fetching HomeHero API data:', err));
+      .catch((err) => {
+        console.error('Error fetching HomeHero API data:', err);
+        setHeroData({
+          slides: defaultHeroSlides,
+          button1Text: 'About Us',
+          button1Link: '/about',
+          button2Text: "Let's Talk",
+          button2Link: '/contact'
+        });
+      })
+      .finally(() => setLoading(false));
   }, []);
 
-  const slides = heroData.slides && heroData.slides.length > 0 ? heroData.slides : defaultHeroSlides;
+  const activeHero = heroData || {
+    slides: defaultHeroSlides,
+    button1Text: 'About Us',
+    button1Link: '/about',
+    button2Text: "Let's Talk",
+    button2Link: '/contact'
+  };
+
+  const slides = activeHero.slides && activeHero.slides.length > 0 ? activeHero.slides : defaultHeroSlides;
   const activeSlide = slides[currentSlide] || slides[0] || {};
 
   useEffect(() => {
@@ -61,6 +82,21 @@ export default function HomeHero() {
     }, 6000);
     return () => clearInterval(timer);
   }, [slides.length]);
+
+  if (loading) {
+    return (
+      <section className="relative w-full min-h-[550px] md:h-screen md:min-h-[650px] bg-[#0d0d0d] text-white overflow-hidden flex flex-col md:flex-row">
+        <div className="w-full md:w-1/2 flex flex-col justify-between pt-16 md:pt-24 px-6 sm:px-10 md:p-16 z-10 bg-[#0d0d0d]">
+          <div className="max-w-xl space-y-6 my-auto md:my-0 animate-pulse">
+            <div className="w-3/4 h-10 sm:h-12 bg-white/20 rounded" />
+            <div className="w-1/2 h-10 sm:h-12 bg-white/20 rounded" />
+            <div className="w-full h-24 bg-white/20 rounded mt-4" />
+          </div>
+        </div>
+        <div className="w-full md:w-1/2 h-full bg-[#141414] animate-pulse" />
+      </section>
+    );
+  }
 
   return (
     <section className="relative w-full min-h-[550px] md:h-screen md:min-h-[650px] bg-[#0d0d0d] text-white overflow-hidden flex flex-col md:flex-row">
@@ -80,16 +116,16 @@ export default function HomeHero() {
         {/* Action Buttons for Mobile */}
         <div className="flex md:hidden items-center gap-3 sm:gap-4 pt-6 z-20">
           <Link
-            to={heroData.button1Link || '/about'}
+            to={activeHero.button1Link || '/about'}
             className="px-5 py-2.5 rounded-full border-2 border-white text-white font-medium text-xs sm:text-sm hover:bg-white hover:text-black transition-all duration-300 shadow-lg shrink-0"
           >
-            {heroData.button1Text || 'About Us'}
+            {activeHero.button1Text || 'About Us'}
           </Link>
           <Link
-            to={heroData.button2Link || '/contact'}
+            to={activeHero.button2Link || '/contact'}
             className="px-5 py-2.5 rounded-full bg-black text-white font-medium text-xs sm:text-sm border border-white/20 hover:bg-white hover:text-black hover:border-white transition-all duration-300 shadow-lg shrink-0"
           >
-            {heroData.button2Text || "Let's Talk"}
+            {activeHero.button2Text || "Let's Talk"}
           </Link>
         </div>
       </div>
@@ -97,16 +133,16 @@ export default function HomeHero() {
       {/* Action Buttons: Desktop centered overlay */}
       <div className="hidden md:flex absolute bottom-8 left-[50%] -translate-x-1/2 items-center gap-12 z-20">
         <Link
-          to={heroData.button1Link || '/about'}
+          to={activeHero.button1Link || '/about'}
           className="px-7 py-3 rounded-full border-2 border-white text-white font-medium text-sm hover:bg-white hover:text-black transition-all duration-300 shadow-lg shrink-0"
         >
-          {heroData.button1Text || 'About Us'}
+          {activeHero.button1Text || 'About Us'}
         </Link>
         <Link
-          to={heroData.button2Link || '/contact'}
+          to={activeHero.button2Link || '/contact'}
           className="px-7 py-3 rounded-full bg-black text-white font-medium text-sm border border-white/20 hover:bg-white hover:text-black hover:border-white transition-all duration-300 shadow-lg shrink-0"
         >
-          {heroData.button2Text || "Let's Talk"}
+          {activeHero.button2Text || "Let's Talk"}
         </Link>
       </div>
 

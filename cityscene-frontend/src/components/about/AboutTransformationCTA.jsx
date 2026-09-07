@@ -15,7 +15,8 @@ const defaultTransformationData = {
 };
 
 export default function AboutTransformationCTA() {
-  const [data, setData] = useState(defaultTransformationData);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     flashApiFetch('/home-content/about-transformation')
@@ -23,10 +24,39 @@ export default function AboutTransformationCTA() {
       .then((resData) => {
         if (resData.success && resData.content && resData.content.heading) {
           setData(resData.content);
+        } else {
+          setData(defaultTransformationData);
         }
       })
-      .catch((err) => console.error('Error fetching AboutTransformationCTA API data:', err));
+      .catch((err) => {
+        console.error('Error fetching AboutTransformationCTA API data:', err);
+        setData(defaultTransformationData);
+      })
+      .finally(() => setLoading(false));
   }, []);
+
+  if (loading) {
+    return (
+      <section className="w-full bg-[#171717] text-white py-12 md:py-16 relative overflow-hidden border-t border-white/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8 items-center animate-pulse">
+            <div className="md:col-span-6 space-y-6">
+              <div className="w-3/4 h-12 bg-white/20 rounded" />
+              <div className="w-1/2 h-6 bg-white/20 rounded" />
+            </div>
+            <div className="hidden md:flex md:col-span-1 justify-center">
+              <div className="w-[1px] h-64 bg-white/20" />
+            </div>
+            <div className="md:col-span-5 space-y-4">
+              <div className="w-full h-12 bg-white/20 rounded-full" />
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  const activeData = data || defaultTransformationData;
 
   return (
     <section className="w-full bg-[#171717] text-white py-12 md:py-16 relative overflow-hidden border-t border-white/10">

@@ -10,12 +10,13 @@ const defaultHeroData = {
   description: 'Helping businesses innovate and grow in the digital age.',
   buttonText: "Let's Talk",
   buttonLink: '/contact',
-  bgImage: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=1920&q=80',
+  bgImage: '',
   bgVideo: '/files/vd12.mp4'
 };
 
 export default function WhatWeDoHero() {
-  const [data, setData] = useState(defaultHeroData);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const videoRef = useVideoIntersectionObserver({ threshold: 0.15 });
 
   useEffect(() => {
@@ -24,17 +25,38 @@ export default function WhatWeDoHero() {
       .then((resData) => {
         if (resData.success && resData.content && resData.content.title) {
           setData(resData.content);
+        } else {
+          setData(defaultHeroData);
         }
       })
-      .catch((err) => console.error('Error fetching WhatWeDoHero API data:', err));
+      .catch((err) => {
+        console.error('Error fetching WhatWeDoHero API data:', err);
+        setData(defaultHeroData);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
-  const rawBgImage = data.bgImage || data.backgroundImage || defaultHeroData.bgImage;
-  const rawBgVideo = data.bgVideo || data.backgroundVideo || defaultHeroData.bgVideo;
+  if (loading) {
+    return (
+      <section className="relative w-full h-screen min-h-[600px] flex items-center bg-[#0d0d0d] text-white">
+        <div className="absolute top-[45%] md:top-[40%] left-[5%] md:left-[8%] -translate-y-1/2 z-10 w-[90%] md:w-[85%] max-w-[550px] lg:max-w-[600px] animate-pulse space-y-4">
+          <div className="w-28 h-4 bg-white/20 rounded mb-4" />
+          <div className="w-full h-14 bg-white/20 rounded my-4" />
+          <div className="w-3/4 h-16 bg-white/20 rounded my-4" />
+          <div className="w-36 h-10 bg-white/20 rounded-full mt-2" />
+        </div>
+      </section>
+    );
+  }
+
+  const activeData = data || defaultHeroData;
+
+  const rawBgImage = activeData.bgImage || activeData.backgroundImage || defaultHeroData.bgImage;
+  const rawBgVideo = activeData.bgVideo || activeData.backgroundVideo || defaultHeroData.bgVideo;
 
   const bgImage = getMediaUrl(rawBgImage);
   const bgVideo = getMediaUrl(rawBgVideo);
-  const isVideoMode = data.backgroundMediaType === 'video' || (data.backgroundMediaType !== 'image' && !!rawBgVideo) || (!!rawBgVideo && !data.backgroundMediaType);
+  const isVideoMode = activeData.backgroundMediaType === 'video' || (activeData.backgroundMediaType !== 'image' && !!rawBgVideo) || (!!rawBgVideo && !activeData.backgroundMediaType);
 
   return (
     <section className="group relative w-full h-screen min-h-[600px] flex items-center text-left bg-transparent overflow-hidden z-10">
@@ -47,7 +69,7 @@ export default function WhatWeDoHero() {
             loop
             muted
             playsInline
-            poster={bgImage}
+            poster={bgImage || undefined}
             className="w-full h-full object-cover"
             src={bgVideo}
             onError={(e) => {
@@ -70,26 +92,26 @@ export default function WhatWeDoHero() {
       <div className="absolute top-[45%] md:top-[40%] left-[5%] md:left-[8%] -translate-y-1/2 z-10 w-[90%] md:w-[85%] max-w-[550px] lg:max-w-[600px] text-left text-white">
         {/* Small Text Label with 80vw Horizontal Line */}
         <div className="relative text-[0.8rem] font-bold uppercase tracking-[1px] text-white pt-2 mb-4 pb-1">
-          <span>{data.subheading || defaultHeroData.subheading}</span>
+          <span>{activeData.subheading || defaultHeroData.subheading}</span>
           <div className="absolute left-0 -bottom-1 w-[80vw] h-[1.5px] bg-white" />
         </div>
 
         {/* Main Heading with Exact Line Breaks */}
         <h1 className="text-3xl sm:text-5xl lg:text-[54px] font-bold leading-[1.25] text-white my-4 whitespace-pre-line tracking-tight max-w-[90%]">
-          {data.title || defaultHeroData.title}
+          {activeData.title || defaultHeroData.title}
         </h1>
 
         {/* Supporting Paragraph */}
         <p className="text-base sm:text-lg text-gray-200 my-4 leading-relaxed font-normal max-w-[80%]">
-          {data.description || defaultHeroData.description}
+          {activeData.description || defaultHeroData.description}
         </p>
 
         {/* CTA Button with Circular Arrow Icon */}
         <Link
-          to={data.buttonLink || '/contact'}
+          to={activeData.buttonLink || '/contact'}
           className="inline-flex items-center gap-2 text-[1.2rem] font-bold text-white hover:opacity-90 transition-opacity mt-2 group"
         >
-          <span>{data.buttonText || "Let's Talk"}</span>
+          <span>{activeData.buttonText || "Let's Talk"}</span>
           <div className="w-[35px] h-[35px] bg-white text-black rounded-full flex items-center justify-center font-bold text-lg group-hover:translate-x-1 transition-transform ml-1">
             ➜
           </div>

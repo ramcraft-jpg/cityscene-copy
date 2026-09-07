@@ -20,7 +20,8 @@ const renderFormattedText = (text) => {
 };
 
 export default function AboutCompanySection() {
-  const [data, setData] = useState(defaultCompanyData);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     flashApiFetch('/home-content/about-company')
@@ -28,13 +29,32 @@ export default function AboutCompanySection() {
       .then((resData) => {
         if (resData.success && resData.content && (resData.content.paragraph1 || resData.content.paragraph2)) {
           setData(resData.content);
+        } else {
+          setData(defaultCompanyData);
         }
       })
-      .catch((err) => console.error('Error fetching AboutCompanySection API data:', err));
+      .catch((err) => {
+        console.error('Error fetching AboutCompanySection API data:', err);
+        setData(defaultCompanyData);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
-  const p1 = data.paragraph1 || defaultCompanyData.paragraph1;
-  const p2 = data.paragraph2 || defaultCompanyData.paragraph2;
+  if (loading) {
+    return (
+      <section className="w-full bg-white py-12 px-6 sm:px-[10vw] lg:px-[15vw] relative shadow-[0_4px_10px_rgba(0,0,0,0.06)]">
+        <div className="space-y-4 animate-pulse">
+          <div className="w-full h-16 bg-gray-200 rounded" />
+          <div className="w-full h-16 bg-gray-200 rounded" />
+        </div>
+      </section>
+    );
+  }
+
+  const activeData = data || defaultCompanyData;
+
+  const p1 = activeData.paragraph1 || defaultCompanyData.paragraph1;
+  const p2 = activeData.paragraph2 || defaultCompanyData.paragraph2;
 
   return (
     <section className="w-full bg-white py-12 px-6 sm:px-[10vw] lg:px-[15vw] relative shadow-[0_4px_10px_rgba(0,0,0,0.06)]">
@@ -45,9 +65,9 @@ export default function AboutCompanySection() {
         <p className="break-words">
           {renderFormattedText(p2)}
         </p>
-        {data.image && (
+        {activeData.image && (
           <div className="mt-8 flex justify-center">
-            <img src={getMediaUrl(data.image)} alt="Company section visual" className="rounded-2xl max-h-[400px] object-cover shadow-md" />
+            <img src={getMediaUrl(activeData.image)} alt="Company section visual" className="rounded-2xl max-h-[400px] object-cover shadow-md" />
           </div>
         )}
       </div>

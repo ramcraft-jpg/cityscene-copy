@@ -10,14 +10,15 @@ const defaultHeroData = {
   description: 'Find exciting career opportunities with us.',
   buttonText: 'Explore Jobs',
   buttonLink: '#jobs',
-  bgImage: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1920&q=80',
+  bgImage: '',
   bgVideo: '/files/vd10.mp4',
   videoFallback: '/files/vd12.mp4',
   onlineFallback: 'https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-code-42866-large.mp4'
 };
 
 export default function CareerHero() {
-  const [data, setData] = useState(defaultHeroData);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const videoRef = useVideoIntersectionObserver({ threshold: 0.15 });
 
   useEffect(() => {
@@ -25,22 +26,39 @@ export default function CareerHero() {
       .then((res) => res.json())
       .then((resData) => {
         if (resData.success && resData.content) {
-          setData({
-            ...defaultHeroData,
-            ...resData.content
-          });
+          setData(resData.content);
+        } else {
+          setData(defaultHeroData);
         }
       })
-      .catch((err) => console.error('Error fetching CareerHero API data:', err));
+      .catch((err) => {
+        console.error('Error fetching CareerHero API data:', err);
+        setData(defaultHeroData);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
-  const rawBgImage = data.bgImage || data.backgroundImage || defaultHeroData.bgImage;
-  const rawBgVideo = data.bgVideo || data.backgroundVideo || defaultHeroData.bgVideo;
+  if (loading) {
+    return (
+      <div className="relative w-full min-h-screen bg-black overflow-hidden flex flex-col justify-center items-center">
+        <div className="max-w-lg mx-auto px-4 w-full text-center animate-pulse space-y-4">
+          <div className="w-3/4 h-10 bg-white/20 rounded mx-auto" />
+          <div className="w-1/2 h-6 bg-white/20 rounded mx-auto" />
+          <div className="w-36 h-10 bg-white/20 rounded-full mx-auto" />
+        </div>
+      </div>
+    );
+  }
+
+  const activeData = data || defaultHeroData;
+
+  const rawBgImage = activeData.bgImage || activeData.backgroundImage || defaultHeroData.bgImage;
+  const rawBgVideo = activeData.bgVideo || activeData.backgroundVideo || defaultHeroData.bgVideo;
 
   const videoSrc = getMediaUrl(rawBgVideo || defaultHeroData.bgVideo);
   const videoFallbackSrc = getMediaUrl(defaultHeroData.videoFallback);
   const posterSrc = getMediaUrl(rawBgImage);
-  const isVideoMode = data.backgroundMediaType === 'video' || (data.backgroundMediaType !== 'image' && !!rawBgVideo) || (!!rawBgVideo && !data.backgroundMediaType);
+  const isVideoMode = activeData.backgroundMediaType === 'video' || (activeData.backgroundMediaType !== 'image' && !!rawBgVideo) || (!!rawBgVideo && !activeData.backgroundMediaType);
 
   const getEmbedVideoUrl = (url) => {
     if (!url || typeof url !== 'string') return '';
@@ -66,7 +84,7 @@ export default function CareerHero() {
   const embedVideoSrc = getEmbedVideoUrl(videoSrc);
   const isYoutubeOrVimeo = embedVideoSrc.includes('youtube.com') || embedVideoSrc.includes('vimeo.com');
 
-  const buttonLink = data.buttonLink || '#jobs';
+  const buttonLink = activeData.buttonLink || '#jobs';
   const isExternalOrAnchor = buttonLink.startsWith('#') || buttonLink.startsWith('http');
 
   const handleScrollToTarget = (e) => {
@@ -100,7 +118,7 @@ export default function CareerHero() {
               loop
               muted
               playsInline
-              poster={posterSrc}
+              poster={posterSrc || undefined}
               onError={(e) => {
                 if (e.target.src !== videoFallbackSrc) {
                   e.target.src = videoFallbackSrc;
@@ -134,12 +152,12 @@ export default function CareerHero() {
           >
             {/* Main Heading */}
             <h1 className="text-3xl sm:text-4xl md:text-[2.75rem] font-bold text-white leading-tight tracking-tight">
-              {data.title || 'Join Our Team'}
+              {activeData.title || 'Join Our Team'}
             </h1>
 
             {/* Supporting Text / Description */}
             <p className="text-sm sm:text-base md:text-lg text-white font-normal leading-snug max-w-xs sm:max-w-sm mx-auto">
-              {data.description || 'Find exciting career opportunities with us.'}
+              {activeData.description || 'Find exciting career opportunities with us.'}
             </p>
 
             {/* CTA Button */}
@@ -150,14 +168,14 @@ export default function CareerHero() {
                   onClick={handleScrollToTarget}
                   className="explore-btn inline-block px-7 py-3 text-sm sm:text-base font-bold text-black bg-white hover:bg-black hover:text-white rounded-[30px] transition-all duration-300 shadow-md cursor-pointer"
                 >
-                  {data.buttonText || 'Explore Jobs'}
+                  {activeData.buttonText || 'Explore Jobs'}
                 </a>
               ) : (
                 <Link
                   to={buttonLink}
                   className="explore-btn inline-block px-7 py-3 text-sm sm:text-base font-bold text-black bg-white hover:bg-black hover:text-white rounded-[30px] transition-all duration-300 shadow-md"
                 >
-                  {data.buttonText || 'Explore Jobs'}
+                  {activeData.buttonText || 'Explore Jobs'}
                 </Link>
               )}
             </div>

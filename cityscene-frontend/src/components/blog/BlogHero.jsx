@@ -7,7 +7,7 @@ const defaultHeroData = {
   subheading: 'BLOG',
   title: 'Pioneering the\nNext Wave of Technology',
   description: 'Innovative, scalable, and AI-driven solutions for a smarter digital world.',
-  bgImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1920&q=80',
+  bgImage: '',
   bgVideo: '/files/vd14.mp4',
   videoFallback: '/files/vd12.mp4',
   onlineFallback: 'https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-code-42866-large.mp4'
@@ -31,7 +31,8 @@ const isVideoUrl = (url) => {
 };
 
 export default function BlogHero({ videoSrc: propVideoSrc }) {
-  const [data, setData] = useState(defaultHeroData);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const videoRef = useVideoIntersectionObserver({ threshold: 0.15 });
 
   useEffect(() => {
@@ -40,13 +41,33 @@ export default function BlogHero({ videoSrc: propVideoSrc }) {
       .then((resData) => {
         if (resData.success && resData.content && resData.content.title) {
           setData(resData.content);
+        } else {
+          setData(defaultHeroData);
         }
       })
-      .catch((err) => console.error('Error fetching BlogHero API data:', err));
+      .catch((err) => {
+        console.error('Error fetching BlogHero API data:', err);
+        setData(defaultHeroData);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
-  const rawBgImage = data.bgImage || data.backgroundImage || defaultHeroData.bgImage;
-  let rawBgVideo = propVideoSrc || data.bgVideo || data.backgroundVideo || defaultHeroData.bgVideo;
+  if (loading) {
+    return (
+      <section className="relative w-full min-h-[500px] py-16 md:py-0 md:h-screen md:min-h-[650px] overflow-hidden flex items-center text-white text-left bg-[#0d0d0d]">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-12 text-left text-white w-full animate-pulse">
+          <div className="w-32 h-4 bg-white/20 rounded mb-6" />
+          <div className="w-3/4 max-w-2xl h-12 sm:h-16 bg-white/20 rounded mb-6" />
+          <div className="w-full max-w-xl h-20 bg-white/20 rounded mb-8" />
+        </div>
+      </section>
+    );
+  }
+
+  const activeData = data || defaultHeroData;
+
+  const rawBgImage = activeData.bgImage || activeData.backgroundImage || defaultHeroData.bgImage;
+  let rawBgVideo = propVideoSrc || activeData.bgVideo || activeData.backgroundVideo || defaultHeroData.bgVideo;
 
   if (!rawBgVideo && isVideoUrl(rawBgImage)) {
     rawBgVideo = rawBgImage;
@@ -57,9 +78,9 @@ export default function BlogHero({ videoSrc: propVideoSrc }) {
   const posterSrc = isVideoUrl(rawBgImage) ? '' : getMediaUrl(rawBgImage);
 
   const isVideoMode =
-    data.backgroundMediaType === 'video' ||
-    (data.backgroundMediaType !== 'image' && !!rawBgVideo) ||
-    (!!rawBgVideo && !data.backgroundMediaType) ||
+    activeData.backgroundMediaType === 'video' ||
+    (activeData.backgroundMediaType !== 'image' && !!rawBgVideo) ||
+    (!!rawBgVideo && !activeData.backgroundMediaType) ||
     isVideoUrl(rawBgImage) ||
     isVideoUrl(rawBgVideo);
 
@@ -75,7 +96,7 @@ export default function BlogHero({ videoSrc: propVideoSrc }) {
             loop
             muted
             playsInline
-            poster={posterSrc}
+            poster={posterSrc || undefined}
             onError={(e) => {
               if (e.target.src !== videoFallbackSrc) {
                 e.target.src = videoFallbackSrc;
@@ -103,18 +124,18 @@ export default function BlogHero({ videoSrc: propVideoSrc }) {
       <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-12 text-left text-white w-full">
         {/* Small Text Label with Horizontal Line */}
         <div className="relative text-xs sm:text-sm font-semibold uppercase tracking-[2px] text-white pb-3 mb-6">
-          <span>{data.subheading || defaultHeroData.subheading}</span>
+          <span>{activeData.subheading || defaultHeroData.subheading}</span>
           <div className="absolute left-0 bottom-0 w-[80vw] max-w-[800px] h-[1.5px] bg-white/80" />
         </div>
 
         {/* Main Heading */}
         <h1 className="text-3xl sm:text-5xl lg:text-6xl font-normal leading-[1.2] text-white max-w-3xl mb-6 whitespace-pre-line">
-          {data.title || defaultHeroData.title}
+          {activeData.title || defaultHeroData.title}
         </h1>
 
         {/* Supporting Paragraph */}
         <p className="text-base sm:text-lg text-gray-200 leading-relaxed font-light max-w-2xl mb-8">
-          {data.description || defaultHeroData.description}
+          {activeData.description || defaultHeroData.description}
         </p>
       </div>
     </section>

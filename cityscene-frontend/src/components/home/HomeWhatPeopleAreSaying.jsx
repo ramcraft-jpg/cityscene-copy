@@ -10,10 +10,8 @@ const defaultTestimonials = [
 ];
 
 export default function HomeWhatPeopleAreSaying() {
-  const [data, setData] = useState({
-    heading: 'What People Are Saying?',
-    testimonials: defaultTestimonials
-  });
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     flashApiFetch('/home-content/testimonials')
@@ -21,12 +19,47 @@ export default function HomeWhatPeopleAreSaying() {
       .then((resData) => {
         if (resData.success && resData.content && resData.content.testimonials && resData.content.testimonials.length > 0) {
           setData(resData.content);
+        } else {
+          setData({
+            heading: 'What People Are Saying?',
+            testimonials: defaultTestimonials
+          });
         }
       })
-      .catch((err) => console.error('Error fetching HomeTestimonials API data:', err));
+      .catch((err) => {
+        console.error('Error fetching HomeTestimonials API data:', err);
+        setData({
+          heading: 'What People Are Saying?',
+          testimonials: defaultTestimonials
+        });
+      })
+      .finally(() => setLoading(false));
   }, []);
 
-  const rawList = data.testimonials && data.testimonials.length > 0 ? data.testimonials : defaultTestimonials;
+  if (loading) {
+    return (
+      <section
+        className="w-full bg-white text-black py-12 sm:py-14 px-5 text-center overflow-hidden relative"
+        style={{ clipPath: 'polygon(0% 0%, 100% 0%, 100% 85%, 50% 100%, 0% 85%)' }}
+      >
+        <div className="max-w-[800px] mx-auto w-full text-center pb-6 animate-pulse">
+          <div className="w-64 h-8 bg-gray-200 rounded mx-auto mb-8" />
+          <div className="flex gap-5 justify-center">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="w-[260px] h-[180px] bg-gray-200 rounded-[10px]" />
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  const activeData = data || {
+    heading: 'What People Are Saying?',
+    testimonials: defaultTestimonials
+  };
+
+  const rawList = activeData.testimonials && activeData.testimonials.length > 0 ? activeData.testimonials : defaultTestimonials;
   // Quadrupled list for 100% seamless infinite marquee scrolling
   const marqueeList = [...rawList, ...rawList, ...rawList, ...rawList];
 
@@ -38,7 +71,7 @@ export default function HomeWhatPeopleAreSaying() {
       <div className="max-w-[800px] mx-auto w-full text-center pb-6">
 
         <h2 className="text-2xl font-medium text-black mb-8">
-          {data.heading || 'What People Are Saying?'}
+          {activeData.heading || 'What People Are Saying?'}
         </h2>
 
         {/* Continuous Marquee Track Wrapper */}

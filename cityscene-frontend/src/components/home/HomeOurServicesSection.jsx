@@ -81,31 +81,34 @@ const defaultServices = [
 
 export default function HomeOurServicesSection() {
   const [sectionData, setSectionData] = useState({
-    heading: 'Our Services',
-    services: defaultServices
+    heading: 'Our Services'
   });
-  const [items, setItems] = useState(defaultServices);
+  const [items, setItems] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [cardsPerView, setCardsPerView] = useState(3);
   const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
-    getServices()
-      .then((data) => {
-        if (isMounted && Array.isArray(data) && data.length > 0) {
-          setItems(data);
+    Promise.all([
+      getServices().catch(() => null),
+      getHomeSectionContent('services').catch(() => null)
+    ])
+      .then(([servicesRes, contentRes]) => {
+        if (!isMounted) return;
+        if (Array.isArray(servicesRes) && servicesRes.length > 0) {
+          setItems(servicesRes);
+        } else {
+          setItems(defaultServices);
+        }
+        if (contentRes && contentRes.heading) {
+          setSectionData((prev) => ({ ...prev, heading: contentRes.heading }));
         }
       })
-      .catch((err) => console.error('Error fetching HomeServices API data:', err));
-
-    getHomeSectionContent('services')
-      .then((content) => {
-        if (isMounted && content && content.heading) {
-          setSectionData((prev) => ({ ...prev, heading: content.heading }));
-        }
-      })
-      .catch(() => {});
+      .finally(() => {
+        if (isMounted) setLoading(false);
+      });
 
     return () => {
       isMounted = false;
@@ -150,6 +153,23 @@ export default function HomeOurServicesSection() {
     }
   };
 
+  if (loading || !items) {
+    return (
+      <section className="w-full bg-[#1a1a1a] text-white py-[50px] sm:py-[60px] px-5 sm:px-[40px] relative overflow-hidden">
+        <div className="max-w-[1100px] mx-auto w-full">
+          <div className="w-48 h-10 bg-white/20 rounded mb-8 animate-pulse" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[20px] w-full animate-pulse">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-[400px] sm:h-[440px] bg-white/10 rounded-[20px]" />
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  const serviceItems = items && items.length > 0 ? items : defaultServices;
+
   return (
     <section
       className="w-full bg-[#1a1a1a] text-white py-[50px] sm:py-[60px] px-5 sm:px-[40px] relative overflow-hidden"
@@ -178,7 +198,7 @@ export default function HomeOurServicesSection() {
             }}
             className="flex gap-[20px] w-full"
           >
-            {items.map((srv, idx) => {
+            {serviceItems.map((srv, idx) => {
               const isOdd = idx % 2 === 0;
 
               const fallbackUrl = defaultServices.find((ds) => ds.id === srv.id)?.fallback || defaultServices[5].fallback;
