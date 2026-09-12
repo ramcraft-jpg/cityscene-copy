@@ -22,7 +22,8 @@ export const initialSeoMetas = [
     ogTitle: "CityScene Global - Engineering Tomorrow's Digital Experience",
     ogDescription: "Empower your business with bespoke AI, web, mobile, and enterprise software architectures.",
     ogImage: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80",
-    robots: "index, follow"
+    robots: "index, follow",
+    h1Tag: "Enterprise Software & AI Solutions"
   },
   {
     pageKey: "about",
@@ -35,7 +36,8 @@ export const initialSeoMetas = [
     ogTitle: "About CityScene Global - Innovators in Technology",
     ogDescription: "Bridging the gap between ambitious ideas and technical execution.",
     ogImage: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80",
-    robots: "index, follow"
+    robots: "index, follow",
+    h1Tag: "About CityScene Global"
   },
   {
     pageKey: "services",
@@ -48,7 +50,8 @@ export const initialSeoMetas = [
     ogTitle: "Our Services - CityScene Global Technology Solutions",
     ogDescription: "Tailored technology services designed to scale modern enterprises.",
     ogImage: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&w=1200&q=80",
-    robots: "index, follow"
+    robots: "index, follow",
+    h1Tag: "What We Do / Enterprise Technology Services"
   },
   {
     pageKey: "career",
@@ -61,7 +64,8 @@ export const initialSeoMetas = [
     ogTitle: "Join the CityScene Global Team",
     ogDescription: "Work on state-of-the-art enterprise software and AI projects.",
     ogImage: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80",
-    robots: "index, follow"
+    robots: "index, follow",
+    h1Tag: "Careers & Opportunities"
   },
   {
     pageKey: "blog",
@@ -74,7 +78,8 @@ export const initialSeoMetas = [
     ogTitle: "CityScene Tech Insights & Industry Blog",
     ogDescription: "Expert commentary and deep dives into modern technology trends.",
     ogImage: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80",
-    robots: "index, follow"
+    robots: "index, follow",
+    h1Tag: "Tech Insights & Blog"
   },
   {
     pageKey: "portfolio",
@@ -87,7 +92,8 @@ export const initialSeoMetas = [
     ogTitle: "Our Work & Portfolio - CityScene Global",
     ogDescription: "Showcasing high-impact enterprise applications built for global clients.",
     ogImage: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80",
-    robots: "index, follow"
+    robots: "index, follow",
+    h1Tag: "Client Case Studies & Portfolio"
   },
   {
     pageKey: "contact",
@@ -100,7 +106,8 @@ export const initialSeoMetas = [
     ogTitle: "Contact CityScene Global",
     ogDescription: "Bridging the gap between ideas and technical execution.",
     ogImage: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
-    robots: "index, follow"
+    robots: "index, follow",
+    h1Tag: "Contact Us"
   }
 ];
 

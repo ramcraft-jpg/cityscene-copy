@@ -21,6 +21,7 @@ async function testSeoApi() {
     if (jsonHome.success && jsonHome.data) {
       console.log('   Title:', jsonHome.data.title);
       console.log('   Description:', jsonHome.data.description);
+      console.log('   H1 Tag:', jsonHome.data.h1Tag);
     } else {
       console.error('   ❌ Failed to retrieve Home SEO record!');
     }

@@ -39,7 +39,8 @@ export const getAllSeoMeta = async (req, res, next) => {
       whereClause[Op.or] = [
         { pageKey: { [Op.like]: `%${search}%` } },
         { pageName: { [Op.like]: `%${search}%` } },
-        { title: { [Op.like]: `%${search}%` } }
+        { title: { [Op.like]: `%${search}%` } },
+        { h1Tag: { [Op.like]: `%${search}%` } }
       ];
     }
 
@@ -125,7 +126,8 @@ export const updateSeoMeta = async (req, res, next) => {
       ogTitle,
       ogDescription,
       ogImage,
-      robots
+      robots,
+      h1Tag
     } = req.body;
 
     let record = await SeoMeta.findOne({ where: { pageKey: cleanKey } });
@@ -142,7 +144,8 @@ export const updateSeoMeta = async (req, res, next) => {
         ogTitle: ogTitle || title || '',
         ogDescription: ogDescription || description || '',
         ogImage: ogImage || '',
-        robots: robots || 'index, follow'
+        robots: robots || 'index, follow',
+        h1Tag: h1Tag || ''
       });
     } else {
       await record.update({
@@ -155,7 +158,8 @@ export const updateSeoMeta = async (req, res, next) => {
         ogTitle: ogTitle !== undefined ? ogTitle : record.ogTitle,
         ogDescription: ogDescription !== undefined ? ogDescription : record.ogDescription,
         ogImage: ogImage !== undefined ? ogImage : record.ogImage,
-        robots: robots !== undefined ? robots : record.robots
+        robots: robots !== undefined ? robots : record.robots,
+        h1Tag: h1Tag !== undefined ? h1Tag : record.h1Tag
       });
     }
 

@@ -40,7 +40,8 @@ export default function AdminSeoManagement() {
     ogTitle: '',
     ogDescription: '',
     ogImage: '',
-    robots: 'index, follow'
+    robots: 'index, follow',
+    h1Tag: ''
   });
 
   // Load all SEO records and dynamic options on mount
@@ -143,7 +144,8 @@ export default function AdminSeoManagement() {
       ogTitle: existingRecord.ogTitle || existingRecord.title || `${pageMeta.name} | CityScene Global`,
       ogDescription: existingRecord.ogDescription || existingRecord.description || `Discover ${pageMeta.name} at CityScene Global.`,
       ogImage: existingRecord.ogImage || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80',
-      robots: existingRecord.robots || 'index, follow'
+      robots: existingRecord.robots || 'index, follow',
+      h1Tag: existingRecord.h1Tag || ''
     });
   };
 
@@ -373,6 +375,23 @@ export default function AdminSeoManagement() {
             >
               {isConfiguredInDb ? 'Saved in DB' : 'System Default'}
             </span>
+          </div>
+
+          {/* H1 Tag Field */}
+          <div>
+            <div className="flex justify-between items-center mb-1">
+              <label className="text-xs font-bold text-slate-800">H1 Tag (Main Heading)</label>
+              <span className="text-[11px] font-semibold text-slate-400">
+                Primary page heading tag for SEO structure
+              </span>
+            </div>
+            <input
+              type="text"
+              value={formData.h1Tag}
+              onChange={(e) => handleFormChange('h1Tag', e.target.value)}
+              placeholder="e.g. Enterprise Software & AI Solutions"
+              className="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-orange-500 font-medium"
+            />
           </div>
 
           {/* Meta Title */}
@@ -626,6 +645,24 @@ export default function AdminSeoManagement() {
                 </div>
               </div>
             </div>
+          </div>
+          {/* Live Page Heading (H1 Tag) Preview Card */}
+          <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+                <span>🏷️</span> Page H1 Heading Tag
+              </h3>
+              <span className="text-[10px] bg-purple-100 text-purple-700 px-2 py-0.5 rounded font-bold">H1 TAG</span>
+            </div>
+            <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+              <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block">&lt;h1&gt; Tag Content</span>
+              <h1 className="text-base font-black text-slate-900 leading-tight">
+                {formData.h1Tag || <span className="text-slate-400 italic font-normal">No H1 Tag specified for this page</span>}
+              </h1>
+            </div>
+            <p className="text-[11px] text-slate-400 italic">
+              * The primary heading tag displayed on the page and indexed by search engine crawlers.
+            </p>
           </div>
         </div>
       </div>

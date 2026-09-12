@@ -60,6 +60,11 @@ export const SeoMeta = sequelize.define('SeoMeta', {
     type: DataTypes.STRING,
     allowNull: false,
     defaultValue: 'index, follow'
+  },
+  h1Tag: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: ''
   }
 }, {
   tableName: 'seo_metas',

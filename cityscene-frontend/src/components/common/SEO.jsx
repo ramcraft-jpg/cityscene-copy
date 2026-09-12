@@ -9,7 +9,8 @@ const DEFAULT_SEO = {
   ogTitle: 'CityScene Global - Enterprise Technology Solutions',
   ogDescription: 'Empower your business with state-of-the-art enterprise software and AI architectures.',
   ogImage: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80',
-  robots: 'index, follow'
+  robots: 'index, follow',
+  h1Tag: ''
 };
 
 /**
