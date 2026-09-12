@@ -123,6 +123,22 @@ export const Service = sequelize.define('Service', {
     type: DataTypes.JSON,
     defaultValue: []
   },
+  industriesTitle: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
+  industriesSubtitle: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
+  industriesGridCols: {
+    type: DataTypes.INTEGER,
+    defaultValue: 3
+  },
+  industries: {
+    type: DataTypes.JSON,
+    defaultValue: []
+  },
   ctaHeading: {
     type: DataTypes.TEXT,
     allowNull: true

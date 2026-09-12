@@ -16,8 +16,33 @@ import {
   HelpCircle,
   CheckCircle2,
   Edit2,
-  ExternalLink
+  ExternalLink,
+  Building2
 } from 'lucide-react';
+
+const DEFAULT_AI_ML_INDUSTRIES = [
+  {
+    num: '01/',
+    title: 'RENEWABLE ENERGY',
+    desc: 'AI-driven insights and predictive analytics for real-time performance tracking and usage forecasts.'
+  },
+  {
+    num: '02/',
+    title: 'FOOD & RESTAURANTS',
+    desc: 'Intelligent chatbots, real food visuals, and personalized menu suggestions for better engagement.'
+  },
+  {
+    num: '03/',
+    title: 'REAL ESTATE',
+    desc: 'Visualise home designs, explore layouts, and get pricing insights through AI-powered property platforms.'
+  },
+  {
+    num: '04/',
+    title: 'E-COMMERCE',
+    desc: 'Personalised recommendations and behavior-based offers that boost user engagement and conversion.',
+    isBlack: true
+  }
+];
 
 export default function AdminServicePageDetailEdit() {
   const { id } = useParams();
@@ -56,6 +81,10 @@ export default function AdminServicePageDetailEdit() {
     processTitle: 'Our App Development Process',
     processSteps: [],
     faqs: [],
+    industriesTitle: 'INDUSTRIES',
+    industriesSubtitle: '',
+    industriesGridCols: 3,
+    industries: [],
     order: 0,
     isActive: true
   });
@@ -83,7 +112,13 @@ export default function AdminServicePageDetailEdit() {
           whyChooseCards: Array.isArray(data.whyChooseCards) ? data.whyChooseCards : [],
           expertiseItems: Array.isArray(data.expertiseItems) ? data.expertiseItems : [],
           processSteps: Array.isArray(data.processSteps) ? data.processSteps : [],
-          faqs: Array.isArray(data.faqs) ? data.faqs : []
+          faqs: Array.isArray(data.faqs) ? data.faqs : [],
+          industriesTitle: data.industriesTitle || 'INDUSTRIES',
+          industriesSubtitle: data.industriesSubtitle || '',
+          industriesGridCols: data.industriesGridCols || 3,
+          industries: (Array.isArray(data.industries) && data.industries.length > 0)
+            ? data.industries
+            : (id === 'ai-machine-learning' ? DEFAULT_AI_ML_INDUSTRIES : [])
         });
       } else {
         setMessage({ type: 'error', text: `Service Page with ID '${id}' not found.` });
@@ -172,6 +207,11 @@ export default function AdminServicePageDetailEdit() {
       if (index !== null) list[index] = item;
       else list.push(item);
       setServiceData({ ...serviceData, faqs: list });
+    } else if (type === 'industry') {
+      const list = [...(serviceData.industries || [])];
+      if (index !== null) list[index] = item;
+      else list.push(item);
+      setServiceData({ ...serviceData, industries: list });
     }
 
     setEditingCard(null);
@@ -186,6 +226,8 @@ export default function AdminServicePageDetailEdit() {
       setServiceData((prev) => ({ ...prev, processSteps: prev.processSteps.filter((_, i) => i !== index) }));
     } else if (type === 'faq') {
       setServiceData((prev) => ({ ...prev, faqs: prev.faqs.filter((_, i) => i !== index) }));
+    } else if (type === 'industry') {
+      setServiceData((prev) => ({ ...prev, industries: prev.industries.filter((_, i) => i !== index) }));
     }
   };
 
@@ -328,6 +370,16 @@ export default function AdminServicePageDetailEdit() {
           }`}
         >
           <HelpCircle className="w-4 h-4 text-rose-400" /> FAQs ({serviceData.faqs?.length || 0})
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab('industries')}
+          className={`px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2 shrink-0 ${
+            activeTab === 'industries' ? 'bg-slate-900 text-white shadow' : 'text-slate-600 hover:bg-slate-100'
+          }`}
+        >
+          <Building2 className="w-4 h-4 text-indigo-400" /> Industries ({serviceData.industries?.length || 0})
         </button>
 
         <button
@@ -983,6 +1035,119 @@ export default function AdminServicePageDetailEdit() {
           </div>
         )}
 
+        {/* 6. INDUSTRIES TAB */}
+        {activeTab === 'industries' && (
+          <div className="space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-3">
+              <div>
+                <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                  <span>🏢</span> Industries Section Cards ({serviceData.industries?.length || 0})
+                </h2>
+                <p className="text-xs text-slate-500">Configure industry target cards, heading, and card descriptions displayed on page.</p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setEditingCard({ type: 'industry', index: null, item: { num: `0${(serviceData.industries?.length || 0) + 1}/`, title: '', desc: '', isBlack: false } })}
+                className="px-3.5 py-2 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs rounded-xl shadow transition flex items-center gap-1.5"
+              >
+                <Plus className="w-4 h-4" /> Add Industry Card
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Section Heading</label>
+                <input
+                  type="text"
+                  value={serviceData.industriesTitle || ''}
+                  onChange={(e) => setServiceData({ ...serviceData, industriesTitle: e.target.value })}
+                  className="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg font-bold"
+                  placeholder="e.g. INDUSTRIES"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Grid Column Count</label>
+                <select
+                  value={serviceData.industriesGridCols || 3}
+                  onChange={(e) => setServiceData({ ...serviceData, industriesGridCols: parseInt(e.target.value, 10) || 3 })}
+                  className="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg font-bold"
+                >
+                  <option value={3}>3 Columns (Recommended)</option>
+                  <option value={4}>4 Columns</option>
+                  <option value={2}>2 Columns</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Industries Cards List Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-2">
+              {(serviceData.industries || []).map((card, idx) => (
+                <div
+                  key={idx}
+                  onClick={() => setEditingCard({ type: 'industry', index: idx, item: { ...card } })}
+                  className={`p-5 rounded-2xl border transition cursor-pointer flex flex-col justify-between space-y-3 group ${
+                    card.isBlack
+                      ? 'bg-slate-900 text-white border-slate-800 hover:border-indigo-400'
+                      : 'bg-slate-50 text-slate-900 border-slate-200 hover:border-indigo-500 hover:shadow-md'
+                  }`}
+                >
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className={`text-[11px] font-mono font-bold px-2 py-0.5 rounded ${
+                        card.isBlack ? 'bg-slate-800 text-indigo-300' : 'bg-slate-200 text-slate-700'
+                      }`}>
+                        {card.num || `0${idx + 1}/`}
+                      </span>
+
+                      <div className="flex items-center gap-2">
+                        {card.isBlack && (
+                          <span className="text-[10px] uppercase font-bold bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded border border-indigo-500/30">
+                            Black Card
+                          </span>
+                        )}
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleRemoveCard('industry', idx);
+                          }}
+                          className="text-slate-400 hover:text-red-500 transition"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+
+                    <h3 className={`text-sm font-bold uppercase transition ${
+                      card.isBlack ? 'text-white' : 'text-slate-900 group-hover:text-indigo-600'
+                    }`}>
+                      {card.title || 'Untitled Industry'}
+                    </h3>
+
+                    <p className={`text-xs line-clamp-3 leading-relaxed ${
+                      card.isBlack ? 'text-slate-300' : 'text-slate-600'
+                    }`}>
+                      {card.desc || 'No description.'}
+                    </p>
+                  </div>
+
+                  <div className="pt-2 border-t border-slate-200/50 flex items-center justify-end text-xs font-bold text-indigo-500">
+                    <span>Edit Industry →</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {(!serviceData.industries || serviceData.industries.length === 0) && (
+              <div className="p-8 text-center bg-slate-50 rounded-2xl border border-slate-200 text-slate-400 text-xs italic">
+                No Industry cards added yet. Click "+ Add Industry Card" above to create one.
+              </div>
+            )}
+          </div>
+        )}
+
         {/* 7. META SETTINGS TAB */}
         {activeTab === 'meta' && (
           <div className="space-y-6">
@@ -1059,7 +1224,56 @@ export default function AdminServicePageDetailEdit() {
             </div>
 
             <div className="space-y-4">
-              {editingCard.type === 'faq' ? (
+              {editingCard.type === 'industry' ? (
+                <>
+                  <div className="grid grid-cols-3 gap-3">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 mb-1">Number Tag</label>
+                      <input
+                        type="text"
+                        value={editingCard.item.num || ''}
+                        onChange={(e) => setEditingCard({ ...editingCard, item: { ...editingCard.item, num: e.target.value } })}
+                        className="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg font-bold"
+                        placeholder="e.g. 01/"
+                      />
+                    </div>
+                    <div className="col-span-2">
+                      <label className="block text-xs font-bold text-slate-700 mb-1">Industry Title</label>
+                      <input
+                        type="text"
+                        value={editingCard.item.title || ''}
+                        onChange={(e) => setEditingCard({ ...editingCard, item: { ...editingCard.item, title: e.target.value } })}
+                        className="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg font-bold uppercase"
+                        placeholder="e.g. RENEWABLE ENERGY"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">Description</label>
+                    <textarea
+                      rows="3"
+                      value={editingCard.item.desc || ''}
+                      onChange={(e) => setEditingCard({ ...editingCard, item: { ...editingCard.item, desc: e.target.value } })}
+                      className="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg"
+                      placeholder="Industry description text..."
+                    />
+                  </div>
+
+                  <div className="flex items-center gap-3 pt-2">
+                    <input
+                      type="checkbox"
+                      id="isBlackCardToggle"
+                      checked={!!editingCard.item.isBlack}
+                      onChange={(e) => setEditingCard({ ...editingCard, item: { ...editingCard.item, isBlack: e.target.checked } })}
+                      className="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500 cursor-pointer"
+                    />
+                    <label htmlFor="isBlackCardToggle" className="text-xs font-bold text-slate-800 cursor-pointer">
+                      Black Card Styling (Black background with white text, e.g. E-COMMERCE card)
+                    </label>
+                  </div>
+                </>
+              ) : editingCard.type === 'faq' ? (
                 <>
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">Question</label>

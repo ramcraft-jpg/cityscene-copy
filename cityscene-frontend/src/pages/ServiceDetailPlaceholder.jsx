@@ -24,7 +24,14 @@ export default function ServiceDetailPlaceholder() {
       .then((data) => {
         const local = servicesData.find((s) => s.id === targetId || s.path?.endsWith(targetId));
         if (data) {
-          setService(local ? { ...local, ...data } : data);
+          const merged = local ? { ...local, ...data } : data;
+          if (local?.industries && (!merged.industries || merged.industries.length === 0)) {
+            merged.industries = local.industries;
+            merged.industriesTitle = local.industriesTitle || merged.industriesTitle;
+            merged.industriesSubtitle = local.industriesSubtitle;
+            merged.industriesGridCols = local.industriesGridCols;
+          }
+          setService(merged);
         } else if (local) {
           setService(local);
         } else {

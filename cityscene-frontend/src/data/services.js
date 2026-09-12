@@ -314,6 +314,32 @@ const services = [
       { title: "API Integration", desc: "Deploying REST APIs connecting the AI model to web/mobile apps." },
       { title: "Drift Monitoring", desc: "Continuous monitoring to prevent model performance degradation over time." }
     ],
+    industriesTitle: "INDUSTRIES",
+    industriesSubtitle: null,
+    industriesGridCols: 3,
+    industries: [
+      {
+        num: "01/",
+        title: "RENEWABLE ENERGY",
+        desc: "AI-driven insights and predictive analytics for real-time performance tracking and usage forecasts."
+      },
+      {
+        num: "02/",
+        title: "FOOD & RESTAURANTS",
+        desc: "Intelligent chatbots, real food visuals, and personalized menu suggestions for better engagement."
+      },
+      {
+        num: "03/",
+        title: "REAL ESTATE",
+        desc: "Visualise home designs, explore layouts, and get pricing insights through AI-powered property platforms."
+      },
+      {
+        num: "04/",
+        title: "E-COMMERCE",
+        desc: "Personalised recommendations and behavior-based offers that boost user engagement and conversion.",
+        isBlack: true
+      }
+    ],
     faqs: [
       { q: "Can AI integrate with our legacy database?", a: "Yes, we build custom API layers to connect AI models directly with SQL, NoSQL, and legacy ERP databases." },
       { q: "How do you protect data privacy?", a: "We deploy models within your private VPC or on-premise servers so your data is never sent to public AI APIs." },
