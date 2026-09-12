@@ -39,14 +39,14 @@ export default function HomeWhatPeopleAreSaying() {
   if (loading) {
     return (
       <section
-        className="w-full bg-white text-black py-12 sm:py-14 px-5 text-center overflow-hidden relative"
+        className="w-full bg-white text-black py-12 sm:py-16 px-5 text-center overflow-hidden relative"
         style={{ clipPath: 'polygon(0% 0%, 100% 0%, 100% 85%, 50% 100%, 0% 85%)' }}
       >
-        <div className="max-w-[800px] mx-auto w-full text-center pb-6 animate-pulse">
+        <div className="max-w-7xl mx-auto w-full text-center pb-6 animate-pulse">
           <div className="w-64 h-8 bg-gray-200 rounded mx-auto mb-8" />
-          <div className="flex gap-5 justify-center">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="w-[260px] h-[180px] bg-gray-200 rounded-[10px]" />
+          <div className="flex gap-5 justify-center overflow-hidden">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="w-[280px] h-[180px] bg-gray-200 rounded-[10px] shrink-0" />
             ))}
           </div>
         </div>
@@ -65,34 +65,53 @@ export default function HomeWhatPeopleAreSaying() {
 
   return (
     <section
-      className="w-full bg-white text-black py-12 sm:py-14 px-5 text-center overflow-hidden relative"
+      className="w-full bg-white text-black py-12 sm:py-16 px-4 text-center overflow-hidden relative"
       style={{ clipPath: 'polygon(0% 0%, 100% 0%, 100% 85%, 50% 100%, 0% 85%)' }}
     >
-      <div className="max-w-[800px] mx-auto w-full text-center pb-6">
+      {/* Explicit self-contained marquee animation styling */}
+      <style>{`
+        @keyframes testimonialsMarquee {
+          0% { transform: translateX(0%); }
+          100% { transform: translateX(-50%); }
+        }
+        .testimonials-marquee-track {
+          display: flex;
+          flex-wrap: nowrap;
+          width: max-content;
+          animation: testimonialsMarquee 28s linear infinite;
+          will-change: transform;
+        }
+        .testimonials-marquee-track:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
 
-        <h2 className="text-2xl font-medium text-black mb-8">
+      <div className="max-w-7xl mx-auto w-full text-center pb-6">
+        <h2 className="text-2xl sm:text-3xl font-medium text-black mb-8 sm:mb-10">
           {activeData.heading || 'What People Are Saying?'}
         </h2>
 
         {/* Continuous Marquee Track Wrapper */}
         <div className="relative w-full overflow-hidden py-4">
-          <div className="animate-marquee flex gap-5">
+          <div className="absolute top-0 bottom-0 left-0 w-12 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+          <div className="absolute top-0 bottom-0 right-0 w-12 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+
+          <div className="testimonials-marquee-track gap-5">
             {marqueeList.map((item, idx) => (
               <div
                 key={idx}
-                className="w-[260px] sm:w-[280px] min-h-[180px] flex-shrink-0 bg-[#1a1a1a] text-white rounded-[10px] p-5 flex flex-col justify-center items-center text-center shadow-md transition-transform duration-300 hover:scale-[1.03]"
+                className="w-[260px] sm:w-[290px] min-h-[180px] flex-shrink-0 bg-[#1a1a1a] text-white rounded-[10px] p-5 flex flex-col justify-center items-center text-center shadow-md transition-transform duration-300 hover:scale-[1.03]"
               >
-                <p className="text-sm text-gray-200 leading-relaxed font-light mb-3">
+                <p className="text-xs sm:text-sm text-gray-200 leading-relaxed font-light mb-3">
                   {item.quote}
                 </p>
-                <p className="text-sm font-medium text-white">
+                <p className="text-xs sm:text-sm font-medium text-white">
                   - {item.author}
                 </p>
               </div>
             ))}
           </div>
         </div>
-
       </div>
     </section>
   );

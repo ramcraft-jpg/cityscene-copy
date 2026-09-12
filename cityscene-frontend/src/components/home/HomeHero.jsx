@@ -104,8 +104,13 @@ export default function HomeHero() {
       <div className="w-full md:w-1/2 min-h-[550px] md:h-full flex flex-col justify-between md:justify-start pt-16 md:pt-24 px-6 sm:px-10 md:p-16 z-10 bg-gradient-to-t from-[#0d0d0d] via-[#0d0d0d]/80 to-[#0d0d0d]/40 md:bg-[#0d0d0d] text-white pb-20 md:pb-16">
         <div className="max-w-xl space-y-4 my-auto md:my-0">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-normal leading-tight tracking-normal">
-            {activeSlide.titleLine1} <br />
-            <span>{activeSlide.titleLine2}</span>
+            {activeSlide.titleLine1 || activeSlide.title || 'Transforming Visions'}
+            {activeSlide.titleLine2 ? (
+              <>
+                <br />
+                <span>{activeSlide.titleLine2}</span>
+              </>
+            ) : null}
           </h1>
 
           <p className="text-sm sm:text-base md:text-lg text-gray-200 leading-relaxed font-light">
