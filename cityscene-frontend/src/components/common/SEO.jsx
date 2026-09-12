@@ -41,7 +41,7 @@ const updateLinkTag = (rel, href) => {
   element.setAttribute('href', href);
 };
 
-export default function SEO({ pageKey, fallback = {} }) {
+export default function SEO({ pageKey, fallback = {}, children }) {
   const [seo, setSeo] = useState(null);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ export default function SEO({ pageKey, fallback = {} }) {
       if (!pageKey) return;
       try {
         const data = await getSeoMetaByPageKey(pageKey);
-        if (isMounted) {
+        if (isMounted && data) {
           setSeo(data);
         }
       } catch (err) {
@@ -76,9 +76,12 @@ export default function SEO({ pageKey, fallback = {} }) {
     const effectiveOgDesc = (seo?.ogDescription || fallback.ogDescription || effectiveDesc).trim();
     const effectiveOgImage = (seo?.ogImage || fallback.ogImage || DEFAULT_SEO.ogImage).trim();
     const effectiveRobots = (seo?.robots || fallback.robots || DEFAULT_SEO.robots).trim();
+    const effectiveH1 = (seo?.h1Tag || fallback.h1Tag || '').trim();
 
     // 1. Update Document Title
-    document.title = effectiveTitle;
+    if (effectiveTitle) {
+      document.title = effectiveTitle;
+    }
 
     // 2. Standard Meta Tags
     updateMetaTag('meta[name="description"]', 'name', 'description', effectiveDesc);
@@ -94,7 +97,39 @@ export default function SEO({ pageKey, fallback = {} }) {
     updateMetaTag('meta[property="og:image"]', 'property', 'og:image', effectiveOgImage);
     updateMetaTag('meta[property="og:url"]', 'property', 'og:url', effectiveCanonical);
     updateMetaTag('meta[property="og:type"]', 'property', 'og:type', 'website');
+
+    // 5. On-Page H1 Tag Update
+    if (effectiveH1) {
+      const applyH1Tag = () => {
+        const h1 = document.querySelector('h1');
+        if (h1 && h1.textContent !== effectiveH1) {
+          h1.textContent = effectiveH1;
+        }
+      };
+
+      applyH1Tag();
+
+      // Retry to catch async rendered hero components
+      const intervalId = setInterval(applyH1Tag, 250);
+      const timeoutId = setTimeout(() => clearInterval(intervalId), 3000);
+
+      // DOM Mutation observer to persist H1 if component re-renders
+      const observer = new MutationObserver(() => {
+        applyH1Tag();
+      });
+      
+      if (document.body) {
+        observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+      }
+
+      return () => {
+        clearInterval(intervalId);
+        clearTimeout(timeoutId);
+        observer.disconnect();
+      };
+    }
   }, [seo, fallback]);
 
-  return null;
+  return children || null;
 }
+

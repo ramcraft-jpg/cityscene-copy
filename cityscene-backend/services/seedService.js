@@ -1218,44 +1218,81 @@ export const initialServices = [
     path: "/services/ai-machine-learning",
     image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
     position: "bottom-right",
-    shortDesc: "Predictive analytics, natural language processing, and custom ML models for intelligent automation.",
+    shortDesc: "Transforming raw data into operational intelligence with custom ML models, LLM integrations, computer vision, and predictive analytics.",
     topicName: "AI & ML",
-    heroDesc: "Custom machine learning models, LLM integrations, and predictive analytics that automate intelligence.",
+    heroDesc: "We build custom machine learning models, LLM integrations, computer vision pipelines, and predictive analytics engines that automate complex workflows and drive intelligent decision-making.",
     heroImage: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80",
-    introP1: "Transform your data into actionable business intelligence with state-of-the-art artificial intelligence models.",
-    introP2: "We build custom NLP, computer vision, and predictive pipeline solutions that integrate directly into your workflow.",
-    whyChooseTitle: "Why Choose Us?",
-    whyChooseSubtitle: "Turn raw data into competitive advantages with cutting-edge ML models.",
+    introTitle: "About AI & Machine Learning",
+    introP1: "At CityScene Global, we empower businesses to leverage the transformative power of Artificial Intelligence and Machine Learning. As a leading AI development company in India and Dubai, we build custom machine learning models, natural language processing (NLP) pipelines, computer vision systems, and generative AI applications tailored to your operational needs.",
+    introP2: "Whether you need predictive analytics to forecast market trends, intelligent chatbots for automated customer support, or custom deep learning architectures, our expert engineering team delivers end-to-end AI solutions that improve efficiency, reduce operational costs, and accelerate business growth.",
+    whyChooseTitle: "Why Choose CityScene Global?",
+    whyChooseSubtitle: "We design and deploy AI & machine learning solutions that combine cutting-edge algorithms, enterprise data security, and seamless integration—helping businesses automate and innovate.",
     whyChooseCards: [
-      { title: "Custom Neural Networks", desc: "Tailored deep learning architectures trained on your proprietary data." },
-      { title: "Predictive Accuracy", desc: "High-precision algorithms for demand forecasting and risk analysis." },
-      { title: "LLM & RAG Systems", desc: "Enterprise AI agents leveraging Retrieval-Augmented Generation over private documents." },
-      { title: "Computer Vision", desc: "Automated image classification, object detection, and document OCR." },
-      { title: "Real-Time Inference APIs", desc: "Low-latency microservices delivering instant AI predictions." },
-      { title: "Data Privacy & Governance", desc: "On-premise or VPC deployments ensuring strict corporate data security." }
+      { title: "Custom Neural Networks & Deep Learning", desc: "Tailored deep learning architectures and neural networks trained on your proprietary enterprise data." },
+      { title: "Predictive Analytics & Forecasting", desc: "High-precision algorithms for demand forecasting, risk analysis, and data-driven decision making." },
+      { title: "LLM & Generative AI Systems", desc: "Enterprise AI agents, RAG setups, and automated content/document processing over private workflows." },
+      { title: "Computer Vision & OCR", desc: "Automated image classification, object detection, document OCR, and automated visual inspection." },
+      { title: "Seamless API & Cloud Integration", desc: "Low-latency REST APIs and microservices connecting AI models directly to web, mobile, and enterprise platforms." },
+      { title: "Data Privacy & VPC Security", desc: "Deployments within private VPCs or on-premise servers ensuring enterprise data security and compliance." }
     ],
-    expertiseTitle: "AI/ML Expertise",
-    expertiseSubtitle: "Empowering automation through machine intelligence.",
+    whyChooseBottomText: "What sets CityScene Global apart is our pragmatic approach to AI implementation. We don't just build complex models—we engineer user-friendly, high-ROI AI pipelines that directly solve business friction and scale with your enterprise growth.",
+    expertiseTitle: "AI & Machine Learning Expertise",
+    expertiseSubtitle: "Empowering automation, intelligence, and business transformation through machine learning.",
     expertiseItems: [
-      { title: "NLP & Conversational AI", desc: "Custom LLM agents, chatbots, and automated document ingestion systems." },
+      { title: "NLP & Conversational AI", desc: "Custom LLM agents, intelligent chatbots, and automated document ingestion systems." },
       { title: "Predictive Financial Analytics", desc: "Machine learning models forecasting market trends, demand spikes, and credit risk." },
       { title: "Computer Vision & OCR", desc: "Automated document extraction, facial verification, and visual quality inspection." },
-      { title: "Automated Decision Engines", desc: "Intelligent rule-based recommendation engines automating complex operational tasks." }
+      { title: "Automated Decision Engines", desc: "Intelligent recommendation engines and automated workflows reducing manual intervention." },
+      { title: "Generative AI Development", desc: "Building custom GenAI tools, document summaries, and intelligent assistants." }
     ],
-    processTitle: "Our AI Development Process",
+    processTitle: "Our AI & ML Development Process",
     processSteps: [
-      { title: "Data Ingestion & Cleaning", desc: "Structuring, labeling, and cleaning training datasets." },
-      { title: "Model Selection", desc: "Evaluating deep learning, transformer, or statistical ML architectures." },
-      { title: "Model Training & Validation", desc: "Training algorithms on high-performance GPU clusters." },
-      { title: "Accuracy Tuning", desc: "Optimizing hyperparameters to eliminate bias and maximize precision." },
-      { title: "API Integration", desc: "Deploying REST APIs connecting the AI model to web/mobile apps." },
-      { title: "Drift Monitoring", desc: "Continuous monitoring to prevent model performance degradation over time." }
+      { title: "Data Ingestion & Cleaning", desc: "Structuring, labeling, and cleaning training datasets for high-accuracy model training." },
+      { title: "Model Selection & Architecture", desc: "Evaluating deep learning, transformer, or statistical ML architectures tailored to your goals." },
+      { title: "Model Training & Validation", desc: "Training algorithms on high-performance GPU clusters with rigorous validation benchmarks." },
+      { title: "Hyperparameter Tuning", desc: "Optimizing hyperparameters to eliminate bias, reduce latency, and maximize precision." },
+      { title: "API & Workflow Integration", desc: "Deploying secure REST APIs connecting the AI engine seamlessly to web, mobile, and backend apps." },
+      { title: "Monitoring & Continuous Learning", desc: "24/7 drift monitoring and retraining pipelines to prevent model degradation over time." }
     ],
+    industriesTitle: "INDUSTRIES",
+    industriesSubtitle: null,
+    industriesGridCols: 3,
+    industries: [
+      {
+        num: "01/",
+        title: "RENEWABLE ENERGY",
+        desc: "AI-driven insights and predictive analytics for real-time performance tracking and usage forecasts."
+      },
+      {
+        num: "02/",
+        title: "FOOD & RESTAURANTS",
+        desc: "Intelligent chatbots, real food visuals, and personalized menu suggestions for better engagement."
+      },
+      {
+        num: "03/",
+        title: "REAL ESTATE",
+        desc: "Visualise home designs, explore layouts, and get pricing insights through AI-powered property platforms."
+      },
+      {
+        num: "04/",
+        title: "E-COMMERCE",
+        desc: "Personalised recommendations and behavior-based offers that boost user engagement and conversion.",
+        isBlack: true
+      }
+    ],
+    faqsTitle: "Frequently Asked Questions",
+    faqsSubtitle: "Find answers to common questions about our AI development services, generative AI, machine learning models, and data security.",
     faqs: [
-      { q: "Can AI integrate with our legacy database?", a: "Yes, we build custom API layers to connect AI models directly with SQL, NoSQL, and legacy ERP databases." },
-      { q: "How do you protect data privacy?", a: "We deploy models within your private VPC or on-premise servers so your data is never sent to public AI APIs." },
-      { q: "What ML frameworks do you utilize?", a: "We work with PyTorch, TensorFlow, Scikit-Learn, HuggingFace, and LangChain." }
-    ]
+      { q: "What AI consulting and development services does CityScene Global offer?", a: "We help businesses identify where artificial intelligence creates maximum impact, then design and deploy tailored AI solutions including predictive analytics, custom LLM applications, computer vision pipelines, chatbots, and workflow automation." },
+      { q: "Can AI integrate with our existing legacy database?", a: "Yes. We build custom API layers to connect AI models directly with SQL, NoSQL, legacy ERPs, CRMs, and enterprise databases." },
+      { q: "How do you protect corporate data privacy?", a: "We deploy models within your private VPC or on-premise servers so your data remains strictly confidential and is never sent to public AI APIs without permission." },
+      { q: "Can small businesses benefit from AI solutions?", a: "Yes. Small businesses can begin with cost-effective AI chatbots, automated document processing, and data analytics tools, scaling as their operations expand." },
+      { q: "What ML frameworks and tools do you utilize?", a: "Our AI engineers work with PyTorch, TensorFlow, Scikit-Learn, OpenCV, HuggingFace, LangChain, and cloud ML infrastructure across AWS, Azure, and Google Cloud." }
+    ],
+    ctaHeading: "Ready to Build Your AI & Machine Learning Solution?",
+    ctaDescription: "Talk to our senior AI architects at CityScene Global to evaluate, design, and implement intelligent AI systems tailored to your business.",
+    ctaButtonText: "Contact Us Today",
+    ctaButtonLink: "/contact"
   },
   {
     id: "blockchain-development",
