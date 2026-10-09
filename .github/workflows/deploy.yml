@@ -32,8 +32,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build frontend
+      - name: Build frontend (with production API URL)
         run: npm run build
+        env:
+          # Points the Flash API client to the live domain's /api endpoint (proxied by Nginx)
+          VITE_FLASH_API_URL: https://citysceneglobal.com/api
 
       - name: Upload frontend build
         uses: actions/upload-artifact@v4
@@ -57,7 +60,7 @@ jobs:
           name: frontend-dist
           path: frontend
 
-      - name: Copy frontend to EC2
+      - name: Copy frontend build to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.DEPLOY_HOST }}
@@ -69,7 +72,19 @@ jobs:
           strip_components: 1
           overwrite: true
 
-      - name: Deploy backend
+      - name: Copy Nginx config to EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          port: ${{ secrets.DEPLOY_PORT || 22 }}
+          source: "cityscene-frontend/nginx.conf"
+          target: "/tmp/citysceneglobal-nginx.conf"
+          strip_components: 2
+          overwrite: true
+
+      - name: Deploy backend & reload Nginx
         uses: appleboy/ssh-action@v1.2.2
         with:
           host: ${{ secrets.DEPLOY_HOST }}
@@ -81,6 +96,7 @@ jobs:
           script: |
             set -e
 
+            # --- Deploy Backend ---
             cd /opt/apps/citysceneglobal-website/app
 
             git fetch origin main
@@ -92,3 +108,11 @@ jobs:
             docker image prune -f
 
             docker compose ps
+
+            # --- Deploy Nginx Config ---
+            sudo cp /tmp/citysceneglobal-nginx.conf /etc/nginx/sites-available/citysceneglobal.com
+            sudo ln -sf /etc/nginx/sites-available/citysceneglobal.com /etc/nginx/sites-enabled/citysceneglobal.com
+            sudo nginx -t
+            sudo systemctl reload nginx
+
+            echo "✅ Deployment complete — backend + frontend + nginx reloaded"
